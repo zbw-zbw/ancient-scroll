@@ -113,6 +113,7 @@ export default function CharacterTooltip({
       style={{
         ...style,
         transformOrigin: origin,
+        maxWidth: isMobile ? `calc(100vw - 16px)` : 320,
       }}
       role="dialog"
       aria-modal="true"
@@ -191,19 +192,7 @@ function getTooltipStyle(
   tooltipHeight: number,
   isMobile: boolean
 ): { style: React.CSSProperties; arrowStyle: React.CSSProperties; origin: string } {
-  if (isMobile) {
-    return {
-      style: {
-        left: "1rem",
-        right: "1rem",
-        bottom: "1rem",
-      },
-      arrowStyle: { display: "none" },
-      origin: "bottom center",
-    };
-  }
-
-  const margin = 12;
+  const margin = isMobile ? 8 : 12;
   const viewportWidth = window.innerWidth;
   const viewportHeight = window.innerHeight;
 
@@ -236,7 +225,9 @@ function getTooltipStyle(
   let arrowLeft = triggerCenter - left - 5;
   arrowLeft = Math.max(8, Math.min(tooltipWidth - 18, arrowLeft));
 
-  const arrowStyle: React.CSSProperties = placeBelow
+  const arrowStyle: React.CSSProperties = isMobile
+    ? { display: "none" }
+    : placeBelow
     ? { left: arrowLeft, top: "-5px", transform: "rotate(225deg)" }
     : { left: arrowLeft, bottom: "-5px" };
 

@@ -29,7 +29,16 @@ export default function ReadingClient() {
     charData: DifficultChar,
     rect: DOMRect
   ) => {
-    setActiveTooltip({ sentenceId, charData, rect });
+    setActiveTooltip((prev) => {
+      if (
+        prev &&
+        prev.sentenceId === sentenceId &&
+        prev.charData.char === charData.char
+      ) {
+        return null;
+      }
+      return { sentenceId, charData, rect };
+    });
   };
 
   const handleTranslation = (sentenceId: string, translation: string) => {

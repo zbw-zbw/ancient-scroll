@@ -65,7 +65,7 @@ export default function ImmersiveReader({ poem, onBack }: ImmersiveReaderProps) 
   const handleRestart = () => {
     const container = containerRef.current;
     if (!container) return;
-    container.scrollTo({ top: 0, behavior: "smooth" });
+    container.scrollTo({ top: 0, behavior: "auto" });
   };
 
   const handleBack = () => {
@@ -80,7 +80,7 @@ export default function ImmersiveReader({ poem, onBack }: ImmersiveReaderProps) 
     <div
       ref={containerRef}
       className="immersive-container fixed inset-0 z-40 h-screen w-screen overflow-y-auto bg-ink"
-      style={{ scrollSnapType: "y proximity", scrollBehavior: "smooth" }}
+      style={{ scrollSnapType: "y mandatory", scrollBehavior: "smooth" }}
     >
       {/* Back button */}
       <button

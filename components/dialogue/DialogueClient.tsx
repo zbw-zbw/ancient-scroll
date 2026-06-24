@@ -10,10 +10,10 @@ export default function DialogueClient() {
     useState<HistoricalCharacter | null>(null);
 
   return (
-    <main className="relative h-screen overflow-hidden bg-xuan">
+    <main className="relative h-[100dvh] overflow-hidden bg-xuan">
       <div className="relative mx-auto h-full max-w-[1100px]">
         <div
-          className={`absolute inset-x-0 top-16 bottom-0 overflow-y-auto transition-opacity duration-500 md:top-20 ${
+          className={`absolute inset-x-0 top-16 bottom-0 overflow-y-auto transition-opacity duration-500 ${
             selectedCharacter ? "pointer-events-none opacity-0" : "opacity-100"
           }`}
         >

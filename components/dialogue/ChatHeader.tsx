@@ -14,7 +14,7 @@ export default function ChatHeader({
   onClear,
 }: ChatHeaderProps) {
   return (
-    <div className="flex items-center justify-between border-b border-rule/60 bg-xuan/80 px-4 py-3 backdrop-blur-sm md:px-6 md:py-4">
+    <div className="flex items-center justify-between border-b border-rule/60 bg-xuan/80 px-4 py-2 backdrop-blur-sm md:px-6 md:py-3">
       <button
         onClick={onBack}
         className="flex cursor-pointer items-center gap-1 rounded-md px-2 py-1 font-serif text-sm text-muted transition-colors hover:bg-surface/60 hover:text-ink"

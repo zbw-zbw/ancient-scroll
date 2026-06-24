@@ -99,9 +99,7 @@ body::before {
 /* Ensure content sits above texture */
 #__next,
 main,
-header,
-footer,
-nav {
+footer {
   position: relative;
   z-index: 1;
 }
@@ -386,5 +384,15 @@ nav {
 }
 
 .immersive-container::-webkit-scrollbar {
+  display: none;
+}
+
+/* Generic scrollbar hide utility */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
   display: none;
 }
