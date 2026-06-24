@@ -50,9 +50,11 @@ export default function CharacterTooltip({
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
-      if (tooltipRef.current && !tooltipRef.current.contains(e.target as Node)) {
-        onClose();
-      }
+      if (!tooltipRef.current) return;
+      if (tooltipRef.current.contains(e.target as Node)) return;
+      // Don't close when clicking another highlighted character; let ReadingClient handle toggle
+      if ((e.target as HTMLElement).closest("[data-char-highlight]")) return;
+      onClose();
     };
     const handleEsc = (e: KeyboardEvent) => {
       if (e.key === "Escape") onClose();

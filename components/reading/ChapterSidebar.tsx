@@ -62,7 +62,7 @@ export default function ChapterSidebar({
               <button
                 key={chapter.id}
                 onClick={() => onSelect(chapter.id)}
-                className={`flex-shrink-0 rounded-full border px-4 py-2 text-left transition-colors ${
+                className={`flex flex-shrink-0 items-center justify-center rounded-full border px-4 py-2 leading-none transition-colors ${
                   selectedId === chapter.id
                     ? "border-cinnabar/40 bg-cinnabar text-white"
                     : "border-rule bg-surface/50 text-light-ink hover:bg-surface"

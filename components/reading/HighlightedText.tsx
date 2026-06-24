@@ -60,6 +60,7 @@ export default function HighlightedText({
         seg.type === "char" && seg.charData ? (
           <span
             key={idx}
+            data-char-highlight
             role="button"
             tabIndex={0}
             aria-label={`查看${seg.content}的注释`}
