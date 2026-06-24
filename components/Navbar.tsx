@@ -32,10 +32,10 @@ export default function Navbar() {
           : "bg-xuan/70 backdrop-blur-sm"
       }`}
     >
-      <nav className="mx-auto flex max-w-[1100px] items-center justify-between px-6 py-4">
+      <nav className="mx-auto flex h-16 max-w-[1100px] items-center justify-between px-6">
         <Link
           href="/"
-          className="font-calligraphy text-2xl text-ink hover:text-cinnabar transition-colors"
+          className="flex items-center font-calligraphy text-2xl leading-none text-ink hover:text-cinnabar transition-colors"
         >
           古籍焕新
         </Link>
