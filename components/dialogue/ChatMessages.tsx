@@ -38,6 +38,7 @@ export default function ChatMessages({
   return (
     <div
       ref={scrollRef}
+      data-messages-container
       className="relative flex-1 overflow-y-auto overflow-x-hidden"
       style={{
         backgroundImage:

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { HistoricalCharacter } from "../../data/characters";
 import { useStreamingResponse } from "../../hooks/useStreamingResponse";
 import ChatHeader from "./ChatHeader";
@@ -86,6 +86,18 @@ export default function ChatInterface({
     setShowSuggestions(true);
     setInputValue("");
   }, [character.greeting]);
+
+  // Scroll messages to bottom when mobile keyboard opens/closes
+  useEffect(() => {
+    const handleResize = () => {
+      const messagesEl = document.querySelector("[data-messages-container]");
+      if (messagesEl) {
+        messagesEl.scrollTop = messagesEl.scrollHeight;
+      }
+    };
+    window.visualViewport?.addEventListener("resize", handleResize);
+    return () => window.visualViewport?.removeEventListener("resize", handleResize);
+  }, []);
 
   return (
     <div className="fixed inset-x-0 bottom-0 top-16 md:top-20 z-20 flex flex-col bg-xuan">

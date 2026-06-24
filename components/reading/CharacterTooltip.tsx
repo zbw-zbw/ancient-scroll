@@ -30,7 +30,6 @@ export default function CharacterTooltip({
   const tooltipRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    setMounted(true);
     const timer = setTimeout(() => setMounted(true), 10);
     return () => clearTimeout(timer);
   }, []);

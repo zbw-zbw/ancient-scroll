@@ -1,30 +1,12 @@
-"use client";
+import type { Metadata } from "next";
+import DialogueClient from "@/components/dialogue/DialogueClient";
 
-import { useState } from "react";
-import { HistoricalCharacter } from "@/data/characters";
-import CharacterSelect from "@/components/dialogue/CharacterSelect";
-import ChatInterface from "@/components/dialogue/ChatInterface";
+export const metadata: Metadata = {
+  title: "古今对话 - 古籍焕新",
+  description:
+    "穿越时空，与孔子、李白、苏轼、屈原、庄子展开跨越千年的对话。",
+};
 
 export default function DialoguePage() {
-  const [selectedCharacter, setSelectedCharacter] =
-    useState<HistoricalCharacter | null>(null);
-
-  return (
-    <main className="relative h-screen overflow-hidden bg-xuan">
-      <div
-        className={`h-full overflow-y-auto transition-opacity duration-500 ${
-          selectedCharacter ? "opacity-0 pointer-events-none hidden" : "opacity-100"
-        }`}
-      >
-        <CharacterSelect onSelect={setSelectedCharacter} />
-      </div>
-
-      {selectedCharacter && (
-        <ChatInterface
-          character={selectedCharacter}
-          onBack={() => setSelectedCharacter(null)}
-        />
-      )}
-    </main>
-  );
+  return <DialogueClient />;
 }

@@ -8,9 +8,6 @@ export default function ScrollReveal() {
       "(prefers-reduced-motion: reduce)"
     ).matches;
 
-    // Mark JS as enabled so progressive-enhancement styles activate
-    document.documentElement.classList.add("js-enabled");
-
     if (prefersReducedMotion) return;
 
     const elements = document.querySelectorAll(".fade-in");

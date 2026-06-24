@@ -68,6 +68,14 @@ export default function ImmersiveReader({ poem, onBack }: ImmersiveReaderProps) 
     container.scrollTo({ top: 0, behavior: "smooth" });
   };
 
+  const handleBack = () => {
+    const header = document.querySelector("header");
+    if (header) {
+      header.style.display = "";
+    }
+    onBack();
+  };
+
   return (
     <div
       ref={containerRef}
@@ -76,7 +84,7 @@ export default function ImmersiveReader({ poem, onBack }: ImmersiveReaderProps) 
     >
       {/* Back button */}
       <button
-        onClick={onBack}
+        onClick={handleBack}
         className="fixed left-4 top-4 z-50 flex items-center gap-1 rounded-full bg-ink/20 px-4 py-2 font-serif text-sm text-white backdrop-blur-sm transition-colors hover:bg-ink/30"
       >
         <span>←</span>
@@ -96,7 +104,7 @@ export default function ImmersiveReader({ poem, onBack }: ImmersiveReaderProps) 
         poem={poem}
         active={currentSlide === totalSlides - 1}
         onRestart={handleRestart}
-        onBack={onBack}
+        onBack={handleBack}
       />
 
       <ProgressDots

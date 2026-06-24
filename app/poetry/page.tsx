@@ -1,22 +1,12 @@
-"use client";
+import type { Metadata } from "next";
+import PoetryClient from "@/components/poetry/PoetryClient";
 
-import { useState } from "react";
-import type { Poem } from "@/data/poems";
-import PoemSelector from "@/components/poetry/PoemSelector";
-import ImmersiveReader from "@/components/poetry/ImmersiveReader";
+export const metadata: Metadata = {
+  title: "诗境漫游 - 古籍焕新",
+  description:
+    "沉浸式滚动体验经典古诗，逐行揭示意境，配以视觉渐变与粒子效果。",
+};
 
 export default function PoetryPage() {
-  const [selectedPoem, setSelectedPoem] = useState<Poem | null>(null);
-
-  return (
-    <>
-      <PoemSelector onSelect={setSelectedPoem} />
-      {selectedPoem && (
-        <ImmersiveReader
-          poem={selectedPoem}
-          onBack={() => setSelectedPoem(null)}
-        />
-      )}
-    </>
-  );
+  return <PoetryClient />;
 }

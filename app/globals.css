@@ -150,14 +150,14 @@ nav {
 
 /* Scroll reveal - visible by default, animated when JS is enabled */
 .fade-in {
-  opacity: 1;
-  transform: translateY(0);
+  opacity: 0;
+  transform: translateY(40px);
   transition: opacity 0.8s ease, transform 0.8s ease;
 }
 
-.js-enabled .fade-in {
-  opacity: 0;
-  transform: translateY(40px);
+.fade-in.visible {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .js-enabled .fade-in.visible {
