@@ -37,7 +37,7 @@ export default function ReadingPanel({
     <main className="flex-1 md:ml-[200px] lg:ml-[240px] min-h-0">
       <div
         ref={scrollRef}
-        className="h-full overflow-y-auto px-4 py-6 md:h-[calc(100vh-4rem)] md:px-8 md:py-8"
+        className="h-[calc(100vh-8rem)] overflow-y-auto px-4 py-6 md:px-8 md:py-8"
       >
         <div className="mx-auto max-w-[780px]">
           {/* Header */}

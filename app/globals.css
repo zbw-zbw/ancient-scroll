@@ -396,3 +396,26 @@ footer {
 .scrollbar-hide::-webkit-scrollbar {
   display: none;
 }
+
+/* Custom styled scrollbar for dialogue messages */
+[data-messages-container] {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(212, 201, 184, 0.8) transparent;
+}
+
+[data-messages-container]::-webkit-scrollbar {
+  width: 6px;
+}
+
+[data-messages-container]::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+[data-messages-container]::-webkit-scrollbar-thumb {
+  background: rgba(212, 201, 184, 0.8);
+  border-radius: 3px;
+}
+
+[data-messages-container]::-webkit-scrollbar-thumb:hover {
+  background: rgba(200, 64, 50, 0.5);
+}
