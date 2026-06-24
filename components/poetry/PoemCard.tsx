@@ -8,8 +8,26 @@ interface PoemCardProps {
 }
 
 export default function PoemCard({ poem, onSelect }: PoemCardProps) {
+  const handleCardClick = () => {
+    onSelect(poem);
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLElement>) => {
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      handleCardClick();
+    }
+  };
+
   return (
-    <article className="group flex flex-col overflow-hidden rounded-xl bg-surface/60 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:bg-surface">
+    <article
+      role="button"
+      tabIndex={0}
+      onClick={handleCardClick}
+      onKeyDown={handleKeyDown}
+      className="group flex cursor-pointer flex-col overflow-hidden rounded-xl bg-surface/60 transition-all duration-300 hover:-translate-y-1 hover:bg-surface hover:shadow-lg"
+      aria-label={`进入《${poem.title}》诗境`}
+    >
       {/* Theme bar */}
       <div
         className="h-1 w-full"
@@ -30,13 +48,10 @@ export default function PoemCard({ poem, onSelect }: PoemCardProps) {
           {poem.description}
         </p>
 
-        <button
-          onClick={() => onSelect(poem)}
-          className="mt-auto inline-flex items-center gap-1 self-start pt-4 font-serif text-sm text-cinnabar transition-colors group-hover:underline"
-        >
+        <span className="mt-auto inline-flex items-center gap-1 self-start pt-4 font-serif text-sm text-cinnabar transition-colors group-hover:underline">
           进入诗境
           <span>→</span>
-        </button>
+        </span>
       </div>
     </article>
   );

@@ -49,10 +49,10 @@ export default function PainPoints() {
         {/* Pain point cards */}
         <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
           {painPoints.map((item, index) => (
-            <div
-              key={index}
-              className="group relative rounded-lg bg-surface/60 p-6 md:p-8 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:bg-surface"
-            >
+          <div
+            key={index}
+            className="group relative cursor-pointer rounded-lg bg-surface/60 p-6 md:p-8 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:bg-surface"
+          >
               <div className="emoji mb-4 text-4xl">{item.icon}</div>
               <h3 className="font-calligraphy mb-3 text-2xl text-ink">
                 {item.title}

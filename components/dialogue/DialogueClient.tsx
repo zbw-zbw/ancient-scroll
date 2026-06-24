@@ -11,20 +11,22 @@ export default function DialogueClient() {
 
   return (
     <main className="relative h-screen overflow-hidden bg-xuan">
-      <div
-        className={`h-full overflow-y-auto transition-opacity duration-500 ${
-          selectedCharacter ? "opacity-0 pointer-events-none hidden" : "opacity-100"
-        }`}
-      >
-        <CharacterSelect onSelect={setSelectedCharacter} />
-      </div>
+      <div className="relative mx-auto h-full max-w-[1100px]">
+        <div
+          className={`absolute inset-x-0 top-16 bottom-0 overflow-y-auto transition-opacity duration-500 md:top-20 ${
+            selectedCharacter ? "pointer-events-none opacity-0" : "opacity-100"
+          }`}
+        >
+          <CharacterSelect onSelect={setSelectedCharacter} />
+        </div>
 
-      {selectedCharacter && (
-        <ChatInterface
-          character={selectedCharacter}
-          onBack={() => setSelectedCharacter(null)}
-        />
-      )}
+        {selectedCharacter && (
+          <ChatInterface
+            character={selectedCharacter}
+            onBack={() => setSelectedCharacter(null)}
+          />
+        )}
+      </div>
     </main>
   );
 }

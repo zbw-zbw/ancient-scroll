@@ -23,8 +23,8 @@ export default function PoemLineSlide({ line, active }: PoemLineSlideProps) {
       <div className="relative z-10 mx-auto w-full max-w-3xl px-6 text-center">
         {/* Emoji */}
         <div
-          className={`mb-6 transition-all duration-700 ${
-            active ? "scale-100 opacity-100" : "scale-50 opacity-0"
+          className={`mb-6 transition-all duration-[1200ms] ease-out ${
+            active ? "translate-y-0 scale-100 opacity-100" : "translate-y-6 scale-90 opacity-0"
           }`}
         >
           <span
@@ -37,13 +37,13 @@ export default function PoemLineSlide({ line, active }: PoemLineSlideProps) {
 
         {/* Poem line */}
         <h3
-          className={`font-calligraphy transition-all duration-1000 ${
+          className={`font-calligraphy transition-all duration-[1400ms] ease-out ${
             textLight ? "text-white" : "text-ink"
-          } ${active ? "translate-y-0 opacity-100" : "translate-y-16 opacity-0"}`}
+          } ${active ? "translate-y-0 opacity-100" : "translate-y-20 opacity-0"}`}
           style={{
             fontSize: "clamp(2.25rem, 8vw, 4.5rem)",
             textShadow: textLight ? "0 2px 24px rgba(0,0,0,0.35)" : "none",
-            transitionDelay: "0.1s",
+            transitionDelay: active ? "0.2s" : "0s",
           }}
         >
           {line.text}
@@ -51,20 +51,20 @@ export default function PoemLineSlide({ line, active }: PoemLineSlideProps) {
 
         {/* Annotation */}
         <p
-          className={`mx-auto mt-6 max-w-xl font-serif text-base leading-relaxed transition-all duration-1000 md:text-lg ${
+          className={`mx-auto mt-6 max-w-xl font-serif text-base leading-relaxed transition-all duration-[1400ms] ease-out md:text-lg ${
             textLight ? "text-white/80" : "text-ink/80"
-          } ${active ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0"}`}
-          style={{ transitionDelay: "0.4s" }}
+          } ${active ? "translate-y-0 opacity-100" : "translate-y-12 opacity-0"}`}
+          style={{ transitionDelay: active ? "0.5s" : "0s" }}
         >
           {line.annotation}
         </p>
 
         {/* Mood tag */}
         <div
-          className={`mt-8 transition-all duration-1000 ${
-            active ? "translate-y-0 opacity-100" : "translate-y-8 opacity-0"
+          className={`mt-8 transition-all duration-[1400ms] ease-out ${
+            active ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0"
           }`}
-          style={{ transitionDelay: "0.6s" }}
+          style={{ transitionDelay: active ? "0.75s" : "0s" }}
         >
           <span
             className={`inline-block rounded-full px-4 py-1.5 font-serif text-xs ${

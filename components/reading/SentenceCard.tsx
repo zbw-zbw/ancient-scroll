@@ -75,12 +75,14 @@ export default function SentenceCard({
       </div>
 
       {/* Original text */}
-      <HighlightedText
-        text={sentence.original}
-        difficultChars={sentence.difficultChars}
-        fontSizeClass={fontSizeClasses[fontSize]}
-        onCharClick={handleCharClick}
-      />
+      <div className="break-words">
+        <HighlightedText
+          text={sentence.original}
+          difficultChars={sentence.difficultChars}
+          fontSizeClass={fontSizeClasses[fontSize]}
+          onCharClick={handleCharClick}
+        />
+      </div>
 
       {/* Translation section */}
       {showTranslation && (

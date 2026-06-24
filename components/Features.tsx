@@ -1,4 +1,7 @@
+"use client";
+
 import Link from "next/link";
+import { useState } from "react";
 
 function FeatureTag({ number }: { number: string }) {
   return (
@@ -48,24 +51,30 @@ function BestiaryMockup() {
     { name: "狌狌", text: "其状如禺而白耳，伏行人走", emoji: "🐵", gradient: "from-stone-200 to-stone-100" },
   ];
 
+  const [activeIndex, setActiveIndex] = useState<number | null>(null);
+
   return (
     <div className="relative h-80 w-full">
-      {cards.map((card, index) => (
-        <div
-          key={index}
-          className={`absolute w-44 rounded-xl border border-rule bg-surface p-3 shadow-lg transition-all hover:scale-105 hover:z-50 ${
-            index === 0 ? "left-0 top-0 rotate-[-6deg] z-30" :
-            index === 1 ? "left-16 top-16 rotate-[3deg] z-20" :
-            "left-32 top-32 rotate-[-2deg] z-10"
-          }`}
-        >
-          <div className={`emoji mb-3 flex h-24 items-center justify-center rounded-lg bg-gradient-to-br ${card.gradient} text-4xl`}>
-            {card.emoji}
+      {cards.map((card, index) => {
+        const isActive = activeIndex === index;
+        return (
+          <div
+            key={index}
+            onClick={() => setActiveIndex(isActive ? null : index)}
+            className={`absolute w-44 rounded-xl border border-rule bg-surface p-3 shadow-lg transition-all duration-300 hover:scale-105 hover:z-50 active:scale-105 ${
+              index === 0 ? "left-0 top-0 rotate-[-6deg] z-30" :
+              index === 1 ? "left-16 top-16 rotate-[3deg] z-20" :
+              "left-32 top-32 rotate-[-2deg] z-10"
+            } ${isActive ? "z-50 scale-110" : ""}`}
+          >
+            <div className={`emoji mb-3 flex h-24 items-center justify-center rounded-lg bg-gradient-to-br ${card.gradient} text-4xl`}>
+              {card.emoji}
+            </div>
+            <h4 className="font-calligraphy text-lg text-ink">{card.name}</h4>
+            <p className="font-serif text-xs leading-relaxed text-light-ink mt-1">{card.text}</p>
           </div>
-          <h4 className="font-calligraphy text-lg text-ink">{card.name}</h4>
-          <p className="font-serif text-xs leading-relaxed text-light-ink mt-1">{card.text}</p>
-        </div>
-      ))}
+        );
+      })}
     </div>
   );
 }
@@ -79,20 +88,20 @@ function PoetryMockup() {
   ];
 
   return (
-    <div className="rounded-2xl border border-rule bg-surface p-6 shadow-lg">
-      <div className="flex flex-col items-center gap-4">
+    <div className="rounded-2xl border border-rule bg-surface p-4 md:p-6 shadow-lg">
+      <div className="flex flex-col gap-3 md:gap-4">
         {lines.map((line, index) => (
           <div
             key={index}
-            className="flex w-full items-center justify-between gap-4 rounded-xl bg-gradient-to-r from-surface to-xuan-dark/50 p-3"
+            className="flex w-full items-center gap-2 rounded-xl bg-gradient-to-r from-surface to-xuan-dark/50 p-2 md:p-3"
           >
-            <div className="flex items-center gap-3">
-              <span className="emoji text-xl">{line.emoji}</span>
-              <span className="font-calligraphy text-lg text-ink">{line.text}</span>
+            <div className="flex flex-1 items-center gap-2 md:gap-3 min-w-0">
+              <span className="emoji text-lg md:text-xl flex-shrink-0">{line.emoji}</span>
+              <span className="font-calligraphy text-base md:text-lg text-ink truncate">{line.text}</span>
             </div>
-            <div className="flex items-center gap-2">
-              <div className={`h-8 w-16 rounded-full bg-gradient-to-br ${line.gradient}`} />
-              <span className="font-serif text-xs text-muted">{line.tag}</span>
+            <div className="flex items-center gap-2 flex-shrink-0">
+              <div className={`h-6 w-10 md:h-8 md:w-16 rounded-full bg-gradient-to-br ${line.gradient}`} />
+              <span className="font-serif text-[10px] md:text-xs text-muted whitespace-nowrap">{line.tag}</span>
             </div>
           </div>
         ))}

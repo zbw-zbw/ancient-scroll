@@ -46,12 +46,39 @@ html {
 }
 
 body {
-  background-color: var(--xuan);
-  color: var(--ink);
+  @apply bg-xuan text-ink;
   font-family: var(--font-noto-serif-sc), "Noto Serif SC", "Songti SC", "SimSun", serif;
   min-height: 100vh;
   overflow-x: hidden;
   position: relative;
+}
+
+/* Global cursor pointer for interactive elements */
+button,
+a,
+[role="button"],
+label,
+input[type="checkbox"],
+input[type="radio"],
+select,
+textarea,
+summary {
+  cursor: pointer;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="search"],
+input[type="number"],
+textarea {
+  cursor: text;
+}
+
+button:disabled,
+a:disabled,
+[role="button"]:disabled {
+  cursor: not-allowed;
 }
 
 body::before {

@@ -62,7 +62,9 @@ export default function ChatMessages({
             role="assistant"
             content={streamingContent}
             characterEmoji={character.emoji}
+            characterColor={character.color}
             isStreaming={true}
+            isThinking={streamingContent === ""}
           />
         )}
 
@@ -72,31 +74,6 @@ export default function ChatMessages({
             onSelect={onSelectQuestion}
             characterColor={character.color}
           />
-        )}
-
-        {isStreaming && streamingContent === "" && (
-          <div className="flex w-full justify-start">
-            <div className="flex items-center gap-2 rounded-2xl rounded-tl-sm bg-xuan-dark px-4 py-3">
-              <div className="emoji text-lg">{character.emoji}</div>
-              <span className="font-serif text-sm text-muted">
-                正在思考
-              </span>
-              <span className="inline-flex gap-0.5">
-                <span
-                  className="h-1.5 w-1.5 rounded-full bg-muted animate-thinking-dot"
-                  style={{ animationDelay: "0s" }}
-                />
-                <span
-                  className="h-1.5 w-1.5 rounded-full bg-muted animate-thinking-dot"
-                  style={{ animationDelay: "0.2s" }}
-                />
-                <span
-                  className="h-1.5 w-1.5 rounded-full bg-muted animate-thinking-dot"
-                  style={{ animationDelay: "0.4s" }}
-                />
-              </span>
-            </div>
-          </div>
         )}
       </div>
     </div>

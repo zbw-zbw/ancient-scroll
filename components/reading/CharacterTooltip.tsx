@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import type { DifficultChar } from "@/data/shanhaijing";
 
@@ -28,11 +28,25 @@ export default function CharacterTooltip({
   const [aiResult, setAiResult] = useState<AnnotateResult | null>(null);
   const [error, setError] = useState("");
   const tooltipRef = useRef<HTMLDivElement>(null);
+  const [size, setSize] = useState({ width: 280, height: 180 });
+  const [isMobile, setIsMobile] = useState(false);
+
+  useLayoutEffect(() => {
+    setIsMobile(typeof window !== "undefined" && window.innerWidth < 768);
+  }, []);
 
   useEffect(() => {
-    const timer = setTimeout(() => setMounted(true), 10);
-    return () => clearTimeout(timer);
+    const timer = requestAnimationFrame(() => setMounted(true));
+    return () => cancelAnimationFrame(timer);
   }, []);
+
+  // Measure tooltip size after first render so position is correct on first paint
+  useLayoutEffect(() => {
+    if (tooltipRef.current) {
+      const { offsetWidth, offsetHeight } = tooltipRef.current;
+      setSize({ width: offsetWidth, height: offsetHeight });
+    }
+  }, [aiResult]);
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
@@ -43,11 +57,19 @@ export default function CharacterTooltip({
     const handleEsc = (e: KeyboardEvent) => {
       if (e.key === "Escape") onClose();
     };
+    const handleScroll = () => onClose();
+    const handleResize = () => onClose();
+
     document.addEventListener("mousedown", handleClickOutside);
     document.addEventListener("keydown", handleEsc);
+    window.addEventListener("scroll", handleScroll, { passive: true, capture: true });
+    window.addEventListener("resize", handleResize);
+
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
       document.removeEventListener("keydown", handleEsc);
+      window.removeEventListener("scroll", handleScroll, { capture: true });
+      window.removeEventListener("resize", handleResize);
     };
   }, [onClose]);
 
@@ -75,7 +97,12 @@ export default function CharacterTooltip({
     }
   };
 
-  const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
+  const { style, arrowStyle, origin } = getTooltipStyle(
+    triggerRect,
+    size.width,
+    size.height,
+    isMobile
+  );
 
   const tooltipContent = (
     <div
@@ -83,7 +110,10 @@ export default function CharacterTooltip({
       className={`fixed z-[100] min-w-[240px] max-w-[320px] rounded-md border border-rule bg-surface shadow-lg transition-all duration-200 ${
         mounted ? "opacity-100 scale-100" : "opacity-0 scale-95"
       }`}
-      style={getTooltipStyle(triggerRect, tooltipRef.current, isMobile)}
+      style={{
+        ...style,
+        transformOrigin: origin,
+      }}
       role="dialog"
       aria-modal="true"
       aria-label={`${charData.char}的字词注释`}
@@ -145,7 +175,7 @@ export default function CharacterTooltip({
       {!isMobile && (
         <div
           className="absolute h-2.5 w-2.5 rotate-45 border-b border-r border-rule bg-surface"
-          style={getArrowStyle(triggerRect, tooltipRef.current)}
+          style={arrowStyle}
         />
       )}
     </div>
@@ -157,66 +187,58 @@ export default function CharacterTooltip({
 
 function getTooltipStyle(
   triggerRect: DOMRect,
-  tooltipEl: HTMLDivElement | null,
+  tooltipWidth: number,
+  tooltipHeight: number,
   isMobile: boolean
-): React.CSSProperties {
+): { style: React.CSSProperties; arrowStyle: React.CSSProperties; origin: string } {
   if (isMobile) {
     return {
-      left: "1rem",
-      right: "1rem",
-      bottom: "1rem",
+      style: {
+        left: "1rem",
+        right: "1rem",
+        bottom: "1rem",
+      },
+      arrowStyle: { display: "none" },
+      origin: "bottom center",
     };
   }
 
   const margin = 12;
-  const tooltipWidth = tooltipEl?.offsetWidth || 280;
-  const tooltipHeight = tooltipEl?.offsetHeight || 180;
+  const viewportWidth = window.innerWidth;
+  const viewportHeight = window.innerHeight;
 
   let left = triggerRect.left + triggerRect.width / 2 - tooltipWidth / 2;
   let top = triggerRect.top - tooltipHeight - margin;
+  let placeBelow = false;
+  let origin: string;
 
   // If tooltip would go above viewport, place below trigger
   if (top < margin) {
     top = triggerRect.bottom + margin;
+    placeBelow = true;
+    origin = "top center";
+  } else {
+    origin = "bottom center";
   }
 
   // Clamp horizontally
-  const viewportWidth = window.innerWidth;
   if (left < margin) left = margin;
   if (left + tooltipWidth > viewportWidth - margin) {
     left = viewportWidth - tooltipWidth - margin;
   }
 
-  return { left, top };
-}
-
-function getArrowStyle(
-  triggerRect: DOMRect,
-  tooltipEl: HTMLDivElement | null
-): React.CSSProperties {
-  const margin = 12;
-  const tooltipHeight = tooltipEl?.offsetHeight || 180;
-  const top = triggerRect.top - tooltipHeight - margin;
-  const placeBelow = top < margin;
+  // Ensure it stays within viewport vertically
+  if (top + tooltipHeight > viewportHeight - margin) {
+    top = viewportHeight - tooltipHeight - margin;
+  }
 
   const triggerCenter = triggerRect.left + triggerRect.width / 2;
-  const tooltipWidth = tooltipEl?.offsetWidth || 280;
-  let left = triggerCenter - 5;
-  const tooltipLeft = Math.max(
-    12,
-    Math.min(window.innerWidth - tooltipWidth - 12, triggerCenter - tooltipWidth / 2)
-  );
-  left = triggerCenter - tooltipLeft - 5;
+  let arrowLeft = triggerCenter - left - 5;
+  arrowLeft = Math.max(8, Math.min(tooltipWidth - 18, arrowLeft));
 
-  if (placeBelow) {
-    return {
-      left,
-      top: "-5px",
-      transform: "rotate(225deg)",
-    };
-  }
-  return {
-    left,
-    bottom: "-5px",
-  };
+  const arrowStyle: React.CSSProperties = placeBelow
+    ? { left: arrowLeft, top: "-5px", transform: "rotate(225deg)" }
+    : { left: arrowLeft, bottom: "-5px" };
+
+  return { style: { left, top }, arrowStyle, origin };
 }

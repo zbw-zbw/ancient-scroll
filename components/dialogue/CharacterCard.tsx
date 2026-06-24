@@ -14,7 +14,7 @@ export default function CharacterCard({
   return (
     <button
       onClick={() => onSelect(character)}
-      className="group relative overflow-hidden rounded-lg bg-surface/60 p-6 text-left transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:bg-surface"
+      className="group relative cursor-pointer overflow-hidden rounded-lg bg-surface/60 p-6 text-left transition-all duration-300 hover:-translate-y-1 hover:bg-surface hover:shadow-lg"
     >
       {/* Decorative color block */}
       <div

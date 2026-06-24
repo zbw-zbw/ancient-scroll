@@ -1,10 +1,10 @@
 import Link from "next/link";
 
 const features = [
-  { icon: "🔤", label: "智能双语阅读", href: "/reading", position: "left-0 top-1/2 -translate-y-1/2" },
-  { icon: "🐉", label: "AI异兽图鉴", href: "/bestiary", position: "right-0 top-1/2 -translate-y-1/2" },
-  { icon: "🌸", label: "诗境漫游", href: "/poetry", position: "top-0 left-1/2 -translate-x-1/2" },
-  { icon: "💬", label: "古今对话", href: "/dialogue", position: "bottom-0 left-1/2 -translate-x-1/2" },
+  { icon: "🔤", label: "智能双语阅读", href: "/reading" },
+  { icon: "🐉", label: "AI异兽图鉴", href: "/bestiary" },
+  { icon: "🌸", label: "诗境漫游", href: "/poetry" },
+  { icon: "💬", label: "古今对话", href: "/dialogue" },
 ];
 
 export default function SolutionOverview() {
@@ -26,23 +26,6 @@ export default function SolutionOverview() {
 
         {/* Device mockup with floating feature tags */}
         <div className="relative mx-auto max-w-3xl">
-          {/* Feature tags - desktop */}
-          {features.map((feature, index) => (
-            <Link
-              key={index}
-              href={feature.href}
-              className={`group absolute ${feature.position} hidden md:flex items-center gap-2 rounded-full border border-rule bg-surface/80 px-4 py-2 shadow-sm backdrop-blur-sm transition-all hover:border-cinnabar/40 hover:shadow-md hover:bg-surface`}
-            >
-              <span className="emoji text-lg">{feature.icon}</span>
-              <span className="font-serif text-sm text-ink whitespace-nowrap">
-                {feature.label}
-              </span>
-              <span className="text-xs text-muted opacity-0 group-hover:opacity-100">
-                →
-              </span>
-            </Link>
-          ))}
-
           {/* Device */}
           <div className="relative mx-auto w-full max-w-[360px] rounded-[2.5rem] border-[8px] border-ink/80 bg-ink/80 p-3 shadow-2xl">
             <div className="absolute left-1/2 top-3 h-5 w-20 -translate-x-1/2 rounded-full bg-ink/60" />
@@ -78,16 +61,21 @@ export default function SolutionOverview() {
             </div>
           </div>
 
-          {/* Mobile feature tags */}
-          <div className="mt-10 grid grid-cols-2 gap-3 md:hidden">
+          {/* Feature tags - all screens */}
+          <div className="mt-10 grid grid-cols-2 gap-3 md:grid-cols-4">
             {features.map((feature, index) => (
               <Link
                 key={index}
                 href={feature.href}
-                className="flex items-center justify-center gap-2 rounded-full border border-rule bg-surface/80 px-3 py-2.5"
+                className="group flex items-center justify-center gap-2 rounded-full border border-rule bg-surface/80 px-3 py-2.5 shadow-sm backdrop-blur-sm transition-all hover:border-cinnabar/40 hover:bg-surface hover:shadow-md"
               >
                 <span className="emoji text-lg">{feature.icon}</span>
-                <span className="font-serif text-sm text-ink">{feature.label}</span>
+                <span className="font-serif text-sm text-ink whitespace-nowrap">
+                  {feature.label}
+                </span>
+                <span className="text-xs text-muted opacity-0 group-hover:opacity-100 transition-opacity">
+                  →
+                </span>
               </Link>
             ))}
           </div>

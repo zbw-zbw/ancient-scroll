@@ -17,7 +17,7 @@ export default function SuggestedQuestions({
         <button
           key={index}
           onClick={() => onSelect(question)}
-          className="rounded-full border border-rule bg-surface px-3 py-1.5 font-serif text-xs text-light-ink transition-all hover:border-cinnabar/40 hover:bg-seal-bg md:px-4 md:py-2"
+          className="cursor-pointer rounded-full border border-rule bg-surface px-3 py-1.5 font-serif text-xs text-light-ink transition-all hover:border-cinnabar/40 hover:bg-seal-bg md:px-4 md:py-2"
           style={{
             borderColor: `${characterColor}30`,
           }}

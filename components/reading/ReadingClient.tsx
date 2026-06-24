@@ -45,7 +45,7 @@ export default function ReadingClient() {
   }, [activeTooltip, chapter]);
 
   return (
-    <div className="relative flex min-h-[calc(100vh-4rem)] bg-xuan">
+    <div className="relative flex min-h-[calc(100vh-4rem)] flex-col bg-xuan md:flex-row">
       <ChapterSidebar
         chapters={chapters}
         selectedId={selectedChapterId}

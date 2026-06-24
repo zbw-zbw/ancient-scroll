@@ -100,7 +100,7 @@ export default function ChatInterface({
   }, []);
 
   return (
-    <div className="fixed inset-x-0 bottom-0 top-16 md:top-20 z-20 flex flex-col bg-xuan">
+    <div className="absolute inset-x-0 top-16 bottom-0 z-20 flex flex-col bg-xuan md:top-20">
       <ChatHeader
         character={character}
         onBack={onBack}

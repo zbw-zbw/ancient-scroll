@@ -18,14 +18,30 @@ export default function BeastCard({
   onToggleCollect,
   onViewDetail,
 }: BeastCardProps) {
+  const handleCardClick = () => {
+    onViewDetail(beast);
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLElement>) => {
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      handleCardClick();
+    }
+  };
+
   return (
     <article
-      className="group flex flex-col overflow-hidden rounded-xl bg-surface/60 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:bg-surface"
+      role="button"
+      tabIndex={0}
+      onClick={handleCardClick}
+      onKeyDown={handleKeyDown}
+      className="group flex cursor-pointer flex-col overflow-hidden rounded-xl bg-surface/60 transition-all duration-300 hover:-translate-y-1 hover:bg-surface hover:shadow-lg"
       style={{ animationDelay: `${index * 0.1}s` }}
+      aria-label={`查看${beast.name}详情`}
     >
       {/* Gradient image area */}
       <div
-        className="relative flex h-[180px] items-center justify-center overflow-hidden rounded-lg m-3 transition-transform duration-300 group-hover:scale-[1.02]"
+        className="relative m-3 flex h-[180px] items-center justify-center overflow-hidden rounded-lg transition-transform duration-300 group-hover:scale-[1.02]"
         style={{
           background: `linear-gradient(135deg, ${beast.gradient[0]}, ${beast.gradient[1]})`,
         }}
@@ -55,7 +71,10 @@ export default function BeastCard({
         {/* Actions */}
         <div className="mt-auto flex items-center justify-between gap-2 pt-4">
           <button
-            onClick={() => onToggleCollect(beast.id)}
+            onClick={(e) => {
+              e.stopPropagation();
+              onToggleCollect(beast.id);
+            }}
             className={`inline-flex items-center gap-1 rounded-full px-3 py-1.5 font-serif text-xs transition-all active:scale-95 ${
               collected
                 ? "bg-cinnabar/10 text-cinnabar"
@@ -68,13 +87,10 @@ export default function BeastCard({
             {collected ? "已收藏" : "收藏"}
           </button>
 
-          <button
-            onClick={() => onViewDetail(beast)}
-            className="inline-flex items-center gap-1 font-serif text-sm text-cinnabar transition-colors hover:underline"
-          >
+          <span className="inline-flex items-center gap-1 font-serif text-sm text-cinnabar transition-colors group-hover:underline">
             查看详情
             <span>→</span>
-          </button>
+          </span>
         </div>
       </div>
     </article>

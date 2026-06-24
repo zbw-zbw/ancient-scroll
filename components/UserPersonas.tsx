@@ -71,7 +71,7 @@ export default function UserPersonas() {
           {personas.map((persona, index) => (
             <div
               key={index}
-              className="relative rounded-lg bg-surface/60 p-6 pt-10 md:p-8 md:pt-12 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:bg-surface"
+              className="group cursor-pointer rounded-xl bg-surface/60 p-6 transition-all duration-300 hover:-translate-y-1 hover:bg-surface hover:shadow-lg md:p-8"
             >
               <CornerMark />
 

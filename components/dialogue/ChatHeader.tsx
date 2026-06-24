@@ -17,7 +17,7 @@ export default function ChatHeader({
     <div className="flex items-center justify-between border-b border-rule/60 bg-xuan/80 px-4 py-3 backdrop-blur-sm md:px-6 md:py-4">
       <button
         onClick={onBack}
-        className="flex items-center gap-1 font-serif text-sm text-muted transition-colors hover:text-ink"
+        className="flex cursor-pointer items-center gap-1 rounded-md px-2 py-1 font-serif text-sm text-muted transition-colors hover:bg-surface/60 hover:text-ink"
       >
         <span>←</span>
         <span className="hidden sm:inline">返回</span>
@@ -42,7 +42,7 @@ export default function ChatHeader({
 
       <button
         onClick={onClear}
-        className="font-serif text-xs text-muted transition-colors hover:text-cinnabar md:text-sm"
+        className="cursor-pointer rounded-md px-2 py-1 font-serif text-xs text-muted transition-colors hover:bg-surface/60 hover:text-cinnabar md:text-sm"
       >
         清空对话
       </button>

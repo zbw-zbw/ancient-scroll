@@ -34,15 +34,15 @@ export default function ReadingPanel({
   }, [chapter.id]);
 
   return (
-    <main className="flex-1 md:ml-[200px] lg:ml-[240px]">
+    <main className="flex-1 md:ml-[200px] lg:ml-[240px] min-h-0">
       <div
         ref={scrollRef}
-        className="h-[calc(100vh-4rem)] overflow-y-auto px-4 py-6 md:px-8 md:py-8"
+        className="h-full overflow-y-auto px-4 py-6 md:h-[calc(100vh-4rem)] md:px-8 md:py-8"
       >
         <div className="mx-auto max-w-[780px]">
           {/* Header */}
           <header className="mb-6 flex flex-col gap-2 border-b border-rule/50 pb-5 md:mb-8 md:flex-row md:items-end md:justify-between">
-            <div>
+            <div className="min-w-0">
               <h1 className="font-calligraphy text-3xl text-ink md:text-4xl">
                 {chapter.name}
               </h1>
@@ -50,7 +50,7 @@ export default function ReadingPanel({
                 {chapter.subtitle}
               </p>
             </div>
-            <span className="rounded-full border border-rule bg-surface/60 px-3 py-1 font-serif text-xs text-muted">
+            <span className="flex-shrink-0 self-start rounded-full border border-rule bg-surface/60 px-3 py-1 font-serif text-xs text-muted md:self-auto">
               共{chapter.sentences.length}句
             </span>
           </header>
