@@ -91,7 +91,7 @@ export default function Hero() {
         </div>
 
         {/* Main title */}
-        <h1 className="mb-8 font-calligraphy text-7xl md:text-8xl text-ink tracking-wider">
+        <h1 className="mb-8 font-calligraphy text-7xl md:text-8xl text-ink tracking-wider animate-fade-in">
           古籍焕新
         </h1>
 

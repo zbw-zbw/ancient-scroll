@@ -42,7 +42,7 @@ export default function BeastFilter({
                     : "border-rule bg-surface/60 text-light-ink hover:bg-surface"
                 }`}
               >
-                <span className="emoji">{emoji}</span>
+                {key !== "all" && <span className="emoji">{emoji}</span>}
                 <span>{label}</span>
                 <span
                   className={`ml-0.5 rounded-full px-1.5 py-0 text-[10px] ${

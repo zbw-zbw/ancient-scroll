@@ -1,10 +1,60 @@
-import Link from "next/link";
+"use client";
 
 const features = [
-  { icon: "🔤", label: "智能双语阅读", href: "/reading" },
-  { icon: "🐉", label: "AI异兽图鉴", href: "/bestiary" },
-  { icon: "🌸", label: "诗境漫游", href: "/poetry" },
-  { icon: "💬", label: "古今对话", href: "/dialogue" },
+  {
+    title: "智能双语阅读",
+    description: "点击任意词语，原文翻译、语法解析即刻呈现",
+    icon: (
+      <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5">
+        {/* Text/translation two-column icon */}
+        <rect x="2" y="3" width="6" height="14" rx="1" />
+        <rect x="12" y="3" width="6" height="14" rx="1" />
+        <line x1="4" y1="6" x2="6" y2="6" />
+        <line x1="4" y1="9" x2="7" y2="9" />
+        <line x1="4" y1="12" x2="5" y2="12" />
+        <line x1="14" y1="6" x2="16" y2="6" />
+        <line x1="14" y1="9" x2="17" y2="9" />
+        <line x1="14" y1="12" x2="15" y2="12" />
+      </svg>
+    ),
+  },
+  {
+    title: "AI 异兽图鉴",
+    description: "为每只异兽生成专属水墨插画",
+    icon: (
+      <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5">
+        {/* Beast paw / claw mark icon */}
+        <circle cx="10" cy="14" r="3" />
+        <circle cx="6" cy="8" r="1.5" />
+        <circle cx="10" cy="6" r="1.5" />
+        <circle cx="14" cy="8" r="1.5" />
+      </svg>
+    ),
+  },
+  {
+    title: "诗境漫游",
+    description: "一句一景，AI 生成水墨意境图",
+    icon: (
+      <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5">
+        {/* Petal / poetry scroll icon */}
+        <path d="M10 3 Q14 3 14 7 Q14 11 10 11 Q6 11 6 7 Q6 3 10 3" />
+        <path d="M10 11 L10 17" />
+        <path d="M7 14 Q10 17 13 14" />
+      </svg>
+    ),
+  },
+  {
+    title: "古今对话",
+    description: "穿越时空，与李白、苏轼畅聊诗词人生",
+    icon: (
+      <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5">
+        {/* Chat bubble icon */}
+        <path d="M4 4 H16 A1 1 0 0 1 17 5 V13 A1 1 0 0 1 16 14 H10 L6 17 V14 H4 A1 1 0 0 1 3 13 V5 A1 1 0 0 1 4 4" />
+        <line x1="6" y1="8" x2="10" y2="8" />
+        <line x1="6" y1="11" x2="12" y2="11" />
+      </svg>
+    ),
+  },
 ];
 
 export default function SolutionOverview() {
@@ -14,7 +64,7 @@ export default function SolutionOverview() {
         {/* Section title */}
         <div className="relative mb-12 md:mb-16">
           <h2 className="font-calligraphy text-4xl md:text-5xl text-ink relative z-10">
-            古籍焕新，用AI重新定义阅读
+            我们的方案
           </h2>
           <span
             className="pointer-events-none absolute -top-8 left-0 md:left-4 font-calligraphy text-[140px] leading-none opacity-[0.08] select-none"
@@ -24,61 +74,26 @@ export default function SolutionOverview() {
           </span>
         </div>
 
-        {/* Device mockup with floating feature tags */}
-        <div className="relative mx-auto max-w-3xl">
-          {/* Device */}
-          <div className="relative mx-auto w-full max-w-[360px] rounded-[2.5rem] border-[8px] border-ink/80 bg-ink/80 p-3 shadow-2xl">
-            <div className="absolute left-1/2 top-3 h-5 w-20 -translate-x-1/2 rounded-full bg-ink/60" />
-            <div className="mt-5 overflow-hidden rounded-[1.8rem] bg-xuan">
-              {/* Status bar */}
-              <div className="flex items-center justify-between px-5 py-2 bg-xuan-dark/70">
-                <div className="flex gap-1.5">
-                  <span className="h-2.5 w-2.5 rounded-full bg-muted/50" />
-                  <span className="h-2.5 w-2.5 rounded-full bg-muted/50" />
-                  <span className="h-2.5 w-2.5 rounded-full bg-muted/50" />
-                </div>
-                <span className="font-serif text-xs text-muted">山海经·南山经</span>
-                <span className="font-serif text-xs text-muted">12:00</span>
+        {/* Feature list */}
+        <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
+          {features.map((feature, index) => (
+            <div
+              key={index}
+              className="group flex items-start gap-4 rounded-lg bg-surface/60 px-6 py-5 transition-all duration-300 hover:bg-surface hover:shadow-md md:px-8 md:py-6"
+            >
+              <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-lg bg-cinnabar/10 text-cinnabar transition-colors group-hover:bg-cinnabar/15">
+                {feature.icon}
               </div>
-
-              {/* Content */}
-              <div className="px-5 py-4 space-y-4">
-                <div className="border-b border-rule/50 pb-3">
-                  <p className="font-serif text-sm leading-7 text-ink/90">
-                    南山之首曰䧿山。其首曰招摇之山，临于西海之上，多桂，多金玉。
-                  </p>
-                </div>
-                <div>
-                  <p className="font-serif text-sm leading-7 text-muted">
-                    南方群山的第一座叫鹊山。鹊山最高处叫招摇山，矗立在西海边上，山上桂树成林，遍布金石美玉。
-                  </p>
-                </div>
-                <div className="rounded-md bg-surface p-3 border-l-2 border-cinnabar">
-                  <p className="font-serif text-xs text-cinnabar mb-1">字词解读 · 䧿</p>
-                  <p className="font-serif text-xs text-light-ink">古“鹊”字，指喜鹊，此处为山名。</p>
-                </div>
+              <div>
+                <h3 className="font-calligraphy mb-1 text-xl text-ink">
+                  {feature.title}
+                </h3>
+                <p className="font-serif text-sm leading-relaxed text-light-ink">
+                  {feature.description}
+                </p>
               </div>
             </div>
-          </div>
-
-          {/* Feature tags - all screens */}
-          <div className="mt-10 grid grid-cols-2 gap-3 md:grid-cols-4">
-            {features.map((feature, index) => (
-              <Link
-                key={index}
-                href={feature.href}
-                className="group flex items-center justify-center gap-2 rounded-full border border-rule bg-surface/80 px-3 py-2.5 shadow-sm backdrop-blur-sm transition-all hover:border-cinnabar/40 hover:bg-surface hover:shadow-md"
-              >
-                <span className="emoji text-lg">{feature.icon}</span>
-                <span className="font-serif text-sm text-ink whitespace-nowrap">
-                  {feature.label}
-                </span>
-                <span className="text-xs text-muted opacity-0 group-hover:opacity-100 transition-opacity">
-                  →
-                </span>
-              </Link>
-            ))}
-          </div>
+          ))}
         </div>
       </div>
     </section>

@@ -1,14 +1,17 @@
 "use client";
 
+import Image from "next/image";
+import { useEffect, useRef, useState } from "react";
 import type { PoemLine } from "@/data/poems";
 import Particles from "./Particles";
 
 interface PoemLineSlideProps {
   line: PoemLine;
   active: boolean;
+  coverImage?: string;
 }
 
-export default function PoemLineSlide({ line, active }: PoemLineSlideProps) {
+export default function PoemLineSlide({ line, active, coverImage }: PoemLineSlideProps) {
   const textLight = line.textColor === "light";
 
   return (
@@ -18,29 +21,20 @@ export default function PoemLineSlide({ line, active }: PoemLineSlideProps) {
         background: `linear-gradient(135deg, ${line.gradientFrom}, ${line.gradientTo})`,
       }}
     >
+      {/* Cover image background */}
+      {coverImage && (
+        <Image
+          src={coverImage}
+          alt=""
+          fill
+          className="absolute inset-0 object-cover opacity-15 mix-blend-overlay"
+          loading="lazy"
+        />
+      )}
+
       <Particles type={line.particleType} />
 
       <div className="relative z-10 mx-auto w-full max-w-3xl px-6 text-center">
-        {/* Emoji */}
-        <div
-          className={`mb-6 transition-all duration-[1600ms] ease-[cubic-bezier(0.22,1,0.36,1)] ${
-            active
-              ? "translate-y-0 scale-100 opacity-100"
-              : "translate-y-3 scale-95 opacity-0"
-          }`}
-        >
-          <span
-            className="emoji inline-block animate-float text-6xl md:text-7xl lg:text-8xl"
-            style={{
-              filter: textLight
-                ? "drop-shadow(0 2px 8px rgba(0,0,0,0.3))"
-                : "none",
-            }}
-          >
-            {line.emoji}
-          </span>
-        </div>
-
         {/* Poem line */}
         <h3
           className={`font-calligraphy transition-all duration-[1800ms] ease-[cubic-bezier(0.22,1,0.36,1)] ${

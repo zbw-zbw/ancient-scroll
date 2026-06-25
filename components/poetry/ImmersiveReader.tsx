@@ -98,6 +98,7 @@ export default function ImmersiveReader({ poem, onBack }: ImmersiveReaderProps) 
           key={index}
           line={line}
           active={currentSlide === index + 1}
+          coverImage={poem.coverImage}
         />
       ))}
       <EndingSlide

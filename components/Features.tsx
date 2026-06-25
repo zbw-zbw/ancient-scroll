@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 
@@ -46,9 +47,9 @@ function ReadingMockup() {
 
 function BestiaryMockup() {
   const cards = [
-    { name: "九尾狐", text: "有兽焉，其状如狐而九尾", emoji: "🦊", gradient: "from-rose-200 to-amber-100" },
-    { name: "鹿蜀", text: "其状如马而白首，其文如虎而赤尾", emoji: "🦌", gradient: "from-amber-200 to-orange-100" },
-    { name: "狌狌", text: "其状如禺而白耳，伏行人走", emoji: "🐵", gradient: "from-stone-200 to-stone-100" },
+    { name: "九尾狐", text: "有兽焉，其状如狐而九尾", image: "/images/beasts/jiuhuweiu.png", bg: "#f43f5e" },
+    { name: "鹿蜀", text: "其状如马而白首，其文如虎而赤尾", image: "/images/beasts/lushu.png", bg: "#f59e0b" },
+    { name: "狌狌", text: "其状如禺而白耳，伏行人走", image: "/images/beasts/xingxing.png", bg: "#a8a29e" },
   ];
 
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
@@ -67,8 +68,15 @@ function BestiaryMockup() {
               "left-32 top-32 rotate-[-2deg] z-10"
             } ${isActive ? "z-50 scale-110" : ""}`}
           >
-            <div className={`emoji mb-3 flex h-24 items-center justify-center rounded-lg bg-gradient-to-br ${card.gradient} text-4xl`}>
-              {card.emoji}
+            <div className="mb-3 h-24 overflow-hidden rounded-lg" style={{ backgroundColor: card.bg }}>
+              <Image
+                src={card.image}
+                alt={card.name}
+                width={176}
+                height={96}
+                className="h-full w-full object-cover"
+                loading="lazy"
+              />
             </div>
             <h4 className="font-calligraphy text-lg text-ink">{card.name}</h4>
             <p className="font-serif text-xs leading-relaxed text-light-ink mt-1">{card.text}</p>
@@ -81,10 +89,10 @@ function BestiaryMockup() {
 
 function PoetryMockup() {
   const lines = [
-    { text: "春眠不觉晓", emoji: "🌅", gradient: "from-orange-200 to-amber-100", tag: "晨·恬静" },
-    { text: "处处闻啼鸟", emoji: "🐦", gradient: "from-emerald-200 to-green-100", tag: "生·灵动" },
-    { text: "夜来风雨声", emoji: "🌧️", gradient: "from-blue-300 to-indigo-200", tag: "夜·沉郁" },
-    { text: "花落知多少", emoji: "🌸", gradient: "from-pink-200 to-rose-100", tag: "叹·惜春" },
+    { text: "春眠不觉晓", dot: "from-orange-300 to-amber-200", tag: "晨·恬静" },
+    { text: "处处闻啼鸟", dot: "from-emerald-300 to-green-200", tag: "生·灵动" },
+    { text: "夜来风雨声", dot: "from-blue-400 to-indigo-300", tag: "夜·沉郁" },
+    { text: "花落知多少", dot: "from-pink-300 to-rose-200", tag: "叹·惜春" },
   ];
 
   return (
@@ -96,11 +104,10 @@ function PoetryMockup() {
             className="flex w-full items-center gap-2 rounded-xl bg-gradient-to-r from-surface to-xuan-dark/50 p-2 md:p-3"
           >
             <div className="flex flex-1 items-center gap-2 md:gap-3 min-w-0">
-              <span className="emoji text-lg md:text-xl flex-shrink-0">{line.emoji}</span>
+              <div className={`h-3 w-3 flex-shrink-0 rounded-full bg-gradient-to-br ${line.dot}`} />
               <span className="font-calligraphy text-base md:text-lg text-ink truncate">{line.text}</span>
             </div>
             <div className="flex items-center gap-2 flex-shrink-0">
-              <div className={`h-6 w-10 md:h-8 md:w-16 rounded-full bg-gradient-to-br ${line.gradient}`} />
               <span className="font-serif text-[10px] md:text-xs text-muted whitespace-nowrap">{line.tag}</span>
             </div>
           </div>
