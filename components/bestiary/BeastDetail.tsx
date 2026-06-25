@@ -58,19 +58,19 @@ export default function BeastDetail({
         aria-modal="true"
         aria-label={`${beast.name}详情`}
       >
-        {/* Top image banner */}
+        {/* Top image banner - use contain to show full image */}
         <div
-          className="relative flex h-[220px] flex-shrink-0 items-center justify-center overflow-hidden"
-          style={{ background: `linear-gradient(135deg, ${beast.gradient[0]}30, ${beast.gradient[1]}30)` }}
+          className="relative flex h-[300px] flex-shrink-0 items-center justify-center overflow-hidden"
+          style={{ background: `linear-gradient(135deg, ${beast.gradient[0]}20, ${beast.gradient[1]}20)` }}
         >
           <Image
             src={beast.imagePath}
             alt={beast.name}
             width={600}
             height={400}
-            className="h-full w-full object-cover object-center"
+            className="h-full w-full object-contain p-4"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-xuan/60 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-xuan/40 via-transparent to-transparent" />
 
           <button
             onClick={onClose}

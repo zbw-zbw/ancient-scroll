@@ -63,7 +63,6 @@ export default function ChatInterface({
       const updatedMessages = [...messages, userMessage];
       setMessages(updatedMessages);
       setInputValue("");
-      setShowSuggestions(false);
       setStreamingContent("");
 
       await startStreaming(
