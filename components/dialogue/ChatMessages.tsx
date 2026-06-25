@@ -60,6 +60,7 @@ export default function ChatMessages({
 
         {isStreaming && (
           <ChatBubble
+            key="streaming-message"
             role="assistant"
             content={streamingContent}
             characterAvatarPath={character.avatarPath}

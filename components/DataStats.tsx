@@ -1,6 +1,6 @@
 const stats = [
-  { value: "20", unit: "篇", label: "首批收录" },
-  { value: "100+", unit: "", label: "AI神兽插画" },
+  { value: "5", unit: "篇", label: "山海经篇章" },
+  { value: "20", unit: "只", label: "AI水墨神兽" },
   { value: "3", unit: "秒", label: "AI响应速度" },
   { value: "∞", unit: "", label: "探索可能" },
 ];

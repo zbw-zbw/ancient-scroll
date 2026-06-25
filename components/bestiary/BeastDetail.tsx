@@ -60,17 +60,17 @@ export default function BeastDetail({
       >
         {/* Top image banner */}
         <div
-          className="relative flex h-[200px] flex-shrink-0 items-center justify-center overflow-hidden"
-          style={{ backgroundColor: beast.gradient[0] }}
+          className="relative flex h-[220px] flex-shrink-0 items-center justify-center overflow-hidden"
+          style={{ background: `linear-gradient(135deg, ${beast.gradient[0]}30, ${beast.gradient[1]}30)` }}
         >
           <Image
             src={beast.imagePath}
             alt={beast.name}
-            fill
-            className="object-cover"
-            loading="lazy"
+            width={600}
+            height={400}
+            className="h-full w-full object-cover object-center"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-xuan/80 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-xuan/60 to-transparent" />
 
           <button
             onClick={onClose}
