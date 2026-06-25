@@ -42,14 +42,15 @@ export default function BeastCard({
     >
       {/* Image area */}
       <div
-        className="relative h-[200px] overflow-hidden rounded-t-xl bg-xuan-dark/30"
+        className="relative h-[200px] overflow-hidden rounded-t-xl"
+        style={{ backgroundColor: beast.gradient[0] + '15' }}
       >
         <Image
           src={beast.imagePath}
           alt={beast.name}
           width={400}
           height={400}
-          className="h-full w-full object-contain p-2 transition-transform duration-300 group-hover:scale-[1.02]"
+          className="h-full w-full object-cover object-top transition-transform duration-300 group-hover:scale-[1.02]"
           loading="lazy"
         />
       </div>

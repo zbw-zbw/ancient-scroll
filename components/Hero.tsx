@@ -52,14 +52,14 @@ export default function Hero() {
         className="pointer-events-none absolute top-1/4 -left-32 h-96 w-96 rounded-full ink-wash"
         style={{
           background:
-            "radial-gradient(circle, rgba(26,26,46,0.08) 0%, rgba(26,26,46,0.03) 40%, transparent 70%)",
+            "radial-gradient(circle, rgba(26,26,46,0.05) 0%, rgba(26,26,46,0.02) 40%, transparent 70%)",
         }}
       />
       <div
         className="pointer-events-none absolute bottom-1/4 -right-40 h-[28rem] w-[28rem] rounded-full ink-wash"
         style={{
           background:
-            "radial-gradient(circle, rgba(26,26,46,0.06) 0%, rgba(26,26,46,0.02) 40%, transparent 70%)",
+            "radial-gradient(circle, rgba(26,26,46,0.04) 0%, rgba(26,26,46,0.015) 40%, transparent 70%)",
           animationDelay: "2s",
         }}
       />
@@ -117,9 +117,16 @@ export default function Hero() {
         src="/images/hero-decoration.png"
         alt=""
         width={1200}
-        height={300}
-        className="pointer-events-none absolute bottom-0 left-0 right-0 w-full object-contain opacity-20 md:opacity-25"
-        loading="lazy"
+        height={400}
+        className="pointer-events-none absolute bottom-0 left-0 right-0 w-full opacity-20 md:opacity-25"
+        style={{
+          height: 'auto',
+          maxHeight: '250px',
+          objectFit: 'contain',
+          objectPosition: 'bottom center',
+        }}
+        loading="eager"
+        unoptimized
       />
     </section>
   );
