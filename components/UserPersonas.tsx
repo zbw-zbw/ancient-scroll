@@ -90,7 +90,7 @@ function CornerMark() {
 
 export default function UserPersonas() {
   return (
-    <section className="fade-in relative w-full border-t border-ink/[0.06] py-16 md:py-24">
+    <section className="fade-in relative w-full py-16 md:py-24">
       <div className="relative mx-auto max-w-[1100px] px-6">
         {/* Section title */}
         <div className="relative mb-12 md:mb-16">

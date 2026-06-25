@@ -1,6 +1,6 @@
 export default function Footer() {
   return (
-    <footer className="relative w-full border-t border-ink/[0.06] py-16 md:py-24">
+    <footer className="relative w-full py-16 md:py-24">
       <div className="relative mx-auto max-w-[1100px] px-6 text-center">
         <h2 className="font-calligraphy mx-auto max-w-3xl text-3xl leading-tight text-ink md:text-[3rem]">
           为最古老的文字

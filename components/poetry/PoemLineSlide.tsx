@@ -32,6 +32,20 @@ export default function PoemLineSlide({ line, active, coverImage }: PoemLineSlid
         />
       )}
 
+      {/* Scene image for this line */}
+      {line.sceneImage && (
+        <Image
+          src={line.sceneImage}
+          alt=""
+          fill
+          className="absolute inset-0 object-cover opacity-25 mix-blend-soft-light"
+          loading="lazy"
+        />
+      )}
+
+      {/* Gradient overlay for text readability */}
+      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/20" />
+
       <Particles type={line.particleType} />
 
       <div className="relative z-10 mx-auto w-full max-w-3xl px-6 text-center">

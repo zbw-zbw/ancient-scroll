@@ -15,6 +15,7 @@ export interface Chapter {
   id: string;
   name: string;
   subtitle: string;
+  introduction: string;
   sentences: Sentence[];
 }
 
@@ -23,6 +24,8 @@ export const chapters: Chapter[] = [
     id: "nanshan",
     name: "南山经",
     subtitle: "南方群山的奇异世界",
+    introduction:
+      "《南山经》记录了南方群山的地理面貌与奇珍异兽。从鹊山到箕尾山，共四十座山，绵延一万六千三百八十里。山中草木皆有神效，异兽出没其间，是山海经中最具生物多样性的篇章。",
     sentences: [
       {
         id: "nanshan-1",
@@ -76,12 +79,46 @@ export const chapters: Chapter[] = [
           { char: "瘕", pinyin: "jiǎ", meaning: "腹中结块的疾病" },
         ],
       },
+      {
+        id: "nanshan-6",
+        original:
+          "有鱼焉，其状如牛，陵居，蛇尾有翼，其羽在魼下，其音如留牛，其名曰鯥，冬死而夏生，食之无肿疾。",
+        translation:
+          "水中有一种鱼，形状像牛，栖息在岸边，蛇一样的尾巴上长着翅膀，翅膀长在腋下，叫声像犁牛，名叫鯥鱼，冬天蛰伏夏天复苏，吃了它的肉不会生肿毒之病。",
+        difficultChars: [
+          { char: "魼", pinyin: "qū", meaning: "腋下" },
+          { char: "鯥", pinyin: "lù", meaning: "一种神异的鱼" },
+        ],
+      },
+      {
+        id: "nanshan-7",
+        original: "又东三百里，曰堂庭之山，多棪木，多白猿，多水玉，多黄金。",
+        translation:
+          "再往东三百里，有座堂庭山，山上长满了棪树，有许多白色的猿猴，还盛产水晶和黄金。",
+        difficultChars: [
+          { char: "棪", pinyin: "yǎn", meaning: "一种高大的树" },
+          { char: "水玉", pinyin: "shuǐ yù", meaning: "水晶" },
+        ],
+      },
+      {
+        id: "nanshan-8",
+        original:
+          "又东三百八十里，曰猨翼之山，其中多怪兽，水多怪鱼，多白玉，多蝮虫，多怪蛇，多怪木，不可以上。",
+        translation:
+          "再往东三百八十里，有座猨翼山，山中有很多怪兽，水中多怪鱼，盛产白玉，到处是蝮蛇和奇怪的蛇类，还有奇特的树木，人无法攀登。",
+        difficultChars: [
+          { char: "猨", pinyin: "yuán", meaning: "同\"猿\"" },
+          { char: "蝮", pinyin: "fù", meaning: "蝮蛇，一种毒蛇" },
+        ],
+      },
     ],
   },
   {
     id: "xishan",
     name: "西山经",
     subtitle: "西方山岳的神异传说",
+    introduction:
+      "《西山经》描绘了西方山岳的壮丽景观。这里有能润泽皮肤的羬羊，有声如歌谣的鹿蜀，有五彩祥瑞的鸾鸟。西山多金玉矿藏，河流纵横，是上古先民眼中的富饶之地。",
     sentences: [
       {
         id: "xishan-1",
@@ -124,12 +161,33 @@ export const chapters: Chapter[] = [
           { char: "宜", pinyin: "yí", meaning: "有利于" },
         ],
       },
+      {
+        id: "xishan-5",
+        original: "又西百八十里，曰黄山，无草木，多竹箭。盼水出焉，西流注于赤水，其中多玉。",
+        translation:
+          "再往西一百八十里，有座黄山，山上不长草木，遍布箭竹。盼水从这里发源，向西流入赤水，水中盛产美玉。",
+        difficultChars: [
+          { char: "竹箭", pinyin: "zhú jiàn", meaning: "一种细竹，可制箭杆" },
+        ],
+      },
+      {
+        id: "xishan-6",
+        original: "又西三百二十里，曰嶓冢之山，汉水出焉，而东南流注于沔。",
+        translation:
+          "再往西三百二十里，有座嶓冢山，汉水从这座山发源，向东南方流入沔水。",
+        difficultChars: [
+          { char: "嶓", pinyin: "bō", meaning: "山名" },
+          { char: "沔", pinyin: "miǎn", meaning: "古水名" },
+        ],
+      },
     ],
   },
   {
     id: "beishan",
     name: "北山经",
     subtitle: "精卫填海的悲壮传说",
+    introduction:
+      "《北山经》最著名的篇章是精卫填海的故事。炎帝之女女娃溺于东海，化为精卫鸟，日夜衔木石以填沧海。这份不屈的执着，成为中华民族精神的永恒象征。",
     sentences: [
       {
         id: "beishan-1",
@@ -163,12 +221,33 @@ export const chapters: Chapter[] = [
           { char: "堙", pinyin: "yīn", meaning: "填塞、堵塞" },
         ],
       },
+      {
+        id: "beishan-4",
+        original:
+          "又北二百里，曰少咸之山。无草木，多青碧。有兽焉，其状如牛，而四角、人目、彘耳，其名曰诸怀。",
+        translation:
+          "再往北两百里，有座少咸山。山上不长草木，盛产青碧色的美石。山中有一种兽，形状像牛，长着四只角、人一样的眼睛和猪一样的耳朵，名叫诸怀。",
+        difficultChars: [
+          { char: "彘", pinyin: "zhì", meaning: "猪" },
+        ],
+      },
+      {
+        id: "beishan-5",
+        original: "又北三百里，曰太行之山。有草焉，其状如莽草而赤华，名曰鬼草。",
+        translation:
+          "再往北三百里，是太行山。山上有一种草，形状像莽草但开着红色的花，名叫鬼草。",
+        difficultChars: [
+          { char: "莽", pinyin: "mǎng", meaning: "一种有毒的草" },
+        ],
+      },
     ],
   },
   {
     id: "dongshan",
     name: "东山经",
     subtitle: "东方群山的奇兽异禽",
+    introduction:
+      "《东山经》记录了东方群山中的奇兽异禽。六足的从从、鼠毛的𪃟鼠鸟、能预示旱涝的异兽——东方的山川在先民笔下充满了神秘的自然密码。",
     sentences: [
       {
         id: "dongshan-1",
@@ -200,12 +279,24 @@ export const chapters: Chapter[] = [
           { char: "旱", pinyin: "hàn", meaning: "干旱" },
         ],
       },
+      {
+        id: "dongshan-4",
+        original:
+          "又南三百里，曰勃垒之山。有鸟焉，其状如鹊，白身、赤尾、六足，其名曰𪈛，善惊，其鸣自詨。",
+        translation:
+          "再往南三百里，有座勃垒山。山中有一种鸟，形状像喜鹊，白色身体、红色尾巴、六只脚，名叫𪈛鸟，很容易受惊，叫声如同呼唤自己的名字。",
+        difficultChars: [
+          { char: "𪈛", pinyin: "bì", meaning: "一种六足鸟" },
+        ],
+      },
     ],
   },
   {
     id: "hainei",
     name: "海内经",
     subtitle: "天地之间的创世传说",
+    introduction:
+      "《海内经》讲述的是天地间最宏大的创世神话。烛龙人面蛇身，睁眼为昼、闭眼为夜；九头相柳所经之处化为沼泽。这些神话构成了中国最古老的宇宙观。",
     sentences: [
       {
         id: "hainei-1",
@@ -235,6 +326,17 @@ export const chapters: Chapter[] = [
           "在南海之中，黑水和青水之间，有一种树叫若木，若水就从这里发源。",
         difficultChars: [
           { char: "若木", pinyin: "ruò mù", meaning: "神话中生长在日落处的神树" },
+        ],
+      },
+      {
+        id: "hainei-4",
+        original:
+          "有人曰苗民，有神焉，人面蛇身，长如辕，左右有首，衣紫衣，冠旃冠，名曰延维。",
+        translation:
+          "有一种人叫苗民。他们那里有位神灵，人面蛇身，身长如车辕，左右两端各有一个头，穿着紫色的衣服，戴着旃帽，名叫延维。",
+        difficultChars: [
+          { char: "辕", pinyin: "yuán", meaning: "车前的横木" },
+          { char: "旃", pinyin: "zhān", meaning: "一种赤色旗帜，此处指帽子" },
         ],
       },
     ],

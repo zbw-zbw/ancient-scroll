@@ -58,7 +58,9 @@ export default function CharacterCard({
 
         {/* CTA */}
         <span className="inline-flex items-center gap-1 font-serif text-sm text-cinnabar transition-all group-hover:gap-2">
-          开始对话 <span>→</span>
+          {typeof window !== 'undefined' && localStorage.getItem(`ancient-scroll-chat-history-${character.id}`)
+            ? '继续对话'
+            : '开始对话'} <span>→</span>
         </span>
       </div>
     </button>
