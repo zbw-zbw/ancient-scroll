@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import type { Poem } from "@/data/poems";
 
 interface PoemCardProps {
@@ -33,6 +34,18 @@ export default function PoemCard({ poem, onSelect }: PoemCardProps) {
         className="h-1 w-full"
         style={{ backgroundColor: poem.theme }}
       />
+
+      {/* Cover image */}
+      <div className="relative h-[140px] overflow-hidden rounded-t-lg">
+        <Image
+          src={poem.coverImage}
+          alt={poem.title}
+          fill
+          className="object-cover opacity-80"
+          loading="lazy"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-surface to-transparent" />
+      </div>
 
       <div className="flex flex-1 flex-col p-5">
         <h3 className="font-calligraphy text-2xl text-ink">{poem.title}</h3>

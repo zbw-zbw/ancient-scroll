@@ -1,11 +1,13 @@
 "use client";
 
+import Image from "next/image";
 import StreamingCursor from "./StreamingCursor";
 
 interface ChatBubbleProps {
   role: "user" | "assistant";
   content: string;
-  characterEmoji?: string;
+  characterAvatarPath?: string;
+  characterName?: string;
   characterColor?: string;
   isStreaming?: boolean;
   isThinking?: boolean;
@@ -14,7 +16,8 @@ interface ChatBubbleProps {
 export default function ChatBubble({
   role,
   content,
-  characterEmoji,
+  characterAvatarPath,
+  characterName,
   characterColor,
   isStreaming,
   isThinking,
@@ -50,8 +53,21 @@ export default function ChatBubble({
             </svg>
           </div>
         ) : (
-          <div className="emoji flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-surface text-base shadow-sm md:h-10 md:w-10 md:text-lg">
-            {characterEmoji}
+          <div className="h-8 w-8 flex-shrink-0 overflow-hidden rounded-full border border-rule/30 bg-surface shadow-sm">
+            {characterAvatarPath ? (
+              <Image
+                src={characterAvatarPath}
+                alt={characterName || "AI"}
+                width={32}
+                height={32}
+                className="h-full w-full object-cover"
+                loading="lazy"
+              />
+            ) : (
+              <div className="flex h-full w-full items-center justify-center text-base">
+                🤖
+              </div>
+            )}
           </div>
         )}
 

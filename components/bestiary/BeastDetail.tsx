@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useEffect } from "react";
 import { createPortal } from "react-dom";
 import type { Beast } from "@/data/beasts";
@@ -57,19 +58,19 @@ export default function BeastDetail({
         aria-modal="true"
         aria-label={`${beast.name}详情`}
       >
-        {/* Top gradient banner */}
+        {/* Top image banner */}
         <div
-          className="relative flex h-[200px] flex-shrink-0 items-center justify-center"
-          style={{
-            background: `linear-gradient(135deg, ${beast.gradient[0]}, ${beast.gradient[1]})`,
-          }}
+          className="relative flex h-[200px] flex-shrink-0 items-center justify-center overflow-hidden"
+          style={{ backgroundColor: beast.gradient[0] }}
         >
-          <span
-            className="emoji text-8xl drop-shadow-xl"
-            style={{ textShadow: "0 6px 30px rgba(0,0,0,0.25)" }}
-          >
-            {beast.emoji}
-          </span>
+          <Image
+            src={beast.imagePath}
+            alt={beast.name}
+            fill
+            className="object-cover"
+            loading="lazy"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-xuan/80 to-transparent" />
 
           <button
             onClick={onClose}

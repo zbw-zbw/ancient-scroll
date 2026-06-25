@@ -1,5 +1,7 @@
 "use client";
 
+import Image from "next/image";
+
 const fallingChars = [
   { char: "山", left: "8%", delay: "0s", duration: "14s", size: "2.5rem" },
   { char: "海", left: "22%", delay: "2s", duration: "18s", size: "2rem" },
@@ -109,6 +111,16 @@ export default function Hero() {
           <span className="text-lg text-cinnabar">▼</span>
         </div>
       </div>
+
+      {/* Bottom decoration */}
+      <Image
+        src="/images/hero-decoration.png"
+        alt=""
+        width={1200}
+        height={200}
+        className="pointer-events-none absolute bottom-0 left-0 right-0 h-48 w-full object-cover opacity-10 md:opacity-15"
+        loading="lazy"
+      />
     </section>
   );
 }

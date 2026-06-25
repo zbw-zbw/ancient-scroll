@@ -52,7 +52,8 @@ export default function ChatMessages({
             key={index}
             role={message.role}
             content={message.content}
-            characterEmoji={character.emoji}
+            characterAvatarPath={character.avatarPath}
+            characterName={character.name}
             characterColor={character.color}
           />
         ))}
@@ -61,7 +62,8 @@ export default function ChatMessages({
           <ChatBubble
             role="assistant"
             content={streamingContent}
-            characterEmoji={character.emoji}
+            characterAvatarPath={character.avatarPath}
+            characterName={character.name}
             characterColor={character.color}
             isStreaming={true}
             isThinking={streamingContent === ""}
