@@ -71,9 +71,12 @@ export default function ChatMessages({
           />
         )}
 
-        {showSuggestions && !isStreaming && messages.length <= 1 && (
+        {/* Suggested questions - always visible, filter out already asked */}
+        {showSuggestions && !isStreaming && (
           <SuggestedQuestions
-            questions={character.sampleQuestions}
+            questions={character.sampleQuestions.filter(
+              (q) => !messages.some((m) => m.role === "user" && m.content === q)
+            )}
             onSelect={onSelectQuestion}
             characterColor={character.color}
           />

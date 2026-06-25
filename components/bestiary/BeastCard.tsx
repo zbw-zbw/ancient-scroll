@@ -40,17 +40,17 @@ export default function BeastCard({
       style={{ animationDelay: `${index * 0.1}s` }}
       aria-label={`查看${beast.name}详情`}
     >
-      {/* Image area */}
+      {/* Image area - use contain to show full image */}
       <div
-        className="relative h-[200px] overflow-hidden rounded-t-xl"
-        style={{ backgroundColor: beast.gradient[0] + '15' }}
+        className="relative flex h-[260px] items-center justify-center overflow-hidden rounded-t-xl"
+        style={{ backgroundColor: beast.gradient[0] + '10' }}
       >
         <Image
           src={beast.imagePath}
           alt={beast.name}
           width={400}
           height={400}
-          className="h-full w-full object-cover object-top transition-transform duration-300 group-hover:scale-[1.02]"
+          className="h-full w-full object-contain p-3 transition-transform duration-300 group-hover:scale-[1.02]"
           loading="lazy"
         />
       </div>

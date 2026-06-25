@@ -112,16 +112,16 @@ export default function Hero() {
         </div>
       </div>
 
-      {/* Bottom decoration */}
+      {/* Bottom decoration - mobile only */}
       <Image
         src="/images/hero-decoration.png"
         alt=""
         width={1200}
         height={400}
-        className="pointer-events-none absolute bottom-0 left-0 right-0 w-full opacity-20 md:opacity-25"
+        className="pointer-events-none absolute bottom-0 left-0 right-0 w-full opacity-20 md:hidden"
         style={{
           height: 'auto',
-          maxHeight: '250px',
+          maxHeight: '200px',
           objectFit: 'contain',
           objectPosition: 'bottom center',
         }}

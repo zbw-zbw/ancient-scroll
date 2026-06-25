@@ -35,16 +35,25 @@ export default function PoemCard({ poem, onSelect }: PoemCardProps) {
         style={{ backgroundColor: poem.theme }}
       />
 
-      {/* Cover image */}
-      <div className="relative h-[140px] overflow-hidden rounded-t-lg">
-        <Image
-          src={poem.coverImage}
-          alt={poem.title}
-          fill
-          className="object-cover opacity-80"
-          loading="lazy"
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-surface to-transparent" />
+      {/* Cover image - fallback to gradient if no image */}
+      <div className="relative h-[140px] overflow-hidden rounded-t-lg" style={{ background: poem.coverImage ? undefined : `linear-gradient(135deg, ${poem.theme}40, ${poem.theme}15)` }}>
+        {poem.coverImage && (
+          <>
+            <Image
+              src={poem.coverImage}
+              alt={poem.title}
+              fill
+              className="object-cover opacity-80"
+              loading="lazy"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-surface to-transparent" />
+          </>
+        )}
+        {!poem.coverImage && (
+          <div className="flex h-full items-center justify-center">
+            <span className="font-calligraphy text-5xl text-ink/10">{poem.title[0]}</span>
+          </div>
+        )}
       </div>
 
       <div className="flex flex-1 flex-col p-5">
