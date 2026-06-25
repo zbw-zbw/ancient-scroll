@@ -148,9 +148,16 @@ export default function BeastDetail({
                 : "bg-cinnabar text-white shadow-md hover:bg-cinnabar/90"
             }`}
           >
-            <span className="mr-1">{collected ? "♥" : "♡"}</span>
+            <span className={`mr-1 inline-block ${collected ? "animate-heart-beat" : ""}`}>
+              {collected ? "♥" : "♡"}
+            </span>
             {collected ? "已收入图鉴" : "收入图鉴"}
           </button>
+          <p className="mt-2 text-center font-serif text-xs text-muted">
+            {collected
+              ? "♥ 已收入图鉴 — 收集所有异兽解锁成就"
+              : "♡ 收入图鉴 — 收集所有异兽解锁成就"}
+          </p>
         </div>
       </div>
     </div>

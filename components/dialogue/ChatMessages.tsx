@@ -49,7 +49,7 @@ export default function ChatMessages({
       <div className="mx-auto max-w-[900px] space-y-5 px-4 py-6 md:space-y-6 md:px-6 md:py-8">
         {messages.map((message, index) => (
           <ChatBubble
-            key={index}
+            key={`msg-${index}-${message.role}`}
             role={message.role}
             content={message.content}
             characterAvatarPath={character.avatarPath}

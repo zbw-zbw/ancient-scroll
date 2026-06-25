@@ -42,18 +42,16 @@ export default function BeastCard({
     >
       {/* Image area */}
       <div
-        className="relative h-[180px] overflow-hidden rounded-t-xl"
-        style={{ backgroundColor: beast.gradient[0] }}
+        className="relative h-[200px] overflow-hidden rounded-t-xl bg-xuan-dark/30"
       >
         <Image
           src={beast.imagePath}
           alt={beast.name}
           width={400}
           height={400}
-          className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+          className="h-full w-full object-contain p-2 transition-transform duration-300 group-hover:scale-[1.02]"
           loading="lazy"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
       </div>
 
       {/* Content */}
@@ -79,11 +77,15 @@ export default function BeastCard({
             }}
             className={`inline-flex items-center gap-1 rounded-full px-3 py-1.5 font-serif text-xs transition-all active:scale-95 ${
               collected
-                ? "bg-cinnabar/10 text-cinnabar"
-                : "bg-ink/5 text-light-ink hover:bg-ink/10"
+                ? "bg-cinnabar/10 text-cinnabar opacity-100"
+                : "bg-ink/5 text-light-ink opacity-0 hover:bg-ink/10 group-hover:opacity-100"
             }`}
           >
-            <span className="transition-transform duration-200">
+            <span
+              className={`transition-transform duration-200 ${
+                collected ? "animate-heart-beat" : ""
+              }`}
+            >
               {collected ? "♥" : "♡"}
             </span>
             {collected ? "已收藏" : "收藏"}

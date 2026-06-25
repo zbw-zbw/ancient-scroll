@@ -117,8 +117,8 @@ export default function Hero() {
         src="/images/hero-decoration.png"
         alt=""
         width={1200}
-        height={200}
-        className="pointer-events-none absolute bottom-0 left-0 right-0 h-48 w-full object-cover opacity-10 md:opacity-15"
+        height={300}
+        className="pointer-events-none absolute bottom-0 left-0 right-0 w-full object-contain opacity-20 md:opacity-25"
         loading="lazy"
       />
     </section>

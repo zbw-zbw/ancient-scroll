@@ -7,7 +7,7 @@ const stats = [
 
 export default function DataStats() {
   return (
-    <section className="fade-in relative w-full border-t border-ink/[0.06] py-16 md:py-24">
+    <section className="fade-in relative w-full py-16 md:py-24">
       <div className="relative mx-auto max-w-[1100px] px-6">
         <div className="relative overflow-hidden rounded-2xl bg-ink px-6 py-12 md:px-12 md:py-16">
           <div className="grid grid-cols-2 gap-8 md:grid-cols-4">

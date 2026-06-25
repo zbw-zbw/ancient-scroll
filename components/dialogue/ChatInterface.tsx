@@ -17,17 +17,43 @@ interface ChatInterfaceProps {
   onBack: () => void;
 }
 
+const STORAGE_KEY = 'ancient-scroll-chat-history';
+
+const loadHistory = (characterId: string): Message[] => {
+  if (typeof window === 'undefined') return [];
+  try {
+    const stored = localStorage.getItem(`${STORAGE_KEY}-${characterId}`);
+    if (stored) return JSON.parse(stored);
+  } catch {}
+  return [];
+};
+
+const saveHistory = (characterId: string, messages: Message[]) => {
+  try {
+    localStorage.setItem(`${STORAGE_KEY}-${characterId}`, JSON.stringify(messages.slice(-50)));
+  } catch {}
+};
+
 export default function ChatInterface({
   character,
   onBack,
 }: ChatInterfaceProps) {
-  const [messages, setMessages] = useState<Message[]>([
-    { role: "assistant", content: character.greeting },
-  ]);
+  const [messages, setMessages] = useState<Message[]>(() => {
+    const history = loadHistory(character.id);
+    if (history.length > 0) return history;
+    return [{ role: "assistant", content: character.greeting }];
+  });
   const [inputValue, setInputValue] = useState("");
   const [streamingContent, setStreamingContent] = useState("");
   const [showSuggestions, setShowSuggestions] = useState(true);
   const { isStreaming, startStreaming } = useStreamingResponse();
+
+  // Persist messages to localStorage
+  useEffect(() => {
+    if (messages.length > 1) {
+      saveHistory(character.id, messages);
+    }
+  }, [messages, character.id]);
 
   const handleSend = useCallback(
     async (content: string) => {
@@ -82,10 +108,11 @@ export default function ChatInterface({
 
   const handleClear = useCallback(() => {
     setMessages([{ role: "assistant", content: character.greeting }]);
+    localStorage.removeItem(`${STORAGE_KEY}-${character.id}`);
     setStreamingContent("");
     setShowSuggestions(true);
     setInputValue("");
-  }, [character.greeting]);
+  }, [character.greeting, character.id]);
 
   // Scroll messages to bottom when mobile keyboard opens/closes
   useEffect(() => {

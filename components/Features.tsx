@@ -183,7 +183,7 @@ const features = [
 
 export default function Features() {
   return (
-    <section className="relative w-full border-t border-ink/[0.06] py-16 md:py-24">
+    <section className="relative w-full py-16 md:py-24">
       <div className="relative mx-auto max-w-[1100px] px-6 space-y-20 md:space-y-28">
         {features.map((feature, index) => {
           const isOdd = index % 2 === 0;

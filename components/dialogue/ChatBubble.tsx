@@ -61,7 +61,8 @@ export default function ChatBubble({
                 width={32}
                 height={32}
                 className="h-full w-full object-cover"
-                loading="lazy"
+                priority
+                unoptimized
               />
             ) : (
               <div className="flex h-full w-full items-center justify-center text-base">

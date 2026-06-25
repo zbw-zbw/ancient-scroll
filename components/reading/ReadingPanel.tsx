@@ -55,6 +55,15 @@ export default function ReadingPanel({
             </span>
           </header>
 
+          {/* Introduction */}
+          {chapter.introduction && (
+            <blockquote className="mb-6 rounded-lg border-l-4 border-cinnabar/50 bg-cinnabar/[0.04] px-4 py-3 md:mb-8 md:px-5 md:py-4">
+              <p className="font-serif text-sm italic leading-relaxed text-light-ink">
+                {chapter.introduction}
+              </p>
+            </blockquote>
+          )}
+
           {/* Controls */}
           <div className="mb-6 md:mb-8">
             <ReadingControls
@@ -66,7 +75,7 @@ export default function ReadingPanel({
           </div>
 
           {/* Sentences */}
-          <div className="flex flex-col gap-6">
+          <div className="flex flex-col gap-4">
             {chapter.sentences.map((sentence, idx) => (
               <SentenceCard
                 key={sentence.id}
