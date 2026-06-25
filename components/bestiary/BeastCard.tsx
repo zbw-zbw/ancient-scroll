@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import type { Beast } from "@/data/beasts";
 import { categoryLabels } from "@/data/beasts";
 
@@ -39,19 +40,20 @@ export default function BeastCard({
       style={{ animationDelay: `${index * 0.1}s` }}
       aria-label={`查看${beast.name}详情`}
     >
-      {/* Gradient image area */}
+      {/* Image area */}
       <div
-        className="relative m-3 flex h-[180px] items-center justify-center overflow-hidden rounded-lg transition-transform duration-300 group-hover:scale-[1.02]"
-        style={{
-          background: `linear-gradient(135deg, ${beast.gradient[0]}, ${beast.gradient[1]})`,
-        }}
+        className="relative h-[180px] overflow-hidden rounded-t-xl"
+        style={{ backgroundColor: beast.gradient[0] }}
       >
-        <span
-          className="emoji text-6xl drop-shadow-lg transition-transform duration-300 group-hover:scale-110"
-          style={{ textShadow: "0 4px 20px rgba(0,0,0,0.2)" }}
-        >
-          {beast.emoji}
-        </span>
+        <Image
+          src={beast.imagePath}
+          alt={beast.name}
+          width={400}
+          height={400}
+          className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+          loading="lazy"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
       </div>
 
       {/* Content */}

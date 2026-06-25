@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import type { Poem } from "@/data/poems";
 
 interface CoverSlideProps {
@@ -17,6 +18,15 @@ export default function CoverSlide({ poem, active }: CoverSlideProps) {
         background: `linear-gradient(135deg, ${firstLine?.gradientFrom ?? "#fef3c7"}, ${firstLine?.gradientTo ?? "#fde68a"})`,
       }}
     >
+      <Image
+        src={poem.coverImage}
+        alt=""
+        fill
+        className="object-cover opacity-30"
+        loading="lazy"
+      />
+      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-ink/40 to-ink/70" />
+
       <div
         className={`relative z-10 mx-auto max-w-2xl px-6 text-center transition-all duration-1000 ${
           active ? "translate-y-0 opacity-100" : "translate-y-12 opacity-0"

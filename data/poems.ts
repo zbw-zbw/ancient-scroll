@@ -24,6 +24,7 @@ export interface Poem {
   dynasty: string;
   lines: PoemLine[];
   theme: string;
+  coverImage: string;
   description: string;
 }
 
@@ -34,6 +35,7 @@ export const poems: Poem[] = [
     author: "孟浩然",
     dynasty: "唐",
     theme: "#f59e0b",
+    coverImage: "/images/poetry/chunxiao.png",
     description: "一首关于春日清晨的恬淡小诗",
     lines: [
       {
@@ -84,6 +86,7 @@ export const poems: Poem[] = [
     author: "李白",
     dynasty: "唐",
     theme: "#6366f1",
+    coverImage: "/images/poetry/jingyesi.png",
     description: "千古思乡第一诗",
     lines: [
       {
@@ -134,6 +137,7 @@ export const poems: Poem[] = [
     author: "王之涣",
     dynasty: "唐",
     theme: "#ea580c",
+    coverImage: "/images/poetry/dengguan.png",
     description: "壮阔山河中的人生哲理",
     lines: [
       {
@@ -181,6 +185,7 @@ export const poems: Poem[] = [
     author: "李白",
     dynasty: "唐",
     theme: "#0ea5e9",
+    coverImage: "/images/poetry/lushan.png",
     description: "飞流直下的磅礴气势",
     lines: [
       {
@@ -229,6 +234,7 @@ export const poems: Poem[] = [
     author: "柳宗元",
     dynasty: "唐",
     theme: "#64748b",
+    coverImage: "/images/poetry/jiangxue.png",
     description: "天地间最孤独的一幅画",
     lines: [
       {
@@ -279,6 +285,7 @@ export const poems: Poem[] = [
     author: "张继",
     dynasty: "唐",
     theme: "#b45309",
+    coverImage: "/images/poetry/fengqiao.png",
     description: "秋夜江南的千古愁思",
     lines: [
       {

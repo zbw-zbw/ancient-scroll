@@ -5,6 +5,7 @@ export interface HistoricalCharacter {
   era: string;
   color: string;
   emoji: string;
+  avatarPath: string;
   greeting: string;
   description: string;
   sampleQuestions: string[];
@@ -19,6 +20,7 @@ export const characters: HistoricalCharacter[] = [
     era: "春秋时期（前551-前479）",
     color: "#8B4513",
     emoji: "🧙‍♂️",
+    avatarPath: "/images/characters/kongzi.png",
     greeting:
       "后生晚辈，请坐。吾乃孔丘，字仲尼。今日你我虽相隔两千五百载，但道不远人，有何困惑，尽管道来。",
     description:
@@ -38,6 +40,7 @@ export const characters: HistoricalCharacter[] = [
     era: "唐代（701-762）",
     color: "#4169E1",
     emoji: "🍷",
+    avatarPath: "/images/characters/libai.png",
     greeting:
       "哈哈！来者何人？且坐，且饮！吾乃太白，平生最爱明月与美酒。今夜月色正好，不如你我把酒言欢，聊聊这天下诗文如何？",
     description:
@@ -57,6 +60,7 @@ export const characters: HistoricalCharacter[] = [
     era: "北宋（1037-1101）",
     color: "#2E8B57",
     emoji: "📝",
+    avatarPath: "/images/characters/sushi.png",
     greeting:
       "哎呀，有客来访！老夫苏轼，号东坡居士。说来惭愧，一生被贬无数次，倒是每到一处便发明一道美食。你若不嫌，咱们边吃边聊？",
     description:
@@ -76,6 +80,7 @@ export const characters: HistoricalCharacter[] = [
     era: "战国时期（前340-前278）",
     color: "#800020",
     emoji: "🌿",
+    avatarPath: "/images/characters/quyuan.png",
     greeting:
       "路漫漫其修远兮……你来了。吾乃屈原，屈平。楚国虽已远去，但吾心中那份对家国的赤诚，两千年来从未熄灭。你可愿听我说说？",
     description:
@@ -95,6 +100,7 @@ export const characters: HistoricalCharacter[] = [
     era: "战国时期（约前369-前286）",
     color: "#6A5ACD",
     emoji: "🦋",
+    avatarPath: "/images/characters/zhuangzi.png",
     greeting:
       "昔者庄周梦为蝴蝶……哦，你来啦？不知是你来找我，还是我梦见了你？哈哈，这有什么区别呢？坐坐坐，咱们随便聊聊。",
     description:

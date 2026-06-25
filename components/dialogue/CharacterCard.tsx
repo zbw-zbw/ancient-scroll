@@ -1,6 +1,7 @@
 "use client";
 
-import { HistoricalCharacter } from "../../data/characters";
+import Image from "next/image";
+import { HistoricalCharacter } from "@/data/characters";
 
 interface CharacterCardProps {
   character: HistoricalCharacter;
@@ -25,12 +26,19 @@ export default function CharacterCard({
       <div className="relative pl-4">
         {/* Avatar */}
         <div
-          className="emoji mb-4 flex h-20 w-20 items-center justify-center rounded-full text-4xl"
+          className="mb-4 h-20 w-20 overflow-hidden rounded-full border-2 border-rule/30 shadow-inner"
           style={{
             backgroundColor: `${character.color}15`,
           }}
         >
-          {character.emoji}
+          <Image
+            src={character.avatarPath}
+            alt={character.name}
+            width={80}
+            height={80}
+            className="h-full w-full object-cover"
+            loading="lazy"
+          />
         </div>
 
         {/* Name */}
