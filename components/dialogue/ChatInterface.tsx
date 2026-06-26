@@ -3,6 +3,7 @@
 import { useState, useCallback, useEffect } from "react";
 import { HistoricalCharacter } from "../../data/characters";
 import { useStreamingResponse } from "../../hooks/useStreamingResponse";
+import { markDialogue } from "../../lib/progress";
 import ChatHeader from "./ChatHeader";
 import ChatMessages from "./ChatMessages";
 import ChatInput from "./ChatInput";
@@ -15,6 +16,7 @@ interface Message {
 interface ChatInterfaceProps {
   character: HistoricalCharacter;
   onBack: () => void;
+  prefilledAsk?: string;
 }
 
 const STORAGE_KEY = 'ancient-scroll-chat-history';
@@ -37,6 +39,7 @@ const saveHistory = (characterId: string, messages: Message[]) => {
 export default function ChatInterface({
   character,
   onBack,
+  prefilledAsk = "",
 }: ChatInterfaceProps) {
   const [messages, setMessages] = useState<Message[]>(() => {
     const history = loadHistory(character.id);
@@ -47,6 +50,12 @@ export default function ChatInterface({
   const [streamingContent, setStreamingContent] = useState("");
   const [showSuggestions, setShowSuggestions] = useState(true);
   const { isStreaming, startStreaming } = useStreamingResponse();
+
+  useEffect(() => {
+    if (prefilledAsk) {
+      setInputValue(prefilledAsk);
+    }
+  }, [prefilledAsk]);
 
   // Persist messages to localStorage
   useEffect(() => {
@@ -64,6 +73,7 @@ export default function ChatInterface({
       setMessages(updatedMessages);
       setInputValue("");
       setStreamingContent("");
+      markDialogue(character.id);
 
       await startStreaming(
         "/api/chat",

@@ -75,8 +75,8 @@ export default function BeastCard({
             }}
             className={`inline-flex items-center gap-1 rounded-full px-3 py-1.5 font-serif text-xs transition-all active:scale-95 ${
               collected
-                ? "bg-cinnabar/10 text-cinnabar opacity-100"
-                : "bg-ink/5 text-light-ink opacity-0 hover:bg-ink/10 group-hover:opacity-100"
+                ? "bg-cinnabar/10 text-cinnabar"
+                : "bg-ink/5 text-light-ink hover:bg-ink/10"
             }`}
           >
             <span

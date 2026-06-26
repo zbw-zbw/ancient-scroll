@@ -154,14 +154,14 @@ const features = [
   {
     number: "壹",
     title: "智能双语阅读",
-    desc: "AI逐句翻译古文，点击任意字词获得深度解读",
+    desc: "逐句翻译古文，点击任意字词获得深度解读",
     href: "/reading",
     mockup: <ReadingMockup />,
   },
   {
     number: "贰",
-    title: "AI异兽图鉴",
-    desc: "AI生成国风神兽插画，收集你的专属图鉴",
+    title: "异兽图鉴",
+    desc: "国风水墨神兽插画，收集你的专属图鉴",
     href: "/bestiary",
     mockup: <BestiaryMockup />,
   },

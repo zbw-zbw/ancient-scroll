@@ -2,6 +2,13 @@ import { NextResponse } from "next/server";
 import { aiClient } from "@/lib/ai";
 
 export async function POST(request: Request) {
+  if (!process.env.DEEPSEEK_API_KEY) {
+    return NextResponse.json(
+      { error: "异兽解读服务未配置，请检查 API 密钥" },
+      { status: 503 }
+    );
+  }
+
   try {
     const { name, originalText } = await request.json();
 

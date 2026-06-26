@@ -9,6 +9,7 @@ export interface Sentence {
   original: string;
   translation: string;
   difficultChars: DifficultChar[];
+  relatedBeastId?: string;
 }
 
 export interface Chapter {
@@ -68,6 +69,7 @@ export const chapters: Chapter[] = [
           { char: "伏", pinyin: "fú", meaning: "匍匐" },
           { char: "善", pinyin: "shàn", meaning: "擅长" },
         ],
+        relatedBeastId: "xingsheng",
       },
       {
         id: "nanshan-5",
@@ -119,6 +121,7 @@ export const chapters: Chapter[] = [
           { char: "雘", pinyin: "huò", meaning: "一种青色的矿石" },
           { char: "蛊", pinyin: "gǔ", meaning: "蛊毒，妖邪之害" },
         ],
+        relatedBeastId: "nine-tailed-fox",
       },
       {
         id: "nanshan-10",
@@ -225,6 +228,7 @@ export const chapters: Chapter[] = [
           { char: "羬", pinyin: "qián", meaning: "一种像羊的异兽" },
           { char: "腊", pinyin: "xī", meaning: "皮肤干裂" },
         ],
+        relatedBeastId: "qianyang",
       },
       {
         id: "xishan-2",
@@ -256,6 +260,7 @@ export const chapters: Chapter[] = [
           { char: "谣", pinyin: "yáo", meaning: "歌谣" },
           { char: "宜", pinyin: "yí", meaning: "有利于" },
         ],
+        relatedBeastId: "lusu",
       },
       {
         id: "xishan-5",
@@ -338,6 +343,7 @@ export const chapters: Chapter[] = [
           { char: "鹑", pinyin: "chún", meaning: "鹌鹑" },
           { char: "疠", pinyin: "lì", meaning: "瘟疫、恶疾" },
         ],
+        relatedBeastId: "feiyi-bird",
       },
       {
         id: "xishan-13",
@@ -394,6 +400,7 @@ export const chapters: Chapter[] = [
           { char: "喙", pinyin: "huì", meaning: "鸟嘴" },
           { char: "詨", pinyin: "xiào", meaning: "呼叫" },
         ],
+        relatedBeastId: "jingwei",
       },
       {
         id: "beishan-2",
@@ -504,6 +511,7 @@ export const chapters: Chapter[] = [
           { char: "犍", pinyin: "jiān", meaning: "诸犍，兽名" },
           { char: "咤", pinyin: "zhà", meaning: "怒叱、怒吼" },
         ],
+        relatedBeastId: "zhujian",
       },
       {
         id: "beishan-13",
@@ -553,6 +561,7 @@ export const chapters: Chapter[] = [
           { char: "樕", pinyin: "sù", meaning: "一种矮小的树" },
           { char: "彘", pinyin: "zhì", meaning: "猪" },
         ],
+        relatedBeastId: "yongyong-fish",
       },
       {
         id: "dongshan-2",
@@ -563,6 +572,7 @@ export const chapters: Chapter[] = [
           { char: "栒", pinyin: "xún", meaning: "一种灌木" },
           { char: "青碧", pinyin: "qīng bì", meaning: "青绿色的美石" },
         ],
+        relatedBeastId: "congcong",
       },
       {
         id: "dongshan-3",
@@ -573,6 +583,7 @@ export const chapters: Chapter[] = [
           { char: "邑", pinyin: "yì", meaning: "城邑、地方" },
           { char: "旱", pinyin: "hàn", meaning: "干旱" },
         ],
+        relatedBeastId: "shushu-bird",
       },
       {
         id: "dongshan-4",
@@ -652,6 +663,7 @@ export const chapters: Chapter[] = [
           { char: "犰狳", pinyin: "qiú yú", meaning: "一种见人就装死的异兽" },
           { char: "鸱", pinyin: "chī", meaning: "鸱鸮，猫头鹰一类的鸟" },
         ],
+        relatedBeastId: "qiuyu",
       },
       {
         id: "dongshan-12",
@@ -683,6 +695,7 @@ export const chapters: Chapter[] = [
           { char: "瞑", pinyin: "míng", meaning: "闭眼" },
           { char: "晦", pinyin: "huì", meaning: "昏暗" },
         ],
+        relatedBeastId: "zhulong",
       },
       {
         id: "hainei-2",

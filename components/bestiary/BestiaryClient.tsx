@@ -1,21 +1,26 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { useSearchParams } from "next/navigation";
 import { beasts, type Beast, type BeastCategory } from "@/data/beasts";
 import BeastFilter from "@/components/bestiary/BeastFilter";
 import CollectionProgress from "@/components/bestiary/CollectionProgress";
 import BeastGrid from "@/components/bestiary/BeastGrid";
 import BeastDetail from "@/components/bestiary/BeastDetail";
+import AchievementModal from "@/components/bestiary/AchievementModal";
 
 const STORAGE_KEY = "ancient-scroll-collected-beasts";
 
 export default function BestiaryClient() {
+  const searchParams = useSearchParams();
   const [activeCategory, setActiveCategory] = useState<BeastCategory | "all">("all");
   const [search, setSearch] = useState("");
   const [collectedIds, setCollectedIds] = useState<string[]>([]);
   const [selectedBeast, setSelectedBeast] = useState<Beast | null>(null);
   const [customDescriptions, setCustomDescriptions] = useState<Record<string, string>>({});
   const [gridVisible, setGridVisible] = useState(true);
+  const [showAchievement, setShowAchievement] = useState(false);
+  const prevCountRef = useRef(0);
 
   useEffect(() => {
     try {
@@ -24,12 +29,31 @@ export default function BestiaryClient() {
         const parsed = JSON.parse(raw);
         if (Array.isArray(parsed)) {
           setCollectedIds(parsed);
+          prevCountRef.current = parsed.length;
         }
       }
     } catch (err) {
       console.error("Failed to load collected beasts:", err);
     }
   }, []);
+
+  useEffect(() => {
+    const beastId = searchParams.get("beast");
+    if (beastId) {
+      const beast = beasts.find((b) => b.id === beastId);
+      if (beast) setSelectedBeast(beast);
+    }
+  }, [searchParams]);
+
+  useEffect(() => {
+    if (
+      collectedIds.length === beasts.length &&
+      prevCountRef.current < beasts.length
+    ) {
+      setShowAchievement(true);
+    }
+    prevCountRef.current = collectedIds.length;
+  }, [collectedIds]);
 
   useEffect(() => {
     try {
@@ -95,13 +119,13 @@ export default function BestiaryClient() {
         <header className="mb-8 flex flex-col gap-4 md:mb-10 md:flex-row md:items-end md:justify-between">
           <div>
             <h1 className="font-calligraphy text-4xl text-ink md:text-5xl">
-              AI 异兽图鉴
+              异兽图鉴
             </h1>
             <p className="mt-2 font-serif text-base text-muted md:text-lg">
               《山海经》神兽大全 · 收集你的专属图鉴
             </p>
           </div>
-          <CollectionProgress collected={collectedIds.length} total={beasts.length} />
+          <CollectionProgress />
         </header>
 
         <div className="mb-8 md:mb-10">
@@ -130,10 +154,16 @@ export default function BestiaryClient() {
       <BeastDetail
         beast={selectedBeast}
         collected={selectedBeast ? collectedIds.includes(selectedBeast.id) : false}
+        collectedCount={collectedIds.length}
         currentDescription={currentDescription}
         onClose={handleCloseDetail}
         onToggleCollect={handleToggleCollect}
         onDescription={handleDescription}
+      />
+
+      <AchievementModal
+        open={showAchievement}
+        onClose={() => setShowAchievement(false)}
       />
     </main>
   );
