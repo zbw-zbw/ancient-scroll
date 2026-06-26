@@ -25,13 +25,13 @@ const longCang = Long_Cang({
 });
 
 export const metadata: Metadata = {
-  title: "古籍焕新 - AI 驱动的古籍交互阅读平台",
+  title: "古籍焕新 - 交互式古籍阅读平台",
   description:
-    '让千年文字"活"起来。AI 双语阅读、异兽图鉴、诗境漫游、古今对话，以 TRAE 之力焕古籍之新。',
+    '让千年文字"活"起来。双语阅读、异兽图鉴、诗境漫游、古今对话，开启一场跨越时空的文化之旅。',
   openGraph: {
-    title: "古籍焕新 - AI 驱动的古籍交互阅读平台",
+    title: "古籍焕新 - 交互式古籍阅读平台",
     description:
-      '让千年文字"活"起来。AI 双语阅读、异兽图鉴、诗境漫游、古今对话。',
+      '让千年文字"活"起来。双语阅读、异兽图鉴、诗境漫游、古今对话。',
     type: "website",
   },
 };

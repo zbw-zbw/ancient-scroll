@@ -38,7 +38,7 @@ export default function PoemLineSlide({ line, active, coverImage }: PoemLineSlid
           src={line.sceneImage}
           alt=""
           fill
-          className="absolute inset-0 object-cover opacity-25 mix-blend-soft-light"
+          className="absolute inset-0 object-cover opacity-30"
           loading="lazy"
         />
       )}
@@ -48,7 +48,7 @@ export default function PoemLineSlide({ line, active, coverImage }: PoemLineSlid
 
       <Particles type={line.particleType} />
 
-      <div className="relative z-10 mx-auto w-full max-w-3xl px-6 text-center">
+      <div className="relative z-10 mx-auto w-full max-w-5xl px-4 text-center md:max-w-6xl md:px-6">
         {/* Poem line */}
         <h3
           className={`font-calligraphy transition-all duration-[1800ms] ease-[cubic-bezier(0.22,1,0.36,1)] ${

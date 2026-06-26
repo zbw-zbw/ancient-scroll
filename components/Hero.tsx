@@ -1,7 +1,5 @@
 "use client";
 
-import Image from "next/image";
-
 const fallingChars = [
   { char: "山", left: "8%", delay: "0s", duration: "14s", size: "2.5rem" },
   { char: "海", left: "22%", delay: "2s", duration: "18s", size: "2rem" },
@@ -82,14 +80,6 @@ export default function Hero() {
       ))}
 
       <div className="relative z-10 mx-auto flex max-w-[1100px] flex-col items-center text-center">
-        {/* Badge */}
-        <div className="mb-10 inline-flex items-center gap-2 rounded-full border border-cinnabar/40 bg-seal-bg/60 px-4 py-1.5">
-          <span className="h-2 w-2 rounded-full bg-cinnabar" />
-          <span className="font-serif text-xs tracking-widest text-cinnabar">
-            TRAE AI 创造力大赛 · 参赛作品
-          </span>
-        </div>
-
         {/* Main title */}
         <h1 className="mb-8 font-calligraphy text-7xl md:text-8xl text-ink tracking-wider animate-fade-in">
           古籍焕新
@@ -105,29 +95,7 @@ export default function Hero() {
           95%的人知道《山海经》，但不到5%的人读过原文
         </p>
 
-        {/* Scroll indicator */}
-        <div className="mt-14 flex flex-col items-center gap-1 animate-bounce-down">
-          <span className="font-serif text-xs text-muted">向下探索</span>
-          <span className="text-lg text-cinnabar">▼</span>
-        </div>
       </div>
-
-      {/* Bottom decoration - mobile only */}
-      <Image
-        src="/images/hero-decoration.png"
-        alt=""
-        width={1200}
-        height={400}
-        className="pointer-events-none absolute bottom-0 left-0 right-0 w-full opacity-20 md:hidden"
-        style={{
-          height: 'auto',
-          maxHeight: '200px',
-          objectFit: 'contain',
-          objectPosition: 'bottom center',
-        }}
-        loading="eager"
-        unoptimized
-      />
     </section>
   );
 }

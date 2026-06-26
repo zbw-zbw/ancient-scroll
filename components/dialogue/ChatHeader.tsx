@@ -11,8 +11,8 @@ interface ChatHeaderProps {
 
 export default function ChatHeader({ character, onBack, onClear }: ChatHeaderProps) {
   return (
-    <div className="flex items-center justify-between border-b border-rule/50 bg-xuan/95 px-4 py-3 md:px-6 md:py-4 backdrop-blur-md">
-      <div className="flex items-center gap-3">
+    <div className="flex items-center justify-between border-b border-rule/50 bg-xuan/95 px-3 py-3 md:px-6 md:py-4 backdrop-blur-md">
+      <div className="flex items-center gap-2 md:gap-3">
         <button
           onClick={onBack}
           className="flex h-8 w-8 items-center justify-center rounded-full transition-colors hover:bg-rule/30"
@@ -34,7 +34,7 @@ export default function ChatHeader({ character, onBack, onClear }: ChatHeaderPro
         </button>
 
         <div
-          className="h-8 w-8 overflow-hidden rounded-full border border-rule/30 md:h-10 md:w-10"
+          className="h-7 w-7 shrink-0 overflow-hidden rounded-full border border-rule/30 md:h-10 md:w-10"
           style={{ backgroundColor: `${character.color}15` }}
         >
           <Image
@@ -48,7 +48,7 @@ export default function ChatHeader({ character, onBack, onClear }: ChatHeaderPro
         </div>
 
         <div className="min-w-0">
-          <h2 className="font-calligraphy text-base text-ink md:text-lg truncate">
+          <h2 className="font-calligraphy text-sm text-ink md:text-lg truncate">
             {character.name}
           </h2>
           <p className="font-serif text-xs text-muted truncate">
@@ -59,7 +59,7 @@ export default function ChatHeader({ character, onBack, onClear }: ChatHeaderPro
 
       <button
         onClick={onClear}
-        className="cursor-pointer rounded-md px-2 py-1 font-serif text-xs text-muted transition-colors hover:bg-surface/60 hover:text-cinnabar md:text-sm"
+        className="shrink-0 cursor-pointer whitespace-nowrap rounded-md px-1.5 py-1 font-serif text-xs text-muted transition-colors hover:bg-surface/60 hover:text-cinnabar md:px-2 md:text-sm"
       >
         清空对话
       </button>

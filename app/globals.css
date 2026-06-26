@@ -191,16 +191,6 @@ footer {
   }
 }
 
-/* Bouncing down arrow */
-@keyframes bounce-down {
-  0%, 100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(10px);
-  }
-}
-
 /* Scroll reveal - visible by default, animated when JS is enabled */
 .fade-in {
   opacity: 0;
@@ -270,10 +260,6 @@ footer {
 
 .animate-fall-char {
   animation: fall-char linear infinite;
-}
-
-.animate-bounce-down {
-  animation: bounce-down 2s ease-in-out infinite;
 }
 
 /* Streaming cursor blink */
