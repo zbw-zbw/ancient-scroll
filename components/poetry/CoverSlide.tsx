@@ -51,14 +51,7 @@ export default function CoverSlide({ poem, active }: CoverSlideProps) {
           {poem.description}
         </p>
 
-        <div
-          className={`mt-12 animate-bounce-down font-serif text-sm ${
-            firstLine?.textColor === "light" ? "text-white/70" : "text-ink/60"
-          }`}
-        >
-          <p className="mb-1">向下滚动开始</p>
-          <span className="text-xl">▼</span>
-        </div>
+
       </div>
     </section>
   );

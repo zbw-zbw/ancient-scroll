@@ -10,7 +10,7 @@ export default function Footer() {
 
         <div className="mt-8 inline-flex items-center gap-2 rounded-full border border-rule bg-surface/60 px-4 py-1.5">
           <span className="font-serif text-xs tracking-widest text-muted">
-            TRAE AI 创造力大赛 · 古籍活化方向
+            古籍活化 · 数字传承
           </span>
         </div>
 
@@ -28,7 +28,7 @@ export default function Footer() {
 
         <div className="mt-12 flex flex-col items-center justify-between gap-3 font-serif text-xs text-muted md:flex-row">
           <span>2026 · 06</span>
-          <span>以 TRAE 之力，焕古籍之新</span>
+          <span>让千年文字“活”起来</span>
         </div>
       </div>
     </footer>

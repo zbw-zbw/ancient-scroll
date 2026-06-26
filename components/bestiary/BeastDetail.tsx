@@ -58,17 +58,14 @@ export default function BeastDetail({
         aria-modal="true"
         aria-label={`${beast.name}详情`}
       >
-        {/* Top image banner - use contain to show full image */}
-        <div
-          className="relative flex h-[300px] flex-shrink-0 items-center justify-center overflow-hidden"
-          style={{ background: `linear-gradient(135deg, ${beast.gradient[0]}20, ${beast.gradient[1]}20)` }}
-        >
+        {/* Top image banner - full-bleed cover */}
+        <div className="relative h-[300px] flex-shrink-0 overflow-hidden md:h-[340px]">
           <Image
             src={beast.imagePath}
             alt={beast.name}
-            width={600}
-            height={400}
-            className="h-full w-full object-contain p-4"
+            fill
+            sizes="(max-width: 768px) 100vw, 640px"
+            className="object-cover"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-xuan/40 via-transparent to-transparent" />
 
