@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
 import DialogueClient from "@/components/dialogue/DialogueClient";
 
 export const metadata: Metadata = {
@@ -8,5 +9,9 @@ export const metadata: Metadata = {
 };
 
 export default function DialoguePage() {
-  return <DialogueClient />;
+  return (
+    <Suspense fallback={null}>
+      <DialogueClient />
+    </Suspense>
+  );
 }

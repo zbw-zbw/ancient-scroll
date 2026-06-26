@@ -1,0 +1,102 @@
+"use client";
+
+import { useEffect } from "react";
+import { createPortal } from "react-dom";
+import { beasts, categoryLabels, type BeastCategory } from "@/data/beasts";
+import { getCollectedBeasts } from "@/lib/collection";
+
+interface AchievementModalProps {
+  open: boolean;
+  onClose: () => void;
+}
+
+export default function AchievementModal({ open, onClose }: AchievementModalProps) {
+  useEffect(() => {
+    if (!open) return;
+    const handleEsc = (e: KeyboardEvent) => {
+      if (e.key === "Escape") onClose();
+    };
+    window.addEventListener("keydown", handleEsc);
+    return () => window.removeEventListener("keydown", handleEsc);
+  }, [open, onClose]);
+
+  if (!open) return null;
+
+  const collected = getCollectedBeasts();
+  const counts = beasts.reduce<Record<BeastCategory, number>>(
+    (acc, beast) => {
+      acc[beast.category] += 1;
+      return acc;
+    },
+    { beast: 0, bird: 0, fish: 0, serpent: 0 }
+  );
+  const collectedCounts = beasts.reduce<Record<BeastCategory, number>>(
+    (acc, beast) => {
+      if (collected.includes(beast.id)) acc[beast.category] += 1;
+      return acc;
+    },
+    { beast: 0, bird: 0, fish: 0, serpent: 0 }
+  );
+
+  const content = (
+    <div
+      className="fixed inset-0 z-[200] flex items-center justify-center bg-ink/70 p-4 backdrop-blur-sm"
+      onClick={(e) => {
+        if (e.target === e.currentTarget) onClose();
+      }}
+    >
+      <div
+        className="relative w-full max-w-md overflow-hidden rounded-2xl border border-gold/30 bg-gradient-to-b from-xuan to-xuan-dark p-8 text-center shadow-2xl"
+        role="dialog"
+        aria-modal="true"
+        aria-label="全收集成就"
+      >
+        {/* Decorative gold glow */}
+        <div className="pointer-events-none absolute -left-10 -top-10 h-40 w-40 rounded-full bg-gold/10 blur-3xl" />
+        <div className="pointer-events-none absolute -bottom-10 -right-10 h-40 w-40 rounded-full bg-gold/10 blur-3xl" />
+
+        {/* Trophy icon */}
+        <div className="relative mx-auto mb-4 flex h-20 w-20 items-center justify-center rounded-full bg-gradient-to-br from-gold to-amber-600 text-4xl text-white shadow-lg">
+          🏆
+        </div>
+
+        <h2 className="font-calligraphy text-3xl text-ink md:text-4xl">
+          图鉴大师
+        </h2>
+        <p className="mt-2 font-serif text-base text-muted">
+          恭喜！你已收集全部 {beasts.length} 只异兽！
+        </p>
+        <p className="mt-1 font-handwriting text-sm text-cinnabar">
+          “博物君子，通识万物”
+        </p>
+
+        {/* Category stats */}
+        <div className="relative mt-6 grid grid-cols-4 gap-3">
+          {(Object.keys(counts) as BeastCategory[]).map((cat) => (
+            <div
+              key={cat}
+              className="rounded-xl border border-rule/40 bg-surface/60 p-3"
+            >
+              <p className="font-calligraphy text-xl text-cinnabar">
+                {collectedCounts[cat]}
+              </p>
+              <p className="mt-1 font-serif text-xs text-muted">
+                {categoryLabels[cat]}
+              </p>
+            </div>
+          ))}
+        </div>
+
+        <button
+          onClick={onClose}
+          className="relative mt-8 w-full rounded-xl bg-cinnabar py-3 font-serif text-base text-white shadow-md transition-all hover:bg-cinnabar/90 active:scale-[0.98]"
+        >
+          太棒了！
+        </button>
+      </div>
+    </div>
+  );
+
+  if (typeof document === "undefined") return null;
+  return createPortal(content, document.body);
+}

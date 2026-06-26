@@ -10,6 +10,13 @@ interface ChatMessage {
 }
 
 export async function POST(req: NextRequest) {
+  if (!process.env.DEEPSEEK_API_KEY) {
+    return new Response(
+      JSON.stringify({ error: "对话服务未配置，请检查 API 密钥" }),
+      { status: 503, headers: { "Content-Type": "application/json" } },
+    );
+  }
+
   try {
     const { characterId, messages } = (await req.json()) as {
       characterId: string;

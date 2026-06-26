@@ -34,6 +34,10 @@ export const metadata: Metadata = {
       '让千年文字"活"起来。双语阅读、异兽图鉴、诗境漫游、古今对话。',
     type: "website",
   },
+  icons: {
+    icon: "/icon.jpg",
+    apple: "/icon.jpg",
+  },
 };
 
 export default function RootLayout({

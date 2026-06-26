@@ -1,15 +1,25 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { useEffect } from "react";
 import { createPortal } from "react-dom";
 import type { Beast } from "@/data/beasts";
-import { categoryLabels } from "@/data/beasts";
+import { beasts, categoryLabels } from "@/data/beasts";
 import AiDescribeButton from "./AiDescribeButton";
+
+const chapterMap: Record<string, string> = {
+  "南山经": "nanshan",
+  "西山经": "xishan",
+  "北山经": "beishan",
+  "东山经": "dongshan",
+  "海内经": "hainei",
+};
 
 interface BeastDetailProps {
   beast: Beast | null;
   collected: boolean;
+  collectedCount: number;
   currentDescription: string;
   onClose: () => void;
   onToggleCollect: (id: string) => void;
@@ -19,6 +29,7 @@ interface BeastDetailProps {
 export default function BeastDetail({
   beast,
   collected,
+  collectedCount,
   currentDescription,
   onClose,
   onToggleCollect,
@@ -92,11 +103,20 @@ export default function BeastDetail({
           </div>
 
           {/* Original text quote */}
-          <blockquote className="mb-5 rounded-lg border-l-4 border-cinnabar bg-xuan-dark/60 p-4">
+          <blockquote className="mb-3 rounded-lg border-l-4 border-cinnabar bg-xuan-dark/60 p-4">
             <p className="font-serif text-base leading-relaxed text-ink">
               {beast.originalText}
             </p>
           </blockquote>
+          <div className="mb-5">
+            <Link
+              href={`/reading?chapter=${chapterMap[beast.chapter] || "nanshan"}`}
+              onClick={onClose}
+              className="inline-flex items-center gap-1 font-serif text-xs text-cinnabar hover:underline"
+            >
+              📖 在原文中阅读 →
+            </Link>
+          </div>
 
           {/* Translation */}
           <div className="mb-5">
@@ -148,11 +168,11 @@ export default function BeastDetail({
             <span className={`mr-1 inline-block ${collected ? "animate-heart-beat" : ""}`}>
               {collected ? "♥" : "♡"}
             </span>
-            {collected ? "已收入图鉴" : "收入图鉴"}
+            {collected ? `已收入图鉴 · ${collectedCount}/${beasts.length}` : "收入图鉴"}
           </button>
           <p className="mt-2 text-center font-serif text-xs text-muted">
             {collected
-              ? "♥ 已收入图鉴 — 收集所有异兽解锁成就"
+              ? `♥ 已收入图鉴 · ${collectedCount}/${beasts.length}`
               : "♡ 收入图鉴 — 收集所有异兽解锁成就"}
           </p>
         </div>

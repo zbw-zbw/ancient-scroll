@@ -1,13 +1,30 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import type { HistoricalCharacter } from "@/data/characters";
+import { useSearchParams } from "next/navigation";
+import { characters, type HistoricalCharacter } from "@/data/characters";
 import CharacterSelect from "@/components/dialogue/CharacterSelect";
 import ChatInterface from "@/components/dialogue/ChatInterface";
 
 export default function DialogueClient() {
+  const searchParams = useSearchParams();
   const [selectedCharacter, setSelectedCharacter] =
     useState<HistoricalCharacter | null>(null);
+  const [prefilledAsk, setPrefilledAsk] = useState<string>("");
+
+  useEffect(() => {
+    const charId = searchParams.get("character");
+    const ask = searchParams.get("ask");
+    const character =
+      characters.find((c) => c.id === charId) ||
+      characters.find((c) => c.id === "kongzi");
+    if (character && !selectedCharacter) {
+      setSelectedCharacter(character);
+    }
+    if (ask) {
+      setPrefilledAsk(ask);
+    }
+  }, [searchParams]);
 
   // Lock body scroll on this page so mobile keyboard doesn't shift the outer container
   useEffect(() => {
@@ -36,6 +53,7 @@ export default function DialogueClient() {
           <ChatInterface
             character={selectedCharacter}
             onBack={() => setSelectedCharacter(null)}
+            prefilledAsk={prefilledAsk}
           />
         )}
       </div>

@@ -1,15 +1,21 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
+import { useSearchParams } from "next/navigation";
 import { chapters } from "@/data/shanhaijing";
 import type { DifficultChar } from "@/data/shanhaijing";
 import ChapterSidebar from "@/components/reading/ChapterSidebar";
 import ReadingPanel from "@/components/reading/ReadingPanel";
 import CharacterTooltip from "@/components/reading/CharacterTooltip";
 import type { FontSize } from "@/components/reading/ReadingControls";
+import { markChapterRead } from "@/lib/progress";
 
 export default function ReadingClient() {
-  const [selectedChapterId, setSelectedChapterId] = useState("nanshan");
+  const searchParams = useSearchParams();
+  const [selectedChapterId, setSelectedChapterId] = useState(() => {
+    const id = searchParams.get("chapter");
+    return chapters.some((c) => c.id === id) ? id! : "nanshan";
+  });
   const [fontSize, setFontSize] = useState<FontSize>("md");
   const [showTranslation, setShowTranslation] = useState(true);
   const [translations, setTranslations] = useState<Record<string, string>>({});
@@ -18,6 +24,13 @@ export default function ReadingClient() {
     charData: DifficultChar;
     rect: DOMRect;
   } | null>(null);
+
+  useEffect(() => {
+    const id = searchParams.get("chapter");
+    if (id && chapters.some((c) => c.id === id)) {
+      setSelectedChapterId(id);
+    }
+  }, [searchParams]);
 
   const chapter = useMemo(
     () => chapters.find((c) => c.id === selectedChapterId) || chapters[0],
@@ -58,7 +71,10 @@ export default function ReadingClient() {
       <ChapterSidebar
         chapters={chapters}
         selectedId={selectedChapterId}
-        onSelect={setSelectedChapterId}
+        onSelect={(id) => {
+          setSelectedChapterId(id);
+          markChapterRead(id);
+        }}
       />
 
       <ReadingPanel

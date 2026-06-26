@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import type { Sentence as SentenceType, DifficultChar } from "@/data/shanhaijing";
 import HighlightedText from "./HighlightedText";
@@ -95,15 +96,29 @@ export default function SentenceCard({
           </p>
 
           {/* AI re-translate button */}
-          <div className="mt-4 flex justify-end">
-            <AiTranslateButton
-              sentenceId={sentence.id}
-              original={sentence.original}
-              context={chapterName}
-              currentTranslation={translation}
-              onTranslation={onTranslation}
-            />
-          </div>
+          <div className="mt-4 flex flex-wrap items-center gap-2">
+        {sentence.relatedBeastId && (
+          <Link
+            href={`/bestiary?beast=${sentence.relatedBeastId}`}
+            className="inline-flex items-center gap-1 rounded-full px-3 py-1.5 font-serif text-xs text-indigo transition-colors hover:bg-indigo/5"
+          >
+            🐾 查看异兽图鉴 →
+          </Link>
+        )}
+        <Link
+          href={`/dialogue?ask=${encodeURIComponent(sentence.original.slice(0, 50))}`}
+          className="inline-flex items-center gap-1 rounded-full px-3 py-1.5 font-serif text-xs text-muted transition-colors hover:bg-cinnabar/5 hover:text-cinnabar"
+        >
+          💬 问问古人
+        </Link>
+        <AiTranslateButton
+          sentenceId={sentence.id}
+          original={sentence.original}
+          context={chapterName}
+          currentTranslation={translation}
+          onTranslation={onTranslation}
+        />
+      </div>
         </>
       )}
     </article>

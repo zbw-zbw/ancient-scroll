@@ -2,7 +2,9 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { useEffect } from "react";
 import type { Poem } from "@/data/poems";
+import { markPoemComplete } from "@/lib/progress";
 
 interface EndingSlideProps {
   poem: Poem;
@@ -11,12 +13,30 @@ interface EndingSlideProps {
   onBack: () => void;
 }
 
+const poetToChar: Record<string, string> = {
+  李白: "libai",
+  苏轼: "sushi",
+  王维: "kongzi",
+  孟浩然: "kongzi",
+  王之涣: "kongzi",
+  柳宗元: "sushi",
+  张继: "kongzi",
+  王昌龄: "caocao",
+  李绅: "kongzi",
+};
+
 export default function EndingSlide({
   poem,
   active,
   onRestart,
   onBack,
 }: EndingSlideProps) {
+  useEffect(() => {
+    if (active) {
+      markPoemComplete(poem.id);
+    }
+  }, [active, poem.id]);
+
   return (
     <section
       className="slide relative flex min-h-screen items-center justify-center overflow-hidden"
@@ -100,6 +120,12 @@ export default function EndingSlide({
           >
             选择其他诗 →
           </button>
+          <Link
+            href={`/dialogue?character=${poetToChar[poem.author] || "kongzi"}&ask=${encodeURIComponent(`我刚读了《${poem.title}》，想聊聊这首诗`)}`}
+            className="rounded-full border border-indigo/40 bg-indigo/5 px-6 py-2.5 font-serif text-sm text-indigo transition-colors hover:bg-indigo/10"
+          >
+            💬 和古人聊聊这首诗
+          </Link>
         </div>
 
         <Link

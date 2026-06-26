@@ -19,7 +19,7 @@ const features = [
     ),
   },
   {
-    title: "AI 异兽图鉴",
+    title: "异兽图鉴",
     description: "为每只异兽生成专属水墨插画",
     icon: (
       <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5">
@@ -33,7 +33,7 @@ const features = [
   },
   {
     title: "诗境漫游",
-    description: "一句一景，AI 生成水墨意境图",
+    description: "一句一景，生成水墨意境图",
     icon: (
       <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5">
         {/* Petal / poetry scroll icon */}
