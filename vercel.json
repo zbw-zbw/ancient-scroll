@@ -1,3 +1,10 @@
 {
-  "regions": ["hkg1"]
+  "regions": ["hkg1"],
+  "redirects": [
+    {
+      "source": "/favicon.ico",
+      "destination": "/icon.jpg?v=2",
+      "permanent": false
+    }
+  ]
 }
