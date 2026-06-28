@@ -5,6 +5,7 @@ import { useSearchParams } from "next/navigation";
 import { beasts, type Beast, type BeastCategory } from "@/data/beasts";
 import BeastFilter from "@/components/bestiary/BeastFilter";
 import CollectionProgress from "@/components/bestiary/CollectionProgress";
+import PageHeader from "@/components/PageHeader";
 import BeastGrid from "@/components/bestiary/BeastGrid";
 import BeastDetail from "@/components/bestiary/BeastDetail";
 import AchievementModal from "@/components/bestiary/AchievementModal";
@@ -114,21 +115,17 @@ export default function BestiaryClient() {
  : "";
 
  return (
- <main className="min-h-screen bg-xuan px-4 pb-12 pt-20 md:px-6 md:pb-16 md:pt-24">
- <div className="mx-auto max-w-[1100px]">
- <header className="mb-8 flex flex-col gap-4 md:mb-10 md:flex-row md:items-end md:justify-between">
- <div>
- <h1 className="font-calligraphy text-4xl text-ink md:text-5xl">
- 异兽图鉴
- </h1>
- <p className="mt-2 font-serif text-base text-muted md:text-lg">
- 《山海经》神兽大全 · 收集你的专属图鉴
- </p>
- </div>
- <CollectionProgress />
- </header>
+ <main className="min-h-screen bg-xuan px-4 pb-12 md:px-6 md:pb-16">
+      <PageHeader
+        title="异兽图鉴"
+        subtitle="收藏山海奇兽，解锁文化成就"
+      />
+      <div className="mx-auto max-w-[1100px] pt-8 md:pt-12">
+        <div className="mb-8 flex flex-col gap-4 md:mb-10 md:flex-row md:items-end md:justify-between">
+          <CollectionProgress />
+        </div>
 
- <div className="mb-8 md:mb-10">
+        <div className="mb-8 md:mb-10">
  <BeastFilter
  active={activeCategory}
  onChange={handleCategoryChange}
