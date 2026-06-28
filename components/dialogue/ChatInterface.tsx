@@ -9,153 +9,153 @@ import ChatMessages from "./ChatMessages";
 import ChatInput from "./ChatInput";
 
 interface Message {
-  role: "user" | "assistant";
-  content: string;
+ role: "user" | "assistant";
+ content: string;
 }
 
 interface ChatInterfaceProps {
-  character: HistoricalCharacter;
-  onBack: () => void;
-  prefilledAsk?: string;
+ character: HistoricalCharacter;
+ onBack: () => void;
+ prefilledAsk?: string;
 }
 
 const STORAGE_KEY = 'ancient-scroll-chat-history';
 
 const loadHistory = (characterId: string): Message[] => {
-  if (typeof window === 'undefined') return [];
-  try {
-    const stored = localStorage.getItem(`${STORAGE_KEY}-${characterId}`);
-    if (stored) return JSON.parse(stored);
-  } catch {}
-  return [];
+ if (typeof window === 'undefined') return [];
+ try {
+ const stored = localStorage.getItem(`${STORAGE_KEY}-${characterId}`);
+ if (stored) return JSON.parse(stored);
+ } catch {}
+ return [];
 };
 
 const saveHistory = (characterId: string, messages: Message[]) => {
-  try {
-    localStorage.setItem(`${STORAGE_KEY}-${characterId}`, JSON.stringify(messages.slice(-50)));
-  } catch {}
+ try {
+ localStorage.setItem(`${STORAGE_KEY}-${characterId}`, JSON.stringify(messages.slice(-50)));
+ } catch {}
 };
 
 export default function ChatInterface({
-  character,
-  onBack,
-  prefilledAsk = "",
+ character,
+ onBack,
+ prefilledAsk = "",
 }: ChatInterfaceProps) {
-  const [messages, setMessages] = useState<Message[]>(() => {
-    const history = loadHistory(character.id);
-    if (history.length > 0) return history;
-    return [{ role: "assistant", content: character.greeting }];
-  });
-  const [inputValue, setInputValue] = useState("");
-  const [streamingContent, setStreamingContent] = useState("");
-  const [showSuggestions, setShowSuggestions] = useState(true);
-  const { isStreaming, startStreaming } = useStreamingResponse();
+ const [messages, setMessages] = useState<Message[]>(() => {
+ const history = loadHistory(character.id);
+ if (history.length > 0) return history;
+ return [{ role: "assistant", content: character.greeting }];
+ });
+ const [inputValue, setInputValue] = useState("");
+ const [streamingContent, setStreamingContent] = useState("");
+ const [showSuggestions, setShowSuggestions] = useState(true);
+ const { isStreaming, startStreaming } = useStreamingResponse();
 
-  useEffect(() => {
-    if (prefilledAsk) {
-      setInputValue(prefilledAsk);
-    }
-  }, [prefilledAsk]);
+ useEffect(() => {
+ if (prefilledAsk) {
+ setInputValue(prefilledAsk);
+ }
+ }, [prefilledAsk]);
 
-  // Persist messages to localStorage
-  useEffect(() => {
-    if (messages.length > 1) {
-      saveHistory(character.id, messages);
-    }
-  }, [messages, character.id]);
+ // Persist messages to localStorage
+ useEffect(() => {
+ if (messages.length > 1) {
+ saveHistory(character.id, messages);
+ }
+ }, [messages, character.id]);
 
-  const handleSend = useCallback(
-    async (content: string) => {
-      if (!content.trim() || isStreaming) return;
+ const handleSend = useCallback(
+ async (content: string) => {
+ if (!content.trim() || isStreaming) return;
 
-      const userMessage: Message = { role: "user", content: content.trim() };
-      const updatedMessages = [...messages, userMessage];
-      setMessages(updatedMessages);
-      setInputValue("");
-      setStreamingContent("");
-      markDialogue(character.id);
+ const userMessage: Message = { role: "user", content: content.trim() };
+ const updatedMessages = [...messages, userMessage];
+ setMessages(updatedMessages);
+ setInputValue("");
+ setStreamingContent("");
+ markDialogue(character.id);
 
-      await startStreaming(
-        "/api/chat",
-        {
-          characterId: character.id,
-          messages: updatedMessages.map((m) => ({
-            role: m.role,
-            content: m.content,
-          })),
-        },
-        {
-          onChunk: (text) => {
-            setStreamingContent((prev) => prev + text);
-          },
-          onComplete: () => {
-            setStreamingContent((final) => {
-              if (final.trim()) {
-                setMessages((prev) => [
-                  ...prev,
-                  { role: "assistant", content: final },
-                ]);
-              }
-              return "";
-            });
-          },
-          onError: (error) => {
-            console.error("Streaming error:", error);
-            setMessages((prev) => [
-              ...prev,
-              {
-                role: "assistant",
-                content: "抱歉，方才思绪纷乱，未能听清。还请再说一遍。",
-              },
-            ]);
-          },
-        },
-      );
-    },
-    [character.id, messages, isStreaming, startStreaming],
-  );
+ await startStreaming(
+ "/api/chat",
+ {
+ characterId: character.id,
+ messages: updatedMessages.map((m) => ({
+ role: m.role,
+ content: m.content,
+ })),
+ },
+ {
+ onChunk: (text) => {
+ setStreamingContent((prev) => prev + text);
+ },
+ onComplete: () => {
+ setStreamingContent((final) => {
+ if (final.trim()) {
+ setMessages((prev) => [
+ ...prev,
+ { role: "assistant", content: final },
+ ]);
+ }
+ return "";
+ });
+ },
+ onError: (error) => {
+ console.error("Streaming error:", error);
+ setMessages((prev) => [
+ ...prev,
+ {
+ role: "assistant",
+ content: "抱歉，方才思绪纷乱，未能听清。还请再说一遍。",
+ },
+ ]);
+ },
+ },
+ );
+ },
+ [character.id, messages, isStreaming, startStreaming],
+ );
 
-  const handleClear = useCallback(() => {
-    setMessages([{ role: "assistant", content: character.greeting }]);
-    localStorage.removeItem(`${STORAGE_KEY}-${character.id}`);
-    setStreamingContent("");
-    setShowSuggestions(true);
-    setInputValue("");
-  }, [character.greeting, character.id]);
+ const handleClear = useCallback(() => {
+ setMessages([{ role: "assistant", content: character.greeting }]);
+ localStorage.removeItem(`${STORAGE_KEY}-${character.id}`);
+ setStreamingContent("");
+ setShowSuggestions(true);
+ setInputValue("");
+ }, [character.greeting, character.id]);
 
-  // Scroll messages to bottom when mobile keyboard opens/closes
-  useEffect(() => {
-    const handleResize = () => {
-      const messagesEl = document.querySelector("[data-messages-container]");
-      if (messagesEl) {
-        messagesEl.scrollTop = messagesEl.scrollHeight;
-      }
-    };
-    window.visualViewport?.addEventListener("resize", handleResize);
-    return () => window.visualViewport?.removeEventListener("resize", handleResize);
-  }, []);
+ // Scroll messages to bottom when mobile keyboard opens/closes
+ useEffect(() => {
+ const handleResize = () => {
+ const messagesEl = document.querySelector("[data-messages-container]");
+ if (messagesEl) {
+ messagesEl.scrollTop = messagesEl.scrollHeight;
+ }
+ };
+ window.visualViewport?.addEventListener("resize", handleResize);
+ return () => window.visualViewport?.removeEventListener("resize", handleResize);
+ }, []);
 
-  return (
-    <div className="absolute inset-x-0 top-16 bottom-0 z-20 flex flex-col bg-xuan">
-      <ChatHeader
-        character={character}
-        onBack={onBack}
-        onClear={handleClear}
-      />
-      <ChatMessages
-        character={character}
-        messages={messages}
-        streamingContent={streamingContent}
-        isStreaming={isStreaming}
-        showSuggestions={showSuggestions}
-        onSelectQuestion={handleSend}
-      />
-      <ChatInput
-        value={inputValue}
-        onChange={setInputValue}
-        onSend={() => handleSend(inputValue)}
-        disabled={isStreaming}
-      />
-    </div>
-  );
+ return (
+ <div className="absolute inset-x-0 top-16 bottom-0 z-20 flex flex-col bg-xuan">
+ <ChatHeader
+ character={character}
+ onBack={onBack}
+ onClear={handleClear}
+ />
+ <ChatMessages
+ character={character}
+ messages={messages}
+ streamingContent={streamingContent}
+ isStreaming={isStreaming}
+ showSuggestions={showSuggestions}
+ onSelectQuestion={handleSend}
+ />
+ <ChatInput
+ value={inputValue}
+ onChange={setInputValue}
+ onSend={() => handleSend(inputValue)}
+ disabled={isStreaming}
+ />
+ </div>
+ );
 }

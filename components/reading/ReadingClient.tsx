@@ -11,91 +11,91 @@ import type { FontSize } from "@/components/reading/ReadingControls";
 import { markChapterRead } from "@/lib/progress";
 
 export default function ReadingClient() {
-  const searchParams = useSearchParams();
-  const [selectedChapterId, setSelectedChapterId] = useState(() => {
-    const id = searchParams.get("chapter");
-    return chapters.some((c) => c.id === id) ? id! : "nanshan";
-  });
-  const [fontSize, setFontSize] = useState<FontSize>("md");
-  const [showTranslation, setShowTranslation] = useState(true);
-  const [translations, setTranslations] = useState<Record<string, string>>({});
-  const [activeTooltip, setActiveTooltip] = useState<{
-    sentenceId: string;
-    charData: DifficultChar;
-    rect: DOMRect;
-  } | null>(null);
+ const searchParams = useSearchParams();
+ const [selectedChapterId, setSelectedChapterId] = useState(() => {
+ const id = searchParams.get("chapter");
+ return chapters.some((c) => c.id === id) ? id! : "nanshan";
+ });
+ const [fontSize, setFontSize] = useState<FontSize>("md");
+ const [showTranslation, setShowTranslation] = useState(true);
+ const [translations, setTranslations] = useState<Record<string, string>>({});
+ const [activeTooltip, setActiveTooltip] = useState<{
+ sentenceId: string;
+ charData: DifficultChar;
+ rect: DOMRect;
+ } | null>(null);
 
-  useEffect(() => {
-    const id = searchParams.get("chapter");
-    if (id && chapters.some((c) => c.id === id)) {
-      setSelectedChapterId(id);
-    }
-  }, [searchParams]);
+ useEffect(() => {
+ const id = searchParams.get("chapter");
+ if (id && chapters.some((c) => c.id === id)) {
+ setSelectedChapterId(id);
+ }
+ }, [searchParams]);
 
-  const chapter = useMemo(
-    () => chapters.find((c) => c.id === selectedChapterId) || chapters[0],
-    [selectedChapterId]
-  );
+ const chapter = useMemo(
+ () => chapters.find((c) => c.id === selectedChapterId) || chapters[0],
+ [selectedChapterId]
+ );
 
-  const handleCharClick = (
-    sentenceId: string,
-    charData: DifficultChar,
-    rect: DOMRect
-  ) => {
-    setActiveTooltip((prev) => {
-      if (
-        prev &&
-        prev.sentenceId === sentenceId &&
-        prev.charData.char === charData.char
-      ) {
-        return null;
-      }
-      return { sentenceId, charData, rect };
-    });
-  };
+ const handleCharClick = (
+ sentenceId: string,
+ charData: DifficultChar,
+ rect: DOMRect
+ ) => {
+ setActiveTooltip((prev) => {
+ if (
+ prev &&
+ prev.sentenceId === sentenceId &&
+ prev.charData.char === charData.char
+ ) {
+ return null;
+ }
+ return { sentenceId, charData, rect };
+ });
+ };
 
-  const handleTranslation = (sentenceId: string, translation: string) => {
-    setTranslations((prev) => ({ ...prev, [sentenceId]: translation }));
-  };
+ const handleTranslation = (sentenceId: string, translation: string) => {
+ setTranslations((prev) => ({ ...prev, [sentenceId]: translation }));
+ };
 
-  const tooltipContext = useMemo(() => {
-    if (!activeTooltip) return "";
-    return (
-      chapter.sentences.find((s) => s.id === activeTooltip.sentenceId)
-        ?.original || ""
-    );
-  }, [activeTooltip, chapter]);
+ const tooltipContext = useMemo(() => {
+ if (!activeTooltip) return "";
+ return (
+ chapter.sentences.find((s) => s.id === activeTooltip.sentenceId)
+ ?.original || ""
+ );
+ }, [activeTooltip, chapter]);
 
-  return (
-    <div className="relative flex min-h-[calc(100vh-4rem)] flex-col bg-xuan pt-16 md:flex-row">
-      <ChapterSidebar
-        chapters={chapters}
-        selectedId={selectedChapterId}
-        onSelect={(id) => {
-          setSelectedChapterId(id);
-          markChapterRead(id);
-        }}
-      />
+ return (
+ <div className="relative flex min-h-[calc(100vh-4rem)] flex-col bg-xuan pt-16 md:flex-row">
+ <ChapterSidebar
+ chapters={chapters}
+ selectedId={selectedChapterId}
+ onSelect={(id) => {
+ setSelectedChapterId(id);
+ markChapterRead(id);
+ }}
+ />
 
-      <ReadingPanel
-        chapter={chapter}
-        fontSize={fontSize}
-        showTranslation={showTranslation}
-        translations={translations}
-        onFontSizeChange={setFontSize}
-        onShowTranslationChange={setShowTranslation}
-        onCharClick={handleCharClick}
-        onTranslation={handleTranslation}
-      />
+ <ReadingPanel
+ chapter={chapter}
+ fontSize={fontSize}
+ showTranslation={showTranslation}
+ translations={translations}
+ onFontSizeChange={setFontSize}
+ onShowTranslationChange={setShowTranslation}
+ onCharClick={handleCharClick}
+ onTranslation={handleTranslation}
+ />
 
-      {activeTooltip && (
-        <CharacterTooltip
-          charData={activeTooltip.charData}
-          context={tooltipContext}
-          triggerRect={activeTooltip.rect}
-          onClose={() => setActiveTooltip(null)}
-        />
-      )}
-    </div>
-  );
+ {activeTooltip && (
+ <CharacterTooltip
+ charData={activeTooltip.charData}
+ context={tooltipContext}
+ triggerRect={activeTooltip.rect}
+ onClose={() => setActiveTooltip(null)}
+ />
+ )}
+ </div>
+ );
 }

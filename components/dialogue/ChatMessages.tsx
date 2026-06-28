@@ -6,82 +6,82 @@ import ChatBubble from "./ChatBubble";
 import SuggestedQuestions from "./SuggestedQuestions";
 
 interface Message {
-  role: "user" | "assistant";
-  content: string;
+ role: "user" | "assistant";
+ content: string;
 }
 
 interface ChatMessagesProps {
-  character: HistoricalCharacter;
-  messages: Message[];
-  streamingContent: string;
-  isStreaming: boolean;
-  showSuggestions: boolean;
-  onSelectQuestion: (question: string) => void;
+ character: HistoricalCharacter;
+ messages: Message[];
+ streamingContent: string;
+ isStreaming: boolean;
+ showSuggestions: boolean;
+ onSelectQuestion: (question: string) => void;
 }
 
 export default function ChatMessages({
-  character,
-  messages,
-  streamingContent,
-  isStreaming,
-  showSuggestions,
-  onSelectQuestion,
+ character,
+ messages,
+ streamingContent,
+ isStreaming,
+ showSuggestions,
+ onSelectQuestion,
 }: ChatMessagesProps) {
-  const scrollRef = useRef<HTMLDivElement>(null);
+ const scrollRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    if (scrollRef.current) {
-      scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
-    }
-  }, [messages, streamingContent]);
+ useEffect(() => {
+ if (scrollRef.current) {
+ scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+ }
+ }, [messages, streamingContent]);
 
-  return (
-    <div
-      ref={scrollRef}
-      data-messages-container
-      className="relative flex-1 overflow-y-auto overflow-x-hidden"
-      style={{
-        backgroundImage:
-          "repeating-linear-gradient(90deg, transparent, transparent 39px, rgba(26,26,46,0.03) 39px, rgba(26,26,46,0.03) 40px)",
-        backgroundSize: "40px 100%",
-      }}
-    >
-      <div className="mx-auto max-w-[900px] space-y-5 px-4 py-6 md:space-y-6 md:px-6 md:py-8">
-        {messages.map((message, index) => (
-          <ChatBubble
-            key={`msg-${index}`}
-            role={message.role}
-            content={message.content}
-            characterAvatarPath={character.avatarPath}
-            characterName={character.name}
-            characterColor={character.color}
-          />
-        ))}
+ return (
+ <div
+ ref={scrollRef}
+ data-messages-container
+ className="relative flex-1 overflow-y-auto overflow-x-hidden"
+ style={{
+ backgroundImage:
+ "repeating-linear-gradient(90deg, transparent, transparent 39px, rgba(26,26,46,0.03) 39px, rgba(26,26,46,0.03) 40px)",
+ backgroundSize: "40px 100%",
+ }}
+ >
+ <div className="mx-auto max-w-[900px] space-y-5 px-4 py-6 md:space-y-6 md:px-6 md:py-8">
+ {messages.map((message, index) => (
+ <ChatBubble
+ key={`msg-${index}`}
+ role={message.role}
+ content={message.content}
+ characterAvatarPath={character.avatarPath}
+ characterName={character.name}
+ characterColor={character.color}
+ />
+ ))}
 
-        {isStreaming && (
-          <ChatBubble
-            key="streaming-message"
-            role="assistant"
-            content={streamingContent}
-            characterAvatarPath={character.avatarPath}
-            characterName={character.name}
-            characterColor={character.color}
-            isStreaming={true}
-            isThinking={streamingContent === ""}
-          />
-        )}
+ {isStreaming && (
+ <ChatBubble
+ key="streaming-message"
+ role="assistant"
+ content={streamingContent}
+ characterAvatarPath={character.avatarPath}
+ characterName={character.name}
+ characterColor={character.color}
+ isStreaming={true}
+ isThinking={streamingContent === ""}
+ />
+ )}
 
-        {/* Suggested questions - always visible, filter out already asked */}
-        {showSuggestions && !isStreaming && (
-          <SuggestedQuestions
-            questions={character.sampleQuestions.filter(
-              (q) => !messages.some((m) => m.role === "user" && m.content === q)
-            )}
-            onSelect={onSelectQuestion}
-            characterColor={character.color}
-          />
-        )}
-      </div>
-    </div>
-  );
+ {/* Suggested questions - always visible, filter out already asked */}
+ {showSuggestions && !isStreaming && (
+ <SuggestedQuestions
+ questions={character.sampleQuestions.filter(
+ (q) => !messages.some((m) => m.role === "user" && m.content === q)
+ )}
+ onSelect={onSelectQuestion}
+ characterColor={character.color}
+ />
+ )}
+ </div>
+ </div>
+ );
 }

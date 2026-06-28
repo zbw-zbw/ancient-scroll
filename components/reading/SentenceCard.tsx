@@ -6,121 +6,120 @@ import type { Sentence as SentenceType, DifficultChar } from "@/data/shanhaijing
 import HighlightedText from "./HighlightedText";
 import AiTranslateButton from "./AiTranslateButton";
 import type { FontSize } from "./ReadingControls";
+import { IconPaw, IconChat, IconArrowRight } from "@/components/icons";
 
 interface SentenceCardProps {
-  sentence: SentenceType;
-  index: number;
-  fontSize: FontSize;
-  showTranslation: boolean;
-  translation: string;
-  chapterName: string;
-  onCharClick: (sentenceId: string, charData: DifficultChar, rect: DOMRect) => void;
-  onTranslation: (sentenceId: string, translation: string) => void;
+ sentence: SentenceType;
+ index: number;
+ fontSize: FontSize;
+ showTranslation: boolean;
+ translation: string;
+ chapterName: string;
+ onCharClick: (sentenceId: string, charData: DifficultChar, rect: DOMRect) => void;
+ onTranslation: (sentenceId: string, translation: string) => void;
 }
 
 const fontSizeClasses: Record<FontSize, string> = {
-  sm: "text-base",
-  md: "text-lg",
-  lg: "text-xl",
+ sm: "text-base",
+ md: "text-lg",
+ lg: "text-xl",
 };
 
 const translationSizeClasses: Record<FontSize, string> = {
-  sm: "text-sm",
-  md: "text-base",
-  lg: "text-lg",
+ sm: "text-sm",
+ md: "text-base",
+ lg: "text-lg",
 };
 
 export default function SentenceCard({
-  sentence,
-  index,
-  fontSize,
-  showTranslation,
-  translation,
-  chapterName,
-  onCharClick,
-  onTranslation,
+ sentence,
+ index,
+ fontSize,
+ showTranslation,
+ translation,
+ chapterName,
+ onCharClick,
+ onTranslation,
 }: SentenceCardProps) {
-  const ref = useRef<HTMLDivElement>(null);
-  const [visible, setVisible] = useState(false);
+ const ref = useRef<HTMLDivElement>(null);
+ const [visible, setVisible] = useState(false);
 
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setVisible(true);
-          observer.disconnect();
-        }
-      },
-      { threshold: 0.15, rootMargin: "0px 0px -40px 0px" }
-    );
-    observer.observe(el);
-    return () => observer.disconnect();
-  }, []);
+ useEffect(() => {
+ const el = ref.current;
+ if (!el) return;
+ const observer = new IntersectionObserver(
+ ([entry]) => {
+ if (entry.isIntersecting) {
+ setVisible(true);
+ observer.disconnect();
+ }
+ },
+ { threshold: 0.15, rootMargin: "0px 0px -40px 0px" }
+ );
+ observer.observe(el);
+ return () => observer.disconnect();
+ }, []);
 
-  const handleCharClick = (charData: DifficultChar, rect: DOMRect) => {
-    onCharClick(sentence.id, charData, rect);
-  };
+ const handleCharClick = (charData: DifficultChar, rect: DOMRect) => {
+ onCharClick(sentence.id, charData, rect);
+ };
 
-  return (
-    <article
-      ref={ref}
-      className={`relative rounded-lg border-l-[3px] border-cinnabar bg-surface/60 p-5 md:p-6 transition-all duration-700 ${
-        visible ? "translate-y-0 opacity-100" : "translate-y-6 opacity-0"
-      }`}
-    >
-      {/* Index circle */}
-      <div className="mb-4 flex h-7 w-7 items-center justify-center rounded-full border border-cinnabar/40 bg-cinnabar/5 font-serif text-sm text-cinnabar">
-        {index + 1}
-      </div>
+ return (
+ <article
+ ref={ref}
+ className={`relative rounded-lg bg-surface/60 p-5 md:p-6 transition-all duration-700 ${
+ visible ? "translate-y-0 opacity-100" : "translate-y-6 opacity-0"
+ }`}
+ >
+ {/* Index circle */}
+ <div className="mb-4 flex h-7 w-7 items-center justify-center rounded-full bg-cinnabar/5 font-serif text-sm text-cinnabar">
+ {index + 1}
+ </div>
 
-      {/* Original text */}
-      <div className="break-words">
-        <HighlightedText
-          text={sentence.original}
-          difficultChars={sentence.difficultChars}
-          fontSizeClass={fontSizeClasses[fontSize]}
-          onCharClick={handleCharClick}
-        />
-      </div>
+ {/* Original text */}
+ <div className="break-words">
+ <HighlightedText
+ text={sentence.original}
+ difficultChars={sentence.difficultChars}
+ fontSizeClass={fontSizeClasses[fontSize]}
+ onCharClick={handleCharClick}
+ />
+ </div>
 
-      {/* Translation section */}
-      {showTranslation && (
-        <>
-          <div className="my-5 border-t border-rule/70" />
-          <p
-            className={`font-serif leading-relaxed text-light-ink ${translationSizeClasses[fontSize]}`}
+ {/* Translation section */}
+ {showTranslation && (
+ <>
+ <p
+            className={`mt-5 font-serif leading-relaxed text-light-ink ${translationSizeClasses[fontSize]}`}
           >
-            {translation}
-          </p>
+ {translation}
+ </p>
 
-          {/* AI re-translate button */}
-          <div className="mt-4 flex flex-wrap items-center gap-2">
-        {sentence.relatedBeastId && (
-          <Link
-            href={`/bestiary?beast=${sentence.relatedBeastId}`}
-            className="inline-flex items-center gap-1 rounded-full px-3 py-1.5 font-serif text-xs text-indigo transition-colors hover:bg-indigo/5"
-          >
-            🐾 查看异兽图鉴 →
-          </Link>
-        )}
-        <Link
-          href={`/dialogue?ask=${encodeURIComponent(sentence.original.slice(0, 50))}`}
-          className="inline-flex items-center gap-1 rounded-full px-3 py-1.5 font-serif text-xs text-muted transition-colors hover:bg-cinnabar/5 hover:text-cinnabar"
-        >
-          💬 问问古人
-        </Link>
-        <AiTranslateButton
-          sentenceId={sentence.id}
-          original={sentence.original}
-          context={chapterName}
-          currentTranslation={translation}
-          onTranslation={onTranslation}
-        />
-      </div>
-        </>
-      )}
-    </article>
-  );
+ <div className="mt-4 flex flex-wrap items-center gap-2">
+ {sentence.relatedBeastId && (
+ <Link
+ href={`/bestiary?beast=${sentence.relatedBeastId}`}
+ className="inline-flex items-center gap-1 rounded-full px-3 py-1.5 font-serif text-xs text-indigo transition-colors hover:bg-indigo/5"
+ >
+ <IconPaw className="h-3.5 w-3.5" /> 查看异兽图鉴 <IconArrowRight className="h-3 w-3" />
+ </Link>
+ )}
+ <Link
+ href={`/dialogue?ask=${encodeURIComponent(sentence.original.slice(0, 50))}`}
+ className="inline-flex items-center gap-1 rounded-full px-3 py-1.5 font-serif text-xs text-muted transition-colors hover:bg-cinnabar/5 hover:text-cinnabar"
+ >
+ <IconChat className="h-3.5 w-3.5" /> 问问古人
+ </Link>
+ <AiTranslateButton
+ sentenceId={sentence.id}
+ original={sentence.original}
+ context={chapterName}
+ currentTranslation={translation}
+ onTranslation={onTranslation}
+ />
+ </div>
+ </>
+ )}
+ </article>
+ );
 }

@@ -6,17 +6,17 @@ import PoemSelector from "./PoemSelector";
 import ImmersiveReader from "./ImmersiveReader";
 
 export default function PoetryClient() {
-  const [selectedPoem, setSelectedPoem] = useState<Poem | null>(null);
+ const [selectedPoem, setSelectedPoem] = useState<Poem | null>(null);
 
-  return (
-    <>
-      {!selectedPoem && <PoemSelector onSelect={setSelectedPoem} />}
-      {selectedPoem && (
-        <ImmersiveReader
-          poem={selectedPoem}
-          onBack={() => setSelectedPoem(null)}
-        />
-      )}
-    </>
-  );
+ return (
+ <>
+ {!selectedPoem && <PoemSelector onSelect={setSelectedPoem} />}
+ {selectedPoem && (
+ <ImmersiveReader
+ poem={selectedPoem}
+ onBack={() => setSelectedPoem(null)}
+ />
+ )}
+ </>
+ );
 }

@@ -53,16 +53,20 @@ body {
   position: relative;
 }
 
-/* Global cursor pointer for interactive elements */
-button,
+*:focus-visible {
+  outline: 2px solid var(--cinnabar);
+  outline-offset: 2px;
+}
+
+/* Global pointer cursor for interactive elements */
 a,
+button,
 [role="button"],
 label,
-input[type="checkbox"],
-input[type="radio"],
 select,
-textarea,
-summary {
+summary,
+input[type="checkbox"],
+input[type="radio"] {
   cursor: pointer;
 }
 
