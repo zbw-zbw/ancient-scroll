@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { chapters } from "@/data/shanhaijing";
 import type { DifficultChar } from "@/data/shanhaijing";
+import PageHeader from "@/components/PageHeader";
 import ChapterSidebar from "@/components/reading/ChapterSidebar";
 import ReadingPanel from "@/components/reading/ReadingPanel";
 import CharacterTooltip from "@/components/reading/CharacterTooltip";
@@ -67,7 +68,13 @@ export default function ReadingClient() {
  }, [activeTooltip, chapter]);
 
  return (
- <div className="relative flex min-h-[calc(100vh-4rem)] flex-col bg-xuan pt-16 md:flex-row">
+ <div className="relative flex min-h-[calc(100vh-4rem)] flex-col bg-xuan">
+ <PageHeader
+ title="双语阅读"
+ subtitle="原文与译文对照，逐句品读山海经"
+ compact
+ />
+ <div className="relative flex flex-1 min-h-0 flex-col md:flex-row">
  <ChapterSidebar
  chapters={chapters}
  selectedId={selectedChapterId}
@@ -87,6 +94,7 @@ export default function ReadingClient() {
  onCharClick={handleCharClick}
  onTranslation={handleTranslation}
  />
+ </div>
 
  {activeTooltip && (
  <CharacterTooltip
