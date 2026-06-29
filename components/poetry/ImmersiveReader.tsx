@@ -78,11 +78,11 @@ export default function ImmersiveReader({ poem, onBack }: ImmersiveReaderProps) 
  };
 
  return (
- <div
- ref={containerRef}
- className="immersive-container fixed inset-0 z-40 h-screen w-screen overflow-y-auto bg-ink"
- style={{ scrollSnapType: "y mandatory", scrollBehavior: "smooth" }}
- >
+    <div
+      ref={containerRef}
+      className="immersive-container fixed inset-0 z-40 h-screen w-screen overflow-y-auto bg-ink"
+      style={{ scrollSnapType: "y mandatory" }}
+    >
  {/* Back button */}
  <button
  onClick={handleBack}

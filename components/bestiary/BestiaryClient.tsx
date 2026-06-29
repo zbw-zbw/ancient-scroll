@@ -47,14 +47,15 @@ export default function BestiaryClient() {
  }, [searchParams]);
 
  useEffect(() => {
- if (
- collectedIds.length === beasts.length &&
- prevCountRef.current < beasts.length
- ) {
- setShowAchievement(true);
- }
- prevCountRef.current = collectedIds.length;
- }, [collectedIds]);
+    if (
+      collectedIds.length === beasts.length &&
+      prevCountRef.current < beasts.length &&
+      !selectedBeast
+    ) {
+      setShowAchievement(true);
+    }
+    prevCountRef.current = collectedIds.length;
+  }, [collectedIds, selectedBeast]);
 
  useEffect(() => {
  try {

@@ -57,8 +57,12 @@ export default function ChapterSidebar({
 
  {/* Mobile horizontal scroll tabs */}
  <div className="md:hidden sticky top-16 z-30 bg-xuan-dark">
- <div className="mx-auto max-w-[1100px] px-4">
- <div className="flex items-center gap-2 overflow-x-auto py-3 scrollbar-hide">
+ <div className="mx-auto max-w-[1100px] relative">
+ {/* Left fade mask */}
+ <div className="pointer-events-none absolute left-0 top-0 bottom-0 z-10 w-6 bg-gradient-to-r from-xuan-dark to-transparent" />
+ {/* Right fade mask */}
+ <div className="pointer-events-none absolute right-0 top-0 bottom-0 z-10 w-6 bg-gradient-to-l from-xuan-dark to-transparent" />
+ <div className="flex items-center gap-2.5 overflow-x-auto py-4 px-4 scrollbar-hide">
  {chapters.map((chapter) => (
  <button
  key={chapter.id}

@@ -336,7 +336,6 @@ footer {
 /* Poetry immersive scroll */
 .immersive-container {
   scroll-snap-type: y mandatory;
-  scroll-behavior: smooth;
 }
 
 .slide {
@@ -462,26 +461,26 @@ footer {
   display: none;
 }
 
-/* Custom styled scrollbar for dialogue messages */
-[data-messages-container] {
+/* Custom styled scrollbar — site-wide thin themed scrollbar */
+html {
   scrollbar-width: thin;
   scrollbar-color: rgba(212, 201, 184, 0.8) transparent;
 }
 
-[data-messages-container]::-webkit-scrollbar {
+html::-webkit-scrollbar {
   width: 6px;
 }
 
-[data-messages-container]::-webkit-scrollbar-track {
+html::-webkit-scrollbar-track {
   background: transparent;
 }
 
-[data-messages-container]::-webkit-scrollbar-thumb {
+html::-webkit-scrollbar-thumb {
   background: rgba(212, 201, 184, 0.8);
   border-radius: 3px;
 }
 
-[data-messages-container]::-webkit-scrollbar-thumb:hover {
+html::-webkit-scrollbar-thumb:hover {
   background: rgba(200, 64, 50, 0.5);
 }
 

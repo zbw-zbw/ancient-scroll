@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback, useEffect } from "react";
+import { useState, useCallback, useEffect, useRef } from "react";
 import { HistoricalCharacter } from "../../data/characters";
 import { useStreamingResponse } from "../../hooks/useStreamingResponse";
 import { markDialogue } from "../../lib/progress";
@@ -51,13 +51,9 @@ export default function ChatInterface({
  const [showSuggestions, setShowSuggestions] = useState(true);
  const { isStreaming, startStreaming } = useStreamingResponse();
 
- useEffect(() => {
- if (prefilledAsk) {
- setInputValue(prefilledAsk);
- }
- }, [prefilledAsk]);
+ const autoSentRef = useRef(false);
 
- // Persist messages to localStorage
+  // Persist messages to localStorage
  useEffect(() => {
  if (messages.length > 1) {
  saveHistory(character.id, messages);
@@ -113,9 +109,20 @@ export default function ChatInterface({
  );
  },
  [character.id, messages, isStreaming, startStreaming],
- );
+  );
 
- const handleClear = useCallback(() => {
+  // Auto-send prefilled question (e.g., from reading page "问问古人")
+  useEffect(() => {
+    if (prefilledAsk && !autoSentRef.current) {
+      autoSentRef.current = true;
+      const timer = setTimeout(() => {
+        handleSend(prefilledAsk);
+      }, 500);
+      return () => clearTimeout(timer);
+    }
+  }, [prefilledAsk, handleSend]);
+
+  const handleClear = useCallback(() => {
  setMessages([{ role: "assistant", content: character.greeting }]);
  localStorage.removeItem(`${STORAGE_KEY}-${character.id}`);
  setStreamingContent("");

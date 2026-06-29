@@ -13,18 +13,18 @@ export default function DialogueClient() {
  const [prefilledAsk, setPrefilledAsk] = useState<string>("");
 
  useEffect(() => {
- const charId = searchParams.get("character");
- const ask = searchParams.get("ask");
- const character =
- characters.find((c) => c.id === charId) ||
- characters.find((c) => c.id === "kongzi");
- if (character && !selectedCharacter) {
- setSelectedCharacter(character);
- }
- if (ask) {
- setPrefilledAsk(ask);
- }
- }, [searchParams]);
+	const charId = searchParams.get("character");
+	const ask = searchParams.get("ask");
+	if (charId && !selectedCharacter) {
+	  const character = characters.find((c) => c.id === charId);
+	  if (character) {
+		setSelectedCharacter(character);
+	  }
+	}
+	if (ask) {
+	  setPrefilledAsk(ask);
+	}
+	}, [searchParams]);
 
  // Lock body scroll on this page so mobile keyboard doesn't shift the outer container
  useEffect(() => {

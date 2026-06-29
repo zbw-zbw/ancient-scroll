@@ -1,7 +1,6 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
 import { useEffect, useState } from "react";
 
 const title = "古籍焕新";
@@ -70,8 +69,10 @@ export default function Hero() {
           让千年文字“活”起来
         </p>
 
-        <Link
-          href="#features"
+        <button
+          onClick={() =>
+            document.getElementById("features")?.scrollIntoView({ behavior: "smooth" })
+          }
           className="mx-auto inline-flex items-center gap-2 rounded-full bg-cinnabar px-6 py-3 font-serif text-sm text-white shadow-md transition-transform hover:translate-x-1 animate-hero-reveal md:mx-0"
           style={{ animationDelay: "1s" }}
         >
@@ -89,7 +90,7 @@ export default function Hero() {
             <path d="M5 12h14" />
             <path d="m12 5 7 7-7 7" />
           </svg>
-        </Link>
+        </button>
       </div>
 
       {/* Seal badge */}

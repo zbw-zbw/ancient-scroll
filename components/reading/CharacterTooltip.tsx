@@ -100,28 +100,29 @@ export default function CharacterTooltip({
  }
  };
 
- const { style, arrowStyle, origin } = getTooltipStyle(
- triggerRect,
- size.width,
- size.height,
- isMobile
- );
+ const { style, arrowStyle, placeBelow } = getTooltipStyle(
+    triggerRect,
+    size.width,
+    size.height,
+    isMobile
+  );
 
  const tooltipContent = (
- <div
- ref={tooltipRef}
- className={`fixed z-[100] min-w-[240px] max-w-[320px] rounded-md bg-surface shadow-lg transition-all duration-200 ${
- mounted ? "opacity-100 scale-100" : "opacity-0 scale-95"
- }`}
- style={{
- ...style,
- transformOrigin: origin,
- maxWidth: isMobile ? `calc(100vw - 16px)` : 320,
- }}
- role="dialog"
- aria-modal="true"
- aria-label={`${charData.char}的字词注释`}
- >
+    <div
+      ref={tooltipRef}
+      className={`fixed z-[100] min-w-[240px] max-w-[320px] rounded-md bg-surface shadow-lg ${
+        mounted ? "opacity-100" : "opacity-0"
+      }`}
+      style={{
+        ...style,
+        transform: mounted ? "none" : (placeBelow ? "translateY(-8px)" : "translateY(8px)"),
+        transition: "opacity 0.2s ease-out, transform 0.2s ease-out",
+        maxWidth: isMobile ? `calc(100vw - 16px)` : 320,
+      }}
+      role="dialog"
+      aria-modal="true"
+      aria-label={`${charData.char}的字词注释`}
+    >
  <div className="p-4">
  {/* Basic info */}
  <div className="mb-3 flex items-baseline gap-3">
@@ -184,28 +185,24 @@ export default function CharacterTooltip({
 }
 
 function getTooltipStyle(
- triggerRect: DOMRect,
- tooltipWidth: number,
- tooltipHeight: number,
- isMobile: boolean
-): { style: React.CSSProperties; arrowStyle: React.CSSProperties; origin: string } {
- const margin = isMobile ? 8 : 12;
- const viewportWidth = window.innerWidth;
- const viewportHeight = window.innerHeight;
+  triggerRect: DOMRect,
+  tooltipWidth: number,
+  tooltipHeight: number,
+  isMobile: boolean
+): { style: React.CSSProperties; arrowStyle: React.CSSProperties; placeBelow: boolean } {
+  const margin = isMobile ? 8 : 12;
+  const viewportWidth = window.innerWidth;
+  const viewportHeight = window.innerHeight;
 
- let left = triggerRect.left + triggerRect.width / 2 - tooltipWidth / 2;
- let top = triggerRect.top - tooltipHeight - margin;
- let placeBelow = false;
- let origin: string;
+  let left = triggerRect.left + triggerRect.width / 2 - tooltipWidth / 2;
+  let top = triggerRect.top - tooltipHeight - margin;
+  let placeBelow = false;
 
- // If tooltip would go above viewport, place below trigger
- if (top < margin) {
- top = triggerRect.bottom + margin;
- placeBelow = true;
- origin = "top center";
- } else {
- origin = "bottom center";
- }
+  // If tooltip would go above viewport, place below trigger
+  if (top < margin) {
+    top = triggerRect.bottom + margin;
+    placeBelow = true;
+  }
 
  // Clamp horizontally
  if (left < margin) left = margin;
@@ -228,5 +225,5 @@ function getTooltipStyle(
  ? { left: arrowLeft, top: "-5px", transform: "rotate(225deg)" }
  : { left: arrowLeft, bottom: "-5px" };
 
- return { style: { left, top }, arrowStyle, origin };
+ return { style: { left, top }, arrowStyle, placeBelow };
 }

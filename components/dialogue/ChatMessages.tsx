@@ -39,7 +39,7 @@ export default function ChatMessages({
  <div
  ref={scrollRef}
  data-messages-container
- className="relative flex-1 overflow-y-auto overflow-x-hidden"
+ className="scrollbar-hide relative flex-1 overflow-y-auto overflow-x-hidden"
  style={{
  backgroundImage:
  "repeating-linear-gradient(90deg, transparent, transparent 39px, rgba(26,26,46,0.03) 39px, rgba(26,26,46,0.03) 40px)",
