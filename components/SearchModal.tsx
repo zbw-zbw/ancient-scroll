@@ -22,10 +22,10 @@ interface ModuleGroup {
 }
 
 const moduleMeta: Record<string, { label: string; icon: string }> = {
-  shanhaijing: { label: "山海经", icon: "\u{1F4D6}" },
-  beasts: { label: "异兽", icon: "\u{1F43E}" },
-  poetry: { label: "诗词", icon: "\u{1F38B}" },
-  characters: { label: "人物", icon: "\u{1F4AC}" },
+  shanhaijing: { label: "山海经", icon: "📖" },
+  beasts: { label: "异兽", icon: "🐾" },
+  poetry: { label: "诗词", icon: "🎋" },
+  characters: { label: "人物", icon: "💬" },
 };
 
 const MAX_PER_MODULE = 5;
@@ -33,7 +33,47 @@ const MAX_TOTAL = 20;
 
 function truncate(str: string, maxLen: number) {
   if (str.length <= maxLen) return str;
-  return str.slice(0, maxLen) + "...";
+  return str.slice(0, maxLen) + "…";
+}
+
+/** Highlight matching text with <mark> tags */
+function HighlightText({ text, query }: { text: string; query: string }) {
+  if (!query.trim()) return <>{text}</>;
+
+  const q = query.trim();
+  const parts: { text: string; match: boolean }[] = [];
+  let remaining = text;
+  let lastIndex = 0;
+
+  while (true) {
+    const idx = remaining.indexOf(q, lastIndex);
+    if (idx === -1) {
+      parts.push({ text: remaining.slice(lastIndex), match: false });
+      break;
+    }
+    if (idx > lastIndex) {
+      parts.push({ text: remaining.slice(lastIndex, idx), match: false });
+    }
+    parts.push({ text: remaining.slice(idx, idx + q.length), match: true });
+    lastIndex = idx + q.length;
+  }
+
+  return (
+    <>
+      {parts.map((part, i) =>
+        part.match ? (
+          <mark
+            key={i}
+            className="bg-cinnabar/20 text-cinnabar rounded-sm px-0.5"
+          >
+            {part.text}
+          </mark>
+        ) : (
+          <span key={i}>{part.text}</span>
+        )
+      )}
+    </>
+  );
 }
 
 function searchShanhaijing(query: string): SearchResult[] {
@@ -41,7 +81,6 @@ function searchShanhaijing(query: string): SearchResult[] {
   const results: SearchResult[] = [];
 
   for (const chapter of chapters) {
-    // Match chapter name
     if (chapter.name.toLowerCase().includes(q)) {
       results.push({
         module: "shanhaijing",
@@ -51,7 +90,6 @@ function searchShanhaijing(query: string): SearchResult[] {
       });
     }
 
-    // Match sentences
     for (const sentence of chapter.sentences) {
       if (
         sentence.original.toLowerCase().includes(q) ||
@@ -64,8 +102,6 @@ function searchShanhaijing(query: string): SearchResult[] {
           href: `/reading?chapter=${chapter.id}`,
         });
       }
-
-      if (results.length >= MAX_PER_MODULE) break;
     }
 
     if (results.length >= MAX_PER_MODULE) break;
@@ -114,7 +150,7 @@ function searchPoetry(query: string): SearchResult[] {
     ) {
       results.push({
         module: "poetry",
-        title: `${poem.title} - ${poem.author}`,
+        title: `${poem.title} — ${poem.author}`,
         description: truncate(poem.description, 60),
         href: `/poetry`,
       });
@@ -159,28 +195,32 @@ export default function SearchModal({
   onClose: () => void;
 }) {
   const [query, setQuery] = useState("");
+  const [visible, setVisible] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const overlayRef = useRef<HTMLDivElement>(null);
 
-  // Focus input on open
+  // Animate in/out
   useEffect(() => {
     if (open) {
+      setVisible(true);
       setQuery("");
-      // Use a small timeout to ensure DOM is ready
       requestAnimationFrame(() => {
         inputRef.current?.focus();
       });
+    } else {
+      // Delay hiding to allow fade-out animation
+      const timer = setTimeout(() => setVisible(false), 200);
+      return () => clearTimeout(timer);
     }
   }, [open]);
 
-  // Escape key to close
+  // Escape key + lock body scroll
   useEffect(() => {
     if (!open) return;
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") onClose();
     };
     document.addEventListener("keydown", handleKeyDown);
-    // Prevent body scroll
     document.body.style.overflow = "hidden";
     return () => {
       document.removeEventListener("keydown", handleKeyDown);
@@ -214,10 +254,8 @@ export default function SearchModal({
       },
     ];
 
-    // Filter out empty modules
     const nonEmpty = allResults.filter((g) => g.results.length > 0);
 
-    // Apply total limit
     let total = 0;
     for (const group of nonEmpty) {
       const remaining = MAX_TOTAL - total;
@@ -248,18 +286,28 @@ export default function SearchModal({
     onClose();
   }, [onClose]);
 
-  if (!open) return null;
+  if (!visible) return null;
 
   return (
     <div
       ref={overlayRef}
       onClick={handleOverlayClick}
-      className="fixed inset-0 z-[60] flex items-start justify-center bg-ink/50 backdrop-blur-sm pt-[10vh]"
+      className={`fixed inset-0 z-[60] flex items-start justify-center bg-ink/50 backdrop-blur-sm pt-[10vh] transition-all duration-200 ${
+        open
+          ? "opacity-100 pointer-events-auto"
+          : "opacity-0 pointer-events-none"
+      }`}
       role="dialog"
       aria-modal="true"
       aria-label="搜索"
     >
-      <div className="bg-surface rounded-2xl shadow-2xl max-w-lg w-full mx-4 overflow-hidden">
+      <div
+        className={`w-full max-w-lg mx-4 overflow-hidden bg-surface rounded-2xl shadow-2xl transition-all duration-200 ${
+          open
+            ? "translate-y-0 opacity-100 scale-100"
+            : "-translate-y-4 opacity-0 scale-95"
+        }`}
+      >
         {/* Search input */}
         <div className="flex items-center gap-3 px-4 py-3 border-b border-ink/10">
           <svg
@@ -279,7 +327,7 @@ export default function SearchModal({
             type="text"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            placeholder="搜索山海经、异兽、诗词、人物..."
+            placeholder="搜索山海经、异兽、诗词、人物…"
             className="flex-1 bg-xuan rounded-xl px-4 py-3 font-serif text-ink placeholder:text-light-ink/50 outline-none text-base"
             aria-label="搜索内容"
           />
@@ -336,10 +384,10 @@ export default function SearchModal({
                     className="block px-4 py-2.5 hover:bg-xuan-dark/50 transition-colors"
                   >
                     <div className="font-serif text-sm text-ink">
-                      {result.title}
+                      <HighlightText text={result.title} query={query} />
                     </div>
                     <div className="text-xs text-light-ink/60 mt-0.5 line-clamp-1">
-                      {result.description}
+                      <HighlightText text={result.description} query={query} />
                     </div>
                   </Link>
                 ))}
