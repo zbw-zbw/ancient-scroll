@@ -27,7 +27,7 @@ export default function CharacterCard({
       <div className="relative pl-4">
         {/* Avatar */}
         <div
-          className="mb-4 h-20 w-20 overflow-hidden rounded-full shadow-inner"
+          className="mb-4 h-20 w-20 overflow-hidden rounded-full shadow-inner img-placeholder"
           style={{
             backgroundColor: `${character.color}15`,
           }}
@@ -39,6 +39,7 @@ export default function CharacterCard({
             height={80}
             className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
             loading="lazy"
+            placeholder="empty"
           />
         </div>
 

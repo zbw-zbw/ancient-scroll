@@ -11,6 +11,7 @@ import BeastDetail from "@/components/bestiary/BeastDetail";
 import AchievementModal from "@/components/bestiary/AchievementModal";
 
 const STORAGE_KEY = "ancient-scroll-collected-beasts";
+const ACHIEVEMENT_SHOWN_KEY = "ancient-scroll-achievement-shown";
 
 export default function BestiaryClient() {
  const searchParams = useSearchParams();
@@ -47,12 +48,15 @@ export default function BestiaryClient() {
  }, [searchParams]);
 
  useEffect(() => {
+    const alreadyShown = localStorage.getItem(ACHIEVEMENT_SHOWN_KEY) === "true";
     if (
+      !alreadyShown &&
       collectedIds.length === beasts.length &&
       prevCountRef.current < beasts.length &&
       !selectedBeast
     ) {
       setShowAchievement(true);
+      localStorage.setItem(ACHIEVEMENT_SHOWN_KEY, "true");
     }
     prevCountRef.current = collectedIds.length;
   }, [collectedIds, selectedBeast]);

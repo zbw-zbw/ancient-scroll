@@ -25,21 +25,43 @@ export default function CharacterTooltip({
  onClose,
 }: CharacterTooltipProps) {
  const [mounted, setMounted] = useState(false);
- const [loading, setLoading] = useState(false);
- const [aiResult, setAiResult] = useState<AnnotateResult | null>(null);
- const [error, setError] = useState("");
- const tooltipRef = useRef<HTMLDivElement>(null);
- const [size, setSize] = useState({ width: 280, height: 180 });
- const [isMobile, setIsMobile] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [aiResult, setAiResult] = useState<AnnotateResult | null>(null);
+  const [error, setError] = useState("");
+  const tooltipRef = useRef<HTMLDivElement>(null);
+  const [size, setSize] = useState({ width: 280, height: 180 });
+  const [isMobile, setIsMobile] = useState(false);
+  const autoFetchedRef = useRef(false);
 
  useLayoutEffect(() => {
  setIsMobile(typeof window !== "undefined" && window.innerWidth < 768);
  }, []);
 
  useEffect(() => {
- const timer = requestAnimationFrame(() => setMounted(true));
- return () => cancelAnimationFrame(timer);
- }, []);
+    const timer = requestAnimationFrame(() => setMounted(true));
+    return () => cancelAnimationFrame(timer);
+  }, []);
+
+  // Load cached AI annotation on mount
+  useEffect(() => {
+    try {
+      const cacheKey = `annotate-${charData.char}-${context.slice(0, 20)}`;
+      const cached = localStorage.getItem(cacheKey);
+      if (cached) {
+        setAiResult(JSON.parse(cached));
+      } else if (!autoFetchedRef.current) {
+        autoFetchedRef.current = true;
+        handleAskAI();
+      }
+    } catch {
+      if (!autoFetchedRef.current) {
+        autoFetchedRef.current = true;
+        handleAskAI();
+      }
+    }
+    // Only run on mount
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
  // Measure tooltip size after first render so position is correct on first paint
  useLayoutEffect(() => {
@@ -77,28 +99,33 @@ export default function CharacterTooltip({
  }, [onClose]);
 
  const handleAskAI = async () => {
- if (loading || aiResult) return;
- setLoading(true);
- setError("");
- try {
- const res = await fetch("/api/annotate", {
- method: "POST",
- headers: { "Content-Type": "application/json" },
- body: JSON.stringify({ char: charData.char, context }),
- });
- const data = await res.json();
- if (!res.ok) throw new Error(data.error || "请求失败");
- setAiResult({
- pinyin: data.pinyin || charData.pinyin,
- meaning: data.meaning || charData.meaning,
- detail: data.detail || "",
- });
- } catch (err) {
- setError(err instanceof Error ? err.message : "请求失败");
- } finally {
- setLoading(false);
- }
- };
+    setLoading(true);
+    setError("");
+    try {
+      const res = await fetch("/api/annotate", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ char: charData.char, context }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "请求失败");
+      const result: AnnotateResult = {
+        pinyin: data.pinyin || charData.pinyin,
+        meaning: data.meaning || charData.meaning,
+        detail: data.detail || "",
+      };
+      setAiResult(result);
+      // Cache result
+      try {
+        const cacheKey = `annotate-${charData.char}-${context.slice(0, 20)}`;
+        localStorage.setItem(cacheKey, JSON.stringify(result));
+      } catch { /* ignore */ }
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "请求失败");
+    } finally {
+      setLoading(false);
+    }
+  };
 
  const { style, arrowStyle, placeBelow } = getTooltipStyle(
     triggerRect,
@@ -136,7 +163,17 @@ export default function CharacterTooltip({
  {/* Detail */}
  {aiResult ? (
  <div className="space-y-2">
+ <div className="flex items-center justify-between">
  <p className="font-serif text-xs text-muted">深度解读</p>
+ <button
+ onClick={handleAskAI}
+ disabled={loading}
+ className="flex items-center gap-1 font-serif text-xs text-cinnabar/70 hover:text-cinnabar transition-colors disabled:opacity-50"
+ >
+ <IconSparkles className="h-3 w-3" />
+ 重新解读
+ </button>
+ </div>
  <p className="font-serif text-sm leading-relaxed text-ink">
  {aiResult.detail}
  </p>

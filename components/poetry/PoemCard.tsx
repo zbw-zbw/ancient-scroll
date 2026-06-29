@@ -37,7 +37,7 @@ export default function PoemCard({ poem, onSelect }: PoemCardProps) {
       />
 
       {/* Cover image - fallback to gradient if no image */}
-      <div className="relative h-[140px] overflow-hidden rounded-t-2xl" style={{ background: poem.coverImage ? undefined : `linear-gradient(135deg, ${poem.theme}40, ${poem.theme}15)` }}>
+      <div className="relative h-[140px] overflow-hidden rounded-t-2xl img-placeholder" style={{ background: poem.coverImage ? undefined : `linear-gradient(135deg, ${poem.theme}40, ${poem.theme}15)` }}>
         {poem.coverImage && (
           <>
             <Image
@@ -46,6 +46,7 @@ export default function PoemCard({ poem, onSelect }: PoemCardProps) {
               fill
               className="object-cover opacity-80 transition-transform duration-500 group-hover:scale-105"
               loading="lazy"
+              placeholder="empty"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-surface to-transparent" />
           </>

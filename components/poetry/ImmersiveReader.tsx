@@ -25,16 +25,16 @@ export default function ImmersiveReader({ poem, onBack }: ImmersiveReaderProps) 
 
  const slides = container.querySelectorAll(".slide");
  const observer = new IntersectionObserver(
- (entries) => {
- entries.forEach((entry) => {
- if (entry.isIntersecting) {
- const index = Array.from(slides).indexOf(entry.target);
- if (index !== -1) setCurrentSlide(index);
- }
- });
- },
- { threshold: 0.5, rootMargin: "0px" }
- );
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          const index = Array.from(slides).indexOf(entry.target);
+          if (index !== -1) setCurrentSlide(index);
+        }
+      });
+    },
+    { threshold: 0.45, rootMargin: "0px" }
+  );
 
  slides.forEach((slide) => observer.observe(slide));
  return () => observer.disconnect();

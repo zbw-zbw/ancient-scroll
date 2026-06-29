@@ -42,7 +42,7 @@ export default function BeastCard({
       aria-label={`查看${beast.name}详情`}
     >
       {/* Image area - full-bleed cover */}
-      <div className="relative h-[260px] overflow-hidden rounded-t-2xl">
+      <div className="relative h-[260px] overflow-hidden rounded-t-2xl img-placeholder">
         <Image
           src={beast.imagePath}
           alt={beast.name}
@@ -50,6 +50,7 @@ export default function BeastCard({
           sizes="(max-width: 768px) 50vw, 33vw"
           className="object-cover transition-transform duration-500 group-hover:scale-105"
           loading="lazy"
+          placeholder="empty"
         />
       </div>
 
