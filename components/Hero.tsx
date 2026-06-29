@@ -1,100 +1,104 @@
 "use client";
 
-const fallingChars = [
-  { char: "山", left: "8%", delay: "0s", duration: "14s", size: "2.5rem" },
-  { char: "海", left: "22%", delay: "2s", duration: "18s", size: "2rem" },
-  { char: "经", left: "75%", delay: "1s", duration: "16s", size: "2.2rem" },
-  { char: "诗", left: "88%", delay: "3s", duration: "20s", size: "1.8rem" },
-  { char: "赋", left: "15%", delay: "5s", duration: "17s", size: "1.6rem" },
-  { char: "道", left: "82%", delay: "4s", duration: "15s", size: "2rem" },
-];
+import Image from "next/image";
+import Link from "next/link";
+import { useEffect, useState } from "react";
 
-// Simplified SVG paths approximating each character's strokes
-const charPaths: Record<string, string[]> = {
-  古: [
-    "M 18 24 Q 40 22 62 24",
-    "M 40 24 L 40 92",
-    "M 22 58 Q 40 56 58 58",
-    "M 26 58 L 26 86",
-    "M 54 58 L 54 86",
-    "M 26 86 Q 40 88 54 86",
-  ],
-  籍: [
-    "M 18 18 Q 20 27 24 37",
-    "M 30 18 Q 28 27 24 37",
-    "M 50 18 Q 52 27 56 37",
-    "M 62 18 Q 60 27 56 37",
-    "M 14 42 Q 40 40 66 42",
-    "M 28 42 L 26 90",
-    "M 52 42 L 54 90",
-    "M 26 64 Q 40 62 54 64",
-    "M 26 86 Q 40 84 54 86",
-  ],
-  焕: [
-    "M 22 22 Q 26 28 22 34",
-    "M 34 22 Q 30 28 34 34",
-    "M 28 36 L 28 90",
-    "M 46 30 Q 56 28 66 30",
-    "M 56 30 L 56 90",
-    "M 46 52 L 66 72",
-    "M 66 52 L 46 72",
-    "M 46 90 Q 56 92 66 90",
-  ],
-};
+const title = "古籍焕新";
 
 export default function Hero() {
+  const [scrollY, setScrollY] = useState(0);
+
+  useEffect(() => {
+    const handleScroll = () => setScrollY(window.scrollY);
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  const progress = Math.min(
+    scrollY / (typeof window !== "undefined" ? window.innerHeight : 1),
+    1
+  );
+  const bgOpacity = 1 - progress * 0.7;
+  const bgY = -progress * 15;
+
   return (
-    <section className="relative w-full overflow-hidden px-4 pt-32 pb-28 md:pt-40 md:pb-32">
-      {/* Side ink wash decorations */}
+    <section className="relative h-svh w-full overflow-hidden">
+      {/* Background image with parallax */}
       <div
-        className="pointer-events-none absolute top-1/4 -left-32 h-96 w-96 rounded-full ink-wash"
+        className="absolute inset-0 -z-20 will-change-transform"
         style={{
-          background:
-            "radial-gradient(circle, rgba(26,26,46,0.05) 0%, rgba(26,26,46,0.02) 40%, transparent 70%)",
+          opacity: bgOpacity,
+          transform: `translateY(${bgY}%)`,
         }}
-      />
-      <div
-        className="pointer-events-none absolute bottom-1/4 -right-40 h-[28rem] w-[28rem] rounded-full ink-wash"
-        style={{
-          background:
-            "radial-gradient(circle, rgba(26,26,46,0.04) 0%, rgba(26,26,46,0.015) 40%, transparent 70%)",
-          animationDelay: "2s",
-        }}
-      />
+      >
+        <Image
+          src="/images/hero-ink.jpg"
+          alt="水墨山水"
+          fill
+          priority
+          className="animate-hero-breathe object-cover"
+          sizes="100vw"
+        />
+      </div>
 
-      {/* Falling characters */}
-      {fallingChars.map((item, index) => (
-        <span
-          key={index}
-          className="pointer-events-none fixed hidden md:block font-calligraphy text-ink/10 animate-fall-char z-0"
-          style={{
-            left: item.left,
-            top: "-10vh",
-            fontSize: item.size,
-            animationDelay: item.delay,
-            animationDuration: item.duration,
-          }}
+      {/* Gradient overlay for text readability */}
+      <div className="absolute inset-0 -z-10 bg-gradient-to-r from-xuan/80 via-xuan/50 to-xuan/20" />
+      <div className="absolute inset-0 -z-10 bg-gradient-to-t from-xuan via-transparent to-transparent" />
+
+      {/* Foreground content */}
+      <div className="relative z-10 flex h-full flex-col justify-center px-6 md:items-start md:px-12 lg:px-20">
+        <h1
+          className="mb-6 text-center font-calligraphy tracking-wider md:text-left"
+          style={{ fontSize: "clamp(3rem, 12vw, 7rem)" }}
         >
-          {item.char}
-        </span>
-      ))}
-
-      <div className="relative z-10 mx-auto flex max-w-[1100px] flex-col items-center text-center">
-        {/* Main title */}
-        <h1 className="mb-8 font-calligraphy text-7xl md:text-8xl text-ink tracking-wider animate-fade-in">
-          古籍焕新
+          {title.split("").map((char, i) => (
+            <span
+              key={i}
+              className="inline-block animate-hero-reveal text-ink"
+              style={{ animationDelay: `${0.2 + i * 0.08}s` }}
+            >
+              {char}
+            </span>
+          ))}
         </h1>
 
-        {/* Subtitle */}
-        <p className="font-handwrite mb-6 text-2xl md:text-3xl text-light-ink tracking-wide">
+        <p
+          className="mb-8 text-center font-handwrite text-2xl text-light-ink animate-hero-reveal md:text-left md:text-3xl"
+          style={{ animationDelay: "0.7s" }}
+        >
           让千年文字“活”起来
         </p>
 
-        {/* Intro stat */}
-        <p className="font-serif max-w-md text-base md:text-lg text-muted leading-relaxed">
-          95%的人知道《山海经》，但不到5%的人读过原文
-        </p>
+        <Link
+          href="#features"
+          className="mx-auto inline-flex items-center gap-2 rounded-full bg-cinnabar px-6 py-3 font-serif text-sm text-white shadow-md transition-transform hover:translate-x-1 animate-hero-reveal md:mx-0"
+          style={{ animationDelay: "1s" }}
+        >
+          开启旅程
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            className="h-4 w-4"
+          >
+            <path d="M5 12h14" />
+            <path d="m12 5 7 7-7 7" />
+          </svg>
+        </Link>
+      </div>
 
+      {/* Seal badge */}
+      <div className="absolute bottom-8 right-8 z-10 flex h-16 w-16 rotate-[-3deg] items-center justify-center rounded-sm bg-seal-bg shadow-sm md:bottom-12 md:right-12 md:h-20 md:w-20">
+        <span className="text-center font-calligraphy text-xs leading-tight text-seal-red md:text-sm">
+          古籍
+          <br />
+          焕新
+        </span>
       </div>
     </section>
   );

@@ -8,7 +8,6 @@ export interface Beast {
   originalText: string;
   translation: string;
   traits: string[];
-  emoji: string;
   gradient: [string, string];
   imagePath: string;
   description: string;
@@ -24,7 +23,6 @@ export const beasts: Beast[] = [
     translation:
       "山中有一种兽，形状像狐狸却有九条尾巴，叫声像婴儿啼哭，能吃人，但吃了它的肉可以不受妖邪蛊毒之害。",
     traits: ["九尾", "声如婴儿", "辟邪"],
-    emoji: "🦊",
     gradient: ["#f43f5e", "#fb923c"],
     imagePath: "/images/beasts/jiuhuweiu.png",
     description:
@@ -39,7 +37,6 @@ export const beasts: Beast[] = [
     translation:
       "山中有一种兽，形状像猿猴，长着白色耳朵，既能匍匐爬行又能直立行走，名叫狌狌，吃了它的肉就能健步如飞。",
     traits: ["白耳", "人走", "食之善走"],
-    emoji: "🐵",
     gradient: ["#a8a29e", "#d6d3d1"],
     imagePath: "/images/beasts/xingxing.png",
     description:
@@ -55,7 +52,6 @@ export const beasts: Beast[] = [
     translation:
       "山中有一种兽，形状像马，白色的头，身上花纹像老虎，红色的尾巴，叫声像人唱歌，名叫鹿蜀，佩戴它的皮毛有利于子孙繁衍。",
     traits: ["马形虎纹", "白首赤尾", "声如歌谣"],
-    emoji: "🦌",
     gradient: ["#f59e0b", "#ea580c"],
     imagePath: "/images/beasts/lushu.png",
     description:
@@ -70,7 +66,6 @@ export const beasts: Beast[] = [
     translation:
       "山中有一种兽，形状像羊却长着马尾巴，名叫羬羊，它的油脂可以治疗皮肤干裂。",
     traits: ["羊形马尾", "脂可治病"],
-    emoji: "🐑",
     gradient: ["#e7e5e4", "#a8a29e"],
     imagePath: "/images/beasts/qianyang.png",
     description:
@@ -86,7 +81,6 @@ export const beasts: Beast[] = [
     translation:
       "山中有一种兽，形状像羊，九条尾巴四只耳朵，眼睛长在背上，名叫猼訑，佩戴它的皮毛就不会恐惧。",
     traits: ["九尾四耳", "目在背", "辟邪"],
-    emoji: "🐐",
     gradient: ["#7c3aed", "#a78bfa"],
     imagePath: "/images/beasts/boyi.png",
     description:
@@ -102,7 +96,6 @@ export const beasts: Beast[] = [
     translation:
       "山中有一种兽，形状像兔子却有鸟嘴，猫头鹰般的眼睛和蛇一样的尾巴，见到人就装死，名叫犰狳。",
     traits: ["兔形鸟喙", "见人则眠"],
-    emoji: "🐰",
     gradient: ["#0ea5e9", "#67e8f9"],
     imagePath: "/images/beasts/qiuyu.png",
     description:
@@ -118,7 +111,6 @@ export const beasts: Beast[] = [
     translation:
       "山中有一种兽，形状像豹子，尾巴很长，人的面孔牛的耳朵，只有一只眼睛，名叫诸犍，善于长啸。",
     traits: ["豹形人首", "一目", "善啸"],
-    emoji: "🐆",
     gradient: ["#1e293b", "#475569"],
     imagePath: "/images/beasts/zhujian.png",
     description:
@@ -133,7 +125,6 @@ export const beasts: Beast[] = [
     translation:
       "山中有一种兽，形状像狗却长着六只脚，名叫从从，叫声就像在呼唤自己的名字。",
     traits: ["犬形六足", "鸣声自呼"],
-    emoji: "🐕",
     gradient: ["#854d0e", "#ca8a04"],
     imagePath: "/images/beasts/congcong.png",
     description:
@@ -149,7 +140,6 @@ export const beasts: Beast[] = [
     translation:
       "山中有一种鸟，形状像乌鸦，头上有花纹，白色的嘴，红色的脚，名叫精卫，叫声如同在呼唤自己的名字。",
     traits: ["花纹头", "白喙赤足", "炎帝之女"],
-    emoji: "🐦‍⬛",
     gradient: ["#dc2626", "#f97316"],
     imagePath: "/images/beasts/jingwei.png",
     description:
@@ -164,7 +154,6 @@ export const beasts: Beast[] = [
     translation:
       "山中有一种鸟，形状像野鸡，长着五彩斑斓的羽毛，名叫鸾鸟，它出现就预示天下太平。",
     traits: ["五彩羽毛", "祥瑞之兆"],
-    emoji: "🦚",
     gradient: ["#2563eb", "#8b5cf6"],
     imagePath: "/images/beasts/luanniao.png",
     description:
@@ -179,7 +168,6 @@ export const beasts: Beast[] = [
     translation:
       "山中有一种兽，形状像野猫，白色的头，名叫天狗，叫声像'榴榴'，可以抵御凶邪。",
     traits: ["狸形白首", "御凶辟邪"],
-    emoji: "🐱",
     gradient: ["#f1f5f9", "#94a3b8"],
     imagePath: "/images/beasts/tiangou.png",
     description:
@@ -195,7 +183,6 @@ export const beasts: Beast[] = [
     translation:
       "山中有一种鸟，形状像鸡却长着老鼠一样的毛，名叫㶟鼠鸟，它出现当地就会大旱。",
     traits: ["鸡形鼠毛", "旱灾预兆"],
-    emoji: "🐓",
     gradient: ["#d97706", "#fbbf24"],
     imagePath: "/images/beasts/tushu.png",
     description:
@@ -210,7 +197,6 @@ export const beasts: Beast[] = [
     translation:
       "山中有一种鸟，形状像斑鸠，叫声像人在呵斥，名叫青耕，佩戴它的羽毛可以使人不受迷惑。",
     traits: ["鸠形", "声如呵斥", "辟惑"],
-    emoji: "🕊️",
     gradient: ["#059669", "#34d399"],
     imagePath: "/images/beasts/guanguan.png",
     description:
@@ -225,7 +211,6 @@ export const beasts: Beast[] = [
     translation:
       "山中有一种鸟，形状像鹌鹑，黄色身体红色嘴巴，名叫肥遗，吃了它的肉可以治愈麻风病。",
     traits: ["鹑形", "黄身赤喙", "治疗疾病"],
-    emoji: "🐤",
     gradient: ["#eab308", "#fde047"],
     imagePath: "/images/beasts/feiyiniao.png",
     description:
@@ -239,7 +224,6 @@ export const beasts: Beast[] = [
     originalText: "其中多鳙鳙之鱼，其状如犁牛，其音如彘鸣。",
     translation: "水中有许多鳙鳙鱼，形状像水牛，叫声像猪叫。",
     traits: ["牛形", "声如猪鸣"],
-    emoji: "🐟",
     gradient: ["#0284c7", "#38bdf8"],
     imagePath: "/images/beasts/yongyong.png",
     description:
@@ -254,7 +238,6 @@ export const beasts: Beast[] = [
     translation:
       "水中有一种鱼，形状像普通的鱼却长着人脸，叫声像鸳鸯，吃了可以治愈疥疮。",
     traits: ["鱼身人面", "声如鸳鸯"],
-    emoji: "🧜",
     gradient: ["#e11d48", "#f472b6"],
     imagePath: "/images/beasts/chiru.png",
     description:
@@ -270,7 +253,6 @@ export const beasts: Beast[] = [
     translation:
       "水中有一种龟，形状像普通的龟却长着鸟头蛇尾，名叫旋龟，叫声如同劈木头，佩戴它可以治愈耳聋。",
     traits: ["龟身鸟首蛇尾", "声如劈木", "治聋"],
-    emoji: "🐢",
     gradient: ["#16a34a", "#4ade80"],
     imagePath: "/images/beasts/xuangui.png",
     description:
@@ -285,7 +267,6 @@ export const beasts: Beast[] = [
     translation:
       "山中有一种蛇，长着六只脚四只翅膀，名叫肥遗，它出现就预示天下大旱。",
     traits: ["六足四翼", "旱灾预兆"],
-    emoji: "🐍",
     gradient: ["#b91c1c", "#ef4444"],
     imagePath: "/images/beasts/feiyishe.png",
     description:
@@ -299,7 +280,6 @@ export const beasts: Beast[] = [
     originalText: "共工之臣曰相柳氏，九首，以食于九山。",
     translation: "共工的臣子叫相柳，长着九个脑袋，同时在九座山上进食。",
     traits: ["九首", "共工之臣", "贪婪"],
-    emoji: "🐲",
     gradient: ["#166534", "#15803d"],
     imagePath: "/images/beasts/xiangliu.png",
     description:
@@ -315,7 +295,6 @@ export const beasts: Beast[] = [
     translation:
       "有一位神灵，人面蛇身，通体赤红，眼睛竖着长。他闭眼就是黑夜，睁眼就是白天，不吃不睡不呼吸。",
     traits: ["人面蛇身", "掌控昼夜", "创世神"],
-    emoji: "🔥",
     gradient: ["#dc2626", "#7f1d1d"],
     imagePath: "/images/beasts/zhulong.png",
     description:
@@ -328,13 +307,6 @@ export const categoryLabels: Record<BeastCategory, string> = {
   bird: "禽类",
   fish: "鱼类",
   serpent: "蛇类",
-};
-
-export const categoryEmojis: Record<BeastCategory, string> = {
-  beast: "🐾",
-  bird: "🐦",
-  fish: "🐟",
-  serpent: "🐍",
 };
 
 export const categoryCounts: Record<BeastCategory | "all", number> = {
