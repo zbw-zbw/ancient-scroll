@@ -55,8 +55,34 @@ body {
 }
 
 *:focus-visible {
-  outline: 2px solid var(--cinnabar);
-  outline-offset: 2px;
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(200, 64, 50, 0.3);
+}
+
+/* Global transitions for interactive elements and cards */
+a,
+button,
+[role="button"],
+.card,
+.section-reveal,
+.fade-in,
+.btn {
+  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter;
+  transition-timing-function: ease-out;
+  transition-duration: 300ms;
+}
+
+/* Active feedback for buttons and clickable cards */
+button:active,
+[role="button"]:active,
+.btn:active,
+.card:active {
+  transform: scale(0.97);
+}
+
+/* Link hover color fallback */
+:where(a:not(.no-link)):hover {
+  color: var(--cinnabar);
 }
 
 /* Global pointer cursor for interactive elements */
@@ -241,6 +267,26 @@ footer {
 
 .font-serif {
   font-family: var(--font-noto-serif-sc), "Noto Serif SC", "Songti SC", serif;
+}
+
+/* Unified card style */
+.card {
+  @apply overflow-hidden rounded-2xl bg-surface/60 shadow-sm;
+}
+
+@media (hover: hover) {
+  .card:hover {
+    transform: translateY(-0.25rem);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
+  }
+
+  .card :where(img) {
+    transition: transform 500ms ease-out;
+  }
+
+  .card:hover :where(img) {
+    transform: scale(1.05);
+  }
 }
 
 .text-vertical {

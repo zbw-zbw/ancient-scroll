@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Ma_Shan_Zheng, Noto_Serif_SC, Long_Cang } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
+import PageTransition from "@/components/PageTransition";
 
 const maShanZheng = Ma_Shan_Zheng({
   weight: "400",
@@ -50,7 +51,7 @@ export default function RootLayout({
     <html lang="zh-CN" className={`${maShanZheng.variable} ${notoSerifSC.variable} ${longCang.variable} antialiased`}>
       <body className="min-h-screen">
         <Navbar />
-        {children}
+        <PageTransition>{children}</PageTransition>
       </body>
     </html>
   );

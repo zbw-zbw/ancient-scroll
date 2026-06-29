@@ -22,34 +22,34 @@ export default function PoemCard({ poem, onSelect }: PoemCardProps) {
  };
 
  return (
- <article
- role="button"
- tabIndex={0}
- onClick={handleCardClick}
- onKeyDown={handleKeyDown}
- className="group flex cursor-pointer flex-col overflow-hidden rounded-xl bg-surface/60 transition-all duration-300 hover:-translate-y-1 hover:bg-surface hover:shadow-lg"
- aria-label={`进入《${poem.title}》诗境`}
- >
- {/* Theme bar */}
- <div
- className="h-1 w-full"
- style={{ backgroundColor: poem.theme }}
- />
+    <article
+      role="button"
+      tabIndex={0}
+      onClick={handleCardClick}
+      onKeyDown={handleKeyDown}
+      className="card group flex cursor-pointer flex-col"
+      aria-label={`进入《${poem.title}》诗境`}
+    >
+      {/* Theme bar */}
+      <div
+        className="h-1 w-full"
+        style={{ backgroundColor: poem.theme }}
+      />
 
- {/* Cover image - fallback to gradient if no image */}
- <div className="relative h-[140px] overflow-hidden rounded-t-lg" style={{ background: poem.coverImage ? undefined : `linear-gradient(135deg, ${poem.theme}40, ${poem.theme}15)` }}>
- {poem.coverImage && (
- <>
- <Image
- src={poem.coverImage}
- alt={poem.title}
- fill
- className="object-cover opacity-80"
- loading="lazy"
- />
- <div className="absolute inset-0 bg-gradient-to-t from-surface to-transparent" />
- </>
- )}
+      {/* Cover image - fallback to gradient if no image */}
+      <div className="relative h-[140px] overflow-hidden rounded-t-2xl" style={{ background: poem.coverImage ? undefined : `linear-gradient(135deg, ${poem.theme}40, ${poem.theme}15)` }}>
+        {poem.coverImage && (
+          <>
+            <Image
+              src={poem.coverImage}
+              alt={poem.title}
+              fill
+              className="object-cover opacity-80 transition-transform duration-500 group-hover:scale-105"
+              loading="lazy"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-surface to-transparent" />
+          </>
+        )}
  {!poem.coverImage && (
  <div className="flex h-full items-center justify-center">
  <span className="font-calligraphy text-5xl text-ink/10">{poem.title[0]}</span>
@@ -72,9 +72,9 @@ export default function PoemCard({ poem, onSelect }: PoemCardProps) {
  </p>
 
  <span className="mt-auto inline-flex items-center gap-1 self-start pt-4 font-serif text-sm text-cinnabar transition-colors group-hover:underline">
- 进入诗境
- <IconArrowRight className="h-3.5 w-3.5" />
- </span>
+        进入诗境
+        <IconArrowRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-1" />
+      </span>
  </div>
  </article>
  );

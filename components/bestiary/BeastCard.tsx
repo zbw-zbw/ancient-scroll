@@ -32,26 +32,26 @@ export default function BeastCard({
  };
 
  return (
- <article
- role="button"
- tabIndex={0}
- onClick={handleCardClick}
- onKeyDown={handleKeyDown}
- className="group flex cursor-pointer flex-col overflow-hidden rounded-xl bg-surface/60 transition-all duration-300 hover:-translate-y-1 hover:bg-surface hover:shadow-lg"
- style={{ animationDelay: `${index * 0.1}s` }}
- aria-label={`查看${beast.name}详情`}
- >
- {/* Image area - full-bleed cover */}
- <div className="relative h-[260px] overflow-hidden rounded-t-xl">
- <Image
- src={beast.imagePath}
- alt={beast.name}
- fill
- sizes="(max-width: 768px) 50vw, 33vw"
- className="object-cover transition-transform duration-300 group-hover:scale-[1.03]"
- loading="lazy"
- />
- </div>
+    <article
+      role="button"
+      tabIndex={0}
+      onClick={handleCardClick}
+      onKeyDown={handleKeyDown}
+      className="card group flex cursor-pointer flex-col"
+      style={{ animationDelay: `${index * 0.1}s` }}
+      aria-label={`查看${beast.name}详情`}
+    >
+      {/* Image area - full-bleed cover */}
+      <div className="relative h-[260px] overflow-hidden rounded-t-2xl">
+        <Image
+          src={beast.imagePath}
+          alt={beast.name}
+          fill
+          sizes="(max-width: 768px) 50vw, 33vw"
+          className="object-cover transition-transform duration-500 group-hover:scale-105"
+          loading="lazy"
+        />
+      </div>
 
  {/* Content */}
  <div className="flex flex-1 flex-col px-4 pb-4">
@@ -96,7 +96,7 @@ export default function BeastCard({
 
         <span className="inline-flex items-center gap-1 font-serif text-sm text-cinnabar transition-colors group-hover:underline">
           查看详情
-          <IconArrowRight className="h-3.5 w-3.5" />
+          <IconArrowRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-1" />
         </span>
  </div>
  </div>

@@ -1,7 +1,7 @@
 "use client";
 
 import type { Beast } from "@/data/beasts";
-import { IconSearch } from "@/components/icons";
+import EmptyState from "@/components/EmptyState";
 import BeastCard from "./BeastCard";
 
 interface BeastGridProps {
@@ -18,13 +18,8 @@ export default function BeastGrid({
  onViewDetail,
 }: BeastGridProps) {
  if (beasts.length === 0) {
- return (
- <div className="flex flex-col items-center justify-center py-20 text-center">
- <IconSearch className="mb-3 h-12 w-12 text-muted" />
-      <p className="font-serif text-light-ink">未找到匹配的异兽</p>
- </div>
- );
- }
+    return <EmptyState message="未找到匹配的异兽" />;
+  }
 
  return (
  <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
