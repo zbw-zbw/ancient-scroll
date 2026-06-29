@@ -32,7 +32,7 @@ export default function Hero() {
         }}
       >
         <Image
-          src="/images/hero-ink.jpg"
+          src="/images/hero-ink.webp"
           alt="水墨山水"
           fill
           priority

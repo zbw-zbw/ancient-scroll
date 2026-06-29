@@ -85,15 +85,15 @@ button:active,
   color: var(--cinnabar);
 }
 
-/* Image placeholder shimmer */
+/* Image placeholder: subtle warm pulse instead of modern shimmer */
 .img-placeholder {
-  background: linear-gradient(110deg, var(--rule, #d4c5a9) 8%, var(--xuan, #f5f0e8) 18%, var(--rule, #d4c5a9) 33%);
-  background-size: 200% 100%;
-  animation: shimmer 1.5s linear infinite;
+  background-color: var(--xuan, #f5f0e8);
+  animation: placeholder-pulse 2s ease-in-out infinite;
 }
 
-@keyframes shimmer {
-  to { background-position: -200% 0; }
+@keyframes placeholder-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.6; }
 }
 
 /* Global pointer cursor for interactive elements */

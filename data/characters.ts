@@ -18,7 +18,7 @@ export const characters: HistoricalCharacter[] = [
     title: "至圣先师",
     era: "春秋时期（前551-前479）",
     color: "#8B4513",
-    avatarPath: "/images/characters/kongzi.png",
+    avatarPath: "/images/characters/kongzi.webp",
     greeting:
       "后生晚辈，请坐。吾乃孔丘，字仲尼。今日你我虽相隔两千五百载，但道不远人，有何困惑，尽管道来。",
     description:
@@ -40,7 +40,7 @@ export const characters: HistoricalCharacter[] = [
     title: "诗仙",
     era: "唐代（701-762）",
     color: "#4169E1",
-    avatarPath: "/images/characters/libai.png",
+    avatarPath: "/images/characters/libai.webp",
     greeting:
       "哈哈！来者何人？且坐，且饮！吾乃太白，平生最爱明月与美酒。今夜月色正好，不如你我把酒言欢，聊聊这天下诗文如何？",
     description:
@@ -62,7 +62,7 @@ export const characters: HistoricalCharacter[] = [
     title: "东坡居士",
     era: "北宋（1037-1101）",
     color: "#2E8B57",
-    avatarPath: "/images/characters/sushi.png",
+    avatarPath: "/images/characters/sushi.webp",
     greeting:
       "哎呀，有客来访！老夫苏轼，号东坡居士。说来惭愧，一生被贬无数次，倒是每到一处便发明一道美食。你若不嫌，咱们边吃边聊？",
     description:
@@ -84,7 +84,7 @@ export const characters: HistoricalCharacter[] = [
     title: "楚辞之祖",
     era: "战国时期（前340-前278）",
     color: "#800020",
-    avatarPath: "/images/characters/quyuan.png",
+    avatarPath: "/images/characters/quyuan.webp",
     greeting:
       "路漫漫其修远兮……你来了。吾乃屈原，屈平。楚国虽已远去，但吾心中那份对家国的赤诚，两千年来从未熄灭。你可愿听我说说？",
     description:
@@ -106,7 +106,7 @@ export const characters: HistoricalCharacter[] = [
     title: "南华真人",
     era: "战国时期（约前369-前286）",
     color: "#6A5ACD",
-    avatarPath: "/images/characters/zhuangzi.png",
+    avatarPath: "/images/characters/zhuangzi.webp",
     greeting:
       "昔者庄周梦为蝴蝶……哦，你来啦？不知是你来找我，还是我梦见了你？哈哈，这有什么区别呢？坐坐坐，咱们随便聊聊。",
     description:
@@ -128,7 +128,7 @@ export const characters: HistoricalCharacter[] = [
     title: "心学宗师",
     era: "明代（1472-1529）",
     color: "#0d9488",
-    avatarPath: "/images/characters/wangyangming.png",
+    avatarPath: "/images/characters/wangyangming.webp",
     greeting:
       "知是行之始，行是知之成。朋友，你来了，可是心中有了困惑？别急，咱们坐下来，且说且行。",
     description:
@@ -150,7 +150,7 @@ export const characters: HistoricalCharacter[] = [
     title: "魏武帝",
     era: "东汉末年（155-220）",
     color: "#1e3a5f",
-    avatarPath: "/images/characters/caocao.png",
+    avatarPath: "/images/characters/caocao.webp",
     greeting:
       "哈哈哈！来者可是英雄？孤乃曹孟德。世人皆说孤是奸雄，可'宁教我负天下人'这话孤可没说过。坐，说说你的志向。",
     description:
@@ -172,7 +172,7 @@ export const characters: HistoricalCharacter[] = [
     title: "千古第一才女",
     era: "宋代（1084-1155）",
     color: "#be185d",
-    avatarPath: "/images/characters/liqingzhao.png",
+    avatarPath: "/images/characters/liqingzhao.webp",
     greeting:
       "你好啊。我是李清照，号易安居士。人们都记得我'知否知否'那句词，却不知我也写过'生当作人杰，死亦为鬼雄'。来，咱们聊聊。",
     description:
@@ -194,7 +194,7 @@ export const characters: HistoricalCharacter[] = [
     title: "卧龙先生",
     era: "三国时期（181-234）",
     color: "#4338ca",
-    avatarPath: "/images/characters/zhugeliang.png",
+    avatarPath: "/images/characters/zhugeliang.webp",
     greeting:
       "亮虽不才，蒙先主三顾之恩，托以天下之重。今虽星落五丈原，然一生无愧于心。阁下有何疑问，亮知无不言。",
     description:

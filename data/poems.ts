@@ -35,7 +35,7 @@ export const poems: Poem[] = [
     author: "孟浩然",
     dynasty: "唐",
     theme: "#f59e0b",
-    coverImage: "/images/poetry/chunxiao.png",
+    coverImage: "/images/poetry/chunxiao.webp",
     description: "一首关于春日清晨的恬淡小诗",
     lines: [
       {
@@ -46,7 +46,7 @@ export const poems: Poem[] = [
         gradientTo: "#fde68a",
         textColor: "dark",
         particleType: "petals",
-        sceneImage: "/images/poetry/lines/chunxiao-1.jpeg",
+        sceneImage: "/images/poetry/lines/chunxiao-1.webp",
       },
       {
         text: "处处闻啼鸟",
@@ -56,7 +56,7 @@ export const poems: Poem[] = [
         gradientTo: "#c8e6a0",
         textColor: "dark",
         particleType: "petals",
-        sceneImage: "/images/poetry/lines/chunxiao-2.jpeg",
+        sceneImage: "/images/poetry/lines/chunxiao-2.webp",
       },
       {
         text: "夜来风雨声",
@@ -66,7 +66,7 @@ export const poems: Poem[] = [
         gradientTo: "#8bb0e8",
         textColor: "dark",
         particleType: "rain",
-        sceneImage: "/images/poetry/lines/chunxiao-3.jpeg",
+        sceneImage: "/images/poetry/lines/chunxiao-3.webp",
       },
       {
         text: "花落知多少",
@@ -76,7 +76,7 @@ export const poems: Poem[] = [
         gradientTo: "#e8b8d0",
         textColor: "dark",
         particleType: "petals",
-        sceneImage: "/images/poetry/lines/chunxiao-4.jpeg",
+        sceneImage: "/images/poetry/lines/chunxiao-4.webp",
       },
     ],
   },
@@ -86,7 +86,7 @@ export const poems: Poem[] = [
     author: "李白",
     dynasty: "唐",
     theme: "#6366f1",
-    coverImage: "/images/poetry/jingyesi.png",
+    coverImage: "/images/poetry/jingyesi.webp",
     description: "千古思乡第一诗",
     lines: [
       {
@@ -97,7 +97,7 @@ export const poems: Poem[] = [
         gradientTo: "#c5cce8",
         textColor: "dark",
         particleType: "stars",
-        sceneImage: "/images/poetry/lines/jingyesi-1.jpeg",
+        sceneImage: "/images/poetry/lines/jingyesi-1.webp",
       },
       {
         text: "疑是地上霜",
@@ -107,7 +107,7 @@ export const poems: Poem[] = [
         gradientTo: "#e2e8f0",
         textColor: "dark",
         particleType: "stars",
-        sceneImage: "/images/poetry/lines/jingyesi-2.jpeg",
+        sceneImage: "/images/poetry/lines/jingyesi-2.webp",
       },
       {
         text: "举头望明月",
@@ -117,7 +117,7 @@ export const poems: Poem[] = [
         gradientTo: "#4338ca",
         textColor: "light",
         particleType: "stars",
-        sceneImage: "/images/poetry/lines/jingyesi-3.jpeg",
+        sceneImage: "/images/poetry/lines/jingyesi-3.webp",
       },
       {
         text: "低头思故乡",
@@ -127,7 +127,7 @@ export const poems: Poem[] = [
         gradientTo: "#312e81",
         textColor: "light",
         particleType: "fireflies",
-        sceneImage: "/images/poetry/lines/jingyesi-4.jpeg",
+        sceneImage: "/images/poetry/lines/jingyesi-4.webp",
       },
     ],
   },
@@ -137,7 +137,7 @@ export const poems: Poem[] = [
     author: "王之涣",
     dynasty: "唐",
     theme: "#ea580c",
-    coverImage: "/images/poetry/dengguan.png",
+    coverImage: "/images/poetry/dengguan.webp",
     description: "壮阔山河中的人生哲理",
     lines: [
       {
@@ -148,7 +148,7 @@ export const poems: Poem[] = [
         gradientTo: "#e8a87c",
         textColor: "dark",
         particleType: "leaves",
-        sceneImage: "/images/poetry/lines/dengguan-1.jpeg",
+        sceneImage: "/images/poetry/lines/dengguan-1.webp",
       },
       {
         text: "黄河入海流",
@@ -157,7 +157,7 @@ export const poems: Poem[] = [
         gradientFrom: "#c8e3f2",
         gradientTo: "#7fbfe0",
         textColor: "dark",
-        sceneImage: "/images/poetry/lines/dengguan-2.jpeg",
+        sceneImage: "/images/poetry/lines/dengguan-2.webp",
       },
       {
         text: "欲穷千里目",
@@ -166,7 +166,7 @@ export const poems: Poem[] = [
         gradientFrom: "#f5f2d0",
         gradientTo: "#e8df98",
         textColor: "dark",
-        sceneImage: "/images/poetry/lines/dengguan-3.jpeg",
+        sceneImage: "/images/poetry/lines/dengguan-3.webp",
       },
       {
         text: "更上一层楼",
@@ -175,7 +175,7 @@ export const poems: Poem[] = [
         gradientFrom: "#f2d4d4",
         gradientTo: "#e89494",
         textColor: "dark",
-        sceneImage: "/images/poetry/lines/dengguan-4.jpeg",
+        sceneImage: "/images/poetry/lines/dengguan-4.webp",
       },
     ],
   },
@@ -185,7 +185,7 @@ export const poems: Poem[] = [
     author: "李白",
     dynasty: "唐",
     theme: "#0ea5e9",
-    coverImage: "/images/poetry/lushan.png",
+    coverImage: "/images/poetry/lushan.webp",
     description: "飞流直下的磅礴气势",
     lines: [
       {
@@ -195,7 +195,7 @@ export const poems: Poem[] = [
         gradientFrom: "#f0e4f2",
         gradientTo: "#d8a8e0",
         textColor: "dark",
-        sceneImage: "/images/poetry/lines/lushan-1.jpeg",
+        sceneImage: "/images/poetry/lines/lushan-1.webp",
       },
       {
         text: "遥看瀑布挂前川",
@@ -204,7 +204,7 @@ export const poems: Poem[] = [
         gradientFrom: "#e4f4f5",
         gradientTo: "#98d8e5",
         textColor: "dark",
-        sceneImage: "/images/poetry/lines/lushan-2.jpeg",
+        sceneImage: "/images/poetry/lines/lushan-2.webp",
       },
       {
         text: "飞流直下三千尺",
@@ -214,7 +214,7 @@ export const poems: Poem[] = [
         gradientTo: "#7fa8e5",
         textColor: "dark",
         particleType: "rain",
-        sceneImage: "/images/poetry/lines/lushan-3.jpeg",
+        sceneImage: "/images/poetry/lines/lushan-3.webp",
       },
       {
         text: "疑是银河落九天",
@@ -224,7 +224,7 @@ export const poems: Poem[] = [
         gradientTo: "#0284c7",
         textColor: "light",
         particleType: "stars",
-        sceneImage: "/images/poetry/lines/lushan-4.jpeg",
+        sceneImage: "/images/poetry/lines/lushan-4.webp",
       },
     ],
   },
@@ -234,7 +234,7 @@ export const poems: Poem[] = [
     author: "柳宗元",
     dynasty: "唐",
     theme: "#64748b",
-    coverImage: "/images/poetry/jiangxue.png",
+    coverImage: "/images/poetry/jiangxue.webp",
     description: "天地间最孤独的一幅画",
     lines: [
       {
@@ -245,7 +245,7 @@ export const poems: Poem[] = [
         gradientTo: "#f1f5f9",
         textColor: "dark",
         particleType: "snow",
-        sceneImage: "/images/poetry/lines/jiangxue-1.jpeg",
+        sceneImage: "/images/poetry/lines/jiangxue-1.webp",
       },
       {
         text: "万径人踪灭",
@@ -255,7 +255,7 @@ export const poems: Poem[] = [
         gradientTo: "#e2e8f0",
         textColor: "dark",
         particleType: "snow",
-        sceneImage: "/images/poetry/lines/jiangxue-2.jpeg",
+        sceneImage: "/images/poetry/lines/jiangxue-2.webp",
       },
       {
         text: "孤舟蓑笠翁",
@@ -265,7 +265,7 @@ export const poems: Poem[] = [
         gradientTo: "#cbd5e1",
         textColor: "dark",
         particleType: "snow",
-        sceneImage: "/images/poetry/lines/jiangxue-3.jpeg",
+        sceneImage: "/images/poetry/lines/jiangxue-3.webp",
       },
       {
         text: "独钓寒江雪",
@@ -275,7 +275,7 @@ export const poems: Poem[] = [
         gradientTo: "#94a3b8",
         textColor: "dark",
         particleType: "snow",
-        sceneImage: "/images/poetry/lines/jiangxue-4.jpeg",
+        sceneImage: "/images/poetry/lines/jiangxue-4.webp",
       },
     ],
   },
@@ -285,7 +285,7 @@ export const poems: Poem[] = [
     author: "张继",
     dynasty: "唐",
     theme: "#b45309",
-    coverImage: "/images/poetry/fengqiao.png",
+    coverImage: "/images/poetry/fengqiao.webp",
     description: "秋夜江南的千古愁思",
     lines: [
       {
@@ -296,7 +296,7 @@ export const poems: Poem[] = [
         gradientTo: "#292524",
         textColor: "light",
         particleType: "leaves",
-        sceneImage: "/images/poetry/lines/fengqiao-1.jpeg",
+        sceneImage: "/images/poetry/lines/fengqiao-1.webp",
       },
       {
         text: "江枫渔火对愁眠",
@@ -306,7 +306,7 @@ export const poems: Poem[] = [
         gradientTo: "#44403c",
         textColor: "light",
         particleType: "fireflies",
-        sceneImage: "/images/poetry/lines/fengqiao-2.jpeg",
+        sceneImage: "/images/poetry/lines/fengqiao-2.webp",
       },
       {
         text: "姑苏城外寒山寺",
@@ -315,7 +315,7 @@ export const poems: Poem[] = [
         gradientFrom: "#44403c",
         gradientTo: "#57534e",
         textColor: "light",
-        sceneImage: "/images/poetry/lines/fengqiao-3.jpeg",
+        sceneImage: "/images/poetry/lines/fengqiao-3.webp",
       },
       {
         text: "夜半钟声到客船",
@@ -324,7 +324,7 @@ export const poems: Poem[] = [
         gradientFrom: "#57534e",
         gradientTo: "#78716c",
         textColor: "light",
-        sceneImage: "/images/poetry/lines/fengqiao-4.jpeg",
+        sceneImage: "/images/poetry/lines/fengqiao-4.webp",
       },
     ],
   },
@@ -334,7 +334,7 @@ export const poems: Poem[] = [
     author: "苏轼",
     dynasty: "北宋",
     theme: "#6366f1",
-    coverImage: "/images/poetry/shuidiaogetou.jpg",
+    coverImage: "/images/poetry/shuidiaogetou.webp",
     description: "中秋月夜的旷世名篇",
     lines: [
       {
@@ -345,7 +345,7 @@ export const poems: Poem[] = [
         gradientTo: "#c7d2fe",
         textColor: "dark",
         particleType: "stars",
-        sceneImage: "/images/poetry/lines/shuidiaogetou-1.jpg",
+        sceneImage: "/images/poetry/lines/shuidiaogetou-1.webp",
       },
       {
         text: "把酒问青天",
@@ -355,7 +355,7 @@ export const poems: Poem[] = [
         gradientTo: "#a5b4fc",
         textColor: "dark",
         particleType: "stars",
-        sceneImage: "/images/poetry/lines/shuidiaogetou-2.jpg",
+        sceneImage: "/images/poetry/lines/shuidiaogetou-2.webp",
       },
       {
         text: "不知天上宫阙",
@@ -365,7 +365,7 @@ export const poems: Poem[] = [
         gradientTo: "#818cf8",
         textColor: "dark",
         particleType: "stars",
-        sceneImage: "/images/poetry/lines/shuidiaogetou-3.jpg",
+        sceneImage: "/images/poetry/lines/shuidiaogetou-3.webp",
       },
       {
         text: "今夕是何年",
@@ -375,7 +375,7 @@ export const poems: Poem[] = [
         gradientTo: "#6366f1",
         textColor: "light",
         particleType: "stars",
-        sceneImage: "/images/poetry/lines/shuidiaogetou-4.jpg",
+        sceneImage: "/images/poetry/lines/shuidiaogetou-4.webp",
       },
       {
         text: "人有悲欢离合",
@@ -385,7 +385,7 @@ export const poems: Poem[] = [
         gradientTo: "#4f46e5",
         textColor: "light",
         particleType: "stars",
-        sceneImage: "/images/poetry/lines/shuidiaogetou-5.jpg",
+        sceneImage: "/images/poetry/lines/shuidiaogetou-5.webp",
       },
       {
         text: "月有阴晴圆缺",
@@ -395,7 +395,7 @@ export const poems: Poem[] = [
         gradientTo: "#4338ca",
         textColor: "light",
         particleType: "stars",
-        sceneImage: "/images/poetry/lines/shuidiaogetou-6.jpg",
+        sceneImage: "/images/poetry/lines/shuidiaogetou-6.webp",
       },
       {
         text: "此事古难全",
@@ -405,7 +405,7 @@ export const poems: Poem[] = [
         gradientTo: "#3730a3",
         textColor: "light",
         particleType: "stars",
-        sceneImage: "/images/poetry/lines/shuidiaogetou-7.jpg",
+        sceneImage: "/images/poetry/lines/shuidiaogetou-7.webp",
       },
       {
         text: "但愿人长久，千里共婵娟",
@@ -415,7 +415,7 @@ export const poems: Poem[] = [
         gradientTo: "#312e81",
         textColor: "light",
         particleType: "fireflies",
-        sceneImage: "/images/poetry/lines/shuidiaogetou-8.jpg",
+        sceneImage: "/images/poetry/lines/shuidiaogetou-8.webp",
       },
     ],
   },
@@ -425,7 +425,7 @@ export const poems: Poem[] = [
     author: "李白",
     dynasty: "唐",
     theme: "#d97706",
-    coverImage: "/images/poetry/jiangjinjiu.jpg",
+    coverImage: "/images/poetry/jiangjinjiu.webp",
     description: "千古饮酒壮歌",
     lines: [
       {
@@ -435,7 +435,7 @@ export const poems: Poem[] = [
         gradientFrom: "#fef3c7",
         gradientTo: "#fde68a",
         textColor: "dark",
-        sceneImage: "/images/poetry/lines/jiangjinjiu-1.jpg",
+        sceneImage: "/images/poetry/lines/jiangjinjiu-1.webp",
       },
       {
         text: "奔流到海不复回",
@@ -444,7 +444,7 @@ export const poems: Poem[] = [
         gradientFrom: "#fde68a",
         gradientTo: "#fbbf24",
         textColor: "dark",
-        sceneImage: "/images/poetry/lines/jiangjinjiu-2.jpg",
+        sceneImage: "/images/poetry/lines/jiangjinjiu-2.webp",
       },
       {
         text: "君不见高堂明镜悲白发",
@@ -453,7 +453,7 @@ export const poems: Poem[] = [
         gradientFrom: "#fbbf24",
         gradientTo: "#f59e0b",
         textColor: "dark",
-        sceneImage: "/images/poetry/lines/jiangjinjiu-3.jpg",
+        sceneImage: "/images/poetry/lines/jiangjinjiu-3.webp",
       },
       {
         text: "朝如青丝暮成雪",
@@ -462,7 +462,7 @@ export const poems: Poem[] = [
         gradientFrom: "#f59e0b",
         gradientTo: "#d97706",
         textColor: "dark",
-        sceneImage: "/images/poetry/lines/jiangjinjiu-4.jpg",
+        sceneImage: "/images/poetry/lines/jiangjinjiu-4.webp",
       },
       {
         text: "人生得意须尽欢",
@@ -471,7 +471,7 @@ export const poems: Poem[] = [
         gradientFrom: "#d97706",
         gradientTo: "#b45309",
         textColor: "dark",
-        sceneImage: "/images/poetry/lines/jiangjinjiu-5.jpg",
+        sceneImage: "/images/poetry/lines/jiangjinjiu-5.webp",
       },
       {
         text: "莫使金樽空对月",
@@ -480,7 +480,7 @@ export const poems: Poem[] = [
         gradientFrom: "#b45309",
         gradientTo: "#92400e",
         textColor: "light",
-        sceneImage: "/images/poetry/lines/jiangjinjiu-6.jpg",
+        sceneImage: "/images/poetry/lines/jiangjinjiu-6.webp",
       },
     ],
   },
@@ -490,7 +490,7 @@ export const poems: Poem[] = [
     author: "王维",
     dynasty: "唐",
     theme: "#059669",
-    coverImage: "/images/poetry/songyanji.jpg",
+    coverImage: "/images/poetry/songyanji.webp",
     description: "千古送别第一诗",
     lines: [
       {
@@ -501,7 +501,7 @@ export const poems: Poem[] = [
         gradientTo: "#a7f3d0",
         textColor: "dark",
         particleType: "rain",
-        sceneImage: "/images/poetry/lines/songyanji-1.jpg",
+        sceneImage: "/images/poetry/lines/songyanji-1.webp",
       },
       {
         text: "客舍青青柳色新",
@@ -510,7 +510,7 @@ export const poems: Poem[] = [
         gradientFrom: "#a7f3d0",
         gradientTo: "#6ee7b7",
         textColor: "dark",
-        sceneImage: "/images/poetry/lines/songyanji-2.jpg",
+        sceneImage: "/images/poetry/lines/songyanji-2.webp",
       },
       {
         text: "劝君更尽一杯酒",
@@ -519,7 +519,7 @@ export const poems: Poem[] = [
         gradientFrom: "#6ee7b7",
         gradientTo: "#34d399",
         textColor: "dark",
-        sceneImage: "/images/poetry/lines/songyanji-3.jpg",
+        sceneImage: "/images/poetry/lines/songyanji-3.webp",
       },
       {
         text: "西出阳关无故人",
@@ -529,7 +529,7 @@ export const poems: Poem[] = [
         gradientTo: "#059669",
         textColor: "dark",
         particleType: "leaves",
-        sceneImage: "/images/poetry/lines/songyanji-4.jpg",
+        sceneImage: "/images/poetry/lines/songyanji-4.webp",
       },
     ],
   },
@@ -539,7 +539,7 @@ export const poems: Poem[] = [
     author: "王维",
     dynasty: "唐",
     theme: "#dc2626",
-    coverImage: "/images/poetry/xiangsi.jpg",
+    coverImage: "/images/poetry/xiangsi.webp",
     description: "最含蓄的相思之诗",
     lines: [
       {
@@ -550,7 +550,7 @@ export const poems: Poem[] = [
         gradientTo: "#fecaca",
         textColor: "dark",
         particleType: "petals",
-        sceneImage: "/images/poetry/lines/xiangsi-1.jpg",
+        sceneImage: "/images/poetry/lines/xiangsi-1.webp",
       },
       {
         text: "春来发几枝",
@@ -560,7 +560,7 @@ export const poems: Poem[] = [
         gradientTo: "#fca5a5",
         textColor: "dark",
         particleType: "petals",
-        sceneImage: "/images/poetry/lines/xiangsi-2.jpg",
+        sceneImage: "/images/poetry/lines/xiangsi-2.webp",
       },
       {
         text: "愿君多采撷",
@@ -570,7 +570,7 @@ export const poems: Poem[] = [
         gradientTo: "#f87171",
         textColor: "dark",
         particleType: "petals",
-        sceneImage: "/images/poetry/lines/xiangsi-3.jpg",
+        sceneImage: "/images/poetry/lines/xiangsi-3.webp",
       },
       {
         text: "此物最相思",
@@ -580,7 +580,7 @@ export const poems: Poem[] = [
         gradientTo: "#dc2626",
         textColor: "dark",
         particleType: "petals",
-        sceneImage: "/images/poetry/lines/xiangsi-4.jpg",
+        sceneImage: "/images/poetry/lines/xiangsi-4.webp",
       },
     ],
   },
@@ -590,7 +590,7 @@ export const poems: Poem[] = [
     author: "王昌龄",
     dynasty: "唐",
     theme: "#78716c",
-    coverImage: "/images/poetry/chusai.jpg",
+    coverImage: "/images/poetry/chusai.webp",
     description: "边塞诗的巅峰之作",
     lines: [
       {
@@ -601,7 +601,7 @@ export const poems: Poem[] = [
         gradientTo: "#e7e5e4",
         textColor: "dark",
         particleType: "stars",
-        sceneImage: "/images/poetry/lines/chusai-1.jpg",
+        sceneImage: "/images/poetry/lines/chusai-1.webp",
       },
       {
         text: "万里长征人未还",
@@ -610,7 +610,7 @@ export const poems: Poem[] = [
         gradientFrom: "#e7e5e4",
         gradientTo: "#d6d3d1",
         textColor: "dark",
-        sceneImage: "/images/poetry/lines/chusai-2.jpg",
+        sceneImage: "/images/poetry/lines/chusai-2.webp",
       },
       {
         text: "但使龙城飞将在",
@@ -619,7 +619,7 @@ export const poems: Poem[] = [
         gradientFrom: "#d6d3d1",
         gradientTo: "#a8a29e",
         textColor: "dark",
-        sceneImage: "/images/poetry/lines/chusai-3.jpg",
+        sceneImage: "/images/poetry/lines/chusai-3.webp",
       },
       {
         text: "不教胡马度阴山",
@@ -628,7 +628,7 @@ export const poems: Poem[] = [
         gradientFrom: "#a8a29e",
         gradientTo: "#78716c",
         textColor: "light",
-        sceneImage: "/images/poetry/lines/chusai-4.jpg",
+        sceneImage: "/images/poetry/lines/chusai-4.webp",
       },
     ],
   },
@@ -638,7 +638,7 @@ export const poems: Poem[] = [
     author: "李绅",
     dynasty: "唐",
     theme: "#ca8a04",
-    coverImage: "/images/poetry/minnong.jpg",
+    coverImage: "/images/poetry/minnong.webp",
     description: "粒粒皆辛苦的千古训诫",
     lines: [
       {
@@ -648,7 +648,7 @@ export const poems: Poem[] = [
         gradientFrom: "#fefce8",
         gradientTo: "#fef9c3",
         textColor: "dark",
-        sceneImage: "/images/poetry/lines/minnong-1.jpg",
+        sceneImage: "/images/poetry/lines/minnong-1.webp",
       },
       {
         text: "汗滴禾下土",
@@ -657,7 +657,7 @@ export const poems: Poem[] = [
         gradientFrom: "#fef9c3",
         gradientTo: "#fde047",
         textColor: "dark",
-        sceneImage: "/images/poetry/lines/minnong-2.jpg",
+        sceneImage: "/images/poetry/lines/minnong-2.webp",
       },
       {
         text: "谁知盘中餐",
@@ -666,7 +666,7 @@ export const poems: Poem[] = [
         gradientFrom: "#fde047",
         gradientTo: "#eab308",
         textColor: "dark",
-        sceneImage: "/images/poetry/lines/minnong-3.jpg",
+        sceneImage: "/images/poetry/lines/minnong-3.webp",
       },
       {
         text: "粒粒皆辛苦",
@@ -676,7 +676,7 @@ export const poems: Poem[] = [
         gradientTo: "#ca8a04",
         textColor: "dark",
         particleType: "leaves",
-        sceneImage: "/images/poetry/lines/minnong-4.jpg",
+        sceneImage: "/images/poetry/lines/minnong-4.webp",
       },
     ],
   },

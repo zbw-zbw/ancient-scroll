@@ -18,7 +18,7 @@ export default function PageHeader({ title, subtitle, compact }: PageHeaderProps
       {/* 复用首页山水背景，低透明度 */}
       <div className="absolute inset-0 -z-10 opacity-20">
         <Image
-          src="/images/hero-ink.jpg"
+          src="/images/hero-ink.webp"
           alt=""
           fill
           className="object-cover object-top"
