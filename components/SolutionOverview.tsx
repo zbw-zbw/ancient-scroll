@@ -77,10 +77,10 @@ export default function SolutionOverview() {
  {/* Feature list */}
  <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
  {features.map((feature, index) => (
- <div
- key={index}
- className="group flex items-start gap-4 rounded-lg bg-surface/60 px-6 py-5 transition-all duration-300 hover:bg-surface hover:shadow-md md:px-8 md:py-6"
- >
+          <div
+            key={index}
+            className="card group flex items-start gap-4 px-6 py-5 md:px-8 md:py-6"
+          >
  <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-lg bg-cinnabar/10 text-cinnabar transition-colors group-hover:bg-cinnabar/15">
  {feature.icon}
  </div>

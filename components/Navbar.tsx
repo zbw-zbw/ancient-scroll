@@ -49,7 +49,9 @@ export default function Navbar() {
  <Link
  href={item.href}
  className={`font-serif text-sm transition-colors ${
-              isActive ? "text-cinnabar" : "text-light-ink hover:text-cinnabar"
+              isActive
+                ? "rounded-full bg-cinnabar/10 px-3 py-1 text-cinnabar"
+                : "text-light-ink hover:text-cinnabar"
             }`}
  >
  {item.label}
@@ -95,8 +97,12 @@ export default function Navbar() {
  <li key={item.href}>
  <Link
  href={item.href}
- className="font-serif text-base text-light-ink hover:text-cinnabar transition-colors"
- onClick={() => setMenuOpen(false)}
+ className={`font-serif text-base transition-colors ${
+                pathname === item.href || pathname.startsWith(`${item.href}/`)
+                  ? "rounded-full bg-cinnabar/10 px-3 py-1 text-cinnabar"
+                  : "text-light-ink hover:text-cinnabar"
+              }`}
+              onClick={() => setMenuOpen(false)}
  >
  {item.label}
  </Link>

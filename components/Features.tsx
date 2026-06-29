@@ -195,7 +195,7 @@ export default function Features() {
  isOdd ? "" : "md:[direction:rtl]"
  }`}
  >
- <div className={`space-y-4 ${isOdd ? "" : "md:[direction:ltr]"}`}>
+ <div className={`group space-y-4 ${isOdd ? "" : "md:[direction:ltr]"}`}>
  <FeatureTag number={feature.number} />
  <h3 className="font-calligraphy text-3xl md:text-4xl text-ink">
  {feature.title}
@@ -207,7 +207,7 @@ export default function Features() {
  href={feature.href}
  className="inline-flex items-center gap-2 font-serif text-sm text-cinnabar hover:underline"
  >
- 探索功能 <IconArrowRight className="h-3.5 w-3.5" />
+ 探索功能 <IconArrowRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-1" />
  </Link>
  </div>
 

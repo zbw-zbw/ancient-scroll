@@ -108,10 +108,10 @@ export default function UserPersonas() {
  {/* Persona cards */}
  <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
  {personas.map((persona, index) => (
- <div
- key={index}
- className="group cursor-pointer rounded-xl bg-surface/60 p-6 transition-all duration-300 hover:-translate-y-1 hover:bg-surface hover:shadow-lg md:p-8"
- >
+          <div
+            key={index}
+            className="card cursor-pointer p-6 md:p-8"
+          >
  <CornerMark />
 
  <div className="mb-5 flex items-center gap-4">
