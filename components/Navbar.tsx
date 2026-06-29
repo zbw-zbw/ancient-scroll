@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import SearchModal from "./SearchModal";
 
 const navItems = [
  { label: "双语阅读", href: "/reading" },
@@ -14,6 +15,7 @@ const navItems = [
 export default function Navbar() {
  const [scrolled, setScrolled] = useState(false);
  const [menuOpen, setMenuOpen] = useState(false);
+ const [searchOpen, setSearchOpen] = useState(false);
  const pathname = usePathname();
 
  useEffect(() => {
@@ -25,6 +27,7 @@ export default function Navbar() {
  }, []);
 
  return (
+ <>
  <header
  className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
  scrolled
@@ -40,8 +43,20 @@ export default function Navbar() {
  古籍焕新
  </Link>
 
- {/* Desktop nav */}
- <ul className="hidden md:flex items-center gap-8">
+ {/* Search button + Desktop nav */}
+ <div className="hidden md:flex items-center gap-4">
+   <button
+     type="button"
+     aria-label="搜索"
+     className="flex items-center justify-center w-9 h-9 rounded-full text-light-ink hover:text-cinnabar hover:bg-cinnabar/10 transition-colors"
+     onClick={() => setSearchOpen(true)}
+   >
+     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5">
+       <circle cx="11" cy="11" r="8" />
+       <path d="m21 21-4.3-4.3" />
+     </svg>
+   </button>
+   <ul className="flex items-center gap-8">
  {navItems.map((item) => {
  const isActive = pathname === item.href || pathname.startsWith(`${item.href}/`);
  return (
@@ -60,8 +75,21 @@ export default function Navbar() {
  );
  })}
  </ul>
+ </div>
 
- {/* Mobile hamburger */}
+ {/* Mobile search + hamburger */}
+ <div className="flex md:hidden items-center gap-2">
+   <button
+     type="button"
+     aria-label="搜索"
+     className="flex items-center justify-center w-9 h-9 rounded-full text-light-ink hover:text-cinnabar hover:bg-cinnabar/10 transition-colors"
+     onClick={() => setSearchOpen(true)}
+   >
+     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5">
+       <circle cx="11" cy="11" r="8" />
+       <path d="m21 21-4.3-4.3" />
+     </svg>
+   </button>
  <button
  type="button"
  aria-label="切换菜单"
@@ -84,6 +112,7 @@ export default function Navbar() {
  }`}
  />
  </button>
+ </div>
  </nav>
 
  {/* Mobile menu */}
@@ -111,5 +140,8 @@ export default function Navbar() {
  </ul>
  </div>
  </header>
+
+ <SearchModal open={searchOpen} onClose={() => setSearchOpen(false)} />
+ </>
  );
 }

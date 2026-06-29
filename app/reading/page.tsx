@@ -3,9 +3,9 @@ import { Suspense } from "react";
 import ReadingClient from "@/components/reading/ReadingClient";
 
 export const metadata: Metadata = {
-  title: "双语阅读 - 古籍焕新",
+  title: "双语阅读",
   description:
-    "逐句对照阅读《山海经》原文，即时翻译白话文，点击难字获得深度解读。",
+    "逐句品读山海经，原文与白话文对照，点击生僻字获取深度解读。",
 };
 
 export default function ReadingPage() {

@@ -26,7 +26,10 @@ const longCang = Long_Cang({
 });
 
 export const metadata: Metadata = {
-  title: "古籍焕新 - 交互式古籍阅读平台",
+  title: {
+    default: "古籍焕新 - 交互式古籍阅读平台",
+    template: "%s - 古籍焕新",
+  },
   description:
     '让千年文字"活"起来。双语阅读、异兽图鉴、诗境漫游、古今对话，开启一场跨越时空的文化之旅。',
   openGraph: {
@@ -34,6 +37,7 @@ export const metadata: Metadata = {
     description:
       '让千年文字"活"起来。双语阅读、异兽图鉴、诗境漫游、古今对话。',
     type: "website",
+    images: ["/images/og-image.png"],
   },
   icons: {
     icon: { url: "/icon.png?v=4", type: "image/png" },

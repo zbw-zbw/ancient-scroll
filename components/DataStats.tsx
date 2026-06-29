@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { getCompletionRate } from "@/lib/progress";
 
 const stats = [
- { value: "5", unit: "篇", label: "山海经篇章" },
+ { value: "6", unit: "篇", label: "山海经篇章" },
  { value: "20", unit: "只", label: "异兽图鉴" },
  { value: "12", unit: "首", label: "经典诗词" },
  { value: "∞", unit: "", label: "探索可能" },

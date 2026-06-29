@@ -812,4 +812,152 @@ export const chapters: Chapter[] = [
       },
     ],
   },
+  {
+    id: "zhongshan",
+    name: "中山经",
+    subtitle: "天地之中，万灵汇聚",
+    introduction:
+      "《中山经》是《山海经》中篇帙最浩繁的篇章，涵盖五大山系，共记录了数百座山川与无数奇珍异兽。中山地处华夏腹地，万物生灵在此汇聚，是山海经中生物多样性最为丰富的区域。",
+    sentences: [
+      {
+        id: "zhongshan-1",
+        original:
+          "中山经薄山之首，曰甘枣之山。共水出焉，而西流注于河。",
+        translation:
+          "中央山系薄山山系的第一座山，叫甘枣山。共水从这座山发源，向西流入黄河。",
+        difficultChars: [
+          { char: "薄", pinyin: "bó", meaning: "薄山，山系名" },
+          { char: "共", pinyin: "gòng", meaning: "共水，水名" },
+        ],
+      },
+      {
+        id: "zhongshan-2",
+        original:
+          "其上多杻文。有兽焉，其状如麢而赤豪，其音如交，食之已瘅。",
+        translation:
+          "山上多杻树和橿树。山中有一种野兽，形状像羚羊却长着红色的鬃毛，叫声像人在交谈，吃了它的肉可以治疗黄疸病。",
+        difficultChars: [
+          { char: "麢", pinyin: "líng", meaning: "羚羊" },
+          { char: "豪", pinyin: "háo", meaning: "鬃毛" },
+          { char: "瘅", pinyin: "dàn", meaning: "黄疸病" },
+        ],
+      },
+      {
+        id: "zhongshan-3",
+        original: "又东二十里，曰历儿之山。其上多橿，多杻木。",
+        translation:
+          "再往东二十里，有座历儿山。山上多橿树，也多杻树。",
+        difficultChars: [
+          { char: "橿", pinyin: "jiāng", meaning: "一种常绿乔木，木质坚硬" },
+          { char: "杻", pinyin: "niǔ", meaning: "一种落叶乔木" },
+        ],
+      },
+      {
+        id: "zhongshan-4",
+        original:
+          "有兽焉，其状如彘而白首虎爪，名曰渠猪，见则其邑大兵。",
+        translation:
+          "山中有一种野兽，形状像猪却长着白色的头和老虎一样的爪子，名叫渠猪，它一出现当地就会发生大规模的战争。",
+        difficultChars: [
+          { char: "彘", pinyin: "zhì", meaning: "猪" },
+          { char: "邑", pinyin: "yì", meaning: "城邑、地方" },
+          { char: "兵", pinyin: "bīng", meaning: "战争、兵灾" },
+        ],
+      },
+      {
+        id: "zhongshan-5",
+        original:
+          "又有草焉，名曰牛伤，其状如藾而赤华，叶如堇根，服之者不鸣不厉。",
+        translation:
+          "山中有一种草，名叫牛伤，形状像藾草而开着红色的花，叶子像堇菜的根部，吃了它的人不会失声，也不会得手脚僵直之病。",
+        difficultChars: [
+          { char: "藾", pinyin: "lài", meaning: "藾草，一种植物" },
+          { char: "堇", pinyin: "jǐn", meaning: "堇菜" },
+          { char: "厉", pinyin: "lì", meaning: "手脚僵直的疾病" },
+        ],
+      },
+      {
+        id: "zhongshan-6",
+        original:
+          "又东三十里，曰蔓渠之山。其上多金玉，其下多竹。伊水出焉，而东流注于洛。",
+        translation:
+          "再往东三十里，有座蔓渠山。山上盛产金属矿物和美玉，山下多竹子。伊水从这座山发源，向东流入洛水。",
+        difficultChars: [
+          { char: "蔓", pinyin: "màn", meaning: "蔓渠，山名" },
+          { char: "洛", pinyin: "luò", meaning: "洛水，古水名" },
+        ],
+      },
+      {
+        id: "zhongshan-7",
+        original:
+          "有鸟焉，其状如山鸡而三首六目六足三翼，名曰鵸鵌，食之无卧。",
+        translation:
+          "山中有一种鸟，形状像山鸡却长着三个头、六只眼睛、六条腿、三只翅膀，名叫鵸鵌，吃了它的肉就不会嗜睡。",
+        difficultChars: [
+          { char: "鵸鵌", pinyin: "qí tú", meaning: "一种多首多翼的神异鸟" },
+          { char: "卧", pinyin: "wò", meaning: "嗜睡" },
+        ],
+        relatedBeastId: "tiangou",
+      },
+      {
+        id: "zhongshan-8",
+        original:
+          "又西三十里，曰蔓渠之山。其上多金玉，其下多竹。有兽焉，其状如鹿而白尾，马足人手而四角，名曰𪊨𪊨，其鸣自呼。",
+        translation:
+          "再往西三十里，有座蔓渠山。山上盛产金属矿物和美玉，山下多竹子。山中有一种野兽，形状像鹿却长着白色的尾巴、马一样的蹄子和人一样的手，还长着四只角，名叫𪊨𪊨，叫声就像在呼唤自己的名字。",
+        difficultChars: [
+          { char: "𪊨", pinyin: "jī", meaning: "𪊨𪊨，一种鹿形异兽" },
+          { char: "角", pinyin: "jiǎo", meaning: "兽角" },
+        ],
+        relatedBeastId: "lusu",
+      },
+      {
+        id: "zhongshan-9",
+        original:
+          "又东四十里，曰苦山。有兽焉，其状如夸父而彘毛，其音如呼，见则天下大水。",
+        translation:
+          "再往东四十里，有座苦山。山中有一种野兽，形状像猿猴（夸父）却长着猪一样的鬃毛，叫声像人在呼喊，它一出现天下就会发生大水灾。",
+        difficultChars: [
+          { char: "夸父", pinyin: "kuā fù", meaning: "此处指猿猴类动物" },
+          { char: "彘", pinyin: "zhì", meaning: "猪，此处指猪毛" },
+        ],
+        relatedBeastId: "xingsheng",
+      },
+      {
+        id: "zhongshan-10",
+        original:
+          "又东二十里，曰放皋之山。明水出焉，而南流注于河。其中多玉，多鲋鱼。",
+        translation:
+          "再往东二十里，有座放皋山。明水从这座山发源，向南流入黄河。水中盛产美玉，有很多鲋鱼。",
+        difficultChars: [
+          { char: "皋", pinyin: "gāo", meaning: "放皋，山名" },
+          { char: "鲋", pinyin: "fù", meaning: "鲫鱼" },
+        ],
+      },
+      {
+        id: "zhongshan-11",
+        original:
+          "有兽焉，其状如蜂，枝尾而反舌，善呼，其名曰文文。",
+        translation:
+          "山中有一种野兽，形状像蜜蜂，尾巴分叉，舌头反长，善于呼叫，名叫文文。",
+        difficultChars: [
+          { char: "枝", pinyin: "zhī", meaning: "分叉" },
+          { char: "反舌", pinyin: "fǎn shé", meaning: "舌头反着长" },
+        ],
+        relatedBeastId: "congcong",
+      },
+      {
+        id: "zhongshan-12",
+        original:
+          "又东五十二里，曰少室之山。百草木成囷。其上有木焉，名曰帝休，叶状如杨，其枝五衢，黄华黑实，服者不怒。",
+        translation:
+          "再往东五十二里，有座少室山。山上草木丛生，密密匝匝如粮仓一般。山上有一种树，名叫帝休，叶子像杨树叶，枝条向五个方向伸展，开黄花结黑果，吃了它的果实就不会发怒。",
+        difficultChars: [
+          { char: "囷", pinyin: "qūn", meaning: "圆形的粮仓" },
+          { char: "衢", pinyin: "qú", meaning: "四通八达的道路，此处指枝条向四方伸展" },
+          { char: "怒", pinyin: "nù", meaning: "发怒" },
+        ],
+      },
+    ],
+  },
 ];
