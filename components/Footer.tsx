@@ -109,7 +109,9 @@ export default function Footer() {
                   </span>
                 </div>
                 <a
-                  href="#"
+                  href="https://github.com/zbw-zbw/ancient-scroll"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="inline-flex items-center gap-1.5 font-serif text-sm text-light-ink hover:text-cinnabar transition-colors"
                 >
                   <svg

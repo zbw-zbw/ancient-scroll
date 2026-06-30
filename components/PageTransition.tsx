@@ -11,17 +11,17 @@ export default function PageTransition({
   const pathname = usePathname();
   const [mounted, setMounted] = useState(false);
 
-  // Scroll to top instantly when pathname changes, before animation starts
-  if (typeof window !== "undefined") {
-    document.documentElement.scrollTop = 0;
-    document.body.scrollTop = 0;
-    window.scrollTo(0, 0);
-  }
-
   useEffect(() => {
+    // Use multiple methods to ensure scroll is truly at top
+    window.scrollTo(0, 0);
     document.documentElement.scrollTop = 0;
     document.body.scrollTop = 0;
-    window.scrollTo(0, 0);
+
+    // Also prevent browser scroll restoration
+    if ('scrollRestoration' in history) {
+      history.scrollRestoration = 'manual';
+    }
+
     const id = requestAnimationFrame(() => setMounted(true));
     return () => cancelAnimationFrame(id);
   }, [pathname]);

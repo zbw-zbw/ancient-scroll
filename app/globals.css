@@ -314,6 +314,11 @@ footer {
   font-family: var(--font-noto-serif-sc), "Noto Serif SC", "Songti SC", serif;
 }
 
+/* Ensure SVG icons align with text in flex containers */
+.inline-flex > svg {
+  flex-shrink: 0;
+}
+
 /* Unified card style */
 .card {
   @apply overflow-hidden rounded-2xl bg-surface/60 shadow-sm;

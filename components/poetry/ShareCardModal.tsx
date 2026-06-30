@@ -20,8 +20,24 @@ export default function ShareCardModal({
   const [visible, setVisible] = useState(false);
   const [saving, setSaving] = useState(false);
   const [copied, setCopied] = useState(false);
+  const [scale, setScale] = useState(1);
   const overlayRef = useRef<HTMLDivElement>(null);
   const cardRef = useRef<HTMLDivElement>(null);
+
+  // Responsive card scaling
+  useEffect(() => {
+    if (!open) return;
+    const updateScale = () => {
+      const maxW = window.innerWidth - 32; // 16px padding each side
+      const maxH = window.innerHeight * 0.75;
+      const scaleW = Math.min(1, maxW / 750);
+      const scaleH = Math.min(1, maxH / 1000);
+      setScale(Math.min(scaleW, scaleH));
+    };
+    updateScale();
+    window.addEventListener('resize', updateScale);
+    return () => window.removeEventListener('resize', updateScale);
+  }, [open]);
 
   // Animate in/out
   useEffect(() => {
@@ -123,6 +139,9 @@ export default function ShareCardModal({
           <IconClose className="h-5 w-5" />
         </button>
 
+        {/* Card preview wrapper with responsive scaling */}
+        <div className="flex items-start justify-center" style={{ maxHeight: '80vh' }}>
+          <div style={{ transform: `scale(${scale})`, transformOrigin: 'top center' }}>
         {/* Share card - the element to capture */}
         <div
           ref={cardRef}
@@ -319,6 +338,8 @@ export default function ShareCardModal({
               borderRadius: "inherit",
             }}
           />
+        </div>
+          </div>
         </div>
 
         {/* Action buttons */}

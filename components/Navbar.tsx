@@ -86,8 +86,43 @@ export default function Navbar() {
  古籍焕新
  </Link>
 
- {/* Search button + Theme toggle + Desktop nav */}
- <div className="hidden md:flex items-center gap-4">
+ {/* Center: Nav links */}
+ <ul className="hidden md:flex items-center gap-8">
+ {navItems.map((item) => {
+ const isActive = pathname === item.href || pathname.startsWith(`${item.href}/`);
+ return (
+ <li key={item.href}>
+ <Link
+ href={item.href}
+ className={`font-serif text-sm transition-colors ${
+              isActive
+                ? "rounded-full bg-cinnabar/10 px-3 py-1 text-cinnabar"
+                : "text-light-ink hover:text-cinnabar"
+            }`}
+ >
+ {item.label}
+ </Link>
+ </li>
+ );
+ })}
+ </ul>
+
+ {/* Right: Search + Theme toggle */}
+ <div className="hidden md:flex items-center gap-3">
+   {/* Search trigger - styled as input-like command palette */}
+   <button
+     type="button"
+     aria-label="搜索"
+     className="flex items-center gap-2 rounded-full border border-ink/10 bg-surface/40 px-3.5 py-1.5 font-serif text-xs text-muted hover:border-ink/20 hover:text-light-ink transition-colors"
+     onClick={() => setSearchOpen(true)}
+   >
+     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-3.5 w-3.5">
+       <circle cx="11" cy="11" r="8" />
+       <path d="m21 21-4.3-4.3" />
+     </svg>
+     搜索...
+     <kbd className="ml-4 rounded bg-ink/5 px-1 py-0.5 font-mono text-[10px]">⌘K</kbd>
+   </button>
    <button
      type="button"
      aria-label="切换深色模式"
@@ -112,36 +147,6 @@ export default function Navbar() {
        </svg>
      )}
    </button>
-   <button
-     type="button"
-     aria-label="搜索"
-     className="flex items-center justify-center w-9 h-9 rounded-full text-light-ink hover:text-cinnabar hover:bg-cinnabar/10 transition-colors"
-     onClick={() => setSearchOpen(true)}
-   >
-     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5">
-       <circle cx="11" cy="11" r="8" />
-       <path d="m21 21-4.3-4.3" />
-     </svg>
-   </button>
-   <ul className="flex items-center gap-8">
- {navItems.map((item) => {
- const isActive = pathname === item.href || pathname.startsWith(`${item.href}/`);
- return (
- <li key={item.href}>
- <Link
- href={item.href}
- className={`font-serif text-sm transition-colors ${
-              isActive
-                ? "rounded-full bg-cinnabar/10 px-3 py-1 text-cinnabar"
-                : "text-light-ink hover:text-cinnabar"
-            }`}
- >
- {item.label}
- </Link>
- </li>
- );
- })}
- </ul>
  </div>
 
  {/* Mobile theme toggle + search + hamburger */}

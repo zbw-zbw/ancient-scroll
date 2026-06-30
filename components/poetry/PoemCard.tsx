@@ -46,16 +46,11 @@ export default function PoemCard({ poem, onSelect, onShare }: PoemCardProps) {
       onClick={handleCardClick}
       onKeyDown={handleKeyDown}
       className="card group flex cursor-pointer flex-col"
+      style={{ borderTop: `2px solid ${poem.theme}` }}
       aria-label={`进入《${poem.title}》诗境`}
     >
-      {/* Theme bar */}
-      <div
-        className="h-1 w-full"
-        style={{ backgroundColor: poem.theme }}
-      />
-
       {/* Cover image - fallback to gradient if no image */}
-      <div className="relative h-[140px] overflow-hidden rounded-t-2xl img-placeholder" style={{ background: poem.coverImage ? undefined : `linear-gradient(135deg, ${poem.theme}40, ${poem.theme}15)` }}>
+      <div className="relative h-[140px] overflow-hidden img-placeholder" style={{ background: poem.coverImage ? undefined : `linear-gradient(135deg, ${poem.theme}40, ${poem.theme}15)` }}>
         {poem.coverImage && (
           <>
             <Image

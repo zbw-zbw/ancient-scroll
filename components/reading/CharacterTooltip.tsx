@@ -189,7 +189,7 @@ export default function CharacterTooltip({
  disabled={loading}
  className="flex items-center gap-1 font-serif text-xs text-cinnabar/70 hover:text-cinnabar transition-colors disabled:opacity-50"
  >
- <IconSparkles className="h-3 w-3" />
+ <IconSparkles className="h-3 w-3 flex-shrink-0" />
  重新解读
  </button>
  </div>
