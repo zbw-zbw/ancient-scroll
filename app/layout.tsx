@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Ma_Shan_Zheng, Noto_Serif_SC, Long_Cang } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
+import KeyboardShortcuts from "@/components/KeyboardShortcuts";
 import PageTransition from "@/components/PageTransition";
 
 const maShanZheng = Ma_Shan_Zheng({
@@ -53,8 +54,19 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="zh-CN" className={`${maShanZheng.variable} ${notoSerifSC.variable} ${longCang.variable} antialiased`}>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: `
+          try {
+            const theme = localStorage.getItem('theme');
+            if (theme === 'dark' || (!theme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+              document.documentElement.classList.add('dark');
+            }
+          } catch {}
+        ` }} />
+      </head>
       <body className="min-h-screen">
         <Navbar />
+        <KeyboardShortcuts />
         <PageTransition>{children}</PageTransition>
       </body>
     </html>

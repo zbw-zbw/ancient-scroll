@@ -1,25 +1,25 @@
 @import "tailwindcss";
 
 @theme inline {
-  --color-ink: #1a1a2e;
-  --color-light-ink: #3a3a5e;
-  --color-xuan: #f5f0e8;
-  --color-xuan-dark: #ede6d8;
-  --color-surface: #faf7f0;
-  --color-cinnabar: #c84032;
-  --color-indigo: #2c3e6b;
-  --color-gold: #b8860b;
-  --color-muted: #8a8070;
-  --color-rule: #d4c9b8;
-  --color-seal-red: #8a1f2a;
-  --color-seal-bg: #f5e9d3;
+  --color-ink: var(--ink);
+  --color-light-ink: var(--light-ink);
+  --color-xuan: var(--xuan);
+  --color-xuan-dark: var(--xuan-dark);
+  --color-surface: var(--surface);
+  --color-cinnabar: var(--cinnabar);
+  --color-indigo: var(--indigo);
+  --color-gold: var(--gold);
+  --color-muted: var(--muted);
+  --color-rule: var(--rule);
+  --color-seal-red: var(--seal-red);
+  --color-seal-bg: var(--seal-bg);
 
   --font-calligraphy: var(--font-ma-shan-zheng);
   --font-handwrite: var(--font-long-cang);
   --font-serif: var(--font-noto-serif-sc);
 
-  --color-background: #f5f0e8;
-  --color-foreground: #1a1a2e;
+  --color-background: var(--xuan);
+  --color-foreground: var(--ink);
 }
 
 :root {
@@ -35,6 +35,40 @@
   --rule: #d4c9b8;
   --seal-red: #8a1f2a;
   --seal-bg: #f5e9d3;
+}
+
+/* Dark mode — candlelight night reading */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --ink: #e8dcc8;
+    --light-ink: #a09585;
+    --xuan: #1a1510;
+    --xuan-dark: #221c14;
+    --surface: #252017;
+    --cinnabar: #e05a48;
+    --indigo: #5a7abf;
+    --gold: #d4a843;
+    --muted: #6b6050;
+    --rule: #3a3428;
+    --seal-red: #c74038;
+    --seal-bg: #2a2218;
+  }
+}
+
+/* Manual toggle dark mode */
+.dark {
+  --ink: #e8dcc8;
+  --light-ink: #a09585;
+  --xuan: #1a1510;
+  --xuan-dark: #221c14;
+  --surface: #252017;
+  --cinnabar: #e05a48;
+  --indigo: #5a7abf;
+  --gold: #d4a843;
+  --muted: #6b6050;
+  --rule: #3a3428;
+  --seal-red: #c74038;
+  --seal-bg: #2a2218;
 }
 
 * {
@@ -530,4 +564,54 @@ html::-webkit-scrollbar-thumb:hover {
     opacity: 1 !important;
     transform: none !important;
   }
+}
+
+/* ===== Dark mode component styles ===== */
+@media (prefers-color-scheme: dark) {
+  body {
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.015'/%3E%3C/svg%3E");
+  }
+
+  body::before {
+    background-image:
+      radial-gradient(ellipse at 20% 50%, rgba(180, 140, 80, 0.04) 0%, transparent 50%),
+      radial-gradient(ellipse at 80% 20%, rgba(160, 120, 60, 0.03) 0%, transparent 40%),
+      radial-gradient(ellipse at 50% 80%, rgba(170, 130, 70, 0.025) 0%, transparent 45%);
+  }
+
+  /* Scrollbar */
+  html {
+    scrollbar-color: rgba(58, 52, 40, 0.8) transparent;
+  }
+  html::-webkit-scrollbar-thumb {
+    background: rgba(58, 52, 40, 0.8);
+  }
+
+  /* Focus ring */
+  *:focus-visible {
+    box-shadow: 0 0 0 2px rgba(224, 90, 72, 0.3);
+  }
+}
+
+/* Manual toggle (.dark class) dark mode overrides */
+.dark body {
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.015'/%3E%3C/svg%3E");
+}
+
+.dark body::before {
+  background-image:
+    radial-gradient(ellipse at 20% 50%, rgba(180, 140, 80, 0.04) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 20%, rgba(160, 120, 60, 0.03) 0%, transparent 40%),
+    radial-gradient(ellipse at 50% 80%, rgba(170, 130, 70, 0.025) 0%, transparent 45%);
+}
+
+.dark html {
+  scrollbar-color: rgba(58, 52, 40, 0.8) transparent;
+}
+.dark html::-webkit-scrollbar-thumb {
+  background: rgba(58, 52, 40, 0.8);
+}
+
+.dark *:focus-visible {
+  box-shadow: 0 0 0 2px rgba(224, 90, 72, 0.3);
 }

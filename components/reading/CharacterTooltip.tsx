@@ -4,12 +4,15 @@ import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import type { DifficultChar } from "@/data/shanhaijing";
 import { IconSparkles } from "@/components/icons";
+import { saveNote } from "@/lib/notes";
 
 interface CharacterTooltipProps {
- charData: DifficultChar;
- context: string;
- triggerRect: DOMRect;
- onClose: () => void;
+  charData: DifficultChar;
+  context: string;
+  triggerRect: DOMRect;
+  chapterId?: string;
+  sentenceId?: string;
+  onClose: () => void;
 }
 
 interface AnnotateResult {
@@ -19,10 +22,12 @@ interface AnnotateResult {
 }
 
 export default function CharacterTooltip({
- charData,
- context,
- triggerRect,
- onClose,
+  charData,
+  context,
+  triggerRect,
+  chapterId,
+  sentenceId,
+  onClose,
 }: CharacterTooltipProps) {
  const [mounted, setMounted] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -120,6 +125,20 @@ export default function CharacterTooltip({
         const cacheKey = `annotate-${charData.char}-${context.slice(0, 20)}`;
         localStorage.setItem(cacheKey, JSON.stringify(result));
       } catch { /* ignore */ }
+      // Save to reading notes
+      if (sentenceId && chapterId) {
+        try {
+          saveNote({
+            id: `${chapterId}-${sentenceId}-${charData.char}`,
+            sentenceId,
+            chapterId,
+            original: context,
+            char: charData.char,
+            annotation: result,
+            createdAt: Date.now(),
+          });
+        } catch { /* ignore */ }
+      }
     } catch (err) {
       setError(err instanceof Error ? err.message : "请求失败");
     } finally {

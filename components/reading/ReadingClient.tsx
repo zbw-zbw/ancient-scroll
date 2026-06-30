@@ -101,6 +101,8 @@ export default function ReadingClient() {
  charData={activeTooltip.charData}
  context={tooltipContext}
  triggerRect={activeTooltip.rect}
+ chapterId={chapter.id}
+ sentenceId={activeTooltip.sentenceId}
  onClose={() => setActiveTooltip(null)}
  />
  )}
