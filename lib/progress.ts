@@ -1,9 +1,21 @@
 const PROGRESS_KEY = "ancient-scroll-progress";
+const READ_HISTORY_KEY = "ancient-scroll-read-history";
+const FAVORITES_KEY = "ancient-scroll-favorites";
 
 export interface Progress {
   readChapters: string[];
   completedPoems: string[];
   dialogueCharacters: string[];
+}
+
+export interface ReadHistory {
+  lastReadChapter: string | null;
+  lastReadTimestamp: number;
+}
+
+export interface Favorites {
+  favoritePoems: string[];
+  favoriteBeasts: string[];
 }
 
 function safeParse<T>(parser: () => T, fallback: T): T {
@@ -13,6 +25,8 @@ function safeParse<T>(parser: () => T, fallback: T): T {
     return fallback;
   }
 }
+
+// --- Progress ---
 
 export function getProgress(): Progress {
   if (typeof window === "undefined") {
@@ -88,4 +102,98 @@ export function getCompletionRate(): number {
   const completed = collectedBeasts + readChapters + completedPoems + dialogueCharacters;
   const total = totalBeasts + totalChapters + totalPoems + totalDialogues;
   return total > 0 ? Math.round((completed / total) * 100) : 0;
+}
+
+// --- Read History ---
+
+const defaultReadHistory: ReadHistory = {
+  lastReadChapter: null,
+  lastReadTimestamp: 0,
+};
+
+export function getReadHistory(): ReadHistory {
+  if (typeof window === "undefined") return defaultReadHistory;
+  return safeParse(() => {
+    const raw = localStorage.getItem(READ_HISTORY_KEY);
+    if (!raw) return defaultReadHistory;
+    const parsed = JSON.parse(raw);
+    return {
+      lastReadChapter: typeof parsed.lastReadChapter === "string" ? parsed.lastReadChapter : null,
+      lastReadTimestamp: typeof parsed.lastReadTimestamp === "number" ? parsed.lastReadTimestamp : 0,
+    };
+  }, defaultReadHistory);
+}
+
+function saveReadHistory(history: ReadHistory) {
+  if (typeof window === "undefined") return;
+  try {
+    localStorage.setItem(READ_HISTORY_KEY, JSON.stringify(history));
+  } catch {}
+}
+
+export function setLastReadChapter(id: string) {
+  const history = getReadHistory();
+  saveReadHistory({
+    lastReadChapter: id,
+    lastReadTimestamp: Date.now(),
+  });
+}
+
+export function getLastReadChapter(): string | null {
+  return getReadHistory().lastReadChapter;
+}
+
+// --- Favorites ---
+
+const defaultFavorites: Favorites = {
+  favoritePoems: [],
+  favoriteBeasts: [],
+};
+
+export function getFavorites(): Favorites {
+  if (typeof window === "undefined") return defaultFavorites;
+  return safeParse(() => {
+    const raw = localStorage.getItem(FAVORITES_KEY);
+    if (!raw) return defaultFavorites;
+    const parsed = JSON.parse(raw);
+    return {
+      favoritePoems: Array.isArray(parsed.favoritePoems) ? parsed.favoritePoems : [],
+      favoriteBeasts: Array.isArray(parsed.favoriteBeasts) ? parsed.favoriteBeasts : [],
+    };
+  }, defaultFavorites);
+}
+
+function saveFavorites(favorites: Favorites) {
+  if (typeof window === "undefined") return;
+  try {
+    localStorage.setItem(FAVORITES_KEY, JSON.stringify(favorites));
+  } catch {}
+}
+
+function toggleInArray(arr: string[], value: string): string[] {
+  return arr.includes(value) ? arr.filter((v) => v !== value) : [...arr, value];
+}
+
+export function toggleFavoritePoem(id: string) {
+  const favorites = getFavorites();
+  saveFavorites({
+    ...favorites,
+    favoritePoems: toggleInArray(favorites.favoritePoems, id),
+  });
+}
+
+export function toggleFavoriteBeast(id: string) {
+  const favorites = getFavorites();
+  saveFavorites({
+    ...favorites,
+    favoriteBeasts: toggleInArray(favorites.favoriteBeasts, id),
+  });
+}
+
+export function isFavoritePoem(id: string): boolean {
+  return getFavorites().favoritePoems.includes(id);
+}
+
+export function isFavoriteBeast(id: string): boolean {
+  return getFavorites().favoriteBeasts.includes(id);
 }

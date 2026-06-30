@@ -1,7 +1,7 @@
 "use client";
 
+import { useCallback, useEffect, useState } from "react";
 import Image from "next/image";
-import { useEffect, useRef, useState } from "react";
 import type { PoemLine } from "@/data/poems";
 import Particles from "./Particles";
 
@@ -13,6 +13,45 @@ interface PoemLineSlideProps {
 
 export default function PoemLineSlide({ line, active, coverImage }: PoemLineSlideProps) {
  const textLight = line.textColor === "light";
+ const [speaking, setSpeaking] = useState(false);
+
+ // Stop speech on unmount
+ useEffect(() => {
+   return () => {
+     if (typeof window !== "undefined" && window.speechSynthesis) {
+       window.speechSynthesis.cancel();
+     }
+   };
+ }, []);
+
+ // Sync speaking state
+ useEffect(() => {
+   if (typeof window === "undefined" || !window.speechSynthesis) return;
+   const handleEnd = () => setSpeaking(false);
+   const handleError = () => setSpeaking(false);
+   window.speechSynthesis.addEventListener("end", handleEnd);
+   window.speechSynthesis.addEventListener("error", handleError);
+   return () => {
+     window.speechSynthesis.removeEventListener("end", handleEnd);
+     window.speechSynthesis.removeEventListener("error", handleError);
+   };
+ }, []);
+
+ const handleReadLine = useCallback(() => {
+   if (typeof window === "undefined" || !window.speechSynthesis) return;
+   if (window.speechSynthesis.speaking) {
+     window.speechSynthesis.cancel();
+     setSpeaking(false);
+     return;
+   }
+   const utterance = new SpeechSynthesisUtterance(line.text);
+   utterance.lang = "zh-CN";
+   utterance.rate = 0.85;
+   utterance.onend = () => setSpeaking(false);
+   utterance.onerror = () => setSpeaking(false);
+   setSpeaking(true);
+   window.speechSynthesis.speak(utterance);
+ }, [line.text]);
 
  return (
  <section
@@ -45,6 +84,34 @@ export default function PoemLineSlide({ line, active, coverImage }: PoemLineSlid
 
  {/* Gradient overlay for text readability */}
  <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/20" />
+
+ {/* Read aloud button - top right corner */}
+ <button
+   onClick={handleReadLine}
+   className={`absolute right-4 top-4 z-20 inline-flex items-center gap-1 rounded-full px-3 py-1.5 font-serif text-xs backdrop-blur-sm transition-all active:scale-95 ${
+     speaking
+       ? "bg-white/25 text-white"
+       : "bg-white/10 text-white/70 hover:bg-white/20 hover:text-white"
+   }`}
+   title={speaking ? "停止朗读" : "朗读此句"}
+ >
+   {speaking ? (
+     <>
+       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-3.5 w-3.5 animate-pulse">
+         <path d="m11 5-6 14" />
+         <path d="M22 5-16 14" />
+         <path d="M4.72 8.72a3 3 0 0 1 0 6.56" />
+         <path d="M19.28 8.72a3 3 0 0 1 0 6.56" />
+       </svg>
+       正在朗读...
+     </>
+   ) : (
+     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-3.5 w-3.5">
+       <path d="M11 5 6 9H2v6h4l5 4V5z" />
+       <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07" />
+     </svg>
+   )}
+ </button>
 
  <Particles type={line.particleType} />
 

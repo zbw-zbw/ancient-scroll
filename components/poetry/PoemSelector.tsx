@@ -1,16 +1,20 @@
 "use client";
 
+import { useState } from "react";
 import { poems, type Poem } from "@/data/poems";
 import PageHeader from "@/components/PageHeader";
 import PoemCard from "./PoemCard";
+import ShareCardModal from "./ShareCardModal";
 
 interface PoemSelectorProps {
- onSelect: (poem: Poem) => void;
+  onSelect: (poem: Poem) => void;
 }
 
 export default function PoemSelector({ onSelect }: PoemSelectorProps) {
- return (
- <div className="min-h-screen bg-xuan px-4 pb-16 md:px-6">
+  const [sharePoem, setSharePoem] = useState<Poem | null>(null);
+
+  return (
+    <div className="min-h-screen bg-xuan px-4 pb-16 md:px-6">
       <PageHeader
         title="诗境漫游"
         subtitle="一字一句，走进古诗的意境"
@@ -22,12 +26,26 @@ export default function PoemSelector({ onSelect }: PoemSelectorProps) {
           </p>
         </header>
 
- <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
- {poems.map((poem) => (
- <PoemCard key={poem.id} poem={poem} onSelect={onSelect} />
- ))}
- </div>
- </div>
- </div>
- );
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          {poems.map((poem) => (
+            <PoemCard
+              key={poem.id}
+              poem={poem}
+              onSelect={onSelect}
+              onShare={(e) => {
+                e.stopPropagation();
+                setSharePoem(poem);
+              }}
+            />
+          ))}
+        </div>
+      </div>
+
+      <ShareCardModal
+        open={sharePoem !== null}
+        onClose={() => setSharePoem(null)}
+        poem={sharePoem}
+      />
+    </div>
+  );
 }

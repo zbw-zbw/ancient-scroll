@@ -9,7 +9,7 @@ import ChapterSidebar from "@/components/reading/ChapterSidebar";
 import ReadingPanel from "@/components/reading/ReadingPanel";
 import CharacterTooltip from "@/components/reading/CharacterTooltip";
 import type { FontSize } from "@/components/reading/ReadingControls";
-import { markChapterRead } from "@/lib/progress";
+import { markChapterRead, setLastReadChapter } from "@/lib/progress";
 
 export default function ReadingClient() {
  const searchParams = useSearchParams();
@@ -34,9 +34,14 @@ export default function ReadingClient() {
  }, [searchParams]);
 
  const chapter = useMemo(
- () => chapters.find((c) => c.id === selectedChapterId) || chapters[0],
- [selectedChapterId]
+   () => chapters.find((c) => c.id === selectedChapterId) || chapters[0],
+   [selectedChapterId]
  );
+
+ // Track last read chapter on initial load and chapter change
+ useEffect(() => {
+   setLastReadChapter(selectedChapterId);
+ }, [selectedChapterId]);
 
  const handleCharClick = (
  sentenceId: string,
@@ -81,6 +86,7 @@ export default function ReadingClient() {
  onSelect={(id) => {
  setSelectedChapterId(id);
  markChapterRead(id);
+ setLastReadChapter(id);
  }}
  />
 
