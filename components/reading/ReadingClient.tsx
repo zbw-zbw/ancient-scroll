@@ -9,13 +9,16 @@ import ChapterSidebar from "@/components/reading/ChapterSidebar";
 import ReadingPanel from "@/components/reading/ReadingPanel";
 import CharacterTooltip from "@/components/reading/CharacterTooltip";
 import type { FontSize } from "@/components/reading/ReadingControls";
-import { markChapterRead, setLastReadChapter } from "@/lib/progress";
+import { markChapterRead, setLastReadChapter, getLastReadChapter } from "@/lib/progress";
 
 export default function ReadingClient() {
  const searchParams = useSearchParams();
  const [selectedChapterId, setSelectedChapterId] = useState(() => {
  const id = searchParams.get("chapter");
- return chapters.some((c) => c.id === id) ? id! : "nanshan";
+ if (id && chapters.some((c) => c.id === id)) return id;
+ const lastRead = typeof window !== "undefined" ? getLastReadChapter() : null;
+ if (lastRead && chapters.some((c) => c.id === lastRead)) return lastRead;
+ return "nanshan";
  });
  const [fontSize, setFontSize] = useState<FontSize>("md");
  const [showTranslation, setShowTranslation] = useState(true);

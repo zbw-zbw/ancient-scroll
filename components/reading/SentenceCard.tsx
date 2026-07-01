@@ -6,6 +6,7 @@ import type { Sentence as SentenceType, DifficultChar } from "@/data/shanhaijing
 import HighlightedText from "./HighlightedText";
 import AiTranslateButton from "./AiTranslateButton";
 import ReadAloudButton from "./ReadAloudButton";
+import CopyButton from "@/components/CopyButton";
 import type { FontSize } from "./ReadingControls";
 import { IconPaw, IconChat, IconArrowRight } from "@/components/icons";
 
@@ -89,15 +90,16 @@ export default function SentenceCard({
 
  {/* Translation section */}
  {showTranslation && (
- <>
  <p
             className={`mt-5 font-serif leading-relaxed text-light-ink ${translationSizeClasses[fontSize]}`}
           >
  {translation}
  </p>
+ )}
 
+ {/* Action toolbar - always visible */}
  <div className="mt-4 flex flex-wrap items-center gap-2">
- {sentence.relatedBeastId && (
+ {showTranslation && sentence.relatedBeastId && (
  <Link
  href={`/bestiary?beast=${sentence.relatedBeastId}`}
  className="inline-flex items-center gap-1 rounded-full px-3 py-1.5 font-serif text-xs text-indigo transition-colors hover:bg-indigo/5"
@@ -106,22 +108,27 @@ export default function SentenceCard({
  </Link>
  )}
  <Link
-          href={`/dialogue?ask=${encodeURIComponent(sentence.original.slice(0, 50))}`}
-          className="inline-flex items-center gap-1 rounded-full px-3 py-1.5 font-serif text-xs text-muted transition-colors hover:bg-cinnabar/5 hover:text-cinnabar"
-        >
-          <IconChat className="h-3.5 w-3.5" /> 问问古人
-        </Link>
-        <ReadAloudButton text={sentence.original} />
-        <AiTranslateButton
+ href={`/dialogue?ask=${encodeURIComponent(sentence.original.slice(0, 50))}`}
+ className="inline-flex items-center gap-1 rounded-full px-3 py-1.5 font-serif text-xs text-muted transition-colors hover:bg-cinnabar/5 hover:text-cinnabar"
+ >
+ <IconChat className="h-3.5 w-3.5" /> 问问古人
+ </Link>
+ <ReadAloudButton text={sentence.original} />
+ <CopyButton
+ text={showTranslation ? `《${chapterName}》\n${sentence.original}\n${translation}` : `《${chapterName}》\n${sentence.original}`}
+ label="复制"
+ successMessage="已复制到剪贴板"
+ />
+ {showTranslation && (
+ <AiTranslateButton
  sentenceId={sentence.id}
  original={sentence.original}
  context={chapterName}
  currentTranslation={translation}
  onTranslation={onTranslation}
  />
- </div>
- </>
  )}
+ </div>
  </article>
  );
 }
