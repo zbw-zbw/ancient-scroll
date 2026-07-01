@@ -10,6 +10,11 @@ const navItems = [
   { label: "古今对话", href: "/dialogue" },
 ];
 
+const personalItems = [
+  { label: "我的笔记", href: "/notes" },
+  { label: "我的收藏", href: "/favorites" },
+];
+
 function BackToTop() {
   const [visible, setVisible] = useState(false);
   const [isMac, setIsMac] = useState(false);
@@ -99,6 +104,17 @@ export default function Footer() {
                     <Link
                       href={item.href}
                       className="font-serif text-sm text-light-ink hover:text-cinnabar transition-colors"
+                    >
+                      {item.label}
+                    </Link>
+                  </li>
+                ))}
+                <li className="mt-1 h-px w-12 bg-ink/10" />
+                {personalItems.map((item) => (
+                  <li key={item.href}>
+                    <Link
+                      href={item.href}
+                      className="font-serif text-sm text-muted hover:text-cinnabar transition-colors"
                     >
                       {item.label}
                     </Link>

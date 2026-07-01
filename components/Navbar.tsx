@@ -12,6 +12,11 @@ const navItems = [
   { label: "古今对话", href: "/dialogue" },
 ];
 
+const secondaryNavItems = [
+  { label: "我的笔记", href: "/notes", icon: "notes" as const },
+  { label: "我的收藏", href: "/favorites", icon: "favorites" as const },
+];
+
 function useTheme() {
   const [isDark, setIsDark] = useState(false);
 
@@ -146,8 +151,39 @@ export default function Navbar() {
             })}
           </ul>
 
-          {/* Right: Search + Theme toggle */}
-          <div className="hidden md:flex items-center gap-2">
+          {/* Right: Notes + Favorites + Search + Theme toggle */}
+          <div className="hidden md:flex items-center gap-1">
+            {/* Notes link */}
+            <Link
+              href="/notes"
+              aria-label="我的笔记"
+              className={`inline-flex items-center justify-center w-9 h-9 rounded-full transition-colors ${
+                pathname === "/notes"
+                  ? "bg-cinnabar/10 text-cinnabar"
+                  : "text-light-ink hover:text-cinnabar hover:bg-cinnabar/10"
+              }`}
+            >
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                <polyline points="14 2 14 8 20 8" />
+                <line x1="9" y1="13" x2="15" y2="13" />
+                <line x1="9" y1="17" x2="13" y2="17" />
+              </svg>
+            </Link>
+            {/* Favorites link */}
+            <Link
+              href="/favorites"
+              aria-label="我的收藏"
+              className={`inline-flex items-center justify-center w-9 h-9 rounded-full transition-colors ${
+                pathname === "/favorites"
+                  ? "bg-cinnabar/10 text-cinnabar"
+                  : "text-light-ink hover:text-cinnabar hover:bg-cinnabar/10"
+              }`}
+            >
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4">
+                <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z" />
+              </svg>
+            </Link>
             {/* Search trigger - styled as input-like command palette */}
             <button
               type="button"
@@ -268,7 +304,7 @@ export default function Navbar() {
           id="mobile-menu"
           role="menu"
           className={`md:hidden overflow-hidden transition-all duration-300 ${
-            menuOpen ? "max-h-80" : "max-h-0"
+            menuOpen ? "max-h-[28rem]" : "max-h-0"
           }`}
         >
           <ul className="flex flex-col items-center gap-1 pb-6 pt-2 bg-xuan/95 backdrop-blur-md">
@@ -286,6 +322,38 @@ export default function Navbar() {
                     }`}
                     onClick={() => setMenuOpen(false)}
                   >
+                    {item.label}
+                  </Link>
+                </li>
+              );
+            })}
+            {/* Divider */}
+            <li className="my-2 h-px w-32 bg-ink/10" role="none" />
+            {secondaryNavItems.map((item) => {
+              const isActive = pathname === item.href;
+              return (
+                <li key={item.href} role="none">
+                  <Link
+                    href={item.href}
+                    role="menuitem"
+                    className={`inline-flex items-center gap-1.5 rounded-full px-4 py-2 font-serif text-sm transition-colors ${
+                      isActive
+                        ? "bg-cinnabar/10 text-cinnabar"
+                        : "text-muted hover:text-cinnabar hover:bg-cinnabar/5"
+                    }`}
+                    onClick={() => setMenuOpen(false)}
+                  >
+                    {item.icon === "notes" && (
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4">
+                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                        <polyline points="14 2 14 8 20 8" />
+                      </svg>
+                    )}
+                    {item.icon === "favorites" && (
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4">
+                        <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z" />
+                      </svg>
+                    )}
                     {item.label}
                   </Link>
                 </li>

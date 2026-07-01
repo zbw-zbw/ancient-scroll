@@ -36,7 +36,11 @@ export default function AiTranslateButton({
       onTranslation(sentenceId, data.translation || currentTranslation);
     } catch (err) {
       console.error("AI translate error:", err);
-      toast("翻译失败，请稍后再试", "error");
+      const msg = err instanceof Error ? err.message : "翻译失败";
+      toast(
+        msg.includes("未配置") ? "AI 服务暂未启用，当前使用内置译文" : "翻译失败，请稍后再试",
+        "error"
+      );
     } finally {
       setLoading(false);
     }
