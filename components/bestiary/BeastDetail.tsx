@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import type { Beast } from "@/data/beasts";
 import { beasts, categoryLabels } from "@/data/beasts";
@@ -41,16 +41,20 @@ export default function BeastDetail({
  onToggleCollect,
  onDescription,
 }: BeastDetailProps) {
- useEffect(() => {
- if (beast) {
- document.body.style.overflow = "hidden";
- } else {
- document.body.style.overflow = "";
- }
- return () => {
- document.body.style.overflow = "";
- };
- }, [beast]);
+ const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    if (beast) {
+      document.body.style.overflow = "hidden";
+      requestAnimationFrame(() => setMounted(true));
+    } else {
+      setMounted(false);
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [beast]);
 
  useEffect(() => {
  const handleEsc = (e: KeyboardEvent) => {
@@ -63,14 +67,16 @@ export default function BeastDetail({
  if (!beast) return null;
 
  const content = (
- <div
- className="fixed inset-0 z-[100] flex items-end justify-center bg-ink/60 backdrop-blur-sm transition-opacity duration-300 md:items-center"
- onClick={(e) => {
- if (e.target === e.currentTarget) onClose();
- }}
- >
- <div
- className={`relative flex max-h-[90vh] w-full flex-col overflow-hidden rounded-t-2xl bg-xuan shadow-2xl transition-all duration-300 md:max-w-[640px] md:rounded-2xl`}
+    <div
+    className={`fixed inset-0 z-[100] flex items-end justify-center bg-ink/60 backdrop-blur-sm transition-opacity duration-300 md:items-center ${mounted ? "opacity-100" : "opacity-0"}`}
+    onClick={(e) => {
+    if (e.target === e.currentTarget) onClose();
+    }}
+  >
+  <div
+    className={`relative flex max-h-[90vh] w-full flex-col overflow-hidden rounded-t-2xl bg-xuan shadow-2xl transition-all duration-300 md:max-w-[640px] md:rounded-2xl ${
+      mounted ? "translate-y-0 scale-100" : "translate-y-8 scale-95"
+    }`}
  role="dialog"
  aria-modal="true"
  aria-label={`${beast.name}详情`}
@@ -180,11 +186,6 @@ export default function BeastDetail({
       </span>
       {collected ? `已收入图鉴 · ${collectedCount}/${beasts.length}` : "收入图鉴"}
     </button>
-    <p className="mt-2 text-center font-serif text-xs text-muted">
-      {collected
-        ? `已收入图鉴 · ${collectedCount}/${beasts.length}`
-        : "收入图鉴 — 收集所有异兽解锁成就"}
-    </p>
  </div>
  </div>
  </div>

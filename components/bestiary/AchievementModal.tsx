@@ -57,22 +57,22 @@ export default function AchievementModal({ open, onClose }: AchievementModalProp
  <div className="pointer-events-none absolute -bottom-10 -right-10 h-40 w-40 rounded-full bg-gold/10 blur-3xl" />
 
  {/* Trophy icon */}
-      <div className="relative mx-auto mb-4 flex h-20 w-20 items-center justify-center rounded-full bg-gradient-to-br from-gold to-amber-600 text-white shadow-lg">
+      <div className="relative mx-auto mb-4 flex h-20 w-20 items-center justify-center rounded-full bg-gradient-to-br from-gold to-amber-600 text-white shadow-lg animate-bounce">
         <IconTrophy className="h-10 w-10" />
       </div>
 
- <h2 className="font-calligraphy text-3xl text-ink md:text-4xl">
+  <h2 className="font-calligraphy text-3xl text-ink md:text-4xl animate-fade-in" style={{ animationDelay: "0.2s", animationFillMode: "both" }}>
  图鉴大师
  </h2>
- <p className="mt-2 font-serif text-base text-muted">
+ <p className="mt-2 font-serif text-base text-muted animate-fade-in" style={{ animationDelay: "0.35s", animationFillMode: "both" }}>
  恭喜！你已收集全部 {beasts.length} 只异兽！
  </p>
- <p className="mt-1 font-handwriting text-sm text-cinnabar">
+ <p className="mt-1 font-handwriting text-sm text-cinnabar animate-fade-in" style={{ animationDelay: "0.45s", animationFillMode: "both" }}>
  “博物君子，通识万物”
  </p>
 
  {/* Category stats */}
- <div className="relative mt-6 grid grid-cols-4 gap-3">
+ <div className="relative mt-6 grid grid-cols-4 gap-3 animate-fade-in" style={{ animationDelay: "0.55s", animationFillMode: "both" }}>
  {(Object.keys(counts) as BeastCategory[]).map((cat) => (
  <div
  key={cat}

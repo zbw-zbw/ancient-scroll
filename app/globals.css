@@ -544,6 +544,16 @@ html::-webkit-scrollbar-thumb:hover {
   animation: hero-breathe 20s ease-in-out infinite alternate;
 }
 
+/* Fade in down animation for toast notifications */
+@keyframes fade-in-down {
+  from { opacity: 0; transform: translateY(-12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-in-down {
+  animation: fade-in-down 0.25s ease-out;
+}
+
 /* Hero reveal */
 @keyframes hero-reveal {
   from {

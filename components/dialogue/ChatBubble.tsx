@@ -75,7 +75,7 @@ export default function ChatBubble({
 
  {/* Bubble */}
  <div
- className={`relative px-4 py-3 font-serif text-sm leading-relaxed md:px-5 md:py-3.5 ${
+ className={`relative px-4 py-3 font-serif text-sm leading-relaxed md:px-5 md:py-3.5 animate-fade-in ${
  isUser
  ? "rounded-2xl rounded-tr-sm text-white"
  : "rounded-2xl rounded-tl-sm bg-xuan-dark text-ink"

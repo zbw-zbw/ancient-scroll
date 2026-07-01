@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { IconSparkles } from "@/components/icons";
+import { useToast } from "@/components/Toast";
 
 interface AiDescribeButtonProps {
  name: string;
@@ -17,6 +18,7 @@ export default function AiDescribeButton({
  onDescription,
 }: AiDescribeButtonProps) {
  const [loading, setLoading] = useState(false);
+  const { toast } = useToast();
 
  const handleClick = async () => {
  if (loading) return;
@@ -32,6 +34,7 @@ export default function AiDescribeButton({
  onDescription(data.description || currentDescription);
  } catch (err) {
  console.error("AI describe error:", err);
+ toast("解读失败，请稍后再试", "error");
  } finally {
  setLoading(false);
  }

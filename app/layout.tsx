@@ -3,6 +3,7 @@ import { Ma_Shan_Zheng, Noto_Serif_SC, Long_Cang } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import KeyboardShortcuts from "@/components/KeyboardShortcuts";
+import ToastProvider from "@/components/Toast";
 import PageTransition from "@/components/PageTransition";
 
 const maShanZheng = Ma_Shan_Zheng({
@@ -67,7 +68,9 @@ export default function RootLayout({
       <body className="min-h-screen">
         <Navbar />
         <KeyboardShortcuts />
-        <PageTransition>{children}</PageTransition>
+        <ToastProvider>
+          <PageTransition>{children}</PageTransition>
+        </ToastProvider>
       </body>
     </html>
   );

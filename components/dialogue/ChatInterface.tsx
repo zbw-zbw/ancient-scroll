@@ -4,6 +4,7 @@ import { useState, useCallback, useEffect, useRef } from "react";
 import { HistoricalCharacter } from "../../data/characters";
 import { useStreamingResponse } from "../../hooks/useStreamingResponse";
 import { markDialogue } from "../../lib/progress";
+import { useToast } from "@/components/Toast";
 import ChatHeader from "./ChatHeader";
 import ChatMessages from "./ChatMessages";
 import ChatInput from "./ChatInput";
@@ -50,6 +51,7 @@ export default function ChatInterface({
  const [streamingContent, setStreamingContent] = useState("");
  const [showSuggestions, setShowSuggestions] = useState(true);
  const { isStreaming, startStreaming } = useStreamingResponse();
+  const { toast } = useToast();
 
  const autoSentRef = useRef(false);
 
@@ -97,6 +99,7 @@ export default function ChatInterface({
  },
  onError: (error) => {
  console.error("Streaming error:", error);
+ toast("网络不佳，请稍后再试", "error");
  setMessages((prev) => [
  ...prev,
  {
