@@ -390,9 +390,61 @@ export default function SearchModal({
         {/* Results area */}
         <div className="max-h-[60vh] md:max-h-[50vh] overflow-y-auto">
           {query.trim() === "" ? (
-            <div className="px-4 py-8 text-center text-light-ink/60 font-serif text-sm">
-              输入关键词开始搜索
-              <div className="mt-2 flex items-center justify-center gap-3 text-xs text-light-ink/40">
+            <div className="px-4 py-6">
+              {/* Module counts */}
+              <div className="mb-4 grid grid-cols-4 gap-2">
+                <Link
+                  href="/reading"
+                  onClick={handleLinkClick}
+                  className="flex flex-col items-center gap-1 rounded-lg p-3 transition-colors hover:bg-ink/5"
+                >
+                  <span className="text-lg">📖</span>
+                  <span className="text-xs font-serif text-light-ink/70">{chapters.length} 篇章</span>
+                </Link>
+                <Link
+                  href="/bestiary"
+                  onClick={handleLinkClick}
+                  className="flex flex-col items-center gap-1 rounded-lg p-3 transition-colors hover:bg-ink/5"
+                >
+                  <span className="text-lg">🐾</span>
+                  <span className="text-xs font-serif text-light-ink/70">{beasts.length} 异兽</span>
+                </Link>
+                <Link
+                  href="/poetry"
+                  onClick={handleLinkClick}
+                  className="flex flex-col items-center gap-1 rounded-lg p-3 transition-colors hover:bg-ink/5"
+                >
+                  <span className="text-lg">🎋</span>
+                  <span className="text-xs font-serif text-light-ink/70">{poems.length} 首诗</span>
+                </Link>
+                <Link
+                  href="/dialogue"
+                  onClick={handleLinkClick}
+                  className="flex flex-col items-center gap-1 rounded-lg p-3 transition-colors hover:bg-ink/5"
+                >
+                  <span className="text-lg">💬</span>
+                  <span className="text-xs font-serif text-light-ink/70">{characters.length} 人物</span>
+                </Link>
+              </div>
+
+              {/* Hot searches */}
+              <div className="border-t border-ink/5 pt-4">
+                <p className="text-xs font-serif text-light-ink/40 mb-2">热门搜索</p>
+                <div className="flex flex-wrap gap-1.5">
+                  {["九尾狐", "南山经", "静夜思", "李白", "精卫"].map((term) => (
+                    <button
+                      key={term}
+                      onClick={() => setQuery(term)}
+                      className="rounded-full bg-ink/5 px-3 py-1 font-serif text-xs text-light-ink/70 transition-colors hover:bg-cinnabar/10 hover:text-cinnabar"
+                    >
+                      {term}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Keyboard hints */}
+              <div className="mt-4 flex items-center justify-center gap-3 text-xs text-light-ink/40">
                 <span><kbd className="bg-ink/5 rounded px-1.5 py-0.5 font-mono">↑↓</kbd> 选择</span>
                 <span><kbd className="bg-ink/5 rounded px-1.5 py-0.5 font-mono">↵</kbd> 跳转</span>
                 <span><kbd className="bg-ink/5 rounded px-1.5 py-0.5 font-mono">Esc</kbd> 关闭</span>

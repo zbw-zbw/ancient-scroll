@@ -5,6 +5,7 @@ import Navbar from "@/components/Navbar";
 import KeyboardShortcuts from "@/components/KeyboardShortcuts";
 import ToastProvider from "@/components/Toast";
 import PageTransition from "@/components/PageTransition";
+import ErrorBoundary from "@/components/ErrorBoundary";
 
 const maShanZheng = Ma_Shan_Zheng({
   weight: "400",
