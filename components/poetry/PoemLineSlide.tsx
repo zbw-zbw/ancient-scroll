@@ -72,18 +72,15 @@ export default function PoemLineSlide({ line, active, coverImage }: PoemLineSlid
  )}
 
  {/* Scene image for this line */}
- {line.sceneImage && (
- <Image
- src={line.sceneImage}
- alt=""
- fill
- className="absolute inset-0 object-cover opacity-30"
- loading="lazy"
- />
- )}
+   {line.sceneImage && (
+     <Image src={line.sceneImage} alt="" fill
+       className="absolute inset-0 object-cover opacity-20"
+       loading="lazy" />
+   )}
 
- {/* Gradient overlay for text readability */}
- <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/20" />
+   {/* Strong gradient overlay for text readability */}
+   <div className="absolute inset-0 bg-black/30" />
+   <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-black/30" />
 
  {/* Read aloud button - top right corner */}
  <button
@@ -129,8 +126,8 @@ export default function PoemLineSlide({ line, active, coverImage }: PoemLineSlid
  style={{
  fontSize: "clamp(2.25rem, 8vw, 4.5rem)",
  textShadow: textLight
- ? "0 2px 24px rgba(0,0,0,0.35)"
- : "none",
+ ? "0 2px 24px rgba(0,0,0,0.5), 0 4px 48px rgba(0,0,0,0.3)"
+ : "0 1px 8px rgba(0,0,0,0.3), 0 4px 24px rgba(0,0,0,0.2)",
  transitionDelay: active ? "0.25s" : "0s",
  }}
  >
@@ -140,13 +137,11 @@ export default function PoemLineSlide({ line, active, coverImage }: PoemLineSlid
  {/* Annotation */}
  <p
  className={`mx-auto mt-6 max-w-xl font-serif text-base leading-relaxed transition-all duration-[1800ms] ease-[cubic-bezier(0.22,1,0.36,1)] md:text-lg ${
- textLight ? "text-white/80" : "text-ink/80"
- } ${
- active
- ? "translate-y-0 opacity-100"
- : "translate-y-5 opacity-0"
- }`}
- style={{ transitionDelay: active ? "0.55s" : "0s" }}
+         textLight ? "text-white/90" : "text-white/90"
+       } ${
+         active ? "translate-y-0 opacity-100" : "translate-y-5 opacity-0"
+       }`}
+      style={{ transitionDelay: active ? "0.55s" : "0s", textShadow: "0 1px 6px rgba(0,0,0,0.4)" }}
  >
  {line.annotation}
  </p>

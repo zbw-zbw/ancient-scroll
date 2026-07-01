@@ -57,12 +57,12 @@ export default function PoemCard({ poem, onSelect, onShare }: PoemCardProps) {
               src={poem.coverImage}
               alt={poem.title}
               fill
-              className="object-cover opacity-80 transition-transform duration-500 group-hover:scale-105"
+              className="object-cover object-center opacity-80 transition-transform duration-700 ease-out group-hover:scale-110"
               loading="lazy"
               placeholder="empty"
               onError={() => setImgError(true)}
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-surface to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-t from-[var(--surface)] via-surface/80 to-transparent" />
           </>
         ) : (
           <div className="flex h-full items-center justify-center">

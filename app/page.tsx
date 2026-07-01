@@ -6,7 +6,6 @@ import Features from "@/components/Features";
 import DataStats from "@/components/DataStats";
 import CheckInPanel from "@/components/CheckInPanel";
 import ContinueReading from "@/components/ContinueReading";
-import AchievementPanel from "@/components/AchievementPanel";
 import Footer from "@/components/Footer";
 import ScrollReveal from "@/components/ScrollReveal";
 
@@ -23,7 +22,6 @@ export default function Home() {
         <Features />
         <DataStats />
         <CheckInPanel />
-        <AchievementPanel />
         <Footer />
       </main>
     </>

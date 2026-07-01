@@ -18,29 +18,41 @@ const secondaryNavItems = [
 ];
 
 function useTheme() {
-  const [isDark, setIsDark] = useState(false);
+  const [isDark, setIsDark] = useState(() => {
+    if (typeof window === "undefined") return false;
+    const saved = localStorage.getItem("theme");
+    if (saved === "dark" || saved === "light") return saved === "dark";
+    return window.matchMedia("(prefers-color-scheme: dark)").matches;
+  });
 
   useEffect(() => {
     const root = document.documentElement;
-    const update = () => {
+    // Apply initial theme
+    if (isDark) {
+      root.classList.add("dark");
+    } else {
+      root.classList.remove("dark");
+    }
+    // Listen for external changes (e.g. OS preference)
+    const observer = new MutationObserver(() => {
       setIsDark(root.classList.contains("dark"));
-    };
-    update();
-    const observer = new MutationObserver(update);
+    });
     observer.observe(root, { attributes: true, attributeFilter: ["class"] });
     return () => observer.disconnect();
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const toggle = () => {
-    const root = document.documentElement;
-    if (root.classList.contains("dark")) {
-      root.classList.remove("dark");
-      localStorage.setItem("theme", "light");
-    } else {
-      root.classList.add("dark");
-      localStorage.setItem("theme", "dark");
-    }
-    setIsDark(!isDark);
+    setIsDark((prev) => {
+      const root = document.documentElement;
+      if (prev) {
+        root.classList.remove("dark");
+        localStorage.setItem("theme", "light");
+      } else {
+        root.classList.add("dark");
+        localStorage.setItem("theme", "dark");
+      }
+      return !prev;
+    });
   };
 
   return { isDark, toggle };

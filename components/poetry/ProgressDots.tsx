@@ -25,12 +25,14 @@ export default function ProgressDots({
           aria-selected={i === current}
           aria-label={`跳转到第 ${i + 1} 屏`}
           onClick={() => onDotClick(i)}
-          className={`rounded-full transition-all duration-300 ${
+          className={`flex items-center justify-center rounded-full p-3 transition-all duration-300 ${
             i === current
-              ? "h-2 w-6 bg-cinnabar"
-              : "h-2 w-2 bg-white/30 hover:bg-white/50"
+              ? "bg-cinnabar [&>span]:h-2 [&>span]:w-6"
+              : "bg-white/0 hover:bg-white/10 [&>span]:h-2 [&>span]:w-2 [&>span]:bg-white/30 hover:[&>span]:bg-white/50"
           }`}
-        />
+        >
+          <span className="block rounded-full transition-all duration-300" />
+        </button>
       ))}
     </div>
   );

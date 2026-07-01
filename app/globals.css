@@ -331,20 +331,13 @@ footer {
 /* Unified card style */
 .card {
   @apply overflow-hidden rounded-2xl bg-surface/60 shadow-sm;
+  transition: transform 300ms ease-out, box-shadow 300ms ease-out;
 }
 
 @media (hover: hover) {
   .card:hover {
-    transform: translateY(-0.25rem);
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
-  }
-
-  .card :where(img) {
-    transition: transform 500ms ease-out;
-  }
-
-  .card:hover :where(img) {
-    transform: scale(1.05);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px -5px rgba(0, 0, 0, 0.08), 0 4px 10px -4px rgba(0, 0, 0, 0.04);
   }
 }
 

@@ -435,7 +435,7 @@ export default function SearchModal({
                     <button
                       key={term}
                       onClick={() => setQuery(term)}
-                      className="rounded-full bg-ink/5 px-3 py-1 font-serif text-xs text-light-ink/70 transition-colors hover:bg-cinnabar/10 hover:text-cinnabar"
+                      className="rounded-full bg-ink/5 px-3 py-2 min-h-[36px] font-serif text-xs text-light-ink/70 transition-colors hover:bg-cinnabar/10 hover:text-cinnabar"
                     >
                       {term}
                     </button>

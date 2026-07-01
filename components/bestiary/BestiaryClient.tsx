@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { beasts, type Beast, type BeastCategory } from "@/data/beasts";
+import { toggleFavoriteBeast } from "@/lib/progress";
 import BeastFilter from "@/components/bestiary/BeastFilter";
 import CollectionProgress from "@/components/bestiary/CollectionProgress";
 import PageHeader from "@/components/PageHeader";
@@ -93,9 +94,11 @@ export default function BestiaryClient() {
  };
 
  const handleToggleCollect = (id: string) => {
- setCollectedIds((prev) =>
+  setCollectedIds((prev) =>
  prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id]
  );
+  // Sync with favorites system
+  toggleFavoriteBeast(id);
  };
 
  const handleViewDetail = (beast: Beast) => {
@@ -103,7 +106,11 @@ export default function BestiaryClient() {
  };
 
  const handleCloseDetail = () => {
- setSelectedBeast(null);
+  setSelectedBeast(null);
+  // Clear URL parameter to prevent re-opening on navigation
+  const url = new URL(window.location.href);
+  url.searchParams.delete("beast");
+  window.history.replaceState({}, "", url.toString());
  };
 
  const handleDescription = (description: string) => {

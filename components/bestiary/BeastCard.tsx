@@ -1,11 +1,10 @@
 "use client";
 
 import Image from "next/image";
-import { useCallback, useEffect, useState } from "react";
+import { useState } from "react";
 import type { Beast } from "@/data/beasts";
 import { categoryLabels } from "@/data/beasts";
 import { IconHeart, IconHeartOutline, IconArrowRight } from "@/components/icons";
-import { isFavoriteBeast, toggleFavoriteBeast } from "@/lib/progress";
 
 interface BeastCardProps {
   beast: Beast;
@@ -22,21 +21,7 @@ export default function BeastCard({
   onToggleCollect,
   onViewDetail,
 }: BeastCardProps) {
-  const [favorited, setFavorited] = useState(false);
   const [imgError, setImgError] = useState(false);
-
-  useEffect(() => {
-    setFavorited(isFavoriteBeast(beast.id));
-  }, [beast.id]);
-
-  const handleToggleFavorite = useCallback(
-    (e: React.MouseEvent) => {
-      e.stopPropagation();
-      toggleFavoriteBeast(beast.id);
-      setFavorited((prev) => !prev);
-    },
-    [beast.id]
-  );
 
   const handleCardClick = () => {
     onViewDetail(beast);
@@ -76,23 +61,6 @@ export default function BeastCard({
             🐾
           </div>
         )}
-
-        {/* Favorite button - top right corner */}
-        <button
-          onClick={handleToggleFavorite}
-          className={`favorite-btn absolute right-3 top-3 z-10 flex h-8 w-8 items-center justify-center rounded-full shadow-sm backdrop-blur-sm transition-all active:scale-90 ${
-            favorited
-              ? "bg-cinnabar/20 text-cinnabar opacity-100"
-              : "bg-surface/70 text-light-ink hover:bg-surface hover:text-cinnabar md:opacity-0 md:group-hover:opacity-100"
-          }`}
-          aria-label={favorited ? `取消收藏${beast.name}` : `收藏${beast.name}`}
-        >
-          {favorited ? (
-            <IconHeart className="h-4 w-4" />
-          ) : (
-            <IconHeartOutline className="h-4 w-4" />
-          )}
-        </button>
       </div>
 
       {/* Content */}
