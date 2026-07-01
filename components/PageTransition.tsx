@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { usePathname } from "next/navigation";
 
 export default function PageTransition({
@@ -9,35 +9,25 @@ export default function PageTransition({
   children: React.ReactNode;
 }) {
   const pathname = usePathname();
-  const [mounted, setMounted] = useState(false);
 
+  // Lock scroll restoration globally to prevent browser from restoring scroll position on back/forward
   useEffect(() => {
-    // Use multiple methods to ensure scroll is truly at top
+    if ('scrollRestoration' in history) {
+      const original = history.scrollRestoration;
+      history.scrollRestoration = 'manual';
+      return () => {
+        history.scrollRestoration = original;
+      };
+    }
+  }, []);
+
+  // Immediately reset scroll to top on every route change, before paint
+  useEffect(() => {
+    // Cancel any ongoing smooth scroll first
     window.scrollTo(0, 0);
     document.documentElement.scrollTop = 0;
     document.body.scrollTop = 0;
-
-    // Also prevent browser scroll restoration
-    if ('scrollRestoration' in history) {
-      history.scrollRestoration = 'manual';
-    }
-
-    const id = requestAnimationFrame(() => setMounted(true));
-    return () => cancelAnimationFrame(id);
   }, [pathname]);
 
-  // 首页 Hero 已有独立入场动画，不额外包裹
-  if (pathname === "/") {
-    return <>{children}</>;
-  }
-
-  return (
-    <div
-      className={`transition-all duration-500 ease-out ${
-        mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-3"
-      }`}
-    >
-      {children}
-    </div>
-  );
+  return <>{children}</>;
 }

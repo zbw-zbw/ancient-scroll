@@ -4,35 +4,31 @@ interface SuggestedQuestionsProps {
   questions: string[];
   onSelect: (question: string) => void;
   characterColor?: string;
+  disabled?: boolean;
 }
 
 export default function SuggestedQuestions({
   questions,
   onSelect,
   characterColor,
+  disabled,
 }: SuggestedQuestionsProps) {
   return (
-    <div className="flex flex-wrap gap-2 px-10 md:px-14">
+    <div className="flex flex-wrap gap-2 px-4 md:px-14">
       {questions.map((question, index) => (
         <button
           key={index}
-          onClick={() => onSelect(question)}
-          className={`cursor-pointer rounded-full px-3 py-1.5 font-serif text-xs text-light-ink transition-all md:px-4 md:py-2 ${
+          onClick={() => !disabled && onSelect(question)}
+          disabled={disabled}
+          style={characterColor ? {
+            borderColor: `${characterColor}33`,
+            ['--char-color' as string]: characterColor,
+          } : undefined}
+          className={`cursor-pointer rounded-full border px-3 py-1.5 font-serif text-xs text-light-ink transition-all md:px-4 md:py-2 disabled:opacity-40 disabled:cursor-not-allowed ${
             characterColor
-              ? "bg-surface"
-              : "bg-surface hover:bg-seal-bg hover:ring-1 hover:ring-cinnabar/30"
+              ? "border-[var(--char-color)]/20 bg-surface hover:bg-[var(--char-color)]/10 active:scale-95"
+              : "bg-surface hover:bg-seal-bg hover:ring-1 hover:ring-cinnabar/30 active:scale-95"
           }`}
-          style={characterColor ? { border: `1px solid ${characterColor}33` } : undefined}
-          onMouseEnter={(e) => {
-            if (characterColor) {
-              e.currentTarget.style.backgroundColor = `${characterColor}0d`;
-            }
-          }}
-          onMouseLeave={(e) => {
-            if (characterColor) {
-              e.currentTarget.style.backgroundColor = "";
-            }
-          }}
         >
           {question}
         </button>

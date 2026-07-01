@@ -14,6 +14,7 @@ interface PoemCardProps {
 
 export default function PoemCard({ poem, onSelect, onShare }: PoemCardProps) {
   const [favorited, setFavorited] = useState(false);
+  const [imgError, setImgError] = useState(false);
 
   useEffect(() => {
     setFavorited(isFavoritePoem(poem.id));
@@ -41,17 +42,16 @@ export default function PoemCard({ poem, onSelect, onShare }: PoemCardProps) {
 
   return (
     <article
-      role="button"
       tabIndex={0}
       onClick={handleCardClick}
       onKeyDown={handleKeyDown}
-      className="card group flex cursor-pointer flex-col"
+      className="card group flex cursor-pointer flex-col relative"
       style={{ borderTop: `2px solid ${poem.theme}` }}
       aria-label={`进入《${poem.title}》诗境`}
     >
       {/* Cover image - fallback to gradient if no image */}
-      <div className="relative h-[140px] overflow-hidden img-placeholder" style={{ background: poem.coverImage ? undefined : `linear-gradient(135deg, ${poem.theme}40, ${poem.theme}15)` }}>
-        {poem.coverImage && (
+      <div className="relative h-[140px] overflow-hidden img-placeholder" style={{ background: poem.coverImage && !imgError ? undefined : `linear-gradient(135deg, ${poem.theme}40, ${poem.theme}15)` }}>
+        {poem.coverImage && !imgError ? (
           <>
             <Image
               src={poem.coverImage}
@@ -60,11 +60,11 @@ export default function PoemCard({ poem, onSelect, onShare }: PoemCardProps) {
               className="object-cover opacity-80 transition-transform duration-500 group-hover:scale-105"
               loading="lazy"
               placeholder="empty"
+              onError={() => setImgError(true)}
             />
             <div className="absolute inset-0 bg-gradient-to-t from-surface to-transparent" />
           </>
-        )}
-        {!poem.coverImage && (
+        ) : (
           <div className="flex h-full items-center justify-center">
             <span className="font-calligraphy text-5xl text-ink/10">{poem.title[0]}</span>
           </div>
@@ -73,10 +73,10 @@ export default function PoemCard({ poem, onSelect, onShare }: PoemCardProps) {
         {/* Favorite button - top right corner */}
         <button
           onClick={handleToggleFavorite}
-          className={`absolute right-3 top-3 z-10 flex h-8 w-8 items-center justify-center rounded-full shadow-sm backdrop-blur-sm transition-all active:scale-90 ${
+          className={`favorite-btn absolute right-3 top-3 z-10 flex h-8 w-8 items-center justify-center rounded-full shadow-sm backdrop-blur-sm transition-all active:scale-90 ${
             favorited
               ? "bg-cinnabar/20 text-cinnabar opacity-100"
-              : "bg-surface/70 text-light-ink opacity-0 hover:bg-surface hover:text-cinnabar group-hover:opacity-100"
+              : "bg-surface/70 text-light-ink hover:bg-surface hover:text-cinnabar md:opacity-0 md:group-hover:opacity-100"
           }`}
           aria-label={favorited ? `取消收藏《${poem.title}》` : `收藏《${poem.title}》`}
         >
@@ -94,7 +94,7 @@ export default function PoemCard({ poem, onSelect, onShare }: PoemCardProps) {
               e.stopPropagation();
               onShare(e);
             }}
-            className="absolute right-14 top-3 z-10 flex h-8 w-8 items-center justify-center rounded-full bg-surface/70 text-light-ink shadow-sm opacity-0 backdrop-blur-sm transition-all hover:bg-surface hover:text-cinnabar group-hover:opacity-100"
+            className="action-btn absolute right-14 top-3 z-10 flex h-8 w-8 items-center justify-center rounded-full bg-surface/70 text-light-ink shadow-sm backdrop-blur-sm transition-all hover:bg-surface hover:text-cinnabar active:scale-90 md:opacity-0 md:group-hover:opacity-100"
             aria-label={`分享《${poem.title}》`}
           >
             <svg
@@ -131,7 +131,7 @@ export default function PoemCard({ poem, onSelect, onShare }: PoemCardProps) {
           {poem.description}
         </p>
 
-        <span className="mt-auto inline-flex items-center gap-1 self-start pt-4 font-serif text-sm text-cinnabar transition-colors group-hover:underline">
+        <span className="mt-auto inline-flex items-center gap-1 self-start pt-4 font-serif text-sm text-cinnabar transition-colors group-hover:underline group-focus-within:underline cursor-pointer">
           进入诗境
           <IconArrowRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-1" />
         </span>

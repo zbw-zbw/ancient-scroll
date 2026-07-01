@@ -80,14 +80,14 @@ export default function ImmersiveReader({ poem, onBack }: ImmersiveReaderProps) 
  return (
     <div
       ref={containerRef}
-      className="immersive-container fixed inset-0 z-40 h-screen w-screen overflow-y-auto bg-ink"
+      className="immersive-container fixed inset-0 z-40 h-screen w-screen overflow-y-auto bg-immersive-bg"
       style={{ scrollSnapType: "y mandatory" }}
     >
- {/* Back button */}
- <button
- onClick={handleBack}
- className="fixed left-4 top-4 z-50 flex cursor-pointer items-center gap-1 rounded-full bg-ink/30 px-4 py-2 font-serif text-sm text-white backdrop-blur-sm transition-colors hover:bg-ink/40"
- >
+      {/* Back button with safe area support */}
+      <button
+        onClick={handleBack}
+        className="fixed left-[max(1rem,env(safe-area-inset-left))] top-[max(1rem,env(safe-area-inset-top))] z-50 flex cursor-pointer items-center gap-1 rounded-full bg-black/30 px-4 py-2 font-serif text-sm text-white backdrop-blur-sm transition-colors hover:bg-black/50 active:scale-95"
+      >
  <IconArrowLeft className="h-4 w-4" />
  返回
  </button>

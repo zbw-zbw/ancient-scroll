@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import type { Poem } from "@/data/poems";
 import { markPoemComplete } from "@/lib/progress";
 import { IconRefresh, IconChat, IconArrowRight, IconShare } from "@/components/icons";
+import CopyButton from "@/components/CopyButton";
 import ShareCardModal from "./ShareCardModal";
 
 interface EndingSlideProps {
@@ -34,6 +35,8 @@ export default function EndingSlide({
   onBack,
 }: EndingSlideProps) {
   const [showShare, setShowShare] = useState(false);
+
+  const fullPoemText = `${poem.title}\n${poem.author} · ${poem.dynasty}\n\n${poem.lines.map((l) => l.text).join("\n")}`;
 
   useEffect(() => {
     if (active) {
@@ -105,13 +108,19 @@ export default function EndingSlide({
         </p>
 
         {/* 按钮组 */}
-        <div className="flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
+        <div className="flex flex-col items-center gap-3 sm:flex-row sm:justify-center sm:flex-wrap">
           <button
             onClick={onRestart}
             className="inline-flex items-center gap-1 rounded-full bg-cinnabar/5 px-6 py-2.5 font-serif text-sm text-cinnabar transition-colors hover:bg-cinnabar/10"
           >
             <IconRefresh className="h-3.5 w-3.5" /> 再读一遍
           </button>
+          <CopyButton
+            text={fullPoemText}
+            label="复制全诗"
+            successMessage="全诗已复制到剪贴板"
+            className="rounded-full bg-surface/60 px-6 py-2.5 text-sm text-light-ink hover:bg-surface"
+          />
           <button
             onClick={onBack}
             className="inline-flex items-center gap-1 rounded-full bg-surface/60 px-6 py-2.5 font-serif text-sm text-light-ink transition-colors hover:bg-surface"

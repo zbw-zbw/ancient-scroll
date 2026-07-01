@@ -23,6 +23,7 @@ export default function BeastCard({
   onViewDetail,
 }: BeastCardProps) {
   const [favorited, setFavorited] = useState(false);
+  const [imgError, setImgError] = useState(false);
 
   useEffect(() => {
     setFavorited(isFavoriteBeast(beast.id));
@@ -50,33 +51,39 @@ export default function BeastCard({
 
   return (
     <article
-      role="button"
       tabIndex={0}
       onClick={handleCardClick}
       onKeyDown={handleKeyDown}
-      className="card group flex cursor-pointer flex-col"
+      className="card group flex cursor-pointer flex-col relative"
       style={{ animationDelay: `${index * 0.1}s` }}
       aria-label={`查看${beast.name}详情`}
     >
       {/* Image area - full-bleed cover */}
       <div className="relative h-[260px] overflow-hidden rounded-t-2xl img-placeholder">
-        <Image
-          src={beast.imagePath}
-          alt={beast.name}
-          fill
-          sizes="(max-width: 768px) 50vw, 33vw"
-          className="object-cover transition-transform duration-500 group-hover:scale-105"
-          loading="lazy"
-          placeholder="empty"
-        />
+        {!imgError ? (
+          <Image
+            src={beast.imagePath}
+            alt={beast.name}
+            fill
+            sizes="(max-width: 768px) 50vw, 33vw"
+            className="object-cover transition-transform duration-500 group-hover:scale-105"
+            loading="lazy"
+            placeholder="empty"
+            onError={() => setImgError(true)}
+          />
+        ) : (
+          <div className="flex h-full w-full items-center justify-center bg-xuan-dark text-4xl">
+            🐾
+          </div>
+        )}
 
-        {/* Favorite button - top right corner (separate from collect) */}
+        {/* Favorite button - top right corner */}
         <button
           onClick={handleToggleFavorite}
-          className={`absolute right-3 top-3 z-10 flex h-8 w-8 items-center justify-center rounded-full shadow-sm backdrop-blur-sm transition-all active:scale-90 ${
+          className={`favorite-btn absolute right-3 top-3 z-10 flex h-8 w-8 items-center justify-center rounded-full shadow-sm backdrop-blur-sm transition-all active:scale-90 ${
             favorited
               ? "bg-cinnabar/20 text-cinnabar opacity-100"
-              : "bg-surface/70 text-light-ink opacity-0 hover:bg-surface hover:text-cinnabar group-hover:opacity-100"
+              : "bg-surface/70 text-light-ink hover:bg-surface hover:text-cinnabar md:opacity-0 md:group-hover:opacity-100"
           }`}
           aria-label={favorited ? `取消收藏${beast.name}` : `收藏${beast.name}`}
         >
@@ -111,7 +118,7 @@ export default function BeastCard({
             }}
             className={`inline-flex items-center gap-1 rounded-full px-3 py-1.5 font-serif text-xs transition-all active:scale-95 ${
               collected
-                ? "bg-cinnabar/10 text-cinnabar"
+                ? "bg-cinnabar/10 text-cinnabar hover:bg-cinnabar/20"
                 : "bg-ink/5 text-light-ink hover:bg-ink/10"
             }`}
           >
@@ -129,7 +136,9 @@ export default function BeastCard({
             {collected ? "已收藏" : "收藏"}
           </button>
 
-          <span className="inline-flex items-center gap-1 font-serif text-sm text-cinnabar transition-colors group-hover:underline">
+          <span
+            className="inline-flex items-center gap-1 font-serif text-sm text-cinnabar transition-colors group-hover:underline group-focus-within:underline cursor-pointer"
+          >
             查看详情
             <IconArrowRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-1" />
           </span>

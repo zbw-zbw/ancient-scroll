@@ -10,8 +10,18 @@ const navItems = [
   { label: "古今对话", href: "/dialogue" },
 ];
 
+const personalItems = [
+  { label: "我的笔记", href: "/notes" },
+  { label: "我的收藏", href: "/favorites" },
+];
+
 function BackToTop() {
   const [visible, setVisible] = useState(false);
+  const [isMac, setIsMac] = useState(false);
+
+  useEffect(() => {
+    setIsMac(/Mac|iPhone|iPad|iPod/.test(navigator.platform));
+  }, []);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -28,7 +38,7 @@ function BackToTop() {
       type="button"
       aria-label="回到顶部"
       onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-      className="fixed bottom-6 right-6 z-40 flex h-10 w-10 items-center justify-center rounded-full bg-surface/80 backdrop-blur-sm shadow-md border border-ink/10 text-light-ink hover:text-cinnabar hover:border-cinnabar/30 transition-colors"
+      className="fixed bottom-6 right-6 z-40 flex h-10 w-10 items-center justify-center rounded-full bg-surface/80 backdrop-blur-sm shadow-md border border-ink/10 text-light-ink hover:text-cinnabar hover:border-cinnabar/30 transition-all active:scale-90"
     >
       <svg
         viewBox="0 0 24 24"
@@ -46,6 +56,12 @@ function BackToTop() {
 }
 
 export default function Footer() {
+  const [isMac, setIsMac] = useState(false);
+
+  useEffect(() => {
+    setIsMac(/Mac|iPhone|iPad|iPod/.test(navigator.platform));
+  }, []);
+
   return (
     <>
       <BackToTop />
@@ -93,6 +109,17 @@ export default function Footer() {
                     </Link>
                   </li>
                 ))}
+                <li className="mt-1 h-px w-12 bg-ink/10" />
+                {personalItems.map((item) => (
+                  <li key={item.href}>
+                    <Link
+                      href={item.href}
+                      className="font-serif text-sm text-muted hover:text-cinnabar transition-colors"
+                    >
+                      {item.label}
+                    </Link>
+                  </li>
+                ))}
               </ul>
             </div>
 
@@ -117,7 +144,7 @@ export default function Footer() {
                   <svg
                     viewBox="0 0 24 24"
                     fill="currentColor"
-                    className="h-4 w-4"
+                    className="h-4 w-4 translate-y-px"
                   >
                     <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z" />
                   </svg>
@@ -125,7 +152,7 @@ export default function Footer() {
                 </a>
                 <span className="inline-flex items-center gap-1.5 font-serif text-xs text-muted">
                   <kbd className="bg-ink/5 rounded px-1.5 py-0.5 text-xs font-mono border border-ink/10">
-                    Ctrl+K
+                    {isMac ? "⌘K" : "Ctrl+K"}
                   </kbd>
                   搜索
                 </span>

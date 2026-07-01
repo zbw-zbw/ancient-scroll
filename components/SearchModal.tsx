@@ -196,62 +196,20 @@ export default function SearchModal({
 }) {
   const [query, setQuery] = useState("");
   const [visible, setVisible] = useState(false);
+  const [activeIndex, setActiveIndex] = useState(-1);
   const inputRef = useRef<HTMLInputElement>(null);
   const overlayRef = useRef<HTMLDivElement>(null);
-
-  // Animate in/out
-  useEffect(() => {
-    if (open) {
-      setVisible(true);
-      setQuery("");
-      requestAnimationFrame(() => {
-        inputRef.current?.focus();
-      });
-    } else {
-      // Delay hiding to allow fade-out animation
-      const timer = setTimeout(() => setVisible(false), 200);
-      return () => clearTimeout(timer);
-    }
-  }, [open]);
-
-  // Escape key + lock body scroll
-  useEffect(() => {
-    if (!open) return;
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape") onClose();
-    };
-    document.addEventListener("keydown", handleKeyDown);
-    document.body.style.overflow = "hidden";
-    return () => {
-      document.removeEventListener("keydown", handleKeyDown);
-      document.body.style.overflow = "";
-    };
-  }, [open, onClose]);
+  const closeTimerRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
+  const resultRefs = useRef<(HTMLAnchorElement | null)[]>([]);
 
   const groupedResults = useMemo((): ModuleGroup[] => {
     if (!query.trim()) return [];
 
     const allResults: ModuleGroup[] = [
-      {
-        key: "shanhaijing",
-        ...moduleMeta.shanhaijing,
-        results: searchShanhaijing(query),
-      },
-      {
-        key: "beasts",
-        ...moduleMeta.beasts,
-        results: searchBeasts(query),
-      },
-      {
-        key: "poetry",
-        ...moduleMeta.poetry,
-        results: searchPoetry(query),
-      },
-      {
-        key: "characters",
-        ...moduleMeta.characters,
-        results: searchCharacters(query),
-      },
+      { key: "shanhaijing", ...moduleMeta.shanhaijing, results: searchShanhaijing(query) },
+      { key: "beasts", ...moduleMeta.beasts, results: searchBeasts(query) },
+      { key: "poetry", ...moduleMeta.poetry, results: searchPoetry(query) },
+      { key: "characters", ...moduleMeta.characters, results: searchCharacters(query) },
     ];
 
     const nonEmpty = allResults.filter((g) => g.results.length > 0);
@@ -275,6 +233,80 @@ export default function SearchModal({
     [groupedResults]
   );
 
+  const flatResults = useMemo(
+    () => groupedResults.flatMap((g) => g.results),
+    [groupedResults]
+  );
+
+  // Animate in/out
+  useEffect(() => {
+    if (open) {
+      if (closeTimerRef.current) {
+        clearTimeout(closeTimerRef.current);
+        closeTimerRef.current = undefined;
+      }
+      setVisible(true);
+      setQuery("");
+      setActiveIndex(-1);
+      requestAnimationFrame(() => {
+        inputRef.current?.focus();
+      });
+    } else {
+      closeTimerRef.current = setTimeout(() => setVisible(false), 200);
+      return () => {
+        if (closeTimerRef.current) clearTimeout(closeTimerRef.current);
+      };
+    }
+  }, [open]);
+
+  // Reset active index when query changes
+  useEffect(() => {
+    setActiveIndex(-1);
+    resultRefs.current = [];
+  }, [query]);
+
+  // Escape + lock body scroll + keyboard navigation
+  useEffect(() => {
+    if (!open) return;
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        onClose();
+        return;
+      }
+
+      const tag = (e.target as HTMLElement)?.tagName;
+      const isTypingInField = tag === "INPUT" || tag === "TEXTAREA" || (e.target as HTMLElement)?.isContentEditable;
+
+      if (!isTypingInField) return;
+
+      if (e.target === inputRef.current) {
+        if (e.key === "ArrowDown") {
+          e.preventDefault();
+          setActiveIndex(0);
+        } else if (e.key === "ArrowUp") {
+          e.preventDefault();
+          setActiveIndex(flatResults.length - 1);
+        } else if (e.key === "Enter" && activeIndex >= 0) {
+          e.preventDefault();
+          resultRefs.current[activeIndex]?.click();
+        }
+      }
+    };
+    document.addEventListener("keydown", handleKeyDown);
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+      document.body.style.overflow = "";
+    };
+  }, [open, onClose, activeIndex, flatResults.length]);
+
+  // Scroll active result into view
+  useEffect(() => {
+    if (activeIndex >= 0 && resultRefs.current[activeIndex]) {
+      resultRefs.current[activeIndex]?.scrollIntoView({ block: "nearest" });
+    }
+  }, [activeIndex]);
+
   const handleOverlayClick = useCallback(
     (e: React.MouseEvent) => {
       if (e.target === overlayRef.current) onClose();
@@ -286,39 +318,50 @@ export default function SearchModal({
     onClose();
   }, [onClose]);
 
+  const handleResultKeyDown = useCallback(
+    (e: React.KeyboardEvent) => {
+      if (e.key === "ArrowDown") {
+        e.preventDefault();
+        setActiveIndex((prev) => Math.min(prev + 1, flatResults.length - 1));
+      } else if (e.key === "ArrowUp") {
+        e.preventDefault();
+        if (activeIndex <= 0) {
+          inputRef.current?.focus();
+          setActiveIndex(-1);
+        } else {
+          setActiveIndex((prev) => Math.max(prev - 1, 0));
+        }
+      } else if (e.key === "Enter") {
+        e.preventDefault();
+        resultRefs.current[activeIndex]?.click();
+      }
+    },
+    [flatResults.length, activeIndex]
+  );
+
   if (!visible) return null;
+
+  let resultIdx = -1;
 
   return (
     <div
       ref={overlayRef}
       onClick={handleOverlayClick}
-      className={`fixed inset-0 z-[60] flex items-start justify-center bg-ink/50 backdrop-blur-sm pt-[10vh] transition-all duration-200 ${
-        open
-          ? "opacity-100 pointer-events-auto"
-          : "opacity-0 pointer-events-none"
+      className={`fixed inset-0 z-[60] flex items-start justify-center bg-ink/50 backdrop-blur-sm pt-[8vh] md:pt-[10vh] transition-all duration-200 ${
+        open ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
       }`}
       role="dialog"
       aria-modal="true"
       aria-label="搜索"
     >
       <div
-        className={`w-full max-w-lg mx-4 overflow-hidden bg-surface rounded-2xl shadow-2xl transition-all duration-200 ${
-          open
-            ? "translate-y-0 opacity-100 scale-100"
-            : "-translate-y-4 opacity-0 scale-95"
+        className={`w-full max-w-lg mx-4 overflow-hidden bg-surface rounded-2xl shadow-2xl border border-ink/10 transition-all duration-200 ${
+          open ? "translate-y-0 opacity-100 scale-100" : "-translate-y-4 opacity-0 scale-95"
         }`}
       >
         {/* Search input */}
         <div className="flex items-center gap-3 px-4 py-3 border-b border-ink/10">
-          <svg
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            className="h-5 w-5 flex-shrink-0 text-light-ink"
-          >
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5 flex-shrink-0 text-light-ink">
             <circle cx="11" cy="11" r="8" />
             <path d="m21 21-4.3-4.3" />
           </svg>
@@ -328,23 +371,16 @@ export default function SearchModal({
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             placeholder="搜索山海经、异兽、诗词、人物…"
-            className="flex-1 bg-xuan rounded-xl px-4 py-3 font-serif text-ink placeholder:text-light-ink/50 outline-none text-base"
+            className="flex-1 bg-transparent px-2 py-2 font-serif text-ink placeholder:text-light-ink/50 outline-none text-base"
             aria-label="搜索内容"
+            onKeyDown={handleResultKeyDown}
           />
           <button
             onClick={onClose}
-            className="flex-shrink-0 text-light-ink hover:text-ink transition-colors p-1"
+            className="flex-shrink-0 text-light-ink hover:text-ink transition-colors p-1 rounded-full hover:bg-ink/5"
             aria-label="关闭搜索"
           >
-            <svg
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              className="h-5 w-5"
-            >
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5">
               <line x1="18" y1="6" x2="6" y2="18" />
               <line x1="6" y1="6" x2="18" y2="18" />
             </svg>
@@ -352,57 +388,68 @@ export default function SearchModal({
         </div>
 
         {/* Results area */}
-        <div className="max-h-[50vh] overflow-y-auto">
+        <div className="max-h-[60vh] md:max-h-[50vh] overflow-y-auto">
           {query.trim() === "" ? (
             <div className="px-4 py-8 text-center text-light-ink/60 font-serif text-sm">
               输入关键词开始搜索
+              <div className="mt-2 flex items-center justify-center gap-3 text-xs text-light-ink/40">
+                <span><kbd className="bg-ink/5 rounded px-1.5 py-0.5 font-mono">↑↓</kbd> 选择</span>
+                <span><kbd className="bg-ink/5 rounded px-1.5 py-0.5 font-mono">↵</kbd> 跳转</span>
+                <span><kbd className="bg-ink/5 rounded px-1.5 py-0.5 font-mono">Esc</kbd> 关闭</span>
+              </div>
             </div>
           ) : totalResults === 0 ? (
             <div className="px-4 py-8 text-center text-light-ink/60 font-serif text-sm">
-              未找到结果
+              未找到相关结果
             </div>
           ) : (
             groupedResults.map((group) => (
               <div key={group.key} className="border-b border-ink/5 last:border-b-0">
-                {/* Module header */}
                 <div className="flex items-center gap-2 px-4 pt-3 pb-1">
                   <span className="text-sm">{group.icon}</span>
-                  <span className="text-xs font-serif text-light-ink/70 font-medium">
-                    {group.label}
-                  </span>
-                  <span className="text-xs text-light-ink/40 bg-ink/5 rounded-full px-1.5 py-0.5">
-                    {group.results.length}
-                  </span>
+                  <span className="text-xs font-serif text-light-ink/70 font-medium">{group.label}</span>
+                  <span className="text-xs text-light-ink/40 bg-ink/5 rounded-full px-1.5 py-0.5">{group.results.length}</span>
                 </div>
-
-                {/* Results */}
-                {group.results.map((result, idx) => (
-                  <Link
-                    key={`${group.key}-${idx}`}
-                    href={result.href}
-                    onClick={handleLinkClick}
-                    className="block px-4 py-2.5 hover:bg-xuan-dark/50 transition-colors"
-                  >
-                    <div className="font-serif text-sm text-ink">
-                      <HighlightText text={result.title} query={query} />
-                    </div>
-                    <div className="text-xs text-light-ink/60 mt-0.5 line-clamp-1">
-                      <HighlightText text={result.description} query={query} />
-                    </div>
-                  </Link>
-                ))}
+                <ul role="listbox">
+                  {group.results.map((result) => {
+                    resultIdx++;
+                    const isActive = resultIdx === activeIndex;
+                    return (
+                      <li key={`${group.key}-${resultIdx}`}>
+                        <Link
+                          ref={(el) => { resultRefs.current[resultIdx] = el; }}
+                          href={result.href}
+                          onClick={handleLinkClick}
+                          onKeyDown={handleResultKeyDown}
+                          className={`block px-4 py-2.5 transition-colors ${
+                            isActive ? "bg-cinnabar/10" : "hover:bg-ink/5"
+                          }`}
+                          role="option"
+                          aria-selected={isActive}
+                        >
+                          <div className="font-serif text-sm text-ink">
+                            <HighlightText text={result.title} query={query} />
+                          </div>
+                          <div className="text-xs text-light-ink/60 mt-0.5 line-clamp-1">
+                            <HighlightText text={result.description} query={query} />
+                          </div>
+                        </Link>
+                      </li>
+                    );
+                  })}
+                </ul>
               </div>
             ))
           )}
         </div>
 
-        {/* Footer hint */}
         {query.trim() !== "" && totalResults > 0 && (
           <div className="px-4 py-2 border-t border-ink/5 text-center text-xs text-light-ink/40 font-serif">
-            <kbd className="bg-ink/5 rounded px-1.5 py-0.5 text-xs font-mono">
-              ESC
-            </kbd>{" "}
-            关闭
+            <kbd className="bg-ink/5 rounded px-1.5 py-0.5 font-mono">↑↓</kbd> 选择
+            <span className="mx-2">·</span>
+            <kbd className="bg-ink/5 rounded px-1.5 py-0.5 font-mono">↵</kbd> 跳转
+            <span className="mx-2">·</span>
+            <kbd className="bg-ink/5 rounded px-1.5 py-0.5 font-mono">Esc</kbd> 关闭
           </div>
         )}
       </div>
