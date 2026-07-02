@@ -103,9 +103,19 @@ export default function EndingSlide({
         </div>
 
         {/* 诗词赏析一句话 */}
-        <p className="mb-10 font-handwrite text-lg italic text-light-ink">
+        <p className="mb-6 font-handwrite text-lg italic text-light-ink">
           — 愿你读完这首诗，心中自有山河 —
         </p>
+
+        {/* Creation background */}
+        {poem.background && (
+          <div className="mb-8 mx-auto max-w-lg rounded-xl bg-surface/40 p-4 text-left">
+            <p className="mb-1.5 font-serif text-xs text-cinnabar">创作背景</p>
+            <p className="font-serif text-sm leading-relaxed text-light-ink">
+              {poem.background}
+            </p>
+          </div>
+        )}
 
         {/* 按钮组 */}
         <div className="flex flex-col items-center gap-3 sm:flex-row sm:justify-center sm:flex-wrap">

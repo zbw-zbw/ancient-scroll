@@ -26,6 +26,8 @@ export interface Poem {
   theme: string;
   coverImage: string;
   description: string;
+  background?: string;
+  authorBio?: string;
 }
 
 export const poems: Poem[] = [
@@ -37,6 +39,8 @@ export const poems: Poem[] = [
     theme: "#f59e0b",
     coverImage: "/images/poetry/chunxiao.webp",
     description: "一首关于春日清晨的恬淡小诗",
+    background: "孟浩然隐居鹿门山时所作。某个春日清晨，他被鸟鸣唤醒，回想昨夜风雨，惜春之情油然而生。",
+    authorBio: "孟浩然（689-740），唐代山水田园诗派代表，一生未仕，以布衣终老。其诗清淡自然，与王维并称「王孟」。",
     lines: [
       {
         text: "春眠不觉晓",
@@ -88,6 +92,8 @@ export const poems: Poem[] = [
     theme: "#6366f1",
     coverImage: "/images/poetry/jingyesi.webp",
     description: "千古思乡第一诗",
+    background: "李白26岁离乡漫游，途经扬州旅舍。秋夜难眠，见月光如霜，思乡之情喷涌而出，写就此千古名篇。",
+    authorBio: "李白（701-762），字太白，号青莲居士，唐代浪漫主义诗人，被誉为「诗仙」。其诗想象奇特，豪放不羁。",
     lines: [
       {
         text: "床前明月光",
@@ -139,6 +145,8 @@ export const poems: Poem[] = [
     theme: "#ea580c",
     coverImage: "/images/poetry/dengguan.webp",
     description: "壮阔山河中的人生哲理",
+    background: "王之涣登鹳雀楼（今山西永济）时所作。诗人俯瞰黄河奔流，感悟「站得高才能看得远」的人生哲理。",
+    authorBio: "王之涣（688-742），唐代边塞诗人，性豪放，常击剑悲歌。存诗仅六首，却首首名篇，《登鹳雀楼》尤为千古绝唱。",
     lines: [
       {
         text: "白日依山尽",
@@ -187,6 +195,8 @@ export const poems: Poem[] = [
     theme: "#0ea5e9",
     coverImage: "/images/poetry/lushan.webp",
     description: "飞流直下的磅礴气势",
+    background: "李白游历庐山时所作。见香炉峰瀑布飞泻而下，气势磅礴，以「银河落九天」之喻惊艳千古。",
+    authorBio: "李白（701-762），字太白，号青莲居士，唐代浪漫主义诗人，被誉为「诗仙」。其诗想象奇特，豪放不羁。",
     lines: [
       {
         text: "日照香炉生紫烟",
@@ -236,6 +246,8 @@ export const poems: Poem[] = [
     theme: "#64748b",
     coverImage: "/images/poetry/jiangxue.webp",
     description: "天地间最孤独的一幅画",
+    background: "柳宗元因参与政治革新失败被贬永州。政治失意、孤独寂寥之际，借寒江独钓之景，抒写孤傲不屈之心。",
+    authorBio: "柳宗元（773-819），字子厚，唐宋八大家之一。因参与王叔文革新被贬永州、柳州，其诗文深沉峭拔，寄情山水。",
     lines: [
       {
         text: "千山鸟飞绝",
@@ -287,6 +299,8 @@ export const poems: Poem[] = [
     theme: "#b45309",
     coverImage: "/images/poetry/fengqiao.webp",
     description: "秋夜江南的千古愁思",
+    background: "张继科举落第后途经苏州枫桥。夜泊江边，听着寒山寺钟声，满怀落寞愁绪写下此诗，却成就了不朽名篇。",
+    authorBio: "张继（约715-约779），唐代诗人，字懿孙。生平事迹流传甚少，仅凭一首《枫桥夜泊》便名垂千古。",
     lines: [
       {
         text: "月落乌啼霜满天",
@@ -336,6 +350,8 @@ export const poems: Poem[] = [
     theme: "#6366f1",
     coverImage: "/images/poetry/shuidiaogetou.webp",
     description: "中秋月夜的旷世名篇",
+    background: "苏轼在密州任上，中秋之夜饮酒赏月，思念远在济南的弟弟苏辙，醉中写下此词，以月寄情，旷达超脱。",
+    authorBio: "苏轼（1037-1101），字子瞻，号东坡居士，北宋文豪。诗词文书画皆精，一生仕途坎坷却豁达乐观，为唐宋八大家之一。",
     lines: [
       {
         text: "明月几时有",
@@ -427,6 +443,8 @@ export const poems: Poem[] = [
     theme: "#d97706",
     coverImage: "/images/poetry/jiangjinjiu.webp",
     description: "千古饮酒壮歌",
+    background: "李白被赐金放还后，与好友岑勋、元丹丘饮酒于嵩山。醉中豪情万丈，借酒抒怀，写下这首气势磅礴的饮酒诗。",
+    authorBio: "李白（701-762），字太白，号青莲居士，唐代浪漫主义诗人，被誉为「诗仙」。其诗想象奇特，豪放不羁。",
     lines: [
       {
         text: "君不见黄河之水天上来",
@@ -492,6 +510,8 @@ export const poems: Poem[] = [
     theme: "#059669",
     coverImage: "/images/poetry/songyanji.webp",
     description: "千古送别第一诗",
+    background: "王维在渭城为好友元二送行，元二即将出使安西都护府。清晨微雨，柳色清新，一杯离酒道尽不舍之情。",
+    authorBio: "王维（701-761），字摩诘，唐代诗人、画家。以山水田园诗著称，诗中有画，画中有诗，与孟浩然并称「王孟」。",
     lines: [
       {
         text: "渭城朝雨浥轻尘",
@@ -541,6 +561,8 @@ export const poems: Poem[] = [
     theme: "#dc2626",
     coverImage: "/images/poetry/xiangsi.webp",
     description: "最含蓄的相思之诗",
+    background: "王维借红豆寄托相思，一说为送别友人李龟年南下而作。红豆又名相思子，自此诗后成为中华文化中相思的象征。",
+    authorBio: "王维（701-761），字摩诘，唐代诗人、画家。以山水田园诗著称，诗中有画，画中有诗，与孟浩然并称「王孟」。",
     lines: [
       {
         text: "红豆生南国",
@@ -592,6 +614,8 @@ export const poems: Poem[] = [
     theme: "#78716c",
     coverImage: "/images/poetry/chusai.webp",
     description: "边塞诗的巅峰之作",
+    background: "王昌龄赴边塞途中，见明月照关隘，感叹千百年来边关战事不断，将士难归。以「秦汉」起笔，将时空拉至亘古。",
+    authorBio: "王昌龄（约698-757），唐代边塞诗人，字少伯。其七绝与李白并称，被誉为「七绝圣手」，尤擅边塞闺情之作。",
     lines: [
       {
         text: "秦时明月汉时关",
@@ -640,6 +664,8 @@ export const poems: Poem[] = [
     theme: "#ca8a04",
     coverImage: "/images/poetry/minnong.webp",
     description: "粒粒皆辛苦的千古训诫",
+    background: "李绅见农民烈日下劳作，深知稼穑之艰难。以朴素语言写下农夫之苦，成为历代启蒙必读之作。",
+    authorBio: "李绅（772-846），唐代诗人，字公垂。与白居易、元稹交好，是新乐府运动的先驱。《悯农》二首流传最广。",
     lines: [
       {
         text: "锄禾日当午",

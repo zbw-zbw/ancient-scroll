@@ -13,6 +13,8 @@ const navItems = [
 const personalItems = [
   { label: "我的笔记", href: "/notes" },
   { label: "我的收藏", href: "/favorites" },
+  { label: "成就之路", href: "/achievements" },
+  { label: "设置", href: "/settings" },
 ];
 
 function BackToTop() {
