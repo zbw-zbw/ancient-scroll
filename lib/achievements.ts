@@ -13,9 +13,9 @@ export interface Achievement {
   category: "reading" | "poetry" | "bestiary" | "dialogue" | "checkin" | "notes" | "favorites";
 }
 
-const TOTAL_CHAPTERS = 6;
+const TOTAL_CHAPTERS = 10;
 const TOTAL_POEMS = 12;
-const TOTAL_BEASTS = 20;
+const TOTAL_BEASTS = 30;
 const TOTAL_CHARACTERS = 9;
 
 export function getAchievements(): Achievement[] {
@@ -44,16 +44,16 @@ export function getAchievements(): Achievement[] {
     {
       id: "half-chapters",
       title: "渐入佳境",
-      description: "阅读3个篇章",
+      description: "阅读5个篇章",
       icon: "📜",
-      unlocked: readCount >= 3,
-      progress: { current: readCount, total: 3 },
+      unlocked: readCount >= 5,
+      progress: { current: readCount, total: 5 },
       category: "reading",
     },
     {
       id: "all-chapters",
       title: "通读山海",
-      description: "阅读全部6个篇章",
+      description: "阅读全部10个篇章",
       icon: "🏔️",
       unlocked: readCount >= TOTAL_CHAPTERS,
       progress: { current: readCount, total: TOTAL_CHAPTERS },
@@ -98,16 +98,16 @@ export function getAchievements(): Achievement[] {
     {
       id: "half-beasts",
       title: "异兽研究者",
-      description: "收集10只异兽",
+      description: "收集15只异兽",
       icon: "🦊",
-      unlocked: collectedBeasts >= 10,
-      progress: { current: collectedBeasts, total: 10 },
+      unlocked: collectedBeasts >= 15,
+      progress: { current: collectedBeasts, total: 15 },
       category: "bestiary",
     },
     {
       id: "all-beasts",
       title: "山海图鉴",
-      description: "收集全部20只异兽",
+      description: "收集全部30只异兽",
       icon: "🐉",
       unlocked: collectedBeasts >= TOTAL_BEASTS,
       progress: { current: collectedBeasts, total: TOTAL_BEASTS },

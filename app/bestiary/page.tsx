@@ -5,7 +5,7 @@ import BestiaryClient from "@/components/bestiary/BestiaryClient";
 export const metadata: Metadata = {
   title: "异兽图鉴",
   description:
-    "探索《山海经》中的20只神话异兽，国风水墨插画，收集你的专属图鉴。",
+    "探索《山海经》中的30只神话异兽，国风水墨插画，收集你的专属图鉴。",
 };
 
 export default function BestiaryPage() {

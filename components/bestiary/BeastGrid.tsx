@@ -9,6 +9,7 @@ interface BeastGridProps {
  collectedIds: string[];
  onToggleCollect: (id: string) => void;
  onViewDetail: (beast: Beast) => void;
+ onShare?: (beast: Beast) => void;
 }
 
 export default function BeastGrid({
@@ -16,6 +17,7 @@ export default function BeastGrid({
  collectedIds,
  onToggleCollect,
  onViewDetail,
+ onShare,
 }: BeastGridProps) {
  if (beasts.length === 0) {
     return <EmptyState message="未找到匹配的异兽" />;
@@ -31,6 +33,7 @@ export default function BeastGrid({
  collected={collectedIds.includes(beast.id)}
  onToggleCollect={onToggleCollect}
  onViewDetail={onViewDetail}
+ onShare={onShare}
  />
  ))}
  </div>

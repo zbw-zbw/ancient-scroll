@@ -286,9 +286,14 @@ export default function SearchModal({
         } else if (e.key === "ArrowUp") {
           e.preventDefault();
           setActiveIndex(flatResults.length - 1);
-        } else if (e.key === "Enter" && activeIndex >= 0) {
+        } else if (e.key === "Enter") {
           e.preventDefault();
-          resultRefs.current[activeIndex]?.click();
+          if (activeIndex >= 0) {
+            resultRefs.current[activeIndex]?.click();
+          } else if (flatResults.length > 0) {
+            // No result selected — navigate to the first result
+            resultRefs.current[0]?.click();
+          }
         }
       }
     };

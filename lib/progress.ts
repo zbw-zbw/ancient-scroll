@@ -85,8 +85,8 @@ export function getCompletionRate(): number {
   const completedPoems = new Set(progress.completedPoems).size;
   const dialogueCharacters = new Set(progress.dialogueCharacters).size;
 
-  const totalBeasts = 20;
-  const totalChapters = 6;
+  const totalBeasts = 30;
+  const totalChapters = 10;
   const totalPoems = 12;
   const totalDialogues = 9;
 

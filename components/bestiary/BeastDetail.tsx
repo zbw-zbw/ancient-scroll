@@ -13,6 +13,7 @@ import {
   IconHeartOutline,
 } from "@/components/icons";
 import AiDescribeButton from "./AiDescribeButton";
+import BeastShareModal from "./BeastShareModal";
 
 const chapterMap: Record<string, string> = {
  "南山经": "nanshan",
@@ -42,6 +43,7 @@ export default function BeastDetail({
  onDescription,
 }: BeastDetailProps) {
  const [mounted, setMounted] = useState(false);
+ const [showShare, setShowShare] = useState(false);
 
   useEffect(() => {
     if (beast) {
@@ -168,6 +170,21 @@ export default function BeastDetail({
  />
  </div>
 
+ {/* Share button */}
+ <button
+ onClick={() => setShowShare(true)}
+ className="mb-3 w-full rounded-xl border border-ink/10 py-3 font-serif text-base text-light-ink transition-all hover:bg-ink/5 active:scale-[0.98] flex items-center justify-center gap-2"
+ >
+ <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4">
+ <circle cx="18" cy="5" r="3" />
+ <circle cx="6" cy="12" r="3" />
+ <circle cx="18" cy="19" r="3" />
+ <path d="m8.59 13.51 6.83 3.98" />
+ <path d="M15.41 6.51 8.59 10.49" />
+ </svg>
+ 分享异兽
+ </button>
+
  {/* Large collect button */}
  <button
  onClick={() => onToggleCollect(beast.id)}
@@ -188,6 +205,13 @@ export default function BeastDetail({
     </button>
  </div>
  </div>
+
+ {/* Share modal - rendered as sibling of the modal to avoid transform stacking issues */}
+ <BeastShareModal
+ open={showShare}
+ onClose={() => setShowShare(false)}
+ beast={beast}
+ />
  </div>
  );
 

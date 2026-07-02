@@ -4,7 +4,7 @@ import Image from "next/image";
 import { useState } from "react";
 import type { Beast } from "@/data/beasts";
 import { categoryLabels } from "@/data/beasts";
-import { IconHeart, IconHeartOutline, IconArrowRight } from "@/components/icons";
+import { IconHeart, IconHeartOutline, IconArrowRight, IconShare } from "@/components/icons";
 
 interface BeastCardProps {
   beast: Beast;
@@ -12,6 +12,7 @@ interface BeastCardProps {
   collected: boolean;
   onToggleCollect: (id: string) => void;
   onViewDetail: (beast: Beast) => void;
+  onShare?: (beast: Beast) => void;
 }
 
 export default function BeastCard({
@@ -20,6 +21,7 @@ export default function BeastCard({
   collected,
   onToggleCollect,
   onViewDetail,
+  onShare,
 }: BeastCardProps) {
   const [imgError, setImgError] = useState(false);
 
@@ -79,30 +81,46 @@ export default function BeastCard({
 
         {/* Actions */}
         <div className="mt-auto flex items-center justify-between gap-2 pt-4">
-          <button
-            onClick={(e) => {
-              e.stopPropagation();
-              onToggleCollect(beast.id);
-            }}
-            className={`inline-flex items-center gap-1 rounded-full px-3 py-1.5 font-serif text-xs transition-all active:scale-95 ${
-              collected
-                ? "bg-cinnabar/10 text-cinnabar hover:bg-cinnabar/20"
-                : "bg-ink/5 text-light-ink hover:bg-ink/10"
-            }`}
-          >
-            <span
-              className={`transition-transform duration-200 ${
-                collected ? "animate-heart-beat" : ""
+          <div className="flex items-center gap-2">
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                onToggleCollect(beast.id);
+              }}
+              className={`inline-flex items-center gap-1 rounded-full px-3 py-1.5 font-serif text-xs transition-all active:scale-95 ${
+                collected
+                  ? "bg-cinnabar/10 text-cinnabar hover:bg-cinnabar/20"
+                  : "bg-ink/5 text-light-ink hover:bg-ink/10"
               }`}
             >
-              {collected ? (
-                <IconHeart className="h-3.5 w-3.5" />
-              ) : (
-                <IconHeartOutline className="h-3.5 w-3.5" />
-              )}
-            </span>
-            {collected ? "已收藏" : "收藏"}
-          </button>
+              <span
+                className={`transition-transform duration-200 ${
+                  collected ? "animate-heart-beat" : ""
+                }`}
+              >
+                {collected ? (
+                  <IconHeart className="h-3.5 w-3.5" />
+                ) : (
+                  <IconHeartOutline className="h-3.5 w-3.5" />
+                )}
+              </span>
+              {collected ? "已收藏" : "收藏"}
+            </button>
+
+            {/* Share button */}
+            {onShare && (
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onShare(beast);
+                }}
+                className="inline-flex items-center justify-center rounded-full bg-ink/5 px-2.5 py-1.5 text-light-ink transition-all hover:bg-ink/10 hover:text-cinnabar active:scale-95"
+                aria-label={`分享${beast.name}`}
+              >
+                <IconShare className="h-3.5 w-3.5" />
+              </button>
+            )}
+          </div>
 
           <span
             className="inline-flex items-center gap-1 font-serif text-sm text-cinnabar transition-colors group-hover:underline group-focus-within:underline cursor-pointer"

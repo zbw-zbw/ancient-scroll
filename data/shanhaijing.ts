@@ -960,4 +960,473 @@ export const chapters: Chapter[] = [
       },
     ],
   },
+  {
+    id: "haiwainan",
+    name: "海外南经",
+    subtitle: "海外南方的奇邦异国",
+    introduction:
+      "《海外南经》记述了海外西南至东南的奇异国度。这里有身生羽翼的羽民国、胸有孔窍的贯匈国、口吐烈焰的厌火国，以及独足人面的毕方鸟。这些光怪陆离的邦国与神兽，构成了先民对海外世界最瑰丽的想象。",
+    sentences: [
+      {
+        id: "haiwainan-1",
+        original: "海外自西南陬至东南陬者。结匈国在其西南，其为人结匈。",
+        translation:
+          "海外从西南角到东南角的地方。结匈国在它的西南面，那里的人胸部向前突出（鸡胸）。",
+        difficultChars: [
+          { char: "陬", pinyin: "zōu", meaning: "角落、隅" },
+          { char: "结匈", pinyin: "jié xiōng", meaning: "胸骨向前突出，即鸡胸" },
+        ],
+      },
+      {
+        id: "haiwainan-2",
+        original: "羽民国在其东南，其为人长颊，身生羽。",
+        translation:
+          "羽民国在它的东南面，那里的人脸颊狭长，身上长着羽毛。",
+        difficultChars: [
+          { char: "颊", pinyin: "jiá", meaning: "脸颊" },
+          { char: "羽", pinyin: "yǔ", meaning: "鸟的毛，此处指羽毛" },
+        ],
+      },
+      {
+        id: "haiwainan-3",
+        original:
+          "有神人二八，连臂，为帝司夜于此野。在羽民东。其为人小颊赤肩。尽十六人。",
+        translation:
+          "有十六位神人，手臂相连，为天帝在这片原野上守夜。他们在羽民国的东面。这些人脸颊较小，肩膀赤红，一共十六人。",
+        difficultChars: [
+          { char: "司", pinyin: "sī", meaning: "主管、掌管" },
+          { char: "连臂", pinyin: "lián bì", meaning: "手臂相连" },
+        ],
+      },
+      {
+        id: "haiwainan-4",
+        original: "毕方鸟在其东，青水西，其为鸟人面一脚。",
+        translation:
+          "毕方鸟在它的东面、青水的西面，这种鸟长着人的面孔，只有一只脚。",
+        difficultChars: [
+          { char: "毕方", pinyin: "bì fāng", meaning: "传说中的火兆之鸟" },
+          { char: "一脚", pinyin: "yī jiǎo", meaning: "一只脚" },
+        ],
+        relatedBeastId: "bifang",
+      },
+      {
+        id: "haiwainan-5",
+        original: "讙头国在其南，其为人人面有翼，鸟喙，方捕鱼。",
+        translation:
+          "讙头国在它的南面，那里的人长着人的面孔却带有翅膀，鸟一样的嘴，正在捕鱼。",
+        difficultChars: [
+          { char: "讙", pinyin: "huān", meaning: "同\"欢\"" },
+          { char: "喙", pinyin: "huì", meaning: "鸟兽的嘴" },
+          { char: "方", pinyin: "fāng", meaning: "正在" },
+        ],
+      },
+      {
+        id: "haiwainan-6",
+        original: "厌火国在其国南，兽身黑色。火出其口中。",
+        translation:
+          "厌火国在它的南面，那里的人长着野兽一样的身子，皮肤是黑色的。火从他们口中吐出。",
+        difficultChars: [
+          { char: "厌", pinyin: "yàn", meaning: "厌恶、不畏" },
+          { char: "兽身", pinyin: "shòu shēn", meaning: "野兽般的身体" },
+        ],
+      },
+      {
+        id: "haiwainan-7",
+        original: "三株树在厌火北，生赤水之上，其为树如柏，叶皆为珠。",
+        translation:
+          "三株树在厌火国的北面，生长在赤水之上，这种树像柏树，叶子都是珍珠。",
+        difficultChars: [
+          { char: "株", pinyin: "zhū", meaning: "树的量词，此处为树名" },
+          { char: "柏", pinyin: "bǎi", meaning: "柏树" },
+        ],
+      },
+      {
+        id: "haiwainan-8",
+        original: "贯匈国在其东，其为人匈有窍。",
+        translation:
+          "贯匈国在它的东面，那里的人胸口有一个洞（孔窍）。",
+        difficultChars: [
+          { char: "贯", pinyin: "guàn", meaning: "穿通" },
+          { char: "匈", pinyin: "xiōng", meaning: "同\"胸\"" },
+          { char: "窍", pinyin: "qiào", meaning: "孔洞" },
+        ],
+      },
+      {
+        id: "haiwainan-9",
+        original: "交胫国在其东，其为人交胫。",
+        translation:
+          "交胫国在它的东面，那里的人两条小腿互相交叉。",
+        difficultChars: [
+          { char: "交", pinyin: "jiāo", meaning: "交叉" },
+          { char: "胫", pinyin: "jìng", meaning: "小腿" },
+        ],
+      },
+      {
+        id: "haiwainan-10",
+        original: "不死民在其东，其为人黑色，寿，不死。",
+        translation:
+          "不死民在它的东面，那里的人皮肤黑色，长寿，永远不会死。",
+        difficultChars: [
+          { char: "寿", pinyin: "shòu", meaning: "长寿" },
+          { char: "不死", pinyin: "bù sǐ", meaning: "不会死亡" },
+        ],
+      },
+    ],
+  },
+  {
+    id: "haiwaixi",
+    name: "海外西经",
+    subtitle: "海外西方的神异传说",
+    introduction:
+      "《海外西经》描绘了海外西方的奇异邦国与神兽。奇肱国之人巧于机巧，能驾飞车纵横天际；乘黄似狐而有角，乘之可寿二千岁；刑天断首犹舞干戚，不屈之志震慑天地；更有三面之人，乃颛顼之子，长生不死。",
+    sentences: [
+      {
+        id: "haiwaixi-1",
+        original: "三身国在夏后启北，一首而三身。",
+        translation:
+          "三身国在夏后启的北面，那里的人长着一个脑袋、三个身子。",
+        difficultChars: [
+          { char: "夏后启", pinyin: "xià hòu qǐ", meaning: "夏朝君主启" },
+          { char: "首", pinyin: "shǒu", meaning: "头" },
+        ],
+      },
+      {
+        id: "haiwaixi-2",
+        original: "一臂国在其北，一臂、一目、鼻孔。",
+        translation:
+          "一臂国在它的北面，那里的人只有一条手臂、一只眼睛、一个鼻孔。",
+        difficultChars: [
+          { char: "臂", pinyin: "bì", meaning: "手臂" },
+        ],
+      },
+      {
+        id: "haiwaixi-3",
+        original: "奇肱之国在其北。其人一臂三目，有阴有阳，乘文马。",
+        translation:
+          "奇肱国在它的北面。那里的人一条手臂三只眼睛，眼睛能闭能开（分阴阳），乘坐带有花纹的马。",
+        difficultChars: [
+          { char: "奇肱", pinyin: "jī gōng", meaning: "国名，奇为奇特，肱为手臂" },
+          { char: "文马", pinyin: "wén mǎ", meaning: "带有花纹的马" },
+        ],
+      },
+      {
+        id: "haiwaixi-4",
+        original: "有鸟焉，两头，赤黄色，在其旁。",
+        translation:
+          "（奇肱国旁）有一种鸟，长着两个头，赤黄色，常在人身旁。",
+        difficultChars: [
+          { char: "两头", pinyin: "liǎng tóu", meaning: "两个头" },
+        ],
+      },
+      {
+        id: "haiwaixi-5",
+        original:
+          "刑天与帝至此争神，帝断其首，葬之常羊之山，乃以乳为目，以脐为口，操干戚以舞。",
+        translation:
+          "刑天与天帝在此争夺神位，天帝砍下了他的头，把他埋葬在常羊山，刑天便用两乳当作眼睛，用肚脐当作嘴巴，手持盾牌和斧头继续挥舞战斗。",
+        difficultChars: [
+          { char: "争神", pinyin: "zhēng shén", meaning: "争夺神位" },
+          { char: "首", pinyin: "shǒu", meaning: "头" },
+          { char: "脐", pinyin: "qí", meaning: "肚脐" },
+          { char: "干戚", pinyin: "gān qī", meaning: "盾牌与斧头" },
+        ],
+      },
+      {
+        id: "haiwaixi-6",
+        original: "有乘黄，其状如狐，其背有角，乘之寿二千岁。",
+        translation:
+          "有一种叫乘黄的异兽，形状像狐狸，背上长着角，骑上它的人可以活两千岁。",
+        difficultChars: [
+          { char: "乘黄", pinyin: "chéng huáng", meaning: "异兽名，骑之可延寿" },
+          { char: "乘", pinyin: "chéng", meaning: "骑乘" },
+        ],
+        relatedBeastId: "chenghuang",
+      },
+      {
+        id: "haiwaixi-7",
+        original:
+          "女丑之尸，生而十日炙杀之。以右手鄣其面。十日居上，女丑居山之上。",
+        translation:
+          "女丑的尸体，是她活着的时候被十个太阳活活晒死的。她用右手遮住自己的脸。十个太阳高高在上，女丑的尸体停放在山顶之上。",
+        difficultChars: [
+          { char: "尸", pinyin: "shī", meaning: "尸体，此处指曝尸的神巫" },
+          { char: "炙", pinyin: "zhì", meaning: "烤、晒" },
+          { char: "鄣", pinyin: "zhàng", meaning: "同\"障\"，遮挡" },
+        ],
+      },
+      {
+        id: "haiwaixi-8",
+        original:
+          "巫咸国在女丑北，右手操青蛇，左手操赤蛇。在登葆山，群巫所从上下也。",
+        translation:
+          "巫咸国在女丑的北面，那里的人右手握着青蛇，左手握着赤蛇。登葆山是群巫上下天庭的地方。",
+        difficultChars: [
+          { char: "巫咸", pinyin: "wū xián", meaning: "传说中的神巫之国" },
+          { char: "操", pinyin: "cāo", meaning: "握、持" },
+          { char: "上下", pinyin: "shàng xià", meaning: "上下天庭" },
+        ],
+      },
+      {
+        id: "haiwaixi-9",
+        original: "并封在巫咸东，其状如彘，前后皆有首，黑。",
+        translation:
+          "并封在巫咸国的东面，形状像猪，前后各有一个头，浑身黑色。",
+        difficultChars: [
+          { char: "并封", pinyin: "bìng fēng", meaning: "前后双头的异兽" },
+          { char: "彘", pinyin: "zhì", meaning: "猪" },
+        ],
+      },
+      {
+        id: "haiwaixi-10",
+        original:
+          "大荒之中，有山名曰大荒之山，日月所入。有人焉三面，是颛顼之子，三面一臂，三面之人不死。",
+        translation:
+          "大荒之中，有一座山叫大荒山，是日月落下的地方。那里有个人长着三张脸，是颛顼的后代，三面一臂，这三面之人长生不死。",
+        difficultChars: [
+          { char: "日月所入", pinyin: "rì yuè suǒ rù", meaning: "日月落下之处" },
+          { char: "颛顼", pinyin: "zhuān xū", meaning: "上古五帝之一" },
+          { char: "三面", pinyin: "sān miàn", meaning: "长着三张脸" },
+        ],
+      },
+    ],
+  },
+  {
+    id: "dahuangdong",
+    name: "大荒东经",
+    subtitle: "东方大荒的恢弘神话",
+    introduction:
+      "《大荒东经》记载了东方荒远之地的恢弘神话。东海之外有归墟大壑，少昊建国于此；流波山上有夔牛，苍身独足、出入则风雨；应龙蓄水以助黄帝战蚩尤，杀蚩尤与夸父；王亥仆牛，殷商先祖的故事在此徐徐展开。",
+    sentences: [
+      {
+        id: "dahuangdong-1",
+        original: "东海之外大壑，少昊之国。少昊孺帝颛顼于此，弃其琴瑟。",
+        translation:
+          "东海之外有一个大壑（归墟），是少昊建立的国家。少昊在这里养育帝颛顼，把颛顼幼时的琴瑟丢弃在此。",
+        difficultChars: [
+          { char: "壑", pinyin: "hè", meaning: "深沟、深谷" },
+          { char: "孺", pinyin: "rú", meaning: "养育、哺育" },
+          { char: "琴瑟", pinyin: "qín sè", meaning: "两种弦乐器" },
+        ],
+      },
+      {
+        id: "dahuangdong-2",
+        original: "有甘山者，甘水出焉，生甘渊。",
+        translation:
+          "有一座甘山，甘水从这里发源，流淌汇聚成甘渊。",
+        difficultChars: [
+          { char: "渊", pinyin: "yuān", meaning: "深水、深潭" },
+        ],
+      },
+      {
+        id: "dahuangdong-3",
+        original: "东海之外大荒之中，有山名曰大言，日月所出。",
+        translation:
+          "东海之外的大荒之中，有一座山叫大言山，是日月升起的地方。",
+        difficultChars: [
+          { char: "大荒", pinyin: "dà huāng", meaning: "极荒远之地" },
+          { char: "所出", pinyin: "suǒ chū", meaning: "升起之处" },
+        ],
+      },
+      {
+        id: "dahuangdong-4",
+        original:
+          "东海中有流波山，入海七千里。其上有兽，状如牛，苍身而无角，一足，出入水则必风雨，其光如日月，其声如雷，其名曰夔。",
+        translation:
+          "东海中有一座流波山，深入海中七千里。山上有一种兽，形状像牛，青色的身体没有角，只有一只脚，它出入水中必定伴随风雨，发出的光像日月，叫声如雷鸣，名叫夔。",
+        difficultChars: [
+          { char: "流波", pinyin: "liú bō", meaning: "山名" },
+          { char: "苍", pinyin: "cāng", meaning: "青色" },
+          { char: "夔", pinyin: "kuí", meaning: "传说中的独足雷兽" },
+        ],
+        relatedBeastId: "kuiniu",
+      },
+      {
+        id: "dahuangdong-5",
+        original:
+          "黄帝得之，以其皮为鼓，橛以雷兽之骨，声闻五百里，以威天下。",
+        translation:
+          "黄帝得到夔牛，用它的皮做成鼓，再用雷兽的骨头做鼓槌敲击，鼓声可以传到五百里之外，以此威震天下。",
+        difficultChars: [
+          { char: "橛", pinyin: "jué", meaning: "敲击，此处指以骨为槌击鼓" },
+          { char: "闻", pinyin: "wén", meaning: "传到、听到" },
+          { char: "威", pinyin: "wēi", meaning: "威慑、震慑" },
+        ],
+      },
+      {
+        id: "dahuangdong-6",
+        original:
+          "大荒东北隅中，有山名曰凶犁土丘。应龙处南极，杀蚩尤与夸父，不得复上，故下数旱。",
+        translation:
+          "大荒东北角中，有一座山叫凶犁土丘。应龙居住在南极，它杀死了蚩尤和夸父，再也不能回到天上，所以人间屡屡发生旱灾。",
+        difficultChars: [
+          { char: "隅", pinyin: "yú", meaning: "角落" },
+          { char: "应龙", pinyin: "yìng lóng", meaning: "生有双翼的神龙" },
+          { char: "数", pinyin: "shuò", meaning: "屡次、频繁" },
+        ],
+        relatedBeastId: "yinglong",
+      },
+      {
+        id: "dahuangdong-7",
+        original: "旱而为应龙之状，乃得大雨。",
+        translation:
+          "干旱时人们模仿应龙的形状（来祈雨），就能降下大雨。",
+        difficultChars: [
+          { char: "为……之状", pinyin: "wéi……zhī zhuàng", meaning: "模仿……的形状" },
+        ],
+      },
+      {
+        id: "dahuangdong-8",
+        original:
+          "有困民国，勾姓而食。有人曰王亥，两手操鸟，方食其头。",
+        translation:
+          "有一个困民国，那里的人姓勾。有个人叫王亥，两手抓着一只鸟，正在吃鸟的头。",
+        difficultChars: [
+          { char: "操", pinyin: "cāo", meaning: "拿、抓" },
+          { char: "王亥", pinyin: "wáng hài", meaning: "殷商先祖" },
+        ],
+      },
+      {
+        id: "dahuangdong-9",
+        original: "王亥托于有易、河伯仆牛。有易杀王亥，取仆牛。",
+        translation:
+          "王亥寄居在有易国和河伯那里，从事驯养仆牛的事。有易人杀死了王亥，夺走了他的仆牛。",
+        difficultChars: [
+          { char: "托", pinyin: "tuō", meaning: "寄托、寄居" },
+          { char: "仆牛", pinyin: "pú niú", meaning: "即服牛，驯养来驾车的牛" },
+        ],
+      },
+      {
+        id: "dahuangdong-10",
+        original: "有黑齿之国。帝俊生黑齿，姜姓，黍食，使四鸟。",
+        translation:
+          "有一个黑齿国。帝俊生了黑齿国的祖先，他们姓姜，以黍为食，能驱使四种鸟兽。",
+        difficultChars: [
+          { char: "帝俊", pinyin: "dì jùn", meaning: "山海经中的天帝" },
+          { char: "黍", pinyin: "shǔ", meaning: "黄米" },
+          { char: "使", pinyin: "shǐ", meaning: "驱使" },
+        ],
+      },
+    ],
+  },
+  {
+    id: "dahuangbei",
+    name: "大荒北经",
+    subtitle: "北方大荒的至大神话",
+    introduction:
+      "《大荒北经》记述了北方荒远之地的至大神话。烛龙睁目为昼、闭目为夜，呼吸成风雨；九凤九首人面，盘踞北极天柜之山；强良虎首人身，衔蛇操蛇，威震幽冥；夸父逐日，道渴而死，其杖化为邓林。这些神话构筑了华夏最古老的宇宙图景。",
+    sentences: [
+      {
+        id: "dahuangbei-1",
+        original:
+          "西北海之外，大荒之隅，有山而不合，名曰不周负子。",
+        translation:
+          "在西北海以外、大荒的角落，有一座山断裂而不合拢，名叫不周负子（即不周山）。",
+        difficultChars: [
+          { char: "隅", pinyin: "yú", meaning: "角落" },
+          { char: "不周", pinyin: "bù zhōu", meaning: "山名，传说被共工撞断" },
+        ],
+      },
+      {
+        id: "dahuangbei-2",
+        original:
+          "西北海之外，赤水之北，有章尾山。有神，人面蛇身而赤，直目正乘，其瞑乃晦，其视乃明，不食不寝不息，风雨是谒。是烛九阴，是谓烛龙。",
+        translation:
+          "在西北海以外、赤水的北面，有座章尾山。山中有位神灵，长着人的脸、蛇的身子，通体赤红，眼睛竖着长。他闭眼就是黑夜，睁眼就是白天，不吃不睡不呼吸，能呼唤风雨。他能照亮九重幽暗之地，这就是烛龙。",
+        difficultChars: [
+          { char: "直目", pinyin: "zhí mù", meaning: "竖着长的眼睛" },
+          { char: "瞑", pinyin: "míng", meaning: "闭眼" },
+          { char: "晦", pinyin: "huì", meaning: "昏暗" },
+          { char: "谒", pinyin: "yè", meaning: "呼唤、请求" },
+        ],
+        relatedBeastId: "zhulong",
+      },
+      {
+        id: "dahuangbei-3",
+        original: "大荒之中，有山名曰北极天柜，海水北注焉。",
+        translation:
+          "大荒之中，有一座山叫北极天柜山，海水向北流入这里。",
+        difficultChars: [
+          { char: "柜", pinyin: "jǔ", meaning: "山名用字" },
+          { char: "注", pinyin: "zhù", meaning: "流入" },
+        ],
+      },
+      {
+        id: "dahuangbei-4",
+        original: "有神，九首人面鸟身，名曰九凤。",
+        translation:
+          "有一位神灵，长着九个脑袋、人的面孔、鸟的身子，名叫九凤。",
+        difficultChars: [
+          { char: "九首", pinyin: "jiǔ shǒu", meaning: "九个头" },
+          { char: "凤", pinyin: "fèng", meaning: "凤凰一类的神鸟" },
+        ],
+        relatedBeastId: "jiufeng",
+      },
+      {
+        id: "dahuangbei-5",
+        original:
+          "又有神，衔蛇操蛇，其状虎首人身，四蹄长肘，名曰强良。",
+        translation:
+          "又有一位神灵，嘴里衔着蛇，手中操着蛇，形状是虎的脑袋、人的身子，长着四只蹄子和长长的胳膊，名叫强良。",
+        difficultChars: [
+          { char: "衔", pinyin: "xián", meaning: "用嘴叼着" },
+          { char: "操", pinyin: "cāo", meaning: "拿、持" },
+          { char: "肘", pinyin: "zhǒu", meaning: "胳膊" },
+        ],
+        relatedBeastId: "qiangliang",
+      },
+      {
+        id: "dahuangbei-6",
+        original:
+          "大荒之中，有山名曰成都载天。有人珥两黄蛇，把两黄蛇，名曰夸父。",
+        translation:
+          "大荒之中，有一座山叫成都载天山。有个人耳上挂着两条黄蛇，手里也握着两条黄蛇，名叫夸父。",
+        difficultChars: [
+          { char: "珥", pinyin: "ěr", meaning: "戴在耳上为饰" },
+          { char: "把", pinyin: "bǎ", meaning: "握、拿" },
+        ],
+      },
+      {
+        id: "dahuangbei-7",
+        original:
+          "夸父不量力，欲追日景，逮之于禺谷。将饮河而不足也，将走大泽，未至，死于此。",
+        translation:
+          "夸父不自量力，想要追赶太阳的影子，在禺谷追上了太阳。他口渴想喝黄河水却不够，又想去喝大泽的水，还没走到，就死在了这里。",
+        difficultChars: [
+          { char: "景", pinyin: "yǐng", meaning: "同\"影\"，影子" },
+          { char: "逮", pinyin: "dǎi", meaning: "追上、赶上" },
+          { char: "禺谷", pinyin: "yú gǔ", meaning: "日落之处" },
+        ],
+      },
+      {
+        id: "dahuangbei-8",
+        original: "应龙已杀蚩尤，又杀夸父，乃去南方处之，故南方多雨。",
+        translation:
+          "应龙杀死了蚩尤，又杀死了夸父，于是到南方居住，所以南方多雨。",
+        difficultChars: [
+          { char: "处", pinyin: "chǔ", meaning: "居住" },
+        ],
+      },
+      {
+        id: "dahuangbei-9",
+        original: "有钟山者。有女子衣青衣，名曰赤水女子魃。",
+        translation:
+          "有一座钟山。山中有位女子穿着青色衣服，名叫赤水女子魃（即旱神女魃）。",
+        difficultChars: [
+          { char: "衣", pinyin: "yì", meaning: "穿（动词）" },
+          { char: "魃", pinyin: "bá", meaning: "旱神" },
+        ],
+      },
+      {
+        id: "dahuangbei-10",
+        original:
+          "大荒之中，有山名曰融父山，顺水入焉。有人曰犬戎。黄帝生苗龙，苗龙生融吾，融吾生弄明，弄明生白犬，白犬有牝牡，是为犬戎，肉食。",
+        translation:
+          "大荒之中，有一座山叫融父山，顺水流入此山。有一种人叫犬戎。黄帝生了苗龙，苗龙生了融吾，融吾生了弄明，弄明生了白犬，白犬有雌有雄，繁衍出了犬戎族，以肉为食。",
+        difficultChars: [
+          { char: "牝牡", pinyin: "pìn mǔ", meaning: "雌性和雄性" },
+          { char: "融父", pinyin: "róng fù", meaning: "山名" },
+        ],
+      },
+    ],
+  },
 ];

@@ -22,8 +22,18 @@ export default function FavoritesClient() {
 
   const loadFavorites = useCallback(() => {
     const fav = getFavorites();
-    setFavoritePoemIds(fav.favoritePoems);
-    setFavoriteBeastIds(fav.favoriteBeasts);
+    // Also check collected beasts from the bestiary's own storage and sync
+    try {
+      const collectedRaw = localStorage.getItem("ancient-scroll-collected-beasts");
+      const collected: string[] = collectedRaw ? JSON.parse(collectedRaw) : [];
+      // Merge: any collected beast that isn't in favorites should be added
+      const mergedBeasts = Array.from(new Set([...fav.favoriteBeasts, ...collected]));
+      setFavoritePoemIds(fav.favoritePoems);
+      setFavoriteBeastIds(mergedBeasts);
+    } catch {
+      setFavoritePoemIds(fav.favoritePoems);
+      setFavoriteBeastIds(fav.favoriteBeasts);
+    }
   }, []);
 
   useEffect(() => {
@@ -45,6 +55,17 @@ export default function FavoritesClient() {
   const handleRemoveBeast = useCallback(
     (id: string, name: string) => {
       toggleFavoriteBeast(id);
+      // Also remove from the bestiary's collected-beasts storage
+      try {
+        const raw = localStorage.getItem("ancient-scroll-collected-beasts");
+        const collected: string[] = raw ? JSON.parse(raw) : [];
+        if (collected.includes(id)) {
+          localStorage.setItem(
+            "ancient-scroll-collected-beasts",
+            JSON.stringify(collected.filter((v) => v !== id))
+          );
+        }
+      } catch {}
       loadFavorites();
       toast(`已取消收藏${name}`, "info");
     },

@@ -9,6 +9,7 @@ import CollectionProgress from "@/components/bestiary/CollectionProgress";
 import PageHeader from "@/components/PageHeader";
 import BeastGrid from "@/components/bestiary/BeastGrid";
 import BeastDetail from "@/components/bestiary/BeastDetail";
+import BeastShareModal from "@/components/bestiary/BeastShareModal";
 import AchievementModal from "@/components/bestiary/AchievementModal";
 
 const STORAGE_KEY = "ancient-scroll-collected-beasts";
@@ -20,6 +21,7 @@ export default function BestiaryClient() {
  const [search, setSearch] = useState("");
  const [collectedIds, setCollectedIds] = useState<string[]>([]);
  const [selectedBeast, setSelectedBeast] = useState<Beast | null>(null);
+ const [shareBeast, setShareBeast] = useState<Beast | null>(null);
  const [customDescriptions, setCustomDescriptions] = useState<Record<string, string>>({});
  const [gridVisible, setGridVisible] = useState(true);
  const [showAchievement, setShowAchievement] = useState(false);
@@ -156,6 +158,7 @@ export default function BestiaryClient() {
  collectedIds={collectedIds}
  onToggleCollect={handleToggleCollect}
  onViewDetail={handleViewDetail}
+ onShare={(beast) => setShareBeast(beast)}
  />
  </div>
  </div>
@@ -168,6 +171,12 @@ export default function BestiaryClient() {
  onClose={handleCloseDetail}
  onToggleCollect={handleToggleCollect}
  onDescription={handleDescription}
+ />
+
+ <BeastShareModal
+ open={!!shareBeast}
+ onClose={() => setShareBeast(null)}
+ beast={shareBeast}
  />
 
  <AchievementModal
