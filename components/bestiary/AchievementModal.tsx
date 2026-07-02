@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import { beasts, categoryLabels, type BeastCategory } from "@/data/beasts";
 import { getCollectedBeasts } from "@/lib/collection";
@@ -21,7 +21,23 @@ export default function AchievementModal({ open, onClose }: AchievementModalProp
  return () => window.removeEventListener("keydown", handleEsc);
  }, [open, onClose]);
 
- if (!open) return null;
+ const [visible, setVisible] = useState(false);
+
+ useEffect(() => {
+   if (open) {
+     setVisible(true);
+     document.body.style.overflow = "hidden";
+   } else {
+     document.body.style.overflow = "";
+     const timer = setTimeout(() => setVisible(false), 200);
+     return () => clearTimeout(timer);
+   }
+   return () => {
+     document.body.style.overflow = "";
+   };
+ }, [open]);
+
+ if (!visible) return null;
 
  const collected = getCollectedBeasts();
  const counts = beasts.reduce<Record<BeastCategory, number>>(
@@ -41,13 +57,17 @@ export default function AchievementModal({ open, onClose }: AchievementModalProp
 
  const content = (
  <div
- className="fixed inset-0 z-[200] flex items-center justify-center bg-ink/70 p-4 backdrop-blur-sm"
+ className={`fixed inset-0 z-[200] flex items-center justify-center bg-ink/70 p-4 backdrop-blur-sm transition-all duration-200 ${
+   open ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
+ }`}
  onClick={(e) => {
  if (e.target === e.currentTarget) onClose();
  }}
  >
  <div
- className="relative w-full max-w-md overflow-hidden rounded-2xl bg-gradient-to-b from-xuan to-xuan-dark p-8 text-center shadow-2xl"
+ className={`relative w-full max-w-md overflow-hidden rounded-2xl bg-gradient-to-b from-xuan to-xuan-dark p-8 text-center shadow-2xl transition-all duration-200 ${
+   open ? "translate-y-0 opacity-100 scale-100" : "-translate-y-4 opacity-0 scale-95"
+ }`}
  role="dialog"
  aria-modal="true"
  aria-label="全收集成就"

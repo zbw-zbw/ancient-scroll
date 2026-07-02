@@ -25,11 +25,40 @@ const categoryColors: Record<Achievement["category"], string> = {
 
 export default function AchievementPanel() {
   const [achievements, setAchievements] = useState<Achievement[]>([]);
+  const [mounted, setMounted] = useState(false);
   const [filter, setFilter] = useState<Achievement["category"] | "all">("all");
 
   useEffect(() => {
+    setMounted(true);
     setAchievements(getAchievements());
   }, []);
+
+  // Avoid hydration mismatch: show skeleton during SSR
+  if (!mounted) {
+    return (
+      <section className="px-4 py-16 md:px-6 md:py-24">
+        <div className="mx-auto max-w-[1100px]">
+          <div className="text-center">
+            <div className="mx-auto h-9 w-32 animate-pulse rounded-lg bg-ink/10" />
+            <div className="mx-auto mt-3 h-5 w-56 animate-pulse rounded bg-ink/5" />
+            <div className="mx-auto mt-4 inline-flex items-center gap-3 rounded-full bg-surface/60 px-5 py-2">
+              <div className="h-6 w-16 animate-pulse rounded bg-ink/10" />
+            </div>
+          </div>
+          <div className="mt-8 flex justify-center gap-2">
+            {[1, 2, 3, 4].map((i) => (
+              <div key={i} className="h-8 w-16 animate-pulse rounded-full bg-ink/5" />
+            ))}
+          </div>
+          <div className="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {[1, 2, 3, 4, 5, 6].map((i) => (
+              <div key={i} className="h-28 animate-pulse rounded-lg bg-ink/5" />
+            ))}
+          </div>
+        </div>
+      </section>
+    );
+  }
 
   const unlockedCount = achievements.filter((a) => a.unlocked).length;
   const totalCount = achievements.length;

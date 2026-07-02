@@ -52,7 +52,7 @@ export default function ReadingControls({
  <button
  key={option.value}
  onClick={() => onFontSizeChange(option.value)}
- className={`rounded-full px-3 py-1 font-serif text-xs transition-colors ${
+ className={`rounded-full px-3 py-1.5 min-h-[32px] font-serif text-xs transition-colors ${
  fontSize === option.value
  ? "bg-cinnabar text-white"
  : "text-light-ink hover:bg-cinnabar/5"
@@ -67,7 +67,7 @@ export default function ReadingControls({
  <div className="flex items-center gap-1 rounded-full bg-surface/60 p-1">
  <button
  onClick={() => onShowTranslationChange(true)}
- className={`rounded-full px-3 py-1 font-serif text-xs transition-colors ${
+ className={`rounded-full px-3 py-1.5 min-h-[32px] font-serif text-xs transition-colors ${
  showTranslation
  ? "bg-cinnabar text-white"
  : "text-light-ink hover:bg-cinnabar/5"
@@ -77,7 +77,7 @@ export default function ReadingControls({
  </button>
  <button
  onClick={() => onShowTranslationChange(false)}
- className={`rounded-full px-3 py-1 font-serif text-xs transition-colors ${
+ className={`rounded-full px-3 py-1.5 min-h-[32px] font-serif text-xs transition-colors ${
  !showTranslation
  ? "bg-cinnabar text-white"
  : "text-light-ink hover:bg-cinnabar/5"

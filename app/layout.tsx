@@ -5,6 +5,8 @@ import Navbar from "@/components/Navbar";
 import KeyboardShortcuts from "@/components/KeyboardShortcuts";
 import ToastProvider from "@/components/Toast";
 import PageTransition from "@/components/PageTransition";
+import ErrorBoundary from "@/components/ErrorBoundary";
+import AchievementWatcher from "@/components/AchievementWatcher";
 
 const maShanZheng = Ma_Shan_Zheng({
   weight: "400",
@@ -69,6 +71,7 @@ export default function RootLayout({
         <Navbar />
         <KeyboardShortcuts />
         <ToastProvider>
+          <AchievementWatcher />
           <PageTransition>{children}</PageTransition>
         </ToastProvider>
       </body>

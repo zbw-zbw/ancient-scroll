@@ -24,7 +24,7 @@ export default function SuggestedQuestions({
             borderColor: `${characterColor}33`,
             ['--char-color' as string]: characterColor,
           } : undefined}
-          className={`cursor-pointer rounded-full border px-3 py-1.5 font-serif text-xs text-light-ink transition-all md:px-4 md:py-2 disabled:opacity-40 disabled:cursor-not-allowed ${
+          className={`cursor-pointer rounded-full border px-3 py-2.5 min-h-[36px] font-serif text-xs text-light-ink transition-all md:px-4 md:py-2 disabled:opacity-40 disabled:cursor-not-allowed ${
             characterColor
               ? "border-[var(--char-color)]/20 bg-surface hover:bg-[var(--char-color)]/10 active:scale-95"
               : "bg-surface hover:bg-seal-bg hover:ring-1 hover:ring-cinnabar/30 active:scale-95"

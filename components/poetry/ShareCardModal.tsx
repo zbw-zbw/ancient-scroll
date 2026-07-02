@@ -342,19 +342,19 @@ export default function ShareCardModal({
           </div>
         </div>
 
-        {/* Action buttons */}
+        {/* Action buttons - high contrast on dark overlay */}
         <div className="flex items-center gap-3">
           <button
             onClick={handleSaveImage}
             disabled={saving}
-            className="inline-flex items-center gap-2 rounded-full bg-cinnabar/10 px-6 py-2.5 font-serif text-sm text-cinnabar transition-colors hover:bg-cinnabar/20 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="inline-flex items-center gap-2 rounded-full bg-white/90 px-6 py-2.5 font-serif text-sm text-ink shadow-lg transition-colors hover:bg-white disabled:opacity-50 disabled:cursor-not-allowed"
           >
             <IconDownload className="h-4 w-4" />
             {saving ? "正在保存..." : "保存图片"}
           </button>
           <button
             onClick={handleCopyText}
-            className="inline-flex items-center gap-2 rounded-full bg-surface/60 px-6 py-2.5 font-serif text-sm text-light-ink transition-colors hover:bg-surface"
+            className="inline-flex items-center gap-2 rounded-full bg-white/90 px-6 py-2.5 font-serif text-sm text-ink shadow-lg transition-colors hover:bg-white"
           >
             <IconCopy className="h-4 w-4" />
             {copied ? "已复制" : "复制文字"}

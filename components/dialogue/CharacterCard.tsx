@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { useEffect, useState } from "react";
 import { HistoricalCharacter } from "@/data/characters";
 import { IconArrowRight } from "@/components/icons";
 
@@ -10,9 +11,15 @@ interface CharacterCardProps {
 }
 
 export default function CharacterCard({
- character,
- onSelect,
+  character,
+  onSelect,
 }: CharacterCardProps) {
+  const [hasHistory, setHasHistory] = useState(false);
+
+  useEffect(() => {
+    setHasHistory(!!localStorage.getItem(`ancient-scroll-chat-history-${character.id}`));
+  }, [character.id]);
+
  return (
     <button
       onClick={() => onSelect(character)}
@@ -60,9 +67,7 @@ export default function CharacterCard({
 
  {/* CTA */}
  <span className="inline-flex items-center gap-1 font-serif text-sm text-cinnabar transition-all group-hover:gap-2">
-        {typeof window !== 'undefined' && localStorage.getItem(`ancient-scroll-chat-history-${character.id}`)
-          ? '继续对话'
-          : '开始对话'} <IconArrowRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-1" />
+        {hasHistory ? '继续对话' : '开始对话'} <IconArrowRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-1" />
       </span>
  </div>
  </button>
