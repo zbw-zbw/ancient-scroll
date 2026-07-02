@@ -524,27 +524,14 @@ footer {
   display: none;
 }
 
-/* Custom styled scrollbar — site-wide thin themed scrollbar */
-html {
-  scrollbar-width: thin;
-  scrollbar-color: rgba(212, 201, 184, 0.8) transparent;
+/* Hide all scrollbars site-wide */
+* {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 }
 
-html::-webkit-scrollbar {
-  width: 6px;
-}
-
-html::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-html::-webkit-scrollbar-thumb {
-  background: rgba(212, 201, 184, 0.8);
-  border-radius: 3px;
-}
-
-html::-webkit-scrollbar-thumb:hover {
-  background: rgba(200, 64, 50, 0.5);
+*::-webkit-scrollbar {
+  display: none;
 }
 
 /* Hero background breathe */

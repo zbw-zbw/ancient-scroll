@@ -12,16 +12,9 @@ import {
   IconHeart,
   IconHeartOutline,
 } from "@/components/icons";
+import { chapters } from "@/data/shanhaijing";
 import AiDescribeButton from "./AiDescribeButton";
 import BeastShareModal from "./BeastShareModal";
-
-const chapterMap: Record<string, string> = {
- "南山经": "nanshan",
- "西山经": "xishan",
- "北山经": "beishan",
- "东山经": "dongshan",
- "海内经": "hainei",
-};
 
 interface BeastDetailProps {
  beast: Beast | null;
@@ -124,7 +117,7 @@ export default function BeastDetail({
  </blockquote>
  <div className="mb-5">
  <Link
-          href={`/reading?chapter=${chapterMap[beast.chapter] || "nanshan"}`}
+          href={`/reading?chapter=${chapters.find((c) => c.name === beast.chapter)?.id || "nanshan"}`}
           onClick={onClose}
           className="inline-flex items-center gap-1 font-serif text-xs text-cinnabar hover:underline"
         >

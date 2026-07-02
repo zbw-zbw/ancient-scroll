@@ -19,13 +19,6 @@ interface EndingSlideProps {
 const poetToChar: Record<string, string> = {
   李白: "libai",
   苏轼: "sushi",
-  王维: "kongzi",
-  孟浩然: "kongzi",
-  王之涣: "kongzi",
-  柳宗元: "sushi",
-  张继: "kongzi",
-  王昌龄: "caocao",
-  李绅: "kongzi",
 };
 
 export default function EndingSlide({
@@ -143,12 +136,21 @@ export default function EndingSlide({
           >
             <IconShare className="h-3.5 w-3.5" /> 分享这首诗
           </button>
-          <Link
-            href={`/dialogue?character=${poetToChar[poem.author] || "kongzi"}&ask=${encodeURIComponent(`我刚读了《${poem.title}》，想聊聊这首诗`)}`}
-            className="inline-flex items-center gap-1 rounded-full bg-indigo/5 px-6 py-2.5 font-serif text-sm text-indigo transition-colors hover:bg-indigo/10"
-          >
-            <IconChat className="h-3.5 w-3.5" /> 和古人聊聊这首诗
-          </Link>
+          {poetToChar[poem.author] ? (
+            <Link
+              href={`/dialogue?character=${poetToChar[poem.author]}&ask=${encodeURIComponent(`我刚读了《${poem.title}》，想聊聊这首诗`)}`}
+              className="inline-flex items-center gap-1 rounded-full bg-indigo/5 px-6 py-2.5 font-serif text-sm text-indigo transition-colors hover:bg-indigo/10"
+            >
+              <IconChat className="h-3.5 w-3.5" /> 和{poem.author}聊聊这首诗
+            </Link>
+          ) : (
+            <Link
+              href="/dialogue"
+              className="inline-flex items-center gap-1 rounded-full bg-indigo/5 px-6 py-2.5 font-serif text-sm text-indigo transition-colors hover:bg-indigo/10"
+            >
+              <IconChat className="h-3.5 w-3.5" /> 和古人聊聊
+            </Link>
+          )}
         </div>
 
         <Link

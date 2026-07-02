@@ -197,3 +197,42 @@ export function isFavoritePoem(id: string): boolean {
 export function isFavoriteBeast(id: string): boolean {
   return getFavorites().favoriteBeasts.includes(id);
 }
+
+// --- Reading Preferences ---
+
+const READING_PREFS_KEY = "ancient-scroll-reading-prefs";
+
+export interface ReadingPrefs {
+  fontSize: string;
+  showTranslation: boolean;
+}
+
+const defaultPrefs: ReadingPrefs = {
+  fontSize: "md",
+  showTranslation: true,
+};
+
+export function getReadingPrefs(): ReadingPrefs {
+  if (typeof window === "undefined") return defaultPrefs;
+  return safeParse(() => {
+    const raw = localStorage.getItem(READING_PREFS_KEY);
+    if (!raw) return defaultPrefs;
+    const parsed = JSON.parse(raw);
+    return {
+      fontSize: typeof parsed.fontSize === "string" ? parsed.fontSize : defaultPrefs.fontSize,
+      showTranslation: typeof parsed.showTranslation === "boolean" ? parsed.showTranslation : defaultPrefs.showTranslation,
+    };
+  }, defaultPrefs);
+}
+
+export function saveReadingPrefs(prefs: ReadingPrefs) {
+  if (typeof window === "undefined") return;
+  try {
+    localStorage.setItem(READING_PREFS_KEY, JSON.stringify(prefs));
+  } catch {}
+}
+
+// Helper to get font size as typed value
+export function getReadingFontSize(): string {
+  return getReadingPrefs().fontSize;
+}

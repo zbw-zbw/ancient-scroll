@@ -1,8 +1,9 @@
 "use client";
 
 import Link from "next/link";
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useState } from "react";
 import { IconArrowLeft } from "@/components/icons";
+import { getProgress } from "@/lib/progress";
 import type { Chapter } from "@/data/shanhaijing";
 
 interface ChapterSidebarProps {
@@ -18,6 +19,11 @@ export default function ChapterSidebar({
 }: ChapterSidebarProps) {
   const mobileTabsRef = useRef<HTMLDivElement>(null);
   const selectedTabRef = useRef<HTMLButtonElement>(null);
+  const [readChapters, setReadChapters] = useState<string[]>([]);
+
+  useEffect(() => {
+    setReadChapters(getProgress().readChapters);
+  }, [selectedId]);
 
   // Auto-scroll mobile tabs to selected chapter
   useEffect(() => {
@@ -38,28 +44,36 @@ export default function ChapterSidebar({
         <div className="flex flex-1 flex-col overflow-y-auto px-4 py-6">
           <h2 className="mb-5 font-calligraphy text-2xl text-ink">篇章目录</h2>
           <nav className="flex flex-col gap-1">
-            {chapters.map((chapter) => (
-              <button
-                key={chapter.id}
-                onClick={() => onSelect(chapter.id)}
-                className={`group relative flex flex-col items-start rounded-md px-3 py-3 text-left transition-colors ${
-                  selectedId === chapter.id
-                    ? "bg-surface text-ink"
-                    : "bg-transparent text-light-ink hover:bg-surface/50"
-                }`}
-              >
-                {/* Indicator bar with animation */}
-                <span
-                  className={`absolute left-0 top-1/2 h-6 w-[3px] -translate-y-1/2 rounded-r bg-cinnabar transition-all duration-200 ${
-                    selectedId === chapter.id ? "opacity-100" : "opacity-0 w-0 group-hover:opacity-40 group-hover:w-[2px]"
+            {chapters.map((chapter) => {
+              const isRead = readChapters.includes(chapter.id);
+              return (
+                <button
+                  key={chapter.id}
+                  onClick={() => onSelect(chapter.id)}
+                  className={`group relative flex flex-col items-start rounded-md px-3 py-3 text-left transition-colors ${
+                    selectedId === chapter.id
+                      ? "bg-surface text-ink"
+                      : "bg-transparent text-light-ink hover:bg-surface/50"
                   }`}
-                />
-                <span className="font-calligraphy text-lg">{chapter.name}</span>
-                <span className="mt-0.5 font-serif text-xs text-muted">
-                  {chapter.subtitle}
-                </span>
-              </button>
-            ))}
+                >
+                  {/* Indicator bar with animation */}
+                  <span
+                    className={`absolute left-0 top-1/2 h-6 w-[3px] -translate-y-1/2 rounded-r bg-cinnabar transition-all duration-200 ${
+                      selectedId === chapter.id ? "opacity-100" : "opacity-0 w-0 group-hover:opacity-40 group-hover:w-[2px]"
+                    }`}
+                  />
+                  <span className="font-calligraphy text-lg">{chapter.name}</span>
+                  <span className="mt-0.5 font-serif text-xs text-muted">
+                    {chapter.subtitle}
+                  </span>
+                  {isRead && (
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="absolute right-2 top-2 h-3 w-3 text-cinnabar/60">
+                      <path d="M20 6 9 17l-5-5" />
+                    </svg>
+                  )}
+                </button>
+              );
+            })}
           </nav>
         </div>
 
@@ -87,12 +101,13 @@ export default function ChapterSidebar({
           >
             {chapters.map((chapter) => {
               const isSelected = selectedId === chapter.id;
+              const isRead = readChapters.includes(chapter.id);
               return (
                 <button
                   key={chapter.id}
                   ref={isSelected ? selectedTabRef : null}
                   onClick={() => onSelect(chapter.id)}
-                  className={`flex flex-shrink-0 items-center justify-center rounded-full px-4 py-2 leading-none transition-all active:scale-95 ${
+                  className={`flex flex-shrink-0 items-center justify-center gap-1.5 rounded-full px-4 py-2 leading-none transition-all active:scale-95 ${
                     isSelected
                       ? "bg-cinnabar text-white"
                       : "bg-surface/50 text-light-ink hover:bg-surface"
@@ -101,6 +116,9 @@ export default function ChapterSidebar({
                   <span className="font-calligraphy text-base whitespace-nowrap">
                     {chapter.name}
                   </span>
+                  {isRead && !isSelected && (
+                    <span className="h-1.5 w-1.5 rounded-full bg-cinnabar/60" />
+                  )}
                 </button>
               );
             })}

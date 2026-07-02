@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { chapters } from "@/data/shanhaijing";
 import type { DifficultChar } from "@/data/shanhaijing";
+import { getReadingPrefs, saveReadingPrefs } from "@/lib/progress";
 import PageHeader from "@/components/PageHeader";
 import ChapterSidebar from "@/components/reading/ChapterSidebar";
 import ReadingPanel from "@/components/reading/ReadingPanel";
@@ -28,6 +29,22 @@ export default function ReadingClient() {
  charData: DifficultChar;
  rect: DOMRect;
  } | null>(null);
+ const [mounted, setMounted] = useState(false);
+
+ // Load persisted reading prefs on mount
+  useEffect(() => {
+    setMounted(true);
+    const prefs = getReadingPrefs();
+    setFontSize(prefs.fontSize as FontSize);
+    setShowTranslation(prefs.showTranslation);
+  }, []);
+
+  // Persist prefs when they change
+  useEffect(() => {
+    if (mounted) {
+      saveReadingPrefs({ fontSize, showTranslation });
+    }
+  }, [fontSize, showTranslation, mounted]);
 
  useEffect(() => {
  const id = searchParams.get("chapter");

@@ -21,18 +21,9 @@ export default function CharacterSelect({ onSelect }: CharacterSelectProps) {
         </p>
       </div>
 
- {/* Character grid */}
+ {/* Character grid - render ALL characters */}
  <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
- {characters.slice(0, 3).map((character) => (
- <CharacterCard
- key={character.id}
- character={character}
- onSelect={onSelect}
- />
- ))}
- </div>
- <div className="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-2 lg:px-[16.666%]">
- {characters.slice(3, 5).map((character) => (
+ {characters.map((character) => (
  <CharacterCard
  key={character.id}
  character={character}

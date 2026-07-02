@@ -2,13 +2,10 @@
 
 import { useEffect, useState } from "react";
 import { getCompletionRate } from "@/lib/progress";
-
-const stats = [
- { value: "6", unit: "篇", label: "山海经篇章" },
- { value: "20", unit: "只", label: "异兽图鉴" },
- { value: "12", unit: "首", label: "经典诗词" },
- { value: "∞", unit: "", label: "探索可能" },
-];
+import { chapters } from "@/data/shanhaijing";
+import { beasts } from "@/data/beasts";
+import { poems } from "@/data/poems";
+import { characters } from "@/data/characters";
 
 export default function DataStats() {
  const [rate, setRate] = useState(0);
@@ -18,6 +15,13 @@ export default function DataStats() {
  const timer = setInterval(() => setRate(getCompletionRate()), 1000);
  return () => clearInterval(timer);
  }, []);
+
+ const stats = [
+ { value: String(chapters.length), unit: "篇", label: "山海经篇章" },
+ { value: String(beasts.length), unit: "只", label: "异兽图鉴" },
+ { value: String(poems.length), unit: "首", label: "经典诗词" },
+ { value: String(characters.length), unit: "位", label: "古今人物" },
+ ];
 
  return (
  <section className="fade-in relative w-full py-16 md:py-24">
