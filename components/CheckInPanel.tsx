@@ -3,10 +3,12 @@
 import { useCallback, useEffect, useState } from "react";
 import { getStreakInfo, checkIn, getTodayCheckedIn } from "@/lib/checkin";
 import type { StreakInfo } from "@/lib/checkin";
+import { useToast } from "@/components/Toast";
 
 export default function CheckInPanel() {
   const [streakInfo, setStreakInfo] = useState<StreakInfo | null>(null);
   const [justCheckedIn, setJustCheckedIn] = useState(false);
+  const { toast } = useToast();
 
   const refresh = useCallback(() => {
     setStreakInfo(getStreakInfo());
@@ -15,17 +17,25 @@ export default function CheckInPanel() {
 
   useEffect(() => {
     refresh();
+    // Listen for progress changes (checkin dispatches them)
+    const handler = () => refresh();
+    window.addEventListener("ancient-scroll:progress-changed", handler);
+    return () => window.removeEventListener("ancient-scroll:progress-changed", handler);
   }, [refresh]);
 
   const handleCheckIn = () => {
     checkIn();
     refresh();
+    const info = getStreakInfo();
+    if (info && !justCheckedIn) {
+      toast(`签到成功！连续第 ${info.currentStreak} 天`, "success");
+    }
   };
 
   if (!streakInfo) return null;
 
   return (
-    <section className="fade-in relative w-full py-8 md:py-12">
+    <section className="fade-in relative w-full py-10 md:py-16">
       <div className="relative mx-auto max-w-[1100px] px-6">
         <div className="rounded-2xl bg-surface/60 p-6 md:p-8">
           {/* Header */}
@@ -81,7 +91,6 @@ export default function CheckInPanel() {
           {/* Streak display */}
           <div className="mt-6 flex items-center justify-center gap-6">
             <div className="flex items-center gap-2">
-              {/* Flame icon */}
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24"
@@ -117,7 +126,7 @@ export default function CheckInPanel() {
             <button
               onClick={handleCheckIn}
               disabled={streakInfo.checkedInToday}
-              className={`inline-flex items-center gap-2 rounded-full px-6 py-2.5 font-serif text-sm transition-all duration-300 active:scale-95 ${
+              className={`inline-flex items-center gap-2 rounded-full px-6 py-3 min-h-[44px] font-serif text-sm transition-all duration-300 active:scale-95 ${
                 streakInfo.checkedInToday
                   ? "cursor-not-allowed bg-ink/5 text-muted"
                   : "bg-cinnabar text-white shadow-sm hover:bg-cinnabar/90 hover:shadow-md"

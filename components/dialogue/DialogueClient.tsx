@@ -42,8 +42,8 @@ export default function DialogueClient() {
  <main className="relative h-[100dvh] overflow-hidden overscroll-none bg-xuan">
  <div className="relative mx-auto h-full max-w-[1100px]">
  <div
- className={`absolute inset-x-0 top-16 bottom-0 overflow-y-auto transition-opacity duration-500 ${
- selectedCharacter ? "pointer-events-none opacity-0" : "opacity-100"
+ className={`absolute inset-x-0 top-16 bottom-0 overflow-y-auto transition-all duration-500 ease-out ${
+ selectedCharacter ? "pointer-events-none -translate-x-8 opacity-0" : "translate-x-0 opacity-100"
  }`}
  >
  <CharacterSelect onSelect={setSelectedCharacter} />

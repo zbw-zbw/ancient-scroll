@@ -28,17 +28,27 @@ export default function ChatMessages({
   onSelectQuestion,
 }: ChatMessagesProps) {
   const scrollRef = useRef<HTMLDivElement>(null);
+  const prevMessageCountRef = useRef(messages.length);
 
   useEffect(() => {
-    if (scrollRef.current) {
-      scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
-    }
-  }, [messages, streamingContent]);
+    const container = scrollRef.current;
+    if (!container) return;
+
+    // Use smooth scroll for new user messages, auto for streaming
+    const isNewMessage = messages.length > prevMessageCountRef.current;
+    prevMessageCountRef.current = messages.length;
+
+    container.scrollTo({
+      top: container.scrollHeight,
+      behavior: isStreaming ? "auto" : isNewMessage ? "smooth" : "auto",
+    });
+  }, [messages, streamingContent, isStreaming]);
 
   return (
     <div
       ref={scrollRef}
       data-messages-container
+      aria-live="polite"
       className="scrollbar-hide relative flex-1 overflow-y-auto overflow-x-hidden"
       style={{
         backgroundImage:

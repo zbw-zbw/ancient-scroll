@@ -440,7 +440,7 @@ export default function SearchModal({
                     <button
                       key={term}
                       onClick={() => setQuery(term)}
-                      className="rounded-full bg-ink/5 px-3 py-2 min-h-[36px] font-serif text-xs text-light-ink/70 transition-colors hover:bg-cinnabar/10 hover:text-cinnabar"
+                      className="rounded-full bg-ink/5 px-3 py-2.5 min-h-[44px] font-serif text-xs text-light-ink/70 transition-colors hover:bg-cinnabar/10 hover:text-cinnabar"
                     >
                       {term}
                     </button>
@@ -456,8 +456,13 @@ export default function SearchModal({
               </div>
             </div>
           ) : totalResults === 0 ? (
-            <div className="px-4 py-8 text-center text-light-ink/60 font-serif text-sm">
-              未找到相关结果
+            <div className="px-4 py-12 text-center">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="mx-auto mb-3 h-10 w-10 text-ink/15">
+                <circle cx="11" cy="11" r="8" />
+                <path d="m21 21-4.3-4.3" />
+              </svg>
+              <p className="font-serif text-sm text-light-ink/60">未找到相关结果</p>
+              <p className="mt-1 font-serif text-xs text-muted">试试其他关键词，如「九尾狐」「静夜思」</p>
             </div>
           ) : (
             groupedResults.map((group) => (

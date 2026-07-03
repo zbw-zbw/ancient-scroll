@@ -1,33 +1,52 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
+import { useRouter, usePathname } from "next/navigation";
 
 const shortcuts = [
   { keys: "Ctrl + K", description: "搜索" },
   { keys: "Esc", description: "关闭弹窗" },
   { keys: "?", description: "快捷键帮助" },
+  { keys: "G", description: "回首页" },
+  { keys: "B", description: "返回上一页" },
 ];
 
 export default function KeyboardShortcuts() {
   const [helpOpen, setHelpOpen] = useState(false);
+  const router = useRouter();
+  const pathname = usePathname();
 
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
+  const handleKeyDown = useCallback((e: KeyboardEvent) => {
+      // Ignore IME composition
+      if (e.isComposing || e.keyCode === 229) return;
+
       // Ignore when typing in input/textarea
       const tag = (e.target as HTMLElement).tagName;
       if (tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT") return;
+
+      // Also ignore contentEditable elements
+      if ((e.target as HTMLElement).isContentEditable) return;
 
       if (e.key === "?") {
         e.preventDefault();
         setHelpOpen((v) => !v);
       } else if (e.key === "Escape" && helpOpen) {
         setHelpOpen(false);
+      } else if (e.key === "g" && !e.ctrlKey && !e.metaKey && !helpOpen) {
+        e.preventDefault();
+        if (pathname !== "/") router.push("/");
+      } else if (e.key === "b" && !e.ctrlKey && !e.metaKey && !helpOpen) {
+        e.preventDefault();
+        router.back();
       }
-    };
+    },
+    [helpOpen, pathname, router]
+  );
 
+  useEffect(() => {
     document.addEventListener("keydown", handleKeyDown);
     return () => document.removeEventListener("keydown", handleKeyDown);
-  }, [helpOpen]);
+  }, [handleKeyDown]);
 
   if (!helpOpen) return null;
 
