@@ -19,28 +19,31 @@ const personalItems = [
 
 function BackToTop() {
   const [visible, setVisible] = useState(false);
-  const [isMac, setIsMac] = useState(false);
 
   useEffect(() => {
-    setIsMac(/Mac|iPhone|iPad|iPod/.test(navigator.platform));
-  }, []);
-
-  useEffect(() => {
+    let ticking = false;
     const handleScroll = () => {
-      setVisible(window.scrollY > 300);
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        setVisible(window.scrollY > 300);
+        ticking = false;
+      });
     };
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
-
-  if (!visible) return null;
 
   return (
     <button
       type="button"
       aria-label="回到顶部"
       onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-      className="fixed bottom-6 right-6 z-40 flex h-10 w-10 items-center justify-center rounded-full bg-surface/80 backdrop-blur-sm shadow-md border border-ink/10 text-light-ink hover:text-cinnabar hover:border-cinnabar/30 transition-all active:scale-90"
+      className={`fixed bottom-6 right-6 z-40 flex h-10 w-10 items-center justify-center rounded-full bg-surface/80 backdrop-blur-sm shadow-md border border-ink/10 text-light-ink hover:text-cinnabar hover:border-cinnabar/30 transition-all duration-300 active:scale-90 md:bottom-8 md:right-8 md:h-11 md:w-11 ${
+        visible
+          ? "translate-y-0 opacity-100 pointer-events-auto"
+          : "translate-y-12 opacity-0 pointer-events-none"
+      }`}
     >
       <svg
         viewBox="0 0 24 24"
@@ -61,7 +64,7 @@ export default function Footer() {
   const [isMac, setIsMac] = useState(false);
 
   useEffect(() => {
-    setIsMac(/Mac|iPhone|iPad|iPod/.test(navigator.platform));
+    setIsMac(/Mac|iPhone|iPad|iPod/.test(navigator.userAgent));
   }, []);
 
   return (

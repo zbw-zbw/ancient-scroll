@@ -7,6 +7,7 @@ import PoemLineSlide from "./PoemLineSlide";
 import EndingSlide from "./EndingSlide";
 import ProgressDots from "./ProgressDots";
 import { IconArrowLeft } from "@/components/icons";
+import { useNavbarVisibility } from "@/components/NavbarVisibilityContext";
 
 interface ImmersiveReaderProps {
  poem: Poem;
@@ -17,6 +18,7 @@ export default function ImmersiveReader({ poem, onBack }: ImmersiveReaderProps) 
  const containerRef = useRef<HTMLDivElement>(null);
  const [currentSlide, setCurrentSlide] = useState(0);
  const totalSlides = poem.lines.length + 2;
+ const { setNavbarVisible } = useNavbarVisibility();
 
  // Intersection Observer to detect active slide
  useEffect(() => {
@@ -42,16 +44,9 @@ export default function ImmersiveReader({ poem, onBack }: ImmersiveReaderProps) 
 
  // Hide global navbar while in immersive mode
  useEffect(() => {
- const header = document.querySelector("header");
- if (header) {
- header.style.display = "none";
- }
- return () => {
- if (header) {
- header.style.display = "";
- }
- };
- }, []);
+  setNavbarVisible(false);
+  return () => setNavbarVisible(true);
+ }, [setNavbarVisible]);
 
  const handleDotClick = (index: number) => {
  const container = containerRef.current;
@@ -70,11 +65,8 @@ export default function ImmersiveReader({ poem, onBack }: ImmersiveReaderProps) 
  };
 
  const handleBack = () => {
- const header = document.querySelector("header");
- if (header) {
- header.style.display = "";
- }
- onBack();
+  setNavbarVisible(true);
+  onBack();
  };
 
  return (

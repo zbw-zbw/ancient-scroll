@@ -39,7 +39,7 @@ export default function ErrorBoundary({
           这可能是暂时性的问题，请稍后重试。
         </p>
 
-        {error.message && (
+        {error.message && process.env.NODE_ENV === "development" && (
           <pre className="mx-auto mt-4 max-w-lg overflow-auto rounded-lg bg-ink/5 p-3 font-mono text-xs text-muted/70">
             {error.message}
           </pre>

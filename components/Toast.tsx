@@ -1,5 +1,5 @@
 "use client";
-import { createContext, useContext, useState, useCallback } from "react";
+import { createContext, useContext, useState, useCallback, useRef } from "react";
 
 type ToastType = "success" | "error" | "info";
 interface Toast { id: number; message: string; type: ToastType; }
@@ -10,10 +10,10 @@ export const useToast = () => useContext(ToastContext);
 
 export default function ToastProvider({ children }: { children: React.ReactNode }) {
   const [toasts, setToasts] = useState<Toast[]>([]);
-  let counter = 0;
+  const counterRef = useRef(0);
 
   const addToast = useCallback((message: string, type: ToastType = "info") => {
-    const id = ++counter;
+    const id = ++counterRef.current;
     setToasts((prev) => [...prev, { id, message, type }]);
     setTimeout(() => {
       setToasts((prev) => prev.filter((t) => t.id !== id));
@@ -24,10 +24,11 @@ export default function ToastProvider({ children }: { children: React.ReactNode 
     <ToastContext.Provider value={{ toast: addToast }}>
       {children}
       {/* Toast container - fixed top center */}
-      <div className="fixed top-20 left-1/2 z-[100] flex -translate-x-1/2 flex-col items-center gap-2 pointer-events-none">
+      <div className="fixed top-20 left-1/2 z-[100] flex -translate-x-1/2 flex-col items-center gap-2 pointer-events-none" aria-live="polite">
         {toasts.map((t) => (
           <div
             key={t.id}
+            role="status"
             className={`pointer-events-auto animate-fade-in-down rounded-lg px-4 py-2.5 shadow-lg font-serif text-sm backdrop-blur-sm ${
               t.type === "error" ? "bg-seal-red/90 text-white"
               : t.type === "success" ? "bg-gold/90 text-white"

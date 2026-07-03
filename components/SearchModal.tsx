@@ -393,7 +393,7 @@ export default function SearchModal({
         </div>
 
         {/* Results area */}
-        <div className="max-h-[60vh] md:max-h-[50vh] overflow-y-auto">
+        <div className="max-h-[60vh] md:max-h-[50vh] overflow-y-auto" aria-live="polite">
           {query.trim() === "" ? (
             <div className="px-4 py-6">
               {/* Module counts */}

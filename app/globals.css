@@ -182,7 +182,6 @@ body::before {
 }
 
 /* Ensure content sits above texture */
-#__next,
 main,
 footer {
   position: relative;
@@ -524,14 +523,22 @@ footer {
   display: none;
 }
 
-/* Hide all scrollbars site-wide */
-* {
-  scrollbar-width: none;
-  -ms-overflow-style: none;
+/* Scrollbar styling for html root */
+html {
+  scrollbar-color: var(--rule) transparent;
 }
-
-*::-webkit-scrollbar {
-  display: none;
+html::-webkit-scrollbar {
+  width: 6px;
+}
+html::-webkit-scrollbar-track {
+  background: transparent;
+}
+html::-webkit-scrollbar-thumb {
+  background: var(--rule);
+  border-radius: 3px;
+}
+html::-webkit-scrollbar-thumb:hover {
+  background: var(--muted);
 }
 
 /* Hero background breathe */

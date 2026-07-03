@@ -7,7 +7,7 @@ import ToastProvider from "@/components/Toast";
 import PageTransition from "@/components/PageTransition";
 import ErrorBoundary from "@/components/ErrorBoundary";
 import AchievementWatcher from "@/components/AchievementWatcher";
-import BackToTop from "@/components/BackToTop";
+import NavbarVisibilityProvider from "@/components/NavbarVisibilityContext";
 
 const maShanZheng = Ma_Shan_Zheng({
   weight: "400",
@@ -70,12 +70,13 @@ export default function RootLayout({
       </head>
       <body className="min-h-screen">
         <Navbar />
+        <NavbarVisibilityProvider>
         <KeyboardShortcuts />
         <ToastProvider>
           <AchievementWatcher />
           <PageTransition>{children}</PageTransition>
-          <BackToTop />
         </ToastProvider>
+        </NavbarVisibilityProvider>
       </body>
     </html>
   );
