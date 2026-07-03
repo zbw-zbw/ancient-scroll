@@ -1,5 +1,6 @@
 "use client";
 
+import { memo } from "react";
 import Image from "next/image";
 import { IconBot } from "@/components/icons";
 import StreamingCursor from "./StreamingCursor";
@@ -14,7 +15,7 @@ interface ChatBubbleProps {
   isThinking?: boolean;
 }
 
-export default function ChatBubble({
+function ChatBubbleImpl({
   role,
   content,
   characterAvatarPath,
@@ -111,3 +112,5 @@ export default function ChatBubble({
     </div>
   );
 }
+
+export default memo(ChatBubbleImpl);

@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import PageHeader from "@/components/PageHeader";
 import EmptyState from "@/components/EmptyState";
 import { getFavorites, toggleFavoritePoem, toggleFavoriteBeast } from "@/lib/progress";
@@ -19,6 +20,7 @@ export default function FavoritesClient() {
   const [favoritePoemIds, setFavoritePoemIds] = useState<string[]>([]);
   const [favoriteBeastIds, setFavoriteBeastIds] = useState<string[]>([]);
   const { toast } = useToast();
+  const router = useRouter();
 
   const loadFavorites = useCallback(() => {
     const fav = getFavorites();
@@ -140,7 +142,7 @@ export default function FavoritesClient() {
                     key={poem.id}
                     className="card group flex cursor-pointer flex-col relative"
                     style={{ borderTop: `2px solid ${poem.theme}` }}
-                    onClick={() => (window.location.href = `/poetry`)}
+                    onClick={() => router.push("/poetry")}
                   >
                     <div className="relative h-[140px] overflow-hidden img-placeholder" style={{ background: `linear-gradient(135deg, ${poem.theme}40, ${poem.theme}15)` }}>
                       <Image
@@ -212,7 +214,7 @@ export default function FavoritesClient() {
                   <article
                     key={beast.id}
                     className="card group flex cursor-pointer flex-col relative"
-                    onClick={() => (window.location.href = `/bestiary?beast=${beast.id}`)}
+                    onClick={() => router.push(`/bestiary?beast=${beast.id}`)}
                   >
                     <div
                       className="relative h-[180px] overflow-hidden img-placeholder"

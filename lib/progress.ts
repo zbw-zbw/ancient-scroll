@@ -26,6 +26,12 @@ function safeParse<T>(parser: () => T, fallback: T): T {
   }
 }
 
+/** Emit a custom event so the achievement watcher can check without polling */
+function notifyProgressChange() {
+  if (typeof window === "undefined") return;
+  window.dispatchEvent(new Event("ancient-scroll:progress-changed"));
+}
+
 // --- Progress ---
 
 export function getProgress(): Progress {
@@ -61,6 +67,7 @@ export function markChapterRead(chapterId: string) {
     ...progress,
     readChapters: uniquePush(progress.readChapters, chapterId),
   });
+  notifyProgressChange();
 }
 
 export function markPoemComplete(poemId: string) {
@@ -69,6 +76,7 @@ export function markPoemComplete(poemId: string) {
     ...progress,
     completedPoems: uniquePush(progress.completedPoems, poemId),
   });
+  notifyProgressChange();
 }
 
 export function markDialogue(characterId: string) {
@@ -77,6 +85,7 @@ export function markDialogue(characterId: string) {
     ...progress,
     dialogueCharacters: uniquePush(progress.dialogueCharacters, characterId),
   });
+  notifyProgressChange();
 }
 
 export function getCompletionRate(): number {
@@ -180,6 +189,7 @@ export function toggleFavoritePoem(id: string) {
     ...favorites,
     favoritePoems: toggleInArray(favorites.favoritePoems, id),
   });
+  notifyProgressChange();
 }
 
 export function toggleFavoriteBeast(id: string) {
@@ -188,6 +198,7 @@ export function toggleFavoriteBeast(id: string) {
     ...favorites,
     favoriteBeasts: toggleInArray(favorites.favoriteBeasts, id),
   });
+  notifyProgressChange();
 }
 
 export function isFavoritePoem(id: string): boolean {

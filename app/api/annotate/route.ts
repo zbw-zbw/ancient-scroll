@@ -2,12 +2,26 @@ import { NextResponse } from "next/server";
 import { aiClient } from "@/lib/ai";
 
 export async function POST(request: Request) {
+  if (!process.env.DEEPSEEK_API_KEY) {
+    return NextResponse.json(
+      { error: "字词解读服务未配置，请检查 API 密钥" },
+      { status: 503 }
+    );
+  }
+
   try {
     const { char, context } = await request.json();
 
     if (!char || typeof char !== "string") {
       return NextResponse.json(
         { error: "Missing or invalid char" },
+        { status: 400 }
+      );
+    }
+
+    if (context !== undefined && typeof context !== "string") {
+      return NextResponse.json(
+        { error: "Missing or invalid context" },
         { status: 400 }
       );
     }

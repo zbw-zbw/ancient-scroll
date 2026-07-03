@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import SearchModal from "./SearchModal";
@@ -72,7 +72,6 @@ export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [isMac, setIsMac] = useState(false);
-  const [scrollProgress, setScrollProgress] = useState(0);
   const pathname = usePathname();
   const { isDark, toggle: toggleTheme } = useTheme();
 
@@ -81,11 +80,24 @@ export default function Navbar() {
   }, []);
 
   useEffect(() => {
+    const progressBarRef = document.querySelector<HTMLDivElement>("[data-scroll-progress]");
+    let rafId: number | null = null;
+
     const handleScroll = () => {
-      const max = document.documentElement.scrollHeight - window.innerHeight;
-      const progress = max > 0 ? window.scrollY / max : 0;
-      setScrollProgress(Math.min(1, Math.max(0, progress)));
-      setScrolled(window.scrollY > 40);
+      if (rafId !== null) return;
+      rafId = requestAnimationFrame(() => {
+        rafId = null;
+        const max = document.documentElement.scrollHeight - window.innerHeight;
+        const progress = max > 0 ? window.scrollY / max : 0;
+        const clamped = Math.min(1, Math.max(0, progress));
+        // Direct DOM update for progress bar (avoids setState per frame)
+        if (progressBarRef) {
+          progressBarRef.style.width = `${clamped * 100}%`;
+        }
+        // Only update scrolled state when threshold changes
+        const isScrolled = window.scrollY > 40;
+        setScrolled((prev) => (prev !== isScrolled ? isScrolled : prev));
+      });
     };
     handleScroll();
     window.addEventListener("scroll", handleScroll, { passive: true });
@@ -93,6 +105,7 @@ export default function Navbar() {
     return () => {
       window.removeEventListener("scroll", handleScroll);
       window.removeEventListener("resize", handleScroll);
+      if (rafId !== null) cancelAnimationFrame(rafId);
     };
   }, []);
 
@@ -343,8 +356,9 @@ export default function Navbar() {
           aria-hidden="true"
         >
           <div
-            className="h-full bg-gradient-to-r from-cinnabar to-gold transition-[width] duration-150 ease-out"
-            style={{ width: `${scrollProgress * 100}%` }}
+            data-scroll-progress
+            className="h-full bg-gradient-to-r from-cinnabar to-gold"
+            style={{ width: "0%" }}
           />
         </div>
 

@@ -2,13 +2,15 @@
 
 import { useEffect, useRef, useCallback } from "react";
 import { useToast } from "@/components/Toast";
-import { getAchievements, type Achievement } from "@/lib/achievements";
+import { getAchievements } from "@/lib/achievements";
 
 const NOTIFIED_KEY = "ancient-scroll-achievements-notified";
 
 /**
  * Watches for newly unlocked achievements and shows toast notifications.
- * Call this hook once at the app root level (inside ToastProvider).
+ * Event-driven: checks on mount, on route change, on window focus,
+ * and on custom "ancient-scroll:progress-changed" events.
+ * No polling — avoids continuous localStorage reads.
  */
 export function useAchievementWatcher() {
   const { toast } = useToast();
@@ -43,7 +45,7 @@ export function useAchievementWatcher() {
         );
       } catch {}
 
-      // Show toast for each newly unlocked achievement (show the first one, then others with delay)
+      // Show toast for each newly unlocked achievement
       newlyUnlocked.forEach((ach, index) => {
         setTimeout(() => {
           toast(`🎉 成就解锁：${ach.title}`, "success");
@@ -52,21 +54,23 @@ export function useAchievementWatcher() {
     }
   }, [toast]);
 
-  // Check on mount and periodically (every 5 seconds)
+  // Check on mount (delayed to let localStorage settle)
   useEffect(() => {
-    // Delay initial check to let localStorage settle
-    const initialTimer = setTimeout(checkAchievements, 2000);
-    const interval = setInterval(checkAchievements, 5000);
-    return () => {
-      clearTimeout(initialTimer);
-      clearInterval(interval);
-    };
+    const timer = setTimeout(checkAchievements, 1500);
+    return () => clearTimeout(timer);
   }, [checkAchievements]);
 
-  // Also check when window regains focus
+  // Check when window regains focus
   useEffect(() => {
     const handleFocus = () => checkAchievements();
     window.addEventListener("focus", handleFocus);
     return () => window.removeEventListener("focus", handleFocus);
+  }, [checkAchievements]);
+
+  // Listen for custom progress-changed events (emitted by lib functions)
+  useEffect(() => {
+    const handleProgressChange = () => checkAchievements();
+    window.addEventListener("ancient-scroll:progress-changed", handleProgressChange);
+    return () => window.removeEventListener("ancient-scroll:progress-changed", handleProgressChange);
   }, [checkAchievements]);
 }

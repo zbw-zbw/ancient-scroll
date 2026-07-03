@@ -14,16 +14,64 @@ export interface ReadingNote {
   createdAt: number;
 }
 
-export function getAllNotes(): ReadingNote[] {
+function safeParse<T>(parser: () => T, fallback: T): T {
   try {
-    const raw = localStorage.getItem(NOTES_KEY);
-    return raw ? JSON.parse(raw) : [];
+    return parser();
   } catch {
-    return [];
+    return fallback;
   }
 }
 
+/** Validate and normalize a single parsed note; returns null if malformed. */
+function normalizeNote(raw: unknown): ReadingNote | null {
+  if (!raw || typeof raw !== "object") return null;
+  const r = raw as Record<string, unknown>;
+  const annotation = r.annotation;
+  if (!annotation || typeof annotation !== "object") return null;
+  const a = annotation as Record<string, unknown>;
+  if (
+    typeof r.id !== "string" ||
+    typeof r.sentenceId !== "string" ||
+    typeof r.chapterId !== "string" ||
+    typeof r.original !== "string" ||
+    typeof r.char !== "string" ||
+    typeof a.pinyin !== "string" ||
+    typeof a.meaning !== "string" ||
+    typeof a.detail !== "string" ||
+    typeof r.createdAt !== "number"
+  ) {
+    return null;
+  }
+  return {
+    id: r.id,
+    sentenceId: r.sentenceId,
+    chapterId: r.chapterId,
+    original: r.original,
+    char: r.char,
+    annotation: {
+      pinyin: a.pinyin,
+      meaning: a.meaning,
+      detail: a.detail,
+    },
+    createdAt: r.createdAt,
+  };
+}
+
+export function getAllNotes(): ReadingNote[] {
+  if (typeof window === "undefined") return [];
+  return safeParse(() => {
+    const raw = localStorage.getItem(NOTES_KEY);
+    if (!raw) return [];
+    const parsed = JSON.parse(raw);
+    if (!Array.isArray(parsed)) return [];
+    return parsed
+      .map(normalizeNote)
+      .filter((n): n is ReadingNote => n !== null);
+  }, []);
+}
+
 export function saveNote(note: ReadingNote) {
+  if (typeof window === "undefined") return;
   const notes = getAllNotes();
   const idx = notes.findIndex((n) => n.id === note.id);
   if (idx >= 0) {
@@ -31,23 +79,31 @@ export function saveNote(note: ReadingNote) {
   } else {
     notes.push(note);
   }
-  localStorage.setItem(NOTES_KEY, JSON.stringify(notes));
+  try {
+    localStorage.setItem(NOTES_KEY, JSON.stringify(notes));
+  } catch {}
 }
 
 export function deleteNote(id: string) {
+  if (typeof window === "undefined") return;
   const notes = getAllNotes().filter((n) => n.id !== id);
-  localStorage.setItem(NOTES_KEY, JSON.stringify(notes));
+  try {
+    localStorage.setItem(NOTES_KEY, JSON.stringify(notes));
+  } catch {}
 }
 
 export function getNotesForChapter(chapterId: string): ReadingNote[] {
+  if (typeof window === "undefined") return [];
   return getAllNotes().filter((n) => n.chapterId === chapterId);
 }
 
 export function getNotesForSentence(sentenceId: string): ReadingNote[] {
+  if (typeof window === "undefined") return [];
   return getAllNotes().filter((n) => n.sentenceId === sentenceId);
 }
 
 export function exportNotesAsMarkdown(): string {
+  if (typeof window === "undefined") return "";
   const notes = getAllNotes();
   if (notes.length === 0) return "";
 
@@ -82,6 +138,7 @@ export function exportNotesAsMarkdown(): string {
 }
 
 export function downloadMarkdown(content: string, filename = "古籍焕新-阅读笔记.md") {
+  if (typeof window === "undefined") return;
   const blob = new Blob([content], { type: "text/markdown;charset=utf-8" });
   const url = URL.createObjectURL(blob);
   const a = document.createElement("a");

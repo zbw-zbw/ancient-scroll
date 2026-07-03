@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
 import { aiClient } from "@/lib/ai";
 
+const MAX_TEXT_LENGTH = 2000;
+
 export async function POST(request: Request) {
   if (!process.env.DEEPSEEK_API_KEY) {
     return NextResponse.json(
@@ -15,6 +17,20 @@ export async function POST(request: Request) {
     if (!text || typeof text !== "string") {
       return NextResponse.json(
         { error: "Missing or invalid text" },
+        { status: 400 }
+      );
+    }
+
+    if (text.length > MAX_TEXT_LENGTH) {
+      return NextResponse.json(
+        { error: "待翻译文本过长，请控制在 2000 字以内" },
+        { status: 400 }
+      );
+    }
+
+    if (context !== undefined && typeof context !== "string") {
+      return NextResponse.json(
+        { error: "Missing or invalid context" },
         { status: 400 }
       );
     }

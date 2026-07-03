@@ -2,7 +2,6 @@
 
 import { useState, useEffect, useRef, useCallback } from "react";
 import Image from "next/image";
-import html2canvas from "html2canvas";
 import type { Poem } from "@/data/poems";
 import { IconClose, IconDownload, IconCopy } from "@/components/icons";
 
@@ -74,6 +73,7 @@ export default function ShareCardModal({
     if (!cardRef.current || !poem) return;
     setSaving(true);
     try {
+      const { default: html2canvas } = await import("html2canvas");
       const canvas = await html2canvas(cardRef.current, {
         scale: 2,
         useCORS: true,

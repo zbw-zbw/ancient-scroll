@@ -16,7 +16,7 @@ const maShanZheng = Ma_Shan_Zheng({
 });
 
 const notoSerifSC = Noto_Serif_SC({
-  weight: ["400", "500", "600", "700"],
+  weight: ["400", "600"],
   subsets: ["latin"],
   variable: "--font-noto-serif-sc",
   display: "swap",

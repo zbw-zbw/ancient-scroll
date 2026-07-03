@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
+import { memo, useState } from "react";
 import type { Beast } from "@/data/beasts";
 import { categoryLabels } from "@/data/beasts";
 import { IconHeart, IconHeartOutline, IconArrowRight, IconShare } from "@/components/icons";
@@ -15,7 +15,7 @@ interface BeastCardProps {
   onShare?: (beast: Beast) => void;
 }
 
-export default function BeastCard({
+function BeastCardImpl({
   beast,
   index,
   collected,
@@ -133,3 +133,5 @@ export default function BeastCard({
     </article>
   );
 }
+
+export default memo(BeastCardImpl);

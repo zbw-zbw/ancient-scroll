@@ -2,7 +2,6 @@
 
 import { useState, useEffect, useRef, useCallback } from "react";
 import Image from "next/image";
-import html2canvas from "html2canvas";
 import type { Beast } from "@/data/beasts";
 import { IconClose, IconDownload, IconCopy } from "@/components/icons";
 
@@ -80,6 +79,7 @@ export default function BeastShareModal({
     if (!cardRef.current || !beast) return;
     setSaving(true);
     try {
+      const { default: html2canvas } = await import("html2canvas");
       const canvas = await html2canvas(cardRef.current, {
         scale: 2,
         useCORS: true,

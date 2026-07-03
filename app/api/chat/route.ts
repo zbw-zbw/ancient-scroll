@@ -9,27 +9,50 @@ interface ChatMessage {
   content: string;
 }
 
+const MAX_MESSAGES = 20;
+const MAX_CONTENT_LENGTH = 2000;
+
 export async function POST(req: NextRequest) {
   if (!process.env.DEEPSEEK_API_KEY) {
-    return new Response(
-      JSON.stringify({ error: "对话服务未配置，请检查 API 密钥" }),
-      { status: 503, headers: { "Content-Type": "application/json" } },
+    return Response.json(
+      { error: "对话服务未配置，请检查 API 密钥" },
+      { status: 503 }
     );
   }
 
   try {
-    const { characterId, messages } = (await req.json()) as {
-      characterId: string;
-      messages: ChatMessage[];
-    };
+    const body = await req.json();
+    const characterId = body?.characterId;
+    const messages: unknown = body?.messages;
+
+    if (!Array.isArray(messages)) {
+      return Response.json(
+        { error: "消息格式不正确" },
+        { status: 400 }
+      );
+    }
 
     const character = getCharacterById(characterId);
     if (!character) {
-      return new Response(JSON.stringify({ error: "Character not found" }), {
-        status: 404,
-        headers: { "Content-Type": "application/json" },
-      });
+      return Response.json({ error: "Character not found" }, { status: 404 });
     }
+
+    // Only allow user/assistant roles; drop any "system" messages to prevent
+    // prompt injection. Limit the number of messages and truncate content.
+    const safeMessages: ChatMessage[] = messages
+      .filter((m): m is ChatMessage => {
+        if (!m || typeof m !== "object") return false;
+        const msg = m as { role?: unknown; content?: unknown };
+        return (
+          (msg.role === "user" || msg.role === "assistant") &&
+          typeof msg.content === "string"
+        );
+      })
+      .slice(0, MAX_MESSAGES)
+      .map((m) => ({
+        role: m.role,
+        content: m.content.slice(0, MAX_CONTENT_LENGTH),
+      }));
 
     const systemMessage: ChatMessage = {
       role: "system",
@@ -38,7 +61,7 @@ export async function POST(req: NextRequest) {
 
     const stream = await aiClient.chat.completions.create({
       model: "deepseek-chat",
-      messages: [systemMessage, ...messages],
+      messages: [systemMessage, ...safeMessages],
       stream: true,
       temperature: 0.8,
       max_tokens: 300,
@@ -73,12 +96,9 @@ export async function POST(req: NextRequest) {
     });
   } catch (error) {
     console.error("Chat API error:", error);
-    return new Response(
-      JSON.stringify({ error: "Internal server error" }),
-      {
-        status: 500,
-        headers: { "Content-Type": "application/json" },
-      },
+    return Response.json(
+      { error: "Internal server error" },
+      { status: 500 }
     );
   }
 }
