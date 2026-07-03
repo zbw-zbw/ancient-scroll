@@ -30,7 +30,7 @@ export default function ToastProvider({ children }: { children: React.ReactNode 
             key={t.id}
             className={`pointer-events-auto animate-fade-in-down rounded-lg px-4 py-2.5 shadow-lg font-serif text-sm backdrop-blur-sm ${
               t.type === "error" ? "bg-seal-red/90 text-white"
-              : t.type === "success" ? "bg-emerald-800/90 text-white"
+              : t.type === "success" ? "bg-gold/90 text-white"
               : "bg-surface/90 text-ink border border-ink/10"
             }`}
           >

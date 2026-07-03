@@ -42,7 +42,7 @@ export default function ContinueReading() {
   return (
     <section className="fade-in relative w-full py-8 md:py-12">
       <div className="relative mx-auto max-w-[1100px] px-6">
-        <div className="overflow-hidden rounded-2xl border border-cinnabar/20 bg-surface/60">
+        <div className="card overflow-hidden rounded-2xl border border-cinnabar/20 bg-surface/60 transition-all duration-300 hover:border-cinnabar/40 hover:shadow-lg">
           <div className="flex items-center gap-4 p-5 md:p-6">
             {/* Book icon */}
             <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-cinnabar/10">

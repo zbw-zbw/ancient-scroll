@@ -154,12 +154,16 @@ export default function BestiaryClient() {
  }`}
  >
  <BeastGrid
- beasts={filteredBeasts}
- collectedIds={collectedIds}
- onToggleCollect={handleToggleCollect}
- onViewDetail={handleViewDetail}
- onShare={(beast) => setShareBeast(beast)}
- />
+			  beasts={filteredBeasts}
+			  collectedIds={collectedIds}
+			  onToggleCollect={handleToggleCollect}
+			  onViewDetail={handleViewDetail}
+			  onShare={(beast) => setShareBeast(beast)}
+			  onClearFilters={() => {
+			    setActiveCategory("all");
+			    setSearch("");
+			  }}
+			/>
  </div>
  </div>
 

@@ -7,6 +7,7 @@ import ToastProvider from "@/components/Toast";
 import PageTransition from "@/components/PageTransition";
 import ErrorBoundary from "@/components/ErrorBoundary";
 import AchievementWatcher from "@/components/AchievementWatcher";
+import BackToTop from "@/components/BackToTop";
 
 const maShanZheng = Ma_Shan_Zheng({
   weight: "400",
@@ -73,6 +74,7 @@ export default function RootLayout({
         <ToastProvider>
           <AchievementWatcher />
           <PageTransition>{children}</PageTransition>
+          <BackToTop />
         </ToastProvider>
       </body>
     </html>

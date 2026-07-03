@@ -73,7 +73,7 @@ export default function Hero() {
           onClick={() =>
             document.getElementById("features")?.scrollIntoView({ behavior: "smooth" })
           }
-          className="mx-auto inline-flex items-center gap-2 rounded-full bg-cinnabar px-6 py-3 font-serif text-sm text-white shadow-md animate-hero-reveal md:mx-0"
+          className="mx-auto inline-flex items-center gap-2 rounded-full bg-cinnabar px-6 py-3 font-serif text-sm text-white shadow-md transition-all hover:bg-cinnabar/90 hover:shadow-lg active:scale-95 animate-hero-reveal md:mx-0"
           style={{ animationDelay: "1s" }}
         >
           开启旅程

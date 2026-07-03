@@ -53,7 +53,7 @@ export default function BeastFilter({
  onClick={() => onChange(key)}
  className={`inline-flex flex-shrink-0 items-center gap-1.5 rounded-full px-3.5 py-1.5 font-serif text-sm transition-all ${
  isActive
- ? "bg-cinnabar text-white shadow-sm"
+ ? "bg-cinnabar/10 text-cinnabar"
  : "bg-surface/60 text-light-ink hover:bg-surface"
  }`}
  >
@@ -61,7 +61,7 @@ export default function BeastFilter({
  <span>{label}</span>
  <span
  className={`ml-0.5 rounded-full px-1.5 py-0 text-[10px] ${
- isActive ? "bg-white/20 text-white" : "bg-ink/5 text-muted"
+ isActive ? "bg-cinnabar/20 text-cinnabar" : "bg-ink/5 text-muted"
  }`}
  >
  {count}

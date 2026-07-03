@@ -54,7 +54,7 @@ export default function ReadingControls({
  onClick={() => onFontSizeChange(option.value)}
  className={`rounded-full px-3 py-1.5 min-h-[32px] font-serif text-xs transition-colors ${
  fontSize === option.value
- ? "bg-cinnabar text-white"
+ ? "bg-cinnabar/10 text-cinnabar"
  : "text-light-ink hover:bg-cinnabar/5"
  }`}
  >
@@ -69,7 +69,7 @@ export default function ReadingControls({
  onClick={() => onShowTranslationChange(true)}
  className={`rounded-full px-3 py-1.5 min-h-[32px] font-serif text-xs transition-colors ${
  showTranslation
- ? "bg-cinnabar text-white"
+ ? "bg-cinnabar/10 text-cinnabar"
  : "text-light-ink hover:bg-cinnabar/5"
  }`}
  >
@@ -79,7 +79,7 @@ export default function ReadingControls({
  onClick={() => onShowTranslationChange(false)}
  className={`rounded-full px-3 py-1.5 min-h-[32px] font-serif text-xs transition-colors ${
  !showTranslation
- ? "bg-cinnabar text-white"
+ ? "bg-cinnabar/10 text-cinnabar"
  : "text-light-ink hover:bg-cinnabar/5"
  }`}
  >

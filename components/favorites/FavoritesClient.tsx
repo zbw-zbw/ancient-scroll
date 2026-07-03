@@ -144,7 +144,7 @@ export default function FavoritesClient() {
                     style={{ borderTop: `2px solid ${poem.theme}` }}
                     onClick={() => router.push("/poetry")}
                   >
-                    <div className="relative h-[140px] overflow-hidden img-placeholder" style={{ background: `linear-gradient(135deg, ${poem.theme}40, ${poem.theme}15)` }}>
+                    <div className="relative h-[200px] overflow-hidden img-placeholder" style={{ background: `linear-gradient(135deg, ${poem.theme}40, ${poem.theme}15)` }}>
                       <Image
                         src={poem.coverImage}
                         alt={poem.title}
@@ -217,7 +217,7 @@ export default function FavoritesClient() {
                     onClick={() => router.push(`/bestiary?beast=${beast.id}`)}
                   >
                     <div
-                      className="relative h-[180px] overflow-hidden img-placeholder"
+                      className="relative h-[260px] overflow-hidden img-placeholder"
                       style={{ background: `linear-gradient(135deg, ${beast.gradient[0]}20, ${beast.gradient[1]}10)` }}
                     >
                       <Image

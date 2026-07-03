@@ -127,7 +127,7 @@ export default function AchievementSummary() {
             </div>
 
             {/* Category mini progress */}
-            <div className="mt-5 grid grid-cols-2 gap-2 md:grid-cols-4 lg:grid-cols-7">
+            <div className="mt-5 grid grid-cols-3 gap-2 md:grid-cols-4 xl:grid-cols-7">
               {categoryProgress.map((cp) => (
                 <div
                   key={cp.category}

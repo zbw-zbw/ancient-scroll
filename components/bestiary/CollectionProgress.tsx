@@ -12,21 +12,21 @@ const categoryColors: Record<BeastCategory, string> = {
 };
 
 export default function CollectionProgress() {
-  const [count, setCount] = useState(0);
+  const [collected, setCollected] = useState<string[]>([]);
 
   useEffect(() => {
-    const update = () => {
-      setCount(getCollectedBeasts().length);
-    };
+    const update = () => setCollected(getCollectedBeasts());
     update();
+    // Listen for progress changes (dispatched by toggleFavoriteBeast)
+    window.addEventListener("ancient-scroll:progress-changed", update);
     window.addEventListener("storage", update);
-    const interval = setInterval(update, 1000);
     return () => {
+      window.removeEventListener("ancient-scroll:progress-changed", update);
       window.removeEventListener("storage", update);
-      clearInterval(interval);
     };
   }, []);
 
+  const count = collected.length;
   const total = beasts.length;
 
   // Per-category counts
@@ -35,7 +35,7 @@ export default function CollectionProgress() {
       name: cat,
       label: categoryLabels[cat],
       color: categoryColors[cat],
-      count: beasts.filter((b) => b.category === cat && getCollectedBeasts().includes(b.id)).length,
+      count: beasts.filter((b) => b.category === cat && collected.includes(b.id)).length,
       total: beasts.filter((b) => b.category === cat).length,
     })
   );
@@ -49,11 +49,11 @@ export default function CollectionProgress() {
       <div className="h-2 w-full overflow-hidden rounded-full bg-ink/10">
         <div
           className="h-full rounded-full bg-gradient-to-r from-cinnabar to-seal-red transition-all duration-700 ease-out"
-          style={{ width: `${(count / total) * 100}%` }}
+          style={{ width: `${total > 0 ? (count / total) * 100 : 0}%` }}
         />
       </div>
       {/* Category dots */}
-      <div className="mt-3 flex items-center justify-center gap-4">
+      <div className="mt-3 flex flex-wrap items-center justify-center gap-x-4 gap-y-2">
         {categoryStats.map((cat) => (
           <div key={cat.name} className="flex items-center gap-1.5">
             <div className="h-2 w-2 rounded-full" style={{ backgroundColor: cat.color }} />
