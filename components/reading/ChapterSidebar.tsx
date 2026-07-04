@@ -50,11 +50,13 @@ export default function ChapterSidebar({
                 <button
                   key={chapter.id}
                   onClick={() => onSelect(chapter.id)}
-                  className={`group relative flex flex-col items-start rounded-md px-3 py-3 text-left transition-colors ${
+                  className={`group relative flex flex-col items-start rounded-md px-3 py-3 min-h-[44px] text-left transition-colors ${
                     selectedId === chapter.id
                       ? "bg-surface text-ink"
                       : "bg-transparent text-light-ink hover:bg-surface/50"
                   }`}
+                  aria-current={selectedId === chapter.id ? "true" : undefined}
+                  aria-label={`${chapter.name}${isRead ? "（已读）" : ""}`}
                 >
                   {/* Indicator bar with animation */}
                   <span
@@ -77,10 +79,22 @@ export default function ChapterSidebar({
           </nav>
         </div>
 
-        <div className="p-4">
+        <div className="p-4 border-t border-ink/5">
+          {/* Reading progress */}
+          <div className="mb-3 flex items-center justify-between">
+            <span className="font-serif text-xs text-muted">阅读进度</span>
+            <span className="font-serif text-xs text-cinnabar">{readChapters.length}/{chapters.length}</span>
+          </div>
+          <div className="h-1.5 w-full overflow-hidden rounded-full bg-ink/10">
+            <div
+              className="h-full rounded-full bg-cinnabar transition-all duration-500"
+              style={{ width: `${chapters.length > 0 ? (readChapters.length / chapters.length) * 100 : 0}%` }}
+            />
+          </div>
+
           <Link
             href="/"
-            className="inline-flex items-center gap-1 font-serif text-sm text-muted transition-colors hover:text-cinnabar"
+            className="mt-3 inline-flex items-center gap-1 font-serif text-sm text-muted transition-colors hover:text-cinnabar"
           >
             <IconArrowLeft className="h-3.5 w-3.5" />
             返回首页

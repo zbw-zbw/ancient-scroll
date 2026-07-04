@@ -90,13 +90,13 @@ export default function CharacterTooltip({
  const handleScroll = () => onClose();
  const handleResize = () => onClose();
 
- document.addEventListener("mousedown", handleClickOutside);
+ document.addEventListener("pointerdown", handleClickOutside);
  document.addEventListener("keydown", handleEsc);
  window.addEventListener("scroll", handleScroll, { passive: true, capture: true });
  window.addEventListener("resize", handleResize);
 
  return () => {
- document.removeEventListener("mousedown", handleClickOutside);
+ document.removeEventListener("pointerdown", handleClickOutside);
  document.removeEventListener("keydown", handleEsc);
  window.removeEventListener("scroll", handleScroll, { capture: true });
  window.removeEventListener("resize", handleResize);

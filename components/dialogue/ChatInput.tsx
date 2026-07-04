@@ -41,7 +41,7 @@ export default function ChatInput({
   };
 
   return (
-    <div className="bg-xuan px-4 py-3 md:px-6 md:py-4">
+    <div className="bg-xuan px-4 py-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] md:px-6 md:py-4">
       <div className="mx-auto flex max-w-[900px] items-end gap-2 md:gap-3">
         <textarea
           ref={textareaRef}

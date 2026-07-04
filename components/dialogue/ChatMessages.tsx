@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useMemo } from "react";
 import { HistoricalCharacter } from "../../data/characters";
 import ChatBubble from "./ChatBubble";
 import SuggestedQuestions from "./SuggestedQuestions";
@@ -8,6 +8,7 @@ import SuggestedQuestions from "./SuggestedQuestions";
 interface Message {
   role: "user" | "assistant";
   content: string;
+  id?: string;
 }
 
 interface ChatMessagesProps {
@@ -17,6 +18,16 @@ interface ChatMessagesProps {
   isStreaming: boolean;
   showSuggestions: boolean;
   onSelectQuestion: (question: string) => void;
+}
+
+// Assign stable IDs to messages that lack them (for localStorage restored messages)
+function useStableMessages(messages: Message[]): Message[] {
+  return useMemo(() => {
+    return messages.map((msg, i) => ({
+      ...msg,
+      id: msg.id || `msg-${i}-${msg.content.slice(0, 20)}`,
+    }));
+  }, [messages]);
 }
 
 export default function ChatMessages({
@@ -29,12 +40,12 @@ export default function ChatMessages({
 }: ChatMessagesProps) {
   const scrollRef = useRef<HTMLDivElement>(null);
   const prevMessageCountRef = useRef(messages.length);
+  const stableMessages = useStableMessages(messages);
 
   useEffect(() => {
     const container = scrollRef.current;
     if (!container) return;
 
-    // Use smooth scroll for new user messages, auto for streaming
     const isNewMessage = messages.length > prevMessageCountRef.current;
     prevMessageCountRef.current = messages.length;
 
@@ -49,6 +60,7 @@ export default function ChatMessages({
       ref={scrollRef}
       data-messages-container
       aria-live="polite"
+      aria-label="对话消息"
       className="scrollbar-hide relative flex-1 overflow-y-auto overflow-x-hidden"
       style={{
         backgroundImage:
@@ -57,9 +69,9 @@ export default function ChatMessages({
       }}
     >
       <div className="mx-auto max-w-[900px] space-y-5 px-4 py-6 md:space-y-6 md:px-6 md:py-8">
-        {messages.map((message, index) => (
+        {stableMessages.map((message) => (
           <ChatBubble
-            key={`msg-${index}`}
+            key={message.id}
             role={message.role}
             content={message.content}
             characterAvatarPath={character.avatarPath}
@@ -81,7 +93,6 @@ export default function ChatMessages({
           />
         )}
 
-        {/* Suggested questions */}
         {showSuggestions && (
           <SuggestedQuestions
             questions={character.sampleQuestions.filter(

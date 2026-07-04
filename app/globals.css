@@ -97,8 +97,9 @@ body {
 }
 
 *:focus-visible {
-  outline: 2px solid transparent;
+  outline: none;
   box-shadow: 0 0 0 2px rgba(200, 64, 50, 0.3);
+  border-radius: 4px;
 }
 
 /* Global transitions for interactive elements and cards */
@@ -614,19 +615,6 @@ html::-webkit-scrollbar-thumb:hover {
   }
 }
 
-/* Global focus-visible ring for keyboard navigation */
-*:focus-visible {
-  outline: none;
-  box-shadow: 0 0 0 2px rgba(200, 64, 50, 0.35);
-  border-radius: 4px;
-}
-
-button:focus-visible,
-a:focus-visible {
-  outline: none;
-  box-shadow: 0 0 0 2px rgba(200, 64, 50, 0.35);
-}
-
 /* ===== Dark mode component styles ===== */
 @media (prefers-color-scheme: dark) {
   body {
@@ -638,6 +626,11 @@ a:focus-visible {
       radial-gradient(ellipse at 20% 50%, rgba(180, 140, 80, 0.04) 0%, transparent 50%),
       radial-gradient(ellipse at 80% 20%, rgba(160, 120, 60, 0.03) 0%, transparent 40%),
       radial-gradient(ellipse at 50% 80%, rgba(170, 130, 70, 0.025) 0%, transparent 45%);
+  }
+
+  /* Reduce rule line opacity for chat texture in dark mode */
+  :root {
+    --rule: rgba(58, 52, 40, 0.3);
   }
 
   /* Scrollbar */
@@ -664,6 +657,10 @@ a:focus-visible {
     radial-gradient(ellipse at 20% 50%, rgba(180, 140, 80, 0.04) 0%, transparent 50%),
     radial-gradient(ellipse at 80% 20%, rgba(160, 120, 60, 0.03) 0%, transparent 40%),
     radial-gradient(ellipse at 50% 80%, rgba(170, 130, 70, 0.025) 0%, transparent 45%);
+}
+
+.dark {
+  --rule: rgba(58, 52, 40, 0.3);
 }
 
 .dark html {
