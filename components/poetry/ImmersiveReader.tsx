@@ -67,15 +67,35 @@ export default function ImmersiveReader({ poem, onBack }: ImmersiveReaderProps) 
      touchStartRef.current = null;
 
      if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy) * 1.5) {
-       if (dx < 0) {
-         setCurrentSlide((prev) => Math.min(prev + 1, totalSlides - 1));
-       } else {
-         setCurrentSlide((prev) => Math.max(prev - 1, 0));
-       }
+       // Swipe: also scroll to target slide (fixes view-dot desync)
+       const next = dx < 0
+         ? Math.min(currentSlide + 1, totalSlides - 1)
+         : Math.max(currentSlide - 1, 0);
+       handleDotClick(next);
      }
    },
-   [totalSlides]
+   [totalSlides, currentSlide]
  );
+
+ // Keyboard arrow navigation
+ useEffect(() => {
+   const handleKeyDown = (e: KeyboardEvent) => {
+     const tag = (e.target as HTMLElement).tagName;
+     if (tag === "INPUT" || tag === "TEXTAREA") return;
+
+     if (e.key === "ArrowDown" || e.key === "ArrowRight") {
+       e.preventDefault();
+       const next = Math.min(currentSlide + 1, totalSlides - 1);
+       if (next !== currentSlide) handleDotClick(next);
+     } else if (e.key === "ArrowUp" || e.key === "ArrowLeft") {
+       e.preventDefault();
+       const prev = Math.max(currentSlide - 1, 0);
+       if (prev !== currentSlide) handleDotClick(prev);
+     }
+   };
+   window.addEventListener("keydown", handleKeyDown);
+   return () => window.removeEventListener("keydown", handleKeyDown);
+ }, [currentSlide, totalSlides]);
 
  const handleDotClick = (index: number) => {
  const container = containerRef.current;

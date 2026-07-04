@@ -1,8 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import { beasts, categoryLabels, type BeastCategory } from "../../data/beasts";
-import { getCollectedBeasts } from "../../lib/collection";
 
 const categoryColors: Record<BeastCategory, string> = {
   beast: "#c84032",
@@ -11,31 +9,20 @@ const categoryColors: Record<BeastCategory, string> = {
   serpent: "#b8860b",
 };
 
-export default function CollectionProgress() {
-  const [collected, setCollected] = useState<string[]>([]);
+interface CollectionProgressProps {
+  collectedIds: string[];
+}
 
-  useEffect(() => {
-    const update = () => setCollected(getCollectedBeasts());
-    update();
-    // Listen for progress changes (dispatched by toggleFavoriteBeast)
-    window.addEventListener("ancient-scroll:progress-changed", update);
-    window.addEventListener("storage", update);
-    return () => {
-      window.removeEventListener("ancient-scroll:progress-changed", update);
-      window.removeEventListener("storage", update);
-    };
-  }, []);
-
-  const count = collected.length;
+export default function CollectionProgress({ collectedIds }: CollectionProgressProps) {
+  const count = collectedIds.length;
   const total = beasts.length;
 
-  // Per-category counts
   const categoryStats = (Object.keys(categoryLabels) as BeastCategory[]).map(
     (cat) => ({
       name: cat,
       label: categoryLabels[cat],
       color: categoryColors[cat],
-      count: beasts.filter((b) => b.category === cat && collected.includes(b.id)).length,
+      count: beasts.filter((b) => b.category === cat && collectedIds.includes(b.id)).length,
       total: beasts.filter((b) => b.category === cat).length,
     })
   );
@@ -52,7 +39,6 @@ export default function CollectionProgress() {
           style={{ width: `${total > 0 ? (count / total) * 100 : 0}%` }}
         />
       </div>
-      {/* Category dots */}
       <div className="mt-3 flex flex-wrap items-center justify-center gap-x-4 gap-y-2">
         {categoryStats.map((cat) => (
           <div key={cat.name} className="flex items-center gap-1.5">

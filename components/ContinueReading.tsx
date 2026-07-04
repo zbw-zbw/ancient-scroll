@@ -32,7 +32,7 @@ export default function ContinueReading() {
     const progress = getCompletionRate();
     const totalChapters = 10;
     const totalBeasts = 30;
-    const totalPoems = 12;
+    const totalPoems = 18;
     const totalDialogues = 9;
     const total = totalChapters + totalBeasts + totalPoems + totalDialogues;
     return total > 0 ? Math.round((progress / 100) * total) : 0;

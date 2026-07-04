@@ -96,7 +96,7 @@ export function getCompletionRate(): number {
 
   const totalBeasts = 30;
   const totalChapters = 10;
-  const totalPoems = 12;
+  const totalPoems = 18;
   const totalDialogues = 9;
 
   const collectedBeasts =

@@ -136,13 +136,11 @@ export default function PoemLineSlide({ line, active, coverImage }: PoemLineSlid
 
  {/* Annotation */}
  <p
- className={`mx-auto mt-6 max-w-xl font-serif text-base leading-relaxed transition-all duration-[1800ms] ease-[cubic-bezier(0.22,1,0.36,1)] md:text-lg ${
-         textLight ? "text-white/90" : "text-white/90"
-       } ${
-         active ? "translate-y-0 opacity-100" : "translate-y-5 opacity-0"
-       }`}
+className={`mx-auto mt-6 max-w-xl font-serif text-base leading-relaxed transition-all duration-[1800ms] ease-[cubic-bezier(0.22,1,0.36,1)] md:text-lg ${
+  active ? "translate-y-0 opacity-100" : "translate-y-5 opacity-0"
+}`}
       style={{ transitionDelay: active ? "0.55s" : "0s", textShadow: "0 1px 6px rgba(0,0,0,0.4)" }}
- >
+    >
  {line.annotation}
  </p>
 

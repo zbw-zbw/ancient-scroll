@@ -20,12 +20,12 @@ export default function CoverSlide({ poem, active }: CoverSlideProps) {
  }}
  >
  <Image
- src={poem.coverImage}
- alt=""
- fill
- className="object-cover opacity-30"
- loading="lazy"
- />
+src={poem.coverImage}
+alt=""
+fill
+className="object-cover opacity-30"
+priority
+/>
  <div className="absolute inset-0 bg-gradient-to-b from-transparent via-ink/40 to-ink/70" />
 
  <div

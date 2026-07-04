@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { beasts, type Beast, type BeastCategory } from "@/data/beasts";
 import { toggleFavoriteBeast } from "@/lib/progress";
@@ -16,41 +16,41 @@ const STORAGE_KEY = "ancient-scroll-collected-beasts";
 const ACHIEVEMENT_SHOWN_KEY = "ancient-scroll-achievement-shown";
 
 export default function BestiaryClient() {
- const searchParams = useSearchParams();
- const [activeCategory, setActiveCategory] = useState<BeastCategory | "all">("all");
- const [search, setSearch] = useState("");
- const [collectedIds, setCollectedIds] = useState<string[]>([]);
- const [selectedBeast, setSelectedBeast] = useState<Beast | null>(null);
- const [shareBeast, setShareBeast] = useState<Beast | null>(null);
- const [customDescriptions, setCustomDescriptions] = useState<Record<string, string>>({});
- const [gridVisible, setGridVisible] = useState(true);
- const [showAchievement, setShowAchievement] = useState(false);
- const prevCountRef = useRef(0);
+  const searchParams = useSearchParams();
+  const [activeCategory, setActiveCategory] = useState<BeastCategory | "all">("all");
+  const [search, setSearch] = useState("");
+  const [collectedIds, setCollectedIds] = useState<string[]>([]);
+  const [selectedBeast, setSelectedBeast] = useState<Beast | null>(null);
+  const [shareBeast, setShareBeast] = useState<Beast | null>(null);
+  const [customDescriptions, setCustomDescriptions] = useState<Record<string, string>>({});
+  const [gridVisible, setGridVisible] = useState(true);
+  const [showAchievement, setShowAchievement] = useState(false);
+  const prevCountRef = useRef(0);
 
- useEffect(() => {
- try {
- const raw = localStorage.getItem(STORAGE_KEY);
- if (raw) {
- const parsed = JSON.parse(raw);
- if (Array.isArray(parsed)) {
- setCollectedIds(parsed);
- prevCountRef.current = parsed.length;
- }
- }
- } catch (err) {
- console.error("Failed to load collected beasts:", err);
- }
- }, []);
+  useEffect(() => {
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (raw) {
+        const parsed = JSON.parse(raw);
+        if (Array.isArray(parsed)) {
+          setCollectedIds(parsed);
+          prevCountRef.current = parsed.length;
+        }
+      }
+    } catch (err) {
+      console.error("Failed to load collected beasts:", err);
+    }
+  }, []);
 
- useEffect(() => {
- const beastId = searchParams.get("beast");
- if (beastId) {
- const beast = beasts.find((b) => b.id === beastId);
- if (beast) setSelectedBeast(beast);
- }
- }, [searchParams]);
+  useEffect(() => {
+    const beastId = searchParams.get("beast");
+    if (beastId) {
+      const beast = beasts.find((b) => b.id === beastId);
+      if (beast) setSelectedBeast(beast);
+    }
+  }, [searchParams]);
 
- useEffect(() => {
+  useEffect(() => {
     const alreadyShown = localStorage.getItem(ACHIEVEMENT_SHOWN_KEY) === "true";
     if (
       !alreadyShown &&
@@ -64,129 +64,137 @@ export default function BestiaryClient() {
     prevCountRef.current = collectedIds.length;
   }, [collectedIds, selectedBeast]);
 
- useEffect(() => {
- try {
- localStorage.setItem(STORAGE_KEY, JSON.stringify(collectedIds));
- } catch (err) {
- console.error("Failed to save collected beasts:", err);
- }
- }, [collectedIds]);
+  // Persist to localStorage and dispatch progress event AFTER state is committed
+  useEffect(() => {
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(collectedIds));
+      // Dispatch event after localStorage is updated (fixes CollectionProgress race condition)
+      window.dispatchEvent(new Event("ancient-scroll:progress-changed"));
+    } catch (err) {
+      console.error("Failed to save collected beasts:", err);
+    }
+  }, [collectedIds]);
 
- const filteredBeasts = useMemo(() => {
- return beasts.filter((beast) => {
- const matchesCategory =
- activeCategory === "all" || beast.category === activeCategory;
- const matchesSearch =
- search.trim() === "" || beast.name.includes(search.trim());
- return matchesCategory && matchesSearch;
- });
- }, [activeCategory, search]);
+  const filteredBeasts = useMemo(() => {
+    return beasts.filter((beast) => {
+      const matchesCategory =
+        activeCategory === "all" || beast.category === activeCategory;
+      const matchesSearch =
+        search.trim() === "" || beast.name.includes(search.trim());
+      return matchesCategory && matchesSearch;
+    });
+  }, [activeCategory, search]);
 
- const handleCategoryChange = (category: BeastCategory | "all") => {
- if (category === activeCategory) return;
- setGridVisible(false);
- setTimeout(() => {
- setActiveCategory(category);
- setGridVisible(true);
- }, 200);
- };
+  const handleCategoryChange = useCallback((category: BeastCategory | "all") => {
+    if (category === activeCategory) return;
+    setGridVisible(false);
+    setTimeout(() => {
+      setActiveCategory(category);
+      setGridVisible(true);
+    }, 200);
+  }, [activeCategory]);
 
- const handleSearch = (value: string) => {
- setSearch(value);
- };
+  const handleSearch = useCallback((value: string) => {
+    setSearch(value);
+  }, []);
 
- const handleToggleCollect = (id: string) => {
-  setCollectedIds((prev) =>
- prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id]
- );
-  // Sync with favorites system
-  toggleFavoriteBeast(id);
- };
+  const handleToggleCollect = useCallback((id: string) => {
+    setCollectedIds((prev) =>
+      prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id]
+    );
+    // Sync with favorites system
+    toggleFavoriteBeast(id);
+  }, []);
 
- const handleViewDetail = (beast: Beast) => {
- setSelectedBeast(beast);
- };
+  const handleViewDetail = useCallback((beast: Beast) => {
+    setSelectedBeast(beast);
+  }, []);
 
- const handleCloseDetail = () => {
-  setSelectedBeast(null);
-  // Clear URL parameter to prevent re-opening on navigation
-  const url = new URL(window.location.href);
-  url.searchParams.delete("beast");
-  window.history.replaceState({}, "", url.toString());
- };
+  const handleCloseDetail = useCallback(() => {
+    setSelectedBeast(null);
+    // Clear URL parameter to prevent re-opening on navigation
+    const url = new URL(window.location.href);
+    url.searchParams.delete("beast");
+    window.history.replaceState({}, "", url.toString());
+  }, []);
 
- const handleDescription = (description: string) => {
- if (selectedBeast) {
- setCustomDescriptions((prev) => ({
- ...prev,
- [selectedBeast.id]: description,
- }));
- }
- };
+  const handleDescription = useCallback((description: string) => {
+    setCustomDescriptions((prev) => {
+      if (!selectedBeast) return prev;
+      return { ...prev, [selectedBeast.id]: description };
+    });
+  }, [selectedBeast]);
 
- const currentDescription = selectedBeast
- ? customDescriptions[selectedBeast.id] ?? selectedBeast.description
- : "";
+  const handleShare = useCallback((beast: Beast) => {
+    setShareBeast(beast);
+  }, []);
 
- return (
- <main className="min-h-screen bg-xuan px-4 pb-12 md:px-6 md:pb-16">
+  const handleClearFilters = useCallback(() => {
+    setActiveCategory("all");
+    setSearch("");
+  }, []);
+
+  const currentDescription = selectedBeast
+    ? customDescriptions[selectedBeast.id] ?? selectedBeast.description
+    : "";
+
+  return (
+    <main className="min-h-screen bg-xuan px-4 pb-12 md:px-6 md:pb-16">
       <PageHeader
         title="异兽图鉴"
         subtitle="收藏山海奇兽，解锁文化成就"
       />
       <div className="mx-auto max-w-[1100px] pt-8 md:pt-12">
         <div className="mb-8 flex flex-col gap-4 md:mb-10 md:flex-row md:items-end md:justify-between">
-          <CollectionProgress />
+          <CollectionProgress collectedIds={collectedIds} />
         </div>
 
         <div className="mb-8 md:mb-10">
- <BeastFilter
- active={activeCategory}
- onChange={handleCategoryChange}
- search={search}
- onSearch={handleSearch}
- />
- </div>
+          <BeastFilter
+            active={activeCategory}
+            onChange={handleCategoryChange}
+            search={search}
+            onSearch={handleSearch}
+          />
+        </div>
 
- <div
- className={`transition-opacity duration-200 ${
- gridVisible ? "opacity-100" : "opacity-0"
- }`}
- >
- <BeastGrid
-			  beasts={filteredBeasts}
-			  collectedIds={collectedIds}
-			  onToggleCollect={handleToggleCollect}
-			  onViewDetail={handleViewDetail}
-			  onShare={(beast) => setShareBeast(beast)}
-			  onClearFilters={() => {
-			    setActiveCategory("all");
-			    setSearch("");
-			  }}
-			/>
- </div>
- </div>
+        <div
+          className={`transition-opacity duration-200 ${
+            gridVisible ? "opacity-100" : "opacity-0"
+          }`}
+        >
+          <BeastGrid
+            beasts={filteredBeasts}
+            collectedIds={collectedIds}
+            onToggleCollect={handleToggleCollect}
+            onViewDetail={handleViewDetail}
+            onShare={handleShare}
+            onClearFilters={handleClearFilters}
+          />
+        </div>
+      </div>
 
- <BeastDetail
- beast={selectedBeast}
- collected={selectedBeast ? collectedIds.includes(selectedBeast.id) : false}
- collectedCount={collectedIds.length}
- currentDescription={currentDescription}
- onClose={handleCloseDetail}
- onToggleCollect={handleToggleCollect}
- onDescription={handleDescription}
- />
+      <BeastDetail
+        beast={selectedBeast}
+        collected={selectedBeast ? collectedIds.includes(selectedBeast.id) : false}
+        collectedCount={collectedIds.length}
+        currentDescription={currentDescription}
+        onClose={handleCloseDetail}
+        onToggleCollect={handleToggleCollect}
+        onDescription={handleDescription}
+        onShare={handleShare}
+      />
 
- <BeastShareModal
- open={!!shareBeast}
- onClose={() => setShareBeast(null)}
- beast={shareBeast}
- />
+      <BeastShareModal
+        open={!!shareBeast}
+        onClose={() => setShareBeast(null)}
+        beast={shareBeast}
+      />
 
- <AchievementModal
- open={showAchievement}
- onClose={() => setShowAchievement(false)}
- />
- </main>
- );
+      <AchievementModal
+        open={showAchievement}
+        onClose={() => setShowAchievement(false)}
+      />
+    </main>
+  );
 }
