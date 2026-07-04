@@ -14,7 +14,7 @@ export interface Achievement {
 }
 
 const TOTAL_CHAPTERS = 10;
-const TOTAL_POEMS = 12;
+const TOTAL_POEMS = 18;
 const TOTAL_BEASTS = 30;
 const TOTAL_CHARACTERS = 9;
 
@@ -80,7 +80,7 @@ export function getAchievements(): Achievement[] {
     {
       id: "all-poems",
       title: "诗境大成",
-      description: "完整阅读全部12首诗",
+      description: "完整阅读全部18首诗",
       icon: "✨",
       unlocked: poemCount >= TOTAL_POEMS,
       progress: { current: poemCount, total: TOTAL_POEMS },

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import type { Poem } from "@/data/poems";
 import CoverSlide from "./CoverSlide";
 import PoemLineSlide from "./PoemLineSlide";
@@ -16,6 +16,7 @@ interface ImmersiveReaderProps {
 
 export default function ImmersiveReader({ poem, onBack }: ImmersiveReaderProps) {
  const containerRef = useRef<HTMLDivElement>(null);
+ const touchStartRef = useRef<{ x: number; y: number } | null>(null);
  const [currentSlide, setCurrentSlide] = useState(0);
  const totalSlides = poem.lines.length + 2;
  const { setNavbarVisible } = useNavbarVisibility();
@@ -48,6 +49,34 @@ export default function ImmersiveReader({ poem, onBack }: ImmersiveReaderProps) 
   return () => setNavbarVisible(true);
  }, [setNavbarVisible]);
 
+ const handleTouchStart = useCallback((e: React.TouchEvent) => {
+   const touch = e.touches[0];
+   if (touch) {
+     touchStartRef.current = { x: touch.clientX, y: touch.clientY };
+   }
+ }, []);
+
+ const handleTouchEnd = useCallback(
+   (e: React.TouchEvent) => {
+     if (!touchStartRef.current) return;
+     const touch = e.changedTouches[0];
+     if (!touch) return;
+
+     const dx = touch.clientX - touchStartRef.current.x;
+     const dy = touch.clientY - touchStartRef.current.y;
+     touchStartRef.current = null;
+
+     if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy) * 1.5) {
+       if (dx < 0) {
+         setCurrentSlide((prev) => Math.min(prev + 1, totalSlides - 1));
+       } else {
+         setCurrentSlide((prev) => Math.max(prev - 1, 0));
+       }
+     }
+   },
+   [totalSlides]
+ );
+
  const handleDotClick = (index: number) => {
  const container = containerRef.current;
  if (!container) return;
@@ -74,6 +103,8 @@ export default function ImmersiveReader({ poem, onBack }: ImmersiveReaderProps) 
       ref={containerRef}
       className="immersive-container fixed inset-0 z-40 h-screen w-screen overflow-y-auto bg-immersive-bg"
       style={{ scrollSnapType: "y mandatory" }}
+      onTouchStart={handleTouchStart}
+      onTouchEnd={handleTouchEnd}
     >
       {/* Back button with safe area support */}
       <button

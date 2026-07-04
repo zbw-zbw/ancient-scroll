@@ -9,6 +9,20 @@ interface ReadAloudButtonProps {
 export default function ReadAloudButton({ text }: ReadAloudButtonProps) {
   const [speaking, setSpeaking] = useState(false);
   const utteranceRef = useRef<SpeechSynthesisUtterance | null>(null);
+  const voicesLoadedRef = useRef(false);
+
+  // Load Chinese voices
+  useEffect(() => {
+    if (typeof window === "undefined" || !window.speechSynthesis) return;
+
+    const loadVoices = () => {
+      const voices = window.speechSynthesis.getVoices();
+      if (voices.length > 0) voicesLoadedRef.current = true;
+    };
+
+    loadVoices();
+    window.speechSynthesis.onvoiceschanged = loadVoices;
+  }, []);
 
   // Stop speech on unmount
   useEffect(() => {
@@ -19,20 +33,16 @@ export default function ReadAloudButton({ text }: ReadAloudButtonProps) {
     };
   }, []);
 
-  // Sync speaking state with speechSynthesis
-  useEffect(() => {
-    if (typeof window === "undefined" || !window.speechSynthesis) return;
-
-    const handleEnd = () => setSpeaking(false);
-    const handleError = () => setSpeaking(false);
-
-    window.speechSynthesis.addEventListener("end", handleEnd);
-    window.speechSynthesis.addEventListener("error", handleError);
-
-    return () => {
-      window.speechSynthesis.removeEventListener("end", handleEnd);
-      window.speechSynthesis.removeEventListener("error", handleError);
-    };
+  const getZhVoice = useCallback((): SpeechSynthesisVoice | undefined => {
+    if (typeof window === "undefined" || !window.speechSynthesis) return undefined;
+    const voices = window.speechSynthesis.getVoices();
+    // Prefer zh-CN female voice, then any zh voice
+    return (
+      voices.find((v) => v.lang === "zh-CN" && v.name.includes("Female")) ||
+      voices.find((v) => v.lang === "zh-CN") ||
+      voices.find((v) => v.lang.startsWith("zh")) ||
+      undefined
+    );
   }, []);
 
   const handleClick = useCallback(() => {
@@ -49,28 +59,34 @@ export default function ReadAloudButton({ text }: ReadAloudButtonProps) {
     utterance.rate = 0.85;
     utterance.pitch = 1;
 
+    // Set Chinese voice if available
+    const zhVoice = getZhVoice();
+    if (zhVoice) utterance.voice = zhVoice;
+
+    // Use utterance-level callbacks only (no global listeners to avoid race conditions)
     utterance.onend = () => setSpeaking(false);
     utterance.onerror = () => setSpeaking(false);
 
     utteranceRef.current = utterance;
     setSpeaking(true);
     window.speechSynthesis.speak(utterance);
-  }, [text]);
+  }, [text, getZhVoice]);
 
-  // Hide button if speechSynthesis not available
-  if (typeof window !== "undefined" && !window.speechSynthesis) {
+  // SSR guard
+  if (typeof window === "undefined" || !window.speechSynthesis) {
     return null;
   }
 
   return (
     <button
       onClick={handleClick}
-      className={`inline-flex items-center gap-1 rounded-full px-3 py-1.5 font-serif text-xs transition-all active:scale-95 ${
+      className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 min-h-[36px] font-serif text-xs transition-all active:scale-95 ${
         speaking
           ? "bg-cinnabar/10 text-cinnabar"
           : "bg-ink/5 text-light-ink hover:bg-ink/10"
       }`}
       title={speaking ? "停止朗读" : "朗读原文"}
+      aria-pressed={speaking}
     >
       {speaking ? (
         <>

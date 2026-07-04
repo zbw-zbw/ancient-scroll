@@ -241,6 +241,18 @@ footer {
   animation: heart-beat 0.4s ease-in-out;
 }
 
+/* Trophy pop animation (replaces infinite bounce) */
+@keyframes trophy-pop {
+  0% { transform: scale(0); }
+  60% { transform: scale(1.15); }
+  80% { transform: scale(0.95); }
+  100% { transform: scale(1); }
+}
+
+.animate-trophy-pop {
+  animation: trophy-pop 0.5s ease-out forwards;
+}
+
 /* Ink spread decoration */
 @keyframes ink-spread {
   0% {
@@ -338,6 +350,13 @@ footer {
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
   transform: translateZ(0);
+}
+
+/* Highlighted character focus styles */
+[data-char-highlight]:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--cinnabar, #c84032);
+  border-radius: 2px;
 }
 
 @media (hover: hover) {

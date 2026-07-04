@@ -4,17 +4,28 @@ import { useState, useEffect, useCallback, useRef } from "react";
 import PageHeader from "@/components/PageHeader";
 import { useToast } from "@/components/Toast";
 import { downloadBackup, importData, clearAllData, getDataStats } from "@/lib/dataManager";
+import { getReadingPrefs, saveReadingPrefs, type ReadingPrefs } from "@/lib/progress";
 
 export default function SettingsPage() {
   const { toast } = useToast();
   const [stats, setStats] = useState({ totalKeys: 0, estimatedSize: 0 });
   const [clearStep, setClearStep] = useState(0);
   const [importing, setImporting] = useState(false);
+  const [prefs, setPrefs] = useState<ReadingPrefs>({
+    fontSize: "md",
+    showTranslation: true,
+  });
+  const [speechRate, setSpeechRate] = useState(0.85);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const clearTimerRef = useRef<ReturnType<typeof setTimeout>>(undefined);
 
   useEffect(() => {
     setStats(getDataStats());
+    const savedPrefs = getReadingPrefs();
+    setPrefs(savedPrefs);
+    // Load speech rate from localStorage
+    const savedRate = localStorage.getItem("ancient-scroll-speech-rate");
+    if (savedRate) setSpeechRate(parseFloat(savedRate));
   }, []);
 
   const handleExport = useCallback(() => {
@@ -70,6 +81,97 @@ export default function SettingsPage() {
       <PageHeader title="设置" subtitle="数据管理与偏好设置" />
 
       <div className="mx-auto max-w-[700px] pt-8 md:pt-12 space-y-8">
+        {/* Preferences Section */}
+        <section className="rounded-2xl bg-surface/60 p-6 md:p-8">
+          <h2 className="font-calligraphy text-xl text-ink mb-1">阅读偏好</h2>
+          <p className="font-serif text-xs text-muted mb-6">自定义你的阅读体验</p>
+
+          <div className="space-y-6">
+            {/* Font Size */}
+            <div className="flex items-center justify-between gap-4">
+              <div>
+                <p className="font-serif text-sm text-ink">默认字号</p>
+                <p className="font-serif text-xs text-muted">阅读页面的文字大小</p>
+              </div>
+              <div className="flex items-center gap-1 rounded-full bg-xuan/50 p-1">
+                {(["sm", "md", "lg"] as const).map((size) => (
+                  <button
+                    key={size}
+                    onClick={() => {
+                      const newPrefs = { ...prefs, fontSize: size };
+                      setPrefs(newPrefs);
+                      saveReadingPrefs(newPrefs);
+                      toast("字号已更新", "success");
+                    }}
+                    className={`rounded-full px-4 py-1.5 min-h-[36px] font-serif text-xs transition-colors ${
+                      prefs.fontSize === size
+                        ? "bg-cinnabar/10 text-cinnabar"
+                        : "text-light-ink hover:bg-surface"
+                    }`}
+                  >
+                    {size === "sm" ? "小" : size === "md" ? "中" : "大"}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Show Translation Default */}
+            <div className="flex items-center justify-between gap-4">
+              <div>
+                <p className="font-serif text-sm text-ink">默认显示译文</p>
+                <p className="font-serif text-xs text-muted">阅读时是否默认显示白话翻译</p>
+              </div>
+              <button
+                onClick={() => {
+                  const newPrefs = { ...prefs, showTranslation: !prefs.showTranslation };
+                  setPrefs(newPrefs);
+                  saveReadingPrefs(newPrefs);
+                  toast(newPrefs.showTranslation ? "已开启默认译文" : "已关闭默认译文", "success");
+                }}
+                className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
+                  prefs.showTranslation ? "bg-cinnabar" : "bg-ink/20"
+                }`}
+                role="switch"
+                aria-checked={prefs.showTranslation}
+              >
+                <span className={`inline-block h-4 w-4 rounded-full bg-white shadow-sm transition-transform ${
+                  prefs.showTranslation ? "translate-x-6" : "translate-x-1"
+                }`} />
+              </button>
+            </div>
+
+            {/* Speech Rate */}
+            <div>
+              <div className="flex items-center justify-between mb-3">
+                <div>
+                  <p className="font-serif text-sm text-ink">朗读语速</p>
+                  <p className="font-serif text-xs text-muted">古文朗读的语速</p>
+                </div>
+                <span className="font-serif text-xs text-cinnabar">
+                  {speechRate < 0.8 ? "慢速" : speechRate <= 0.9 ? "正常" : "快速"}
+                </span>
+              </div>
+              <input
+                type="range"
+                min="0.5"
+                max="1.2"
+                step="0.05"
+                value={speechRate}
+                onChange={(e) => {
+                  const rate = parseFloat(e.target.value);
+                  setSpeechRate(rate);
+                  localStorage.setItem("ancient-scroll-speech-rate", String(rate));
+                }}
+                className="w-full h-1.5 rounded-full bg-ink/10 appearance-none cursor-pointer accent-cinnabar"
+              />
+              <div className="mt-1 flex justify-between font-serif text-xs text-muted">
+                <span>慢</span>
+                <span>快</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
         {/* Data Backup Section */}
         <section className="rounded-2xl bg-surface/60 p-6 md:p-8">
           <h2 className="font-calligraphy text-xl text-ink mb-1">数据备份</h2>
