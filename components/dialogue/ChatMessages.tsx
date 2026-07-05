@@ -18,6 +18,7 @@ interface ChatMessagesProps {
   isStreaming: boolean;
   showSuggestions: boolean;
   onSelectQuestion: (question: string) => void;
+  onRegenerate?: () => void;
 }
 
 // Assign stable IDs to messages that lack them (for localStorage restored messages)
@@ -37,6 +38,7 @@ export default function ChatMessages({
   isStreaming,
   showSuggestions,
   onSelectQuestion,
+  onRegenerate,
 }: ChatMessagesProps) {
   const scrollRef = useRef<HTMLDivElement>(null);
   const prevMessageCountRef = useRef(messages.length);
@@ -69,16 +71,25 @@ export default function ChatMessages({
       }}
     >
       <div className="mx-auto max-w-[900px] space-y-5 px-4 py-6 md:space-y-6 md:px-6 md:py-8">
-        {stableMessages.map((message) => (
-          <ChatBubble
-            key={message.id}
-            role={message.role}
-            content={message.content}
-            characterAvatarPath={character.avatarPath}
-            characterName={character.name}
-            characterColor={character.color}
-          />
-        ))}
+        {stableMessages.map((message, index) => {
+          const isLastAssistant =
+            !isStreaming &&
+            onRegenerate &&
+            message.role === "assistant" &&
+            index === stableMessages.length - 1;
+          return (
+            <ChatBubble
+              key={message.id}
+              role={message.role}
+              content={message.content}
+              characterAvatarPath={character.avatarPath}
+              characterName={character.name}
+              characterColor={character.color}
+              showRegenerate={isLastAssistant}
+              onRegenerate={onRegenerate}
+            />
+          );
+        })}
 
         {isStreaming && (
           <ChatBubble

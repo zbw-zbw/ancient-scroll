@@ -58,6 +58,28 @@ export default function ReadingClient() {
    [selectedChapterId]
  );
 
+ const chapterIndex = chapters.findIndex((c) => c.id === selectedChapterId);
+ const hasPrev = chapterIndex > 0;
+ const hasNext = chapterIndex >= 0 && chapterIndex < chapters.length - 1;
+
+ const handlePrevChapter = () => {
+   if (hasPrev) {
+     const prevId = chapters[chapterIndex - 1].id;
+     setSelectedChapterId(prevId);
+     markChapterRead(prevId);
+     setLastReadChapter(prevId);
+   }
+ };
+
+ const handleNextChapter = () => {
+   if (hasNext) {
+     const nextId = chapters[chapterIndex + 1].id;
+     setSelectedChapterId(nextId);
+     markChapterRead(nextId);
+     setLastReadChapter(nextId);
+   }
+ };
+
  // Track last read chapter on initial load and chapter change
  useEffect(() => {
    setLastReadChapter(selectedChapterId);
@@ -119,6 +141,10 @@ export default function ReadingClient() {
  onShowTranslationChange={setShowTranslation}
  onCharClick={handleCharClick}
  onTranslation={handleTranslation}
+ onPrevChapter={handlePrevChapter}
+ onNextChapter={handleNextChapter}
+ hasPrev={hasPrev}
+ hasNext={hasNext}
  />
  </div>
 

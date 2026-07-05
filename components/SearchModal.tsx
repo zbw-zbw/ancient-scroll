@@ -265,36 +265,13 @@ export default function SearchModal({
     resultRefs.current = [];
   }, [query]);
 
-  // Escape + lock body scroll + keyboard navigation
+  // Escape + lock body scroll (keyboard navigation handled by handleResultKeyDown on input)
   useEffect(() => {
     if (!open) return;
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
         onClose();
         return;
-      }
-
-      const tag = (e.target as HTMLElement)?.tagName;
-      const isTypingInField = tag === "INPUT" || tag === "TEXTAREA" || (e.target as HTMLElement)?.isContentEditable;
-
-      if (!isTypingInField) return;
-
-      if (e.target === inputRef.current) {
-        if (e.key === "ArrowDown") {
-          e.preventDefault();
-          setActiveIndex(0);
-        } else if (e.key === "ArrowUp") {
-          e.preventDefault();
-          setActiveIndex(flatResults.length - 1);
-        } else if (e.key === "Enter") {
-          e.preventDefault();
-          if (activeIndex >= 0) {
-            resultRefs.current[activeIndex]?.click();
-          } else if (flatResults.length > 0) {
-            // No result selected — navigate to the first result
-            resultRefs.current[0]?.click();
-          }
-        }
       }
     };
     document.addEventListener("keydown", handleKeyDown);
@@ -303,7 +280,7 @@ export default function SearchModal({
       document.removeEventListener("keydown", handleKeyDown);
       document.body.style.overflow = "";
     };
-  }, [open, onClose, activeIndex, flatResults.length]);
+  }, [open, onClose]);
 
   // Scroll active result into view
   useEffect(() => {

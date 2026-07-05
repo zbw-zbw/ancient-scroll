@@ -75,7 +75,7 @@ function getRecommendations(seed: number): Recommendation[] {
       id: ch.id,
       title: ch.name,
       subtitle: `${ch.era} · ${ch.title}`,
-      href: `/dialogue?id=${ch.id}`,
+      href: `/dialogue?character=${ch.id}`,
       emoji: "人",
       color: "from-emerald-600/20 to-green-600/10",
     });

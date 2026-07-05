@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 interface ReadAloudButtonProps {
   text: string;
@@ -8,18 +8,19 @@ interface ReadAloudButtonProps {
 
 export default function ReadAloudButton({ text }: ReadAloudButtonProps) {
   const [speaking, setSpeaking] = useState(false);
-  const utteranceRef = useRef<SpeechSynthesisUtterance | null>(null);
-  const voicesLoadedRef = useRef(false);
+  const [mounted, setMounted] = useState(false);
+
+  // Mount guard to prevent hydration mismatch
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   // Load Chinese voices
   useEffect(() => {
     if (typeof window === "undefined" || !window.speechSynthesis) return;
-
     const loadVoices = () => {
-      const voices = window.speechSynthesis.getVoices();
-      if (voices.length > 0) voicesLoadedRef.current = true;
+      window.speechSynthesis.getVoices();
     };
-
     loadVoices();
     window.speechSynthesis.onvoiceschanged = loadVoices;
   }, []);
@@ -36,7 +37,6 @@ export default function ReadAloudButton({ text }: ReadAloudButtonProps) {
   const getZhVoice = useCallback((): SpeechSynthesisVoice | undefined => {
     if (typeof window === "undefined" || !window.speechSynthesis) return undefined;
     const voices = window.speechSynthesis.getVoices();
-    // Prefer zh-CN female voice, then any zh voice
     return (
       voices.find((v) => v.lang === "zh-CN" && v.name.includes("Female")) ||
       voices.find((v) => v.lang === "zh-CN") ||
@@ -56,23 +56,30 @@ export default function ReadAloudButton({ text }: ReadAloudButtonProps) {
 
     const utterance = new SpeechSynthesisUtterance(text);
     utterance.lang = "zh-CN";
-    utterance.rate = 0.85;
+    // Load speech rate from settings
+    const savedRate = localStorage.getItem("ancient-scroll-speech-rate");
+    utterance.rate = savedRate ? parseFloat(savedRate) : 0.85;
     utterance.pitch = 1;
 
-    // Set Chinese voice if available
     const zhVoice = getZhVoice();
     if (zhVoice) utterance.voice = zhVoice;
 
-    // Use utterance-level callbacks only (no global listeners to avoid race conditions)
     utterance.onend = () => setSpeaking(false);
     utterance.onerror = () => setSpeaking(false);
 
-    utteranceRef.current = utterance;
     setSpeaking(true);
     window.speechSynthesis.speak(utterance);
   }, [text, getZhVoice]);
 
-  // SSR guard
+  // Render placeholder until mounted (prevents hydration mismatch)
+  if (!mounted) {
+    return (
+      <span className="inline-flex items-center gap-1.5 rounded-full bg-ink/5 px-3 py-1.5 min-h-[36px] font-serif text-xs text-light-ink opacity-0">
+        朗读
+      </span>
+    );
+  }
+
   if (typeof window === "undefined" || !window.speechSynthesis) {
     return null;
   }

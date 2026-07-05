@@ -60,6 +60,7 @@ export default function RootLayout({
     <html lang="zh-CN" className={`${maShanZheng.variable} ${notoSerifSC.variable} ${longCang.variable} antialiased`}>
       <head>
         <script dangerouslySetInnerHTML={{ __html: `
+          document.documentElement.classList.add('js');
           try {
             const theme = localStorage.getItem('theme');
             if (theme === 'dark' || (!theme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {

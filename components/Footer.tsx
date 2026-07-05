@@ -167,7 +167,7 @@ export default function Footer() {
 
           {/* Bottom bar */}
           <div className="mt-12 flex flex-col items-center justify-between gap-3 font-serif text-xs text-muted md:flex-row">
-            <span>2026 · 06</span>
+            <span>{new Date().getFullYear()} · {String(new Date().getMonth() + 1).padStart(2, "0")}</span>
             <span>让千年文字"活"起来</span>
           </div>
         </div>

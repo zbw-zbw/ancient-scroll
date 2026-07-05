@@ -115,23 +115,43 @@ export default function ChatInterface({
   );
 
   // Auto-send prefilled question (e.g., from reading page "问问古人")
+  const handleSendRef = useRef(handleSend);
+  handleSendRef.current = handleSend;
+
   useEffect(() => {
     if (prefilledAsk && !autoSentRef.current) {
       autoSentRef.current = true;
       const timer = setTimeout(() => {
-        handleSend(prefilledAsk);
+        handleSendRef.current(prefilledAsk);
       }, 500);
       return () => clearTimeout(timer);
     }
-  }, [prefilledAsk, handleSend]);
+  }, [prefilledAsk]);
 
   const handleClear = useCallback(() => {
- setMessages([{ role: "assistant", content: character.greeting }]);
- localStorage.removeItem(`${STORAGE_KEY}-${character.id}`);
- setStreamingContent("");
- setShowSuggestions(true);
- setInputValue("");
- }, [character.greeting, character.id]);
+    setMessages([{ role: "assistant", content: character.greeting }]);
+    localStorage.removeItem(`${STORAGE_KEY}-${character.id}`);
+    setStreamingContent("");
+    setShowSuggestions(true);
+    setInputValue("");
+  }, [character.greeting, character.id]);
+
+  // Regenerate the last assistant response
+  const handleRegenerate = useCallback(() => {
+    if (isStreaming) return;
+    // Find the last user message
+    const lastUserMsg = [...messages].reverse().find((m) => m.role === "user");
+    if (!lastUserMsg) return;
+    // Remove the last assistant message
+    const newMessages = messages.filter((m, i) => {
+      // Keep all messages except the last assistant one
+      if (m.role === "assistant" && i === messages.length - 1) return false;
+      return true;
+    });
+    setMessages(newMessages);
+    // Re-send the last user message
+    setTimeout(() => handleSendRef.current(lastUserMsg.content), 100);
+  }, [messages, isStreaming]);
 
  // Scroll messages to bottom when mobile keyboard opens/closes
  useEffect(() => {
@@ -153,12 +173,13 @@ export default function ChatInterface({
  onClear={handleClear}
  />
  <ChatMessages
- character={character}
- messages={messages}
- streamingContent={streamingContent}
- isStreaming={isStreaming}
- showSuggestions={showSuggestions}
- onSelectQuestion={handleSend}
+        character={character}
+        messages={messages}
+        streamingContent={streamingContent}
+        isStreaming={isStreaming}
+        showSuggestions={showSuggestions}
+        onSelectQuestion={handleSend}
+        onRegenerate={handleRegenerate}
  />
  <ChatInput
  value={inputValue}

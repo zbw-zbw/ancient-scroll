@@ -14,6 +14,8 @@ interface ChatBubbleProps {
   characterColor?: string;
   isStreaming?: boolean;
   isThinking?: boolean;
+  showRegenerate?: boolean;
+  onRegenerate?: () => void;
 }
 
 function ChatBubbleImpl({
@@ -24,6 +26,8 @@ function ChatBubbleImpl({
   characterColor,
   isStreaming,
   isThinking,
+  showRegenerate,
+  onRegenerate,
 }: ChatBubbleProps) {
   const isUser = role === "user";
   const { toast } = useToast();
@@ -120,19 +124,34 @@ function ChatBubbleImpl({
           )}
           {isStreaming && !isThinking && <StreamingCursor />}
 
-          {/* Copy button (visible on hover, for assistant messages) */}
+          {/* Copy button + Regenerate button (visible on hover, for assistant messages) */}
           {!isUser && !isStreaming && !isThinking && content.length > 0 && (
-            <button
-              onClick={handleCopy}
-              className="absolute -bottom-1 right-2 translate-y-full opacity-0 transition-opacity group-hover:opacity-100 rounded-md p-1 text-muted hover:text-cinnabar"
-              aria-label="复制消息"
-              title="复制"
-            >
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-3.5 w-3.5">
-                <rect width="14" height="14" x="8" y="8" rx="2" ry="2" />
-                <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" />
-              </svg>
-            </button>
+            <div className="absolute -bottom-1 right-2 flex translate-y-full items-center gap-1 opacity-0 transition-opacity group-hover:opacity-100">
+              {showRegenerate && onRegenerate && (
+                <button
+                  onClick={onRegenerate}
+                  className="rounded-md p-1 text-muted hover:text-cinnabar"
+                  aria-label="重新生成回复"
+                  title="重新生成"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-3.5 w-3.5">
+                    <path d="M21 12a9 9 0 1 1-9-9c2.52 0 4.93 1 6.74 2.74L21 8" />
+                    <path d="M21 3v5h-5" />
+                  </svg>
+                </button>
+              )}
+              <button
+                onClick={handleCopy}
+                className="rounded-md p-1 text-muted hover:text-cinnabar"
+                aria-label="复制消息"
+                title="复制"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-3.5 w-3.5">
+                  <rect width="14" height="14" x="8" y="8" rx="2" ry="2" />
+                  <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" />
+                </svg>
+              </button>
+            </div>
           )}
         </div>
       </div>

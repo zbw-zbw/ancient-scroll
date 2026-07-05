@@ -254,53 +254,14 @@ footer {
   animation: trophy-pop 0.5s ease-out forwards;
 }
 
-/* Ink spread decoration */
-@keyframes ink-spread {
-  0% {
-    transform: scale(0.8);
-    opacity: 0.03;
-  }
-  50% {
-    transform: scale(1.1);
-    opacity: 0.06;
-  }
-  100% {
-    transform: scale(0.8);
-    opacity: 0.03;
-  }
-}
-
-/* Falling Chinese characters */
-@keyframes fall-char {
-  0% {
-    transform: translateY(-120vh) rotate(0deg);
-    opacity: 0;
-  }
-  10% {
-    opacity: 0.12;
-  }
-  90% {
-    opacity: 0.12;
-  }
-  100% {
-    transform: translateY(120vh) rotate(20deg);
-    opacity: 0;
-  }
-}
-
-/* Scroll reveal - visible by default, animated when JS is enabled */
-.fade-in {
+/* Scroll reveal - visible by default (no-JS fallback), animated only when JS is enabled */
+.js .fade-in {
   opacity: 0;
   transform: translateY(40px);
   transition: opacity 0.8s ease, transform 0.8s ease;
 }
 
 .fade-in.visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.js-enabled .fade-in.visible {
   opacity: 1;
   transform: translateY(0);
 }
@@ -430,16 +391,6 @@ footer {
 .slide {
   min-height: 100vh;
   scroll-snap-align: start;
-}
-
-/* Floating emoji */
-@keyframes float {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-12px); }
-}
-
-.animate-float {
-  animation: float 4s ease-in-out infinite;
 }
 
 /* Falling particles */

@@ -2,7 +2,7 @@
 
 import { useEffect, useState, useMemo } from "react";
 import Link from "next/link";
-import { getLastReadChapter, getReadHistory, getCompletionRate, markChapterRead } from "@/lib/progress";
+import { getLastReadChapter, getReadHistory, getCompletionRate } from "@/lib/progress";
 import { chapters } from "@/data/shanhaijing";
 
 export default function ContinueReading() {
@@ -27,16 +27,6 @@ export default function ContinueReading() {
   }, [lastChapterId]);
 
   if (!chapter) return null;
-
-  const chapterProgress = (() => {
-    const progress = getCompletionRate();
-    const totalChapters = 10;
-    const totalBeasts = 30;
-    const totalPoems = 18;
-    const totalDialogues = 9;
-    const total = totalChapters + totalBeasts + totalPoems + totalDialogues;
-    return total > 0 ? Math.round((progress / 100) * total) : 0;
-  })();
 
   const timeAgo = (() => {
     if (!timestamp) return "";
