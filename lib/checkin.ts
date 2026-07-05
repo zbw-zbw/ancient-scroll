@@ -87,6 +87,10 @@ export function checkIn(): CheckinData {
   }
 
   saveCheckinData(data);
+  // Dispatch event so AchievementWatcher and other components can react
+  if (typeof window !== "undefined") {
+    window.dispatchEvent(new Event("ancient-scroll:progress-changed"));
+  }
   return data;
 }
 
@@ -103,6 +107,19 @@ export function getStreakInfo(): StreakInfo {
   const today = getToday();
   const yesterday = getYesterday();
   const todayDate = new Date(today);
+
+  // Recalculate current streak based on last check-in date
+  // to handle the case where the user missed a day (streak should reset)
+  let actualCurrentStreak = data.currentStreak;
+  if (data.dates.length > 0) {
+    const sortedDates = [...data.dates].sort().reverse();
+    const lastCheckIn = sortedDates[0];
+    if (lastCheckIn !== today && lastCheckIn !== yesterday) {
+      // Last check-in was neither today nor yesterday → streak broken
+      actualCurrentStreak = 0;
+    }
+    // If last check-in is today or yesterday, the stored streak is still valid
+  }
 
   // Get the Monday of the current week
   const dayOfWeek = todayDate.getDay(); // 0 = Sunday
@@ -125,7 +142,7 @@ export function getStreakInfo(): StreakInfo {
   });
 
   return {
-    currentStreak: data.currentStreak,
+    currentStreak: actualCurrentStreak,
     longestStreak: data.longestStreak,
     checkedInToday: data.dates.includes(today),
     checkedInYesterday: data.dates.includes(yesterday),

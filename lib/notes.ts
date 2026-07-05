@@ -1,5 +1,10 @@
 const NOTES_KEY = "ancient-scroll-reading-notes";
 
+import { chapters } from "@/data/shanhaijing";
+
+const chapterNameMap = new Map<string, string>();
+for (const c of chapters) chapterNameMap.set(c.id, c.name);
+
 export interface ReadingNote {
   id: string;
   sentenceId: string;
@@ -81,6 +86,8 @@ export function saveNote(note: ReadingNote) {
   }
   try {
     localStorage.setItem(NOTES_KEY, JSON.stringify(notes));
+    // Dispatch event so AchievementWatcher and other components can react
+    window.dispatchEvent(new Event("ancient-scroll:progress-changed"));
   } catch {}
 }
 
@@ -122,7 +129,7 @@ export function exportNotesAsMarkdown(): string {
   ];
 
   for (const [chapterId, chapterNotes] of grouped) {
-    lines.push(`## ${chapterId}`);
+    lines.push(`## ${chapterNameMap.get(chapterId) || chapterId}`);
     lines.push("");
     for (const note of chapterNotes) {
       lines.push(`### 「${note.char}」`);

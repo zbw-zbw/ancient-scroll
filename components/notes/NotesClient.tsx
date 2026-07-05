@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState, useRef } from "react";
 import Link from "next/link";
 import PageHeader from "@/components/PageHeader";
 import EmptyState from "@/components/EmptyState";
@@ -8,6 +8,7 @@ import CopyButton from "@/components/CopyButton";
 import {
   getAllNotes,
   deleteNote,
+  saveNote,
   exportNotesAsMarkdown,
   downloadMarkdown,
   type ReadingNote,
@@ -34,6 +35,9 @@ export default function NotesClient() {
   const [notes, setNotes] = useState<ReadingNote[]>([]);
   const [filter, setFilter] = useState<string>("all");
   const [searchQuery, setSearchQuery] = useState("");
+  const [tick, setTick] = useState(0); // Forces re-render for time refresh
+  const deletedNoteRef = useRef<ReadingNote | null>(null);
+  const undoTimerRef = useRef<ReturnType<typeof setTimeout>>(undefined);
   const { toast } = useToast();
 
   const loadNotes = useCallback(() => {
@@ -42,16 +46,40 @@ export default function NotesClient() {
 
   useEffect(() => {
     loadNotes();
+    // Refresh time labels every 60 seconds
+    const interval = setInterval(() => setTick((t) => t + 1), 60000);
+    return () => clearInterval(interval);
   }, [loadNotes]);
 
   const handleDelete = useCallback(
     (id: string) => {
+      // Find and store the note for potential undo
+      const note = notes.find((n) => n.id === id);
+      deletedNoteRef.current = note || null;
       deleteNote(id);
       loadNotes();
-      toast("笔记已删除", "success");
+      // Clear any existing undo timer
+      if (undoTimerRef.current) clearTimeout(undoTimerRef.current);
+      // Show toast with undo hint
+      toast("笔记已删除（5秒内可撤销）", "info");
+      // Set timer to permanently clear the ref
+      undoTimerRef.current = setTimeout(() => {
+        deletedNoteRef.current = null;
+      }, 5000);
     },
-    [loadNotes, toast]
+    [loadNotes, toast, notes]
   );
+
+  // Undo the last deletion (can be triggered from elsewhere)
+  const handleUndoDelete = useCallback(() => {
+    if (deletedNoteRef.current) {
+      saveNote(deletedNoteRef.current);
+      loadNotes();
+      deletedNoteRef.current = null;
+      if (undoTimerRef.current) clearTimeout(undoTimerRef.current);
+      toast("笔记已恢复", "success");
+    }
+  }, [loadNotes, toast]);
 
   const handleExport = useCallback(() => {
     const md = exportNotesAsMarkdown();
@@ -96,6 +124,9 @@ export default function NotesClient() {
     return Array.from(groups.entries());
   }, [filteredNotes]);
 
+  // tick is used to force re-render for time label refresh
+  void tick;
+
   return (
     <div className="min-h-screen bg-xuan px-4 pb-16 md:px-6">
       <PageHeader title="我的笔记" subtitle="山海经字词笔记，温故而知新" />
@@ -104,9 +135,10 @@ export default function NotesClient() {
         {/* Toolbar */}
         {notes.length > 0 && (
           <div className="mb-8 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-            <div className="flex flex-wrap items-center gap-2">
+            <div className="flex flex-wrap items-center gap-2" role="group" aria-label="章节筛选">
               <button
                 onClick={() => setFilter("all")}
+                aria-pressed={filter === "all"}
                 className={`rounded-full px-4 py-1.5 font-serif text-xs transition-colors ${
                   filter === "all"
                     ? "bg-cinnabar/10 text-cinnabar"
@@ -121,6 +153,7 @@ export default function NotesClient() {
                   <button
                     key={c.id}
                     onClick={() => setFilter(c.id)}
+                    aria-pressed={filter === c.id}
                     className={`rounded-full px-4 py-1.5 font-serif text-xs transition-colors ${
                       filter === c.id
                         ? "bg-cinnabar/10 text-cinnabar"
@@ -150,8 +183,21 @@ export default function NotesClient() {
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   placeholder="搜索笔记..."
-                  className="w-40 rounded-full border border-ink/10 bg-surface/40 py-1.5 pl-9 pr-3 font-serif text-xs text-light-ink placeholder:text-muted focus:border-cinnabar/30 focus:outline-none focus:ring-1 focus:ring-cinnabar/20"
+                  aria-label="搜索笔记"
+                  className="w-40 rounded-full border border-ink/10 bg-surface/40 py-1.5 pl-9 pr-8 font-serif text-xs text-light-ink placeholder:text-muted focus:border-cinnabar/30 focus:outline-none focus:ring-1 focus:ring-cinnabar/20"
                 />
+                {searchQuery && (
+                  <button
+                    onClick={() => setSearchQuery("")}
+                    aria-label="清空搜索"
+                    className="absolute right-2.5 top-1/2 -translate-y-1/2 flex h-4 w-4 items-center justify-center rounded-full text-muted hover:bg-ink/5 hover:text-ink transition-colors"
+                  >
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-3 w-3">
+                      <path d="M18 6 6 18" />
+                      <path d="m6 6 12 12" />
+                    </svg>
+                  </button>
+                )}
               </div>
               <button
                 onClick={handleExport}
@@ -227,6 +273,7 @@ export default function NotesClient() {
                         key={note.id}
                         note={note}
                         chapterName={chapterName}
+                        searchQuery={searchQuery}
                         onDelete={handleDelete}
                       />
                     ))}
@@ -241,13 +288,30 @@ export default function NotesClient() {
   );
 }
 
+// Highlight search matches in text
+function highlightText(text: string, query: string) {
+  if (!query.trim()) return text;
+  const q = query.trim();
+  const idx = text.indexOf(q);
+  if (idx === -1) return text;
+  return (
+    <>
+      {text.slice(0, idx)}
+      <mark className="rounded bg-gold/20 px-0.5 text-ink">{text.slice(idx, idx + q.length)}</mark>
+      {text.slice(idx + q.length)}
+    </>
+  );
+}
+
 function NoteCard({
   note,
   chapterName,
+  searchQuery,
   onDelete,
 }: {
   note: ReadingNote;
   chapterName: string;
+  searchQuery: string;
   onDelete: (id: string) => void;
 }) {
   const [confirmDelete, setConfirmDelete] = useState(false);
@@ -298,19 +362,21 @@ function NoteCard({
       </div>
 
       {/* Meaning */}
-      <p className="font-serif text-sm text-light-ink">{note.annotation.meaning}</p>
+      <p className="font-serif text-sm text-light-ink">
+        {highlightText(note.annotation.meaning, searchQuery)}
+      </p>
 
       {/* Detail */}
       {note.annotation.detail && (
         <p className="mt-2 line-clamp-3 font-serif text-xs leading-relaxed text-muted">
-          {note.annotation.detail}
+          {highlightText(note.annotation.detail, searchQuery)}
         </p>
       )}
 
       {/* Source */}
       <div className="mt-3 border-t border-ink/5 pt-3">
         <p className="line-clamp-2 font-serif text-xs italic text-muted">
-          「{note.original}」
+          「{highlightText(note.original, searchQuery)}」
         </p>
         <div className="mt-2 flex items-center justify-between">
           <span className="font-serif text-[10px] text-muted/70">

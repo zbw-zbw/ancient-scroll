@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 import PageHeader from "@/components/PageHeader";
 import EmptyState from "@/components/EmptyState";
 import { getFavorites, toggleFavoritePoem, toggleFavoriteBeast } from "@/lib/progress";
+import { getCollectedBeasts } from "@/lib/collection";
 import { poems } from "@/data/poems";
 import { beasts } from "@/data/beasts";
 import { categoryLabels } from "@/data/beasts";
@@ -25,17 +26,11 @@ export default function FavoritesClient() {
   const loadFavorites = useCallback(() => {
     const fav = getFavorites();
     // Also check collected beasts from the bestiary's own storage and sync
-    try {
-      const collectedRaw = localStorage.getItem("ancient-scroll-collected-beasts");
-      const collected: string[] = collectedRaw ? JSON.parse(collectedRaw) : [];
-      // Merge: any collected beast that isn't in favorites should be added
-      const mergedBeasts = Array.from(new Set([...fav.favoriteBeasts, ...collected]));
-      setFavoritePoemIds(fav.favoritePoems);
-      setFavoriteBeastIds(mergedBeasts);
-    } catch {
-      setFavoritePoemIds(fav.favoritePoems);
-      setFavoriteBeastIds(fav.favoriteBeasts);
-    }
+    const collected = getCollectedBeasts();
+    // Merge: any collected beast that isn't in favorites should be added
+    const mergedBeasts = Array.from(new Set([...fav.favoriteBeasts, ...collected]));
+    setFavoritePoemIds(fav.favoritePoems);
+    setFavoriteBeastIds(mergedBeasts);
   }, []);
 
   useEffect(() => {
@@ -57,17 +52,6 @@ export default function FavoritesClient() {
   const handleRemoveBeast = useCallback(
     (id: string, name: string) => {
       toggleFavoriteBeast(id);
-      // Also remove from the bestiary's collected-beasts storage
-      try {
-        const raw = localStorage.getItem("ancient-scroll-collected-beasts");
-        const collected: string[] = raw ? JSON.parse(raw) : [];
-        if (collected.includes(id)) {
-          localStorage.setItem(
-            "ancient-scroll-collected-beasts",
-            JSON.stringify(collected.filter((v) => v !== id))
-          );
-        }
-      } catch {}
       loadFavorites();
       toast(`已取消收藏${name}`, "info");
     },
@@ -80,9 +64,12 @@ export default function FavoritesClient() {
 
       <div className="mx-auto max-w-[1100px] pt-8 md:pt-12">
         {/* Tabs */}
-        <div className="mb-8 flex items-center gap-2">
+        <div className="mb-8 flex items-center gap-2" role="tablist" aria-label="收藏分类">
           <button
             onClick={() => setTab("poems")}
+            role="tab"
+            aria-selected={tab === "poems"}
+            aria-pressed={tab === "poems"}
             className={`inline-flex items-center gap-1.5 rounded-full px-5 py-2 font-serif text-sm transition-colors ${
               tab === "poems"
                 ? "bg-cinnabar/10 text-cinnabar"
@@ -98,6 +85,9 @@ export default function FavoritesClient() {
           </button>
           <button
             onClick={() => setTab("beasts")}
+            role="tab"
+            aria-selected={tab === "beasts"}
+            aria-pressed={tab === "beasts"}
             className={`inline-flex items-center gap-1.5 rounded-full px-5 py-2 font-serif text-sm transition-colors ${
               tab === "beasts"
                 ? "bg-cinnabar/10 text-cinnabar"
@@ -142,7 +132,7 @@ export default function FavoritesClient() {
                     key={poem.id}
                     className="card group flex cursor-pointer flex-col relative"
                     style={{ borderTop: `2px solid ${poem.theme}` }}
-                    onClick={() => router.push("/poetry")}
+                    onClick={() => router.push(`/poetry?id=${poem.id}`)}
                   >
                     <div className="relative h-[200px] overflow-hidden img-placeholder" style={{ background: `linear-gradient(135deg, ${poem.theme}40, ${poem.theme}15)` }}>
                       <Image

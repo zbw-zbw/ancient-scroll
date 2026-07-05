@@ -8,8 +8,24 @@ const shortcuts = [
   { keys: "Esc", description: "关闭弹窗" },
   { keys: "?", description: "快捷键帮助" },
   { keys: "G", description: "回首页" },
+  { keys: "R", description: "山海经" },
+  { keys: "P", description: "诗境漫游" },
+  { keys: "D", description: "古今对话" },
+  { keys: "N", description: "我的笔记" },
+  { keys: "F", description: "我的收藏" },
+  { keys: "A", description: "成就殿堂" },
   { keys: "B", description: "返回上一页" },
 ];
+
+const keyToRoute: Record<string, string> = {
+  g: "/",
+  r: "/reading",
+  p: "/poetry",
+  d: "/dialogue",
+  n: "/notes",
+  f: "/favorites",
+  a: "/achievements",
+};
 
 export default function KeyboardShortcuts() {
   const [helpOpen, setHelpOpen] = useState(false);
@@ -32,12 +48,16 @@ export default function KeyboardShortcuts() {
         setHelpOpen((v) => !v);
       } else if (e.key === "Escape" && helpOpen) {
         setHelpOpen(false);
-      } else if (e.key === "g" && !e.ctrlKey && !e.metaKey && !helpOpen) {
-        e.preventDefault();
-        if (pathname !== "/") router.push("/");
       } else if (e.key === "b" && !e.ctrlKey && !e.metaKey && !helpOpen) {
         e.preventDefault();
         router.back();
+      } else {
+        const key = e.key.toLowerCase();
+        const route = keyToRoute[key];
+        if (route && !e.ctrlKey && !e.metaKey && !helpOpen) {
+          e.preventDefault();
+          if (pathname !== route) router.push(route);
+        }
       }
     },
     [helpOpen, pathname, router]

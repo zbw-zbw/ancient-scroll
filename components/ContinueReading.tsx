@@ -80,7 +80,8 @@ export default function ContinueReading() {
                     fill="none"
                     stroke="var(--cinnabar, #c84032)"
                     strokeWidth="2"
-                    strokeDasharray={`${completionRate * 0.9755} 100`}
+                    // CIRCUMFERENCE_RATIO = (2 * π * 15.5) / 100 ≈ 0.9739
+                    strokeDasharray={`${completionRate * 0.9739} 100`}
                     strokeLinecap="round"
                     className="transition-all duration-700"
                   />

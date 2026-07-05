@@ -5,7 +5,6 @@ import Navbar from "@/components/Navbar";
 import KeyboardShortcuts from "@/components/KeyboardShortcuts";
 import ToastProvider from "@/components/Toast";
 import PageTransition from "@/components/PageTransition";
-import ErrorBoundary from "@/components/ErrorBoundary";
 import AchievementWatcher from "@/components/AchievementWatcher";
 import NavbarVisibilityProvider from "@/components/NavbarVisibilityContext";
 
