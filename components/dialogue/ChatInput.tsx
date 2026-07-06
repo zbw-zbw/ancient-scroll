@@ -49,6 +49,7 @@ export default function ChatInput({
           onChange={handleChange}
           onKeyDown={handleKeyDown}
           rows={rows}
+          maxLength={500}
           placeholder="请输入你的问题……"
           disabled={disabled}
           aria-label="输入消息"
@@ -88,9 +89,14 @@ export default function ChatInput({
           )}
         </button>
       </div>
-      <p className="mt-2 text-center font-serif text-xs text-muted">
-        Enter 发送，Shift + Enter 换行
-      </p>
+      <div className="mx-auto flex max-w-[900px] items-center justify-between">
+        <p className="font-serif text-xs text-muted">
+          Enter 发送，Shift + Enter 换行
+        </p>
+        <span className={`font-serif text-xs ${value.length > 450 ? "text-cinnabar" : "text-muted/50"}`}>
+          {value.length}/500
+        </span>
+      </div>
     </div>
   );
 }

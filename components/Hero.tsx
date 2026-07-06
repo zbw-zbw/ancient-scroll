@@ -7,17 +7,21 @@ const title = "古籍焕新";
 
 export default function Hero() {
   const [scrollY, setScrollY] = useState(0);
+  const [viewportHeight, setViewportHeight] = useState(1);
 
   useEffect(() => {
+    const updateHeight = () => setViewportHeight(window.innerHeight);
+    updateHeight();
     const handleScroll = () => setScrollY(window.scrollY);
     window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
+    window.addEventListener("resize", updateHeight, { passive: true });
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("resize", updateHeight);
+    };
   }, []);
 
-  const progress = Math.min(
-    scrollY / (typeof window !== "undefined" ? window.innerHeight : 1),
-    1
-  );
+  const progress = Math.min(scrollY / viewportHeight, 1);
   const bgOpacity = 1 - progress * 0.7;
   const bgY = -progress * 15;
 

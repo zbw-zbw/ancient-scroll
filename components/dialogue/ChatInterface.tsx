@@ -67,11 +67,13 @@ export default function ChatInterface({
  if (!content.trim() || isStreaming) return;
 
  const userMessage: Message = { role: "user", content: content.trim() };
- const updatedMessages = [...messages, userMessage];
- setMessages(updatedMessages);
- setInputValue("");
- setStreamingContent("");
- markDialogue(character.id);
+    const updatedMessages = [...messages, userMessage];
+    setMessages(updatedMessages);
+    setInputValue("");
+    setStreamingContent("");
+    // Collapse suggestions after first user message
+    setShowSuggestions(false);
+    markDialogue(character.id);
 
  await startStreaming(
  "/api/chat",
@@ -129,12 +131,29 @@ export default function ChatInterface({
   }, [prefilledAsk]);
 
   const handleClear = useCallback(() => {
+    // Store previous messages for potential undo
+    const prevMessages = messages;
     setMessages([{ role: "assistant", content: character.greeting }]);
     localStorage.removeItem(`${STORAGE_KEY}-${character.id}`);
     setStreamingContent("");
     setShowSuggestions(true);
     setInputValue("");
-  }, [character.greeting, character.id]);
+    // Provide undo via toast
+    if (prevMessages.length > 1) {
+      toast("对话已清空", "info", {
+        action: {
+          label: "撤销",
+          onClick: () => {
+            setMessages(prevMessages);
+            try {
+              localStorage.setItem(`${STORAGE_KEY}-${character.id}`, JSON.stringify(prevMessages));
+            } catch {}
+            toast("对话已恢复", "success");
+          },
+        },
+      });
+    }
+  }, [character.greeting, character.id, messages, toast]);
 
   // Regenerate the last assistant response
   const handleRegenerate = useCallback(() => {

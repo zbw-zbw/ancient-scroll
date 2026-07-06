@@ -8,6 +8,7 @@ import { useToast } from "@/components/Toast";
 export default function CheckInPanel() {
   const [streakInfo, setStreakInfo] = useState<StreakInfo | null>(null);
   const [justCheckedIn, setJustCheckedIn] = useState(false);
+  const [stampAnim, setStampAnim] = useState(false);
   const { toast } = useToast();
 
   const refresh = useCallback(() => {
@@ -28,6 +29,9 @@ export default function CheckInPanel() {
     refresh();
     const info = getStreakInfo();
     if (info && !justCheckedIn) {
+      // Trigger stamp animation
+      setStampAnim(true);
+      setTimeout(() => setStampAnim(false), 600);
       toast(`签到成功！连续第 ${info.currentStreak} 天`, "success");
     }
   };
@@ -126,12 +130,26 @@ export default function CheckInPanel() {
             <button
               onClick={handleCheckIn}
               disabled={streakInfo.checkedInToday}
-              className={`inline-flex items-center gap-2 rounded-full px-6 py-3 min-h-[44px] font-serif text-sm transition-all duration-300 active:scale-95 ${
+              className={`relative inline-flex items-center gap-2 rounded-full px-6 py-3 min-h-[44px] font-serif text-sm transition-all duration-300 active:scale-95 ${
                 streakInfo.checkedInToday
                   ? "cursor-not-allowed bg-ink/5 text-muted"
                   : "bg-cinnabar text-white shadow-sm hover:bg-cinnabar/90 hover:shadow-md"
               }`}
             >
+              {/* Stamp animation overlay */}
+              {stampAnim && (
+                <span
+                  className="pointer-events-none absolute inset-0 flex items-center justify-center"
+                  aria-hidden="true"
+                >
+                  <span
+                    className="flex h-12 w-12 rotate-[-12deg] items-center justify-center rounded-sm border-2 border-cinnabar bg-xuan/80 font-calligraphy text-sm text-cinnabar"
+                    style={{ animation: "stamp-press 0.6s ease-out forwards" }}
+                  >
+                    签
+                  </span>
+                </span>
+              )}
               {streakInfo.checkedInToday ? (
                 <>
                   <svg

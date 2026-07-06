@@ -3,8 +3,10 @@
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import SearchModal from "./SearchModal";
+import dynamic from "next/dynamic";
 import { useNavbarVisibility } from "./NavbarVisibilityContext";
+
+const SearchModal = dynamic(() => import("./SearchModal"), { ssr: false });
 
 const navItems = [
   { label: "双语阅读", href: "/reading" },

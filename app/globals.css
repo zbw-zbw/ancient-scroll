@@ -254,6 +254,14 @@ footer {
   animation: trophy-pop 0.5s ease-out forwards;
 }
 
+/* Stamp press animation (check-in) */
+@keyframes stamp-press {
+  0% { transform: scale(2) rotate(-12deg); opacity: 0; }
+  40% { transform: scale(1.2) rotate(-12deg); opacity: 1; }
+  60% { transform: scale(0.9) rotate(-12deg); opacity: 1; }
+  100% { transform: scale(1) rotate(-12deg); opacity: 0; }
+}
+
 /* Scroll reveal - visible by default (no-JS fallback), animated only when JS is enabled */
 .js .fade-in {
   opacity: 0;

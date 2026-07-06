@@ -152,7 +152,7 @@ function searchPoetry(query: string): SearchResult[] {
         module: "poetry",
         title: `${poem.title} — ${poem.author}`,
         description: truncate(poem.description, 60),
-        href: `/poetry`,
+        href: `/poetry?id=${poem.id}`,
       });
     }
 

@@ -28,16 +28,16 @@ export default function ImmersiveReader({ poem, onBack }: ImmersiveReaderProps) 
 
  const slides = container.querySelectorAll(".slide");
  const observer = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          const index = Array.from(slides).indexOf(entry.target);
-          if (index !== -1) setCurrentSlide(index);
-        }
-      });
-    },
-    { threshold: 0.45, rootMargin: "0px" }
-  );
+     (entries) => {
+       entries.forEach((entry) => {
+         if (entry.isIntersecting) {
+           const index = Array.from(slides).indexOf(entry.target);
+           if (index !== -1) setCurrentSlide(index);
+         }
+       });
+     },
+     { threshold: 0.3, rootMargin: "-35% 0px -35% 0px" }
+   );
 
  slides.forEach((slide) => observer.observe(slide));
  return () => observer.disconnect();
@@ -97,7 +97,7 @@ export default function ImmersiveReader({ poem, onBack }: ImmersiveReaderProps) 
    return () => window.removeEventListener("keydown", handleKeyDown);
  }, [currentSlide, totalSlides]);
 
- const handleDotClick = (index: number) => {
+ const handleDotClick = useCallback((index: number) => {
  const container = containerRef.current;
  if (!container) return;
  const slides = container.querySelectorAll(".slide");
@@ -105,7 +105,7 @@ export default function ImmersiveReader({ poem, onBack }: ImmersiveReaderProps) 
  if (target) {
  target.scrollIntoView({ behavior: "smooth" });
  }
- };
+ }, []);
 
  const handleRestart = () => {
  const container = containerRef.current;

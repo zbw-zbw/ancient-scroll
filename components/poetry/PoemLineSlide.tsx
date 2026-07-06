@@ -101,7 +101,8 @@ export default function PoemLineSlide({ line, active, coverImage }: PoemLineSlid
    )}
  </button>
 
- <Particles type={line.particleType} />
+ {/* Only render particles for the active slide (perf: avoid 30-60 simultaneous CSS animations) */}
+ {active && <Particles type={line.particleType} />}
 
  <div className="relative z-10 mx-auto w-full max-w-5xl px-4 text-center md:max-w-6xl md:px-6">
  {/* Poem line */}
