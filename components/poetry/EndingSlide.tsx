@@ -19,6 +19,8 @@ interface EndingSlideProps {
 const poetToChar: Record<string, string> = {
   李白: "libai",
   苏轼: "sushi",
+  曹操: "caocao",
+  李清照: "liqingzhao",
 };
 
 export default function EndingSlide({

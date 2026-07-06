@@ -147,11 +147,9 @@ export default function Features() {
           return (
             <div
               key={index}
-              className={`fade-in grid grid-cols-1 items-center gap-10 md:grid-cols-2 ${
-                isOdd ? "" : "md:[direction:rtl]"
-              }`}
+              className={`fade-in grid grid-cols-1 items-center gap-10 md:grid-cols-2`}
             >
-              <div className={`group space-y-4 ${isOdd ? "" : "md:[direction:ltr]"}`}>
+              <div className={`group space-y-4 ${isOdd ? "md:order-1" : "md:order-2"}`}>
                 <FeatureTag number={feature.number} />
                 <h3 className="font-calligraphy text-3xl md:text-4xl text-ink">
                   {feature.title}
@@ -167,7 +165,7 @@ export default function Features() {
                 </Link>
               </div>
 
-              <div className={`${isOdd ? "" : "md:[direction:ltr]"}`}>
+              <div className={isOdd ? "md:order-2" : "md:order-1"}>
                 {feature.mockup}
               </div>
             </div>

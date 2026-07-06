@@ -349,19 +349,7 @@ footer {
   font-style: normal;
 }
 
-.stroke-draw {
-  stroke-dasharray: 1000;
-  stroke-dashoffset: 1000;
-  animation: stroke-draw 2.5s ease forwards;
-}
-
-.ink-wash {
-  animation: ink-spread 8s ease-in-out infinite;
-}
-
-.animate-fall-char {
-  animation: fall-char linear infinite;
-}
+/* (stroke-draw, ink-wash, animate-fall-char removed - unused dead code) */
 
 /* Streaming cursor blink */
 @keyframes cursor-blink {
@@ -614,12 +602,7 @@ html::-webkit-scrollbar-thumb:hover {
   --rule: rgba(58, 52, 40, 0.3);
 }
 
-.dark html {
-  scrollbar-color: rgba(58, 52, 40, 0.8) transparent;
-}
-.dark html::-webkit-scrollbar-thumb {
-  background: rgba(58, 52, 40, 0.8);
-}
+/* Note: scrollbar styling handled by html { scrollbar-color } + CSS variables above */
 
 .dark *:focus-visible {
   box-shadow: 0 0 0 2px rgba(224, 90, 72, 0.3);

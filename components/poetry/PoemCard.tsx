@@ -10,9 +10,10 @@ interface PoemCardProps {
   poem: Poem;
   onSelect: (poem: Poem) => void;
   onShare?: (e: React.MouseEvent) => void;
+  isRead: boolean;
 }
 
-export default function PoemCard({ poem, onSelect, onShare }: PoemCardProps) {
+export default function PoemCard({ poem, onSelect, onShare, isRead }: PoemCardProps) {
   const [favorited, setFavorited] = useState(false);
   const [imgError, setImgError] = useState(false);
 
@@ -49,6 +50,18 @@ export default function PoemCard({ poem, onSelect, onShare }: PoemCardProps) {
       style={{ borderTop: `2px solid ${poem.theme}` }}
       aria-label={`进入《${poem.title}》诗境`}
     >
+      {/* 已读印章 */}
+      {isRead && (
+        <div
+          className="pointer-events-none absolute right-3 top-3 z-10 flex h-10 w-10 rotate-[-12deg] items-center justify-center rounded-sm border-[1.5px] border-cinnabar bg-xuan/40 opacity-70"
+          aria-hidden="true"
+        >
+          <span className="text-center font-serif text-[10px] leading-none text-cinnabar">
+            已读
+          </span>
+        </div>
+      )}
+
       {/* Cover image - same approach as BeastCard */}
       <div className="relative h-[200px] overflow-hidden rounded-t-2xl img-placeholder" style={{ background: poem.coverImage && !imgError ? undefined : `linear-gradient(135deg, ${poem.theme}40, ${poem.theme}15)` }}>
         {poem.coverImage && !imgError ? (

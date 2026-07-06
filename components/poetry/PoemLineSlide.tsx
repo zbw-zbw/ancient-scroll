@@ -22,20 +22,10 @@ export default function PoemLineSlide({ line, active, coverImage }: PoemLineSlid
        window.speechSynthesis.cancel();
      }
    };
- }, []);
+}, []);
 
- // Sync speaking state
- useEffect(() => {
-   if (typeof window === "undefined" || !window.speechSynthesis) return;
-   const handleEnd = () => setSpeaking(false);
-   const handleError = () => setSpeaking(false);
-   window.speechSynthesis.addEventListener("end", handleEnd);
-   window.speechSynthesis.addEventListener("error", handleError);
-   return () => {
-     window.speechSynthesis.removeEventListener("end", handleEnd);
-     window.speechSynthesis.removeEventListener("error", handleError);
-   };
- }, []);
+// Note: speaking state is managed via utterance.onend/onerror in handleReadLine
+// No global speechSynthesis listeners needed (they cause duplicate callbacks across slides)
 
  const handleReadLine = useCallback(() => {
    if (typeof window === "undefined" || !window.speechSynthesis) return;
