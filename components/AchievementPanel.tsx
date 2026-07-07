@@ -1,7 +1,28 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, type ComponentType } from "react";
 import { getAchievements, type Achievement } from "@/lib/achievements";
+import {
+  IconBook,
+  IconScroll,
+  IconMountain,
+  IconFlower,
+  IconPalette,
+  IconSparkles,
+  IconPaw,
+  IconFox,
+  IconDragon,
+  IconChat,
+  IconLantern,
+  IconCalendar,
+  IconFire,
+  IconTrophy,
+  IconPencil,
+  IconBooks,
+  IconHeart,
+  IconGem,
+  IconLock,
+} from "@/components/icons";
 
 const categoryLabels: Record<Achievement["category"], string> = {
   reading: "双语阅读",
@@ -22,6 +43,34 @@ const categoryColors: Record<Achievement["category"], string> = {
   notes: "#6366f1",
   favorites: "#ec4899",
 };
+
+/** Maps an achievement icon name (see lib/achievements.ts) to its SVG icon component. */
+const achievementIconMap: Record<string, ComponentType<{ className?: string }>> = {
+  book: IconBook,
+  scroll: IconScroll,
+  mountain: IconMountain,
+  flower: IconFlower,
+  palette: IconPalette,
+  sparkles: IconSparkles,
+  paw: IconPaw,
+  fox: IconFox,
+  dragon: IconDragon,
+  chat: IconChat,
+  lantern: IconLantern,
+  calendar: IconCalendar,
+  fire: IconFire,
+  trophy: IconTrophy,
+  pencil: IconPencil,
+  books: IconBooks,
+  heart: IconHeart,
+  gem: IconGem,
+};
+
+/** Render the SVG icon component for a given achievement icon name. */
+export function renderAchievementIcon(iconName: string, className = "h-6 w-6") {
+  const Icon = achievementIconMap[iconName] ?? IconSparkles;
+  return <Icon className={className} />;
+}
 
 export default function AchievementPanel() {
   const [achievements, setAchievements] = useState<Achievement[]>([]);
@@ -143,12 +192,16 @@ export default function AchievementPanel() {
 
                 <div className="flex items-start gap-3">
                   <div
-                    className={`flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full text-2xl ${
+                    className={`flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full ${
                       ach.unlocked ? "" : "grayscale"
                     }`}
                     style={{ background: ach.unlocked ? `${color}15` : "rgba(0,0,0,0.03)" }}
                   >
-                    {ach.unlocked ? ach.icon : "🔒"}
+                    {ach.unlocked ? (
+                      renderAchievementIcon(ach.icon, "h-6 w-6")
+                    ) : (
+                      <IconLock className="h-6 w-6" />
+                    )}
                   </div>
                   <div className="flex-1">
                     <h3 className="font-calligraphy text-lg text-ink">{ach.title}</h3>

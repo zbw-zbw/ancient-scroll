@@ -1,11 +1,12 @@
 "use client";
 
-import { useState, useEffect, useRef, useMemo, useCallback } from "react";
+import { useState, useEffect, useRef, useMemo, useCallback, type ReactNode } from "react";
 import Link from "next/link";
 import { chapters } from "@/data/shanhaijing";
 import { beasts } from "@/data/beasts";
 import { poems } from "@/data/poems";
 import { characters } from "@/data/characters";
+import { IconBook, IconPaw, IconScroll, IconChat } from "@/components/icons";
 
 interface SearchResult {
   module: string;
@@ -17,15 +18,15 @@ interface SearchResult {
 interface ModuleGroup {
   key: string;
   label: string;
-  icon: string;
+  icon: ReactNode;
   results: SearchResult[];
 }
 
-const moduleMeta: Record<string, { label: string; icon: string }> = {
-  shanhaijing: { label: "山海经", icon: "📖" },
-  beasts: { label: "异兽", icon: "🐾" },
-  poetry: { label: "诗词", icon: "🎋" },
-  characters: { label: "人物", icon: "💬" },
+const moduleMeta: Record<string, { label: string; icon: ReactNode }> = {
+  shanhaijing: { label: "山海经", icon: <IconBook className="h-4 w-4" /> },
+  beasts: { label: "异兽", icon: <IconPaw className="h-4 w-4" /> },
+  poetry: { label: "诗词", icon: <IconScroll className="h-4 w-4" /> },
+  characters: { label: "人物", icon: <IconChat className="h-4 w-4" /> },
 };
 
 const MAX_PER_MODULE = 5;
@@ -380,7 +381,7 @@ export default function SearchModal({
                   onClick={handleLinkClick}
                   className="flex flex-col items-center gap-1 rounded-lg p-3 transition-colors hover:bg-ink/5"
                 >
-                  <span className="text-lg">📖</span>
+                  <IconBook className="h-4 w-4" />
                   <span className="text-xs font-serif text-light-ink/70">{chapters.length} 篇章</span>
                 </Link>
                 <Link
@@ -388,7 +389,7 @@ export default function SearchModal({
                   onClick={handleLinkClick}
                   className="flex flex-col items-center gap-1 rounded-lg p-3 transition-colors hover:bg-ink/5"
                 >
-                  <span className="text-lg">🐾</span>
+                  <IconPaw className="h-4 w-4" />
                   <span className="text-xs font-serif text-light-ink/70">{beasts.length} 异兽</span>
                 </Link>
                 <Link
@@ -396,7 +397,7 @@ export default function SearchModal({
                   onClick={handleLinkClick}
                   className="flex flex-col items-center gap-1 rounded-lg p-3 transition-colors hover:bg-ink/5"
                 >
-                  <span className="text-lg">🎋</span>
+                  <IconScroll className="h-4 w-4" />
                   <span className="text-xs font-serif text-light-ink/70">{poems.length} 首诗</span>
                 </Link>
                 <Link
@@ -404,7 +405,7 @@ export default function SearchModal({
                   onClick={handleLinkClick}
                   className="flex flex-col items-center gap-1 rounded-lg p-3 transition-colors hover:bg-ink/5"
                 >
-                  <span className="text-lg">💬</span>
+                  <IconChat className="h-4 w-4" />
                   <span className="text-xs font-serif text-light-ink/70">{characters.length} 人物</span>
                 </Link>
               </div>

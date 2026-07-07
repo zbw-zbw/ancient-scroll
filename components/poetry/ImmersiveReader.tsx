@@ -121,7 +121,7 @@ export default function ImmersiveReader({ poem, onBack }: ImmersiveReaderProps) 
  return (
     <div
       ref={containerRef}
-      className="immersive-container fixed inset-0 z-40 h-screen w-screen overflow-y-auto bg-immersive-bg"
+      className="immersive-container fixed inset-0 z-[60] h-screen w-screen overflow-y-auto bg-immersive-bg"
       style={{ scrollSnapType: "y mandatory" }}
       onTouchStart={handleTouchStart}
       onTouchEnd={handleTouchEnd}

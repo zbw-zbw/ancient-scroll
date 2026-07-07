@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import Image from "next/image";
 import type { Beast } from "@/data/beasts";
-import { IconClose, IconDownload, IconCopy } from "@/components/icons";
+import { IconClose, IconDownload, IconCopy, IconPaw } from "@/components/icons";
 
 interface BeastShareModalProps {
   open: boolean;
@@ -121,7 +121,7 @@ export default function BeastShareModal({
     <div
       ref={overlayRef}
       onClick={handleOverlayClick}
-      className={`fixed inset-0 z-[60] flex items-center justify-center bg-ink/60 backdrop-blur-sm transition-all duration-200 ${
+      className={`fixed inset-0 z-[110] flex items-center justify-center bg-ink/60 backdrop-blur-sm transition-all duration-200 ${
         open
           ? "opacity-100 pointer-events-auto"
           : "opacity-0 pointer-events-none"
@@ -147,8 +147,8 @@ export default function BeastShareModal({
         </button>
 
         {/* Card preview wrapper with responsive scaling */}
-        <div className="flex items-start justify-center" style={{ maxHeight: "80vh" }}>
-          <div style={{ transform: `scale(${scale})`, transformOrigin: "top center" }}>
+        <div className="flex items-center justify-center overflow-hidden" style={{ maxHeight: "75vh" }}>
+          <div style={{ transform: `scale(${scale})`, transformOrigin: "center center" }}>
             {/* Share card - the element to capture */}
             <div
               ref={cardRef}
@@ -173,8 +173,8 @@ export default function BeastShareModal({
                     onError={() => setImgError(true)}
                   />
                 ) : (
-                  <div className="flex h-full w-full items-center justify-center bg-xuan-dark text-5xl">
-                    🐾
+                  <div className="flex h-full w-full items-center justify-center bg-xuan-dark">
+                    <IconPaw className="h-8 w-8 text-muted/40" />
                   </div>
                 )}
                 {/* Dark overlay on top image */}

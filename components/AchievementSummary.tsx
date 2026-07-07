@@ -1,8 +1,18 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 import Link from "next/link";
 import { getAchievements, type Achievement } from "@/lib/achievements";
+import {
+  IconBook,
+  IconFlower,
+  IconPaw,
+  IconChat,
+  IconCalendar,
+  IconPencil,
+  IconHeart,
+} from "@/components/icons";
+import { renderAchievementIcon } from "@/components/AchievementPanel";
 
 const categoryLabels: Record<Achievement["category"], string> = {
   reading: "双语阅读",
@@ -14,14 +24,14 @@ const categoryLabels: Record<Achievement["category"], string> = {
   favorites: "我的收藏",
 };
 
-const categoryIcons: Record<Achievement["category"], string> = {
-  reading: "📖",
-  poetry: "🌸",
-  bestiary: "🐾",
-  dialogue: "💬",
-  checkin: "📅",
-  notes: "✏️",
-  favorites: "❤️",
+const categoryIcons: Record<Achievement["category"], ReactNode> = {
+  reading: <IconBook className="h-4 w-4 text-muted" />,
+  poetry: <IconFlower className="h-4 w-4 text-muted" />,
+  bestiary: <IconPaw className="h-4 w-4 text-muted" />,
+  dialogue: <IconChat className="h-4 w-4 text-muted" />,
+  checkin: <IconCalendar className="h-4 w-4 text-muted" />,
+  notes: <IconPencil className="h-4 w-4 text-muted" />,
+  favorites: <IconHeart className="h-4 w-4 text-muted" />,
 };
 
 export default function AchievementSummary() {
@@ -133,7 +143,7 @@ export default function AchievementSummary() {
                   key={cp.category}
                   className="flex flex-col items-center gap-1 rounded-lg bg-xuan/40 p-2.5 text-center"
                 >
-                  <span className="text-base">{categoryIcons[cp.category]}</span>
+                  <span className="inline-block">{categoryIcons[cp.category]}</span>
                   <span className="font-serif text-[10px] text-muted">{categoryLabels[cp.category]}</span>
                   <span className={`font-calligraphy text-sm ${cp.unlocked === cp.total ? "text-cinnabar" : "text-light-ink"}`}>
                     {cp.unlocked}/{cp.total}
@@ -152,7 +162,7 @@ export default function AchievementSummary() {
                       key={ach.id}
                       className="inline-flex items-center gap-1.5 rounded-full bg-cinnabar/10 px-3 py-1 font-serif text-xs text-cinnabar"
                     >
-                      <span>{ach.icon}</span>
+                      <span>{renderAchievementIcon(ach.icon, "h-3 w-3")}</span>
                       {ach.title}
                     </span>
                   ))}

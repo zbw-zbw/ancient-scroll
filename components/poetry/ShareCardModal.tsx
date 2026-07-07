@@ -140,8 +140,8 @@ export default function ShareCardModal({
         </button>
 
         {/* Card preview wrapper with responsive scaling */}
-        <div className="flex items-start justify-center" style={{ maxHeight: '80vh' }}>
-          <div style={{ transform: `scale(${scale})`, transformOrigin: 'top center' }}>
+        <div className="flex items-center justify-center overflow-hidden" style={{ maxHeight: '75vh' }}>
+          <div style={{ transform: `scale(${scale})`, transformOrigin: 'center center' }}>
         {/* Share card - the element to capture */}
         <div
           ref={cardRef}

@@ -76,7 +76,7 @@ export default function PoemLineSlide({ line, active, coverImage }: PoemLineSlid
  <button
    onClick={handleReadLine}
    aria-label={speaking ? "停止朗读" : "朗读此句"}
-   className={`absolute right-[max(1rem,env(safe-area-inset-right))] top-[max(1rem,env(safe-area-inset-top))] z-20 inline-flex items-center gap-1 rounded-full px-3 py-1.5 font-serif text-xs backdrop-blur-sm transition-all active:scale-95 ${
+   className={`absolute right-[max(1rem,env(safe-area-inset-right))] top-[max(1.5rem,env(safe-area-inset-top))] z-30 inline-flex items-center gap-1 rounded-full px-3 py-1.5 font-serif text-xs backdrop-blur-sm transition-all active:scale-95 ${
      speaking
        ? "bg-white/25 text-white"
        : "bg-white/10 text-white/70 hover:bg-white/20 hover:text-white"

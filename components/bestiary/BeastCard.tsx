@@ -4,7 +4,7 @@ import Image from "next/image";
 import { memo, useState } from "react";
 import type { Beast } from "@/data/beasts";
 import { categoryLabels } from "@/data/beasts";
-import { IconHeart, IconHeartOutline, IconArrowRight, IconShare } from "@/components/icons";
+import { IconHeart, IconHeartOutline, IconArrowRight, IconShare, IconPaw } from "@/components/icons";
 
 interface BeastCardProps {
   beast: Beast;
@@ -59,8 +59,8 @@ function BeastCardImpl({
             onError={() => setImgError(true)}
           />
         ) : (
-          <div className="flex h-full w-full items-center justify-center bg-xuan-dark text-4xl">
-            🐾
+          <div className="flex h-full w-full items-center justify-center bg-xuan-dark">
+            <IconPaw className="h-8 w-8 text-muted/40" />
           </div>
         )}
       </div>

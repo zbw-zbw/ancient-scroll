@@ -149,8 +149,9 @@ export default function ReadingClient() {
  </div>
 
  {activeTooltip && (
- <CharacterTooltip
- charData={activeTooltip.charData}
+        <CharacterTooltip
+          key={activeTooltip.charData.char + activeTooltip.sentenceId}
+          charData={activeTooltip.charData}
  context={tooltipContext}
  triggerRect={activeTooltip.rect}
  chapterId={chapter.id}
