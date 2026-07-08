@@ -26,7 +26,10 @@ const loadHistory = (characterId: string): Message[] => {
  if (typeof window === 'undefined') return [];
  try {
  const stored = localStorage.getItem(`${STORAGE_KEY}-${characterId}`);
- if (stored) return JSON.parse(stored);
+ if (stored) {
+   const parsed = JSON.parse(stored);
+   return Array.isArray(parsed) ? parsed : [];
+ }
  } catch {}
  return [];
 };
@@ -50,7 +53,7 @@ export default function ChatInterface({
  const [inputValue, setInputValue] = useState("");
  const [streamingContent, setStreamingContent] = useState("");
  const [showSuggestions, setShowSuggestions] = useState(true);
- const { isStreaming, startStreaming } = useStreamingResponse();
+ const { isStreaming, startStreaming, abortStreaming } = useStreamingResponse();
   const { toast } = useToast();
 
  const autoSentRef = useRef(false);
@@ -61,6 +64,11 @@ export default function ChatInterface({
  saveHistory(character.id, messages);
  }
  }, [messages, character.id]);
+
+ // Abort any active stream when the component unmounts
+ useEffect(() => {
+ return () => abortStreaming();
+ }, [abortStreaming]);
 
  const handleSend = useCallback(
  async (content: string) => {
@@ -95,6 +103,10 @@ export default function ChatInterface({
  ...prev,
  { role: "assistant", content: final },
  ]);
+ } else {
+ // AI returned empty response — remove the user's message and notify
+ setMessages((prev) => prev.slice(0, -1));
+ toast("未收到回复，请重试", "error");
  }
  return "";
  });
@@ -131,6 +143,7 @@ export default function ChatInterface({
   }, [prefilledAsk]);
 
   const handleClear = useCallback(() => {
+    if (isStreaming) abortStreaming();
     // Store previous messages for potential undo
     const prevMessages = messages;
     setMessages([{ role: "assistant", content: character.greeting }]);
@@ -153,11 +166,11 @@ export default function ChatInterface({
         },
       });
     }
-  }, [character.greeting, character.id, messages, toast]);
+  }, [character.greeting, character.id, messages, toast, isStreaming, abortStreaming]);
 
   // Regenerate the last assistant response
   const handleRegenerate = useCallback(() => {
-    if (isStreaming) return;
+    if (isStreaming) abortStreaming();
     // Find the last user message
     const lastUserMsg = [...messages].reverse().find((m) => m.role === "user");
     if (!lastUserMsg) return;
@@ -170,7 +183,7 @@ export default function ChatInterface({
     setMessages(newMessages);
     // Re-send the last user message
     setTimeout(() => handleSendRef.current(lastUserMsg.content), 100);
-  }, [messages, isStreaming]);
+  }, [messages, isStreaming, abortStreaming]);
 
  // Scroll messages to bottom when mobile keyboard opens/closes
  useEffect(() => {

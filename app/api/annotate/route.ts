@@ -12,6 +12,9 @@ export async function POST(request: Request) {
   try {
     const { char, context } = await request.json();
 
+    const MAX_CHAR_LENGTH = 50;
+    const MAX_CONTEXT_LENGTH = 2000;
+
     if (!char || typeof char !== "string") {
       return NextResponse.json(
         { error: "Missing or invalid char" },
@@ -19,9 +22,23 @@ export async function POST(request: Request) {
       );
     }
 
+    if (char.length > MAX_CHAR_LENGTH) {
+      return NextResponse.json(
+        { error: "Char too long" },
+        { status: 400 }
+      );
+    }
+
     if (context !== undefined && typeof context !== "string") {
       return NextResponse.json(
         { error: "Missing or invalid context" },
+        { status: 400 }
+      );
+    }
+
+    if (context && context.length > MAX_CONTEXT_LENGTH) {
+      return NextResponse.json(
+        { error: "Context too long" },
         { status: 400 }
       );
     }

@@ -24,8 +24,13 @@ export default function SettingsPage() {
     const savedPrefs = getReadingPrefs();
     setPrefs(savedPrefs);
     // Load speech rate from localStorage
-    const savedRate = localStorage.getItem("ancient-scroll-speech-rate");
-    if (savedRate) setSpeechRate(parseFloat(savedRate));
+    try {
+      const savedRate = localStorage.getItem("ancient-scroll-speech-rate");
+      if (savedRate) {
+        const rate = parseFloat(savedRate);
+        if (Number.isFinite(rate)) setSpeechRate(rate);
+      }
+    } catch {}
   }, []);
 
   const handleExport = useCallback(() => {
@@ -160,7 +165,9 @@ export default function SettingsPage() {
                 onChange={(e) => {
                   const rate = parseFloat(e.target.value);
                   setSpeechRate(rate);
-                  localStorage.setItem("ancient-scroll-speech-rate", String(rate));
+                  try {
+                    localStorage.setItem("ancient-scroll-speech-rate", String(rate));
+                  } catch {}
                 }}
                 className="w-full h-1.5 rounded-full bg-ink/10 appearance-none cursor-pointer accent-cinnabar"
               />

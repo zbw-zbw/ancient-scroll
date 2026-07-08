@@ -1,139 +1,115 @@
 /**
- * Data backup/restore utilities for all user data stored in localStorage.
+ * Centralized data backup/restore/clear utilities.
+ * All localStorage operations are wrapped with try-catch for privacy mode safety.
  */
 
-const BACKUP_KEYS = [
-  "ancient-scroll-progress",
-  "ancient-scroll-read-history",
-  "ancient-scroll-favorites",
-  "ancient-scroll-collected-beasts",
-  "ancient-scroll-checkin",
-  "ancient-scroll-notes",
-  "ancient-scroll-achievements-notified",
-  "ancient-scroll-achievement-shown",
-  "theme",
+// Single source of truth for all localStorage keys
+export const STORAGE_KEYS = {
+  progress: "ancient-scroll-progress",
+  favorites: "ancient-scroll-favorites",
+  collectedBeasts: "ancient-scroll-collected-beasts",
+  checkin: "ancient-scroll-checkin",
+  readingNotes: "ancient-scroll-reading-notes",
+  readingPrefs: "ancient-scroll-reading-prefs",
+  speechRate: "ancient-scroll-speech-rate",
+  achievementNotified: "ancient-scroll-achievement-notified",
+} as const;
+
+// Keys included in backup/restore
+const BACKUP_KEYS: string[] = [
+  STORAGE_KEYS.progress,
+  STORAGE_KEYS.favorites,
+  STORAGE_KEYS.collectedBeasts,
+  STORAGE_KEYS.checkin,
+  STORAGE_KEYS.readingNotes,
+  STORAGE_KEYS.readingPrefs,
+  STORAGE_KEYS.speechRate,
+  STORAGE_KEYS.achievementNotified,
 ];
 
-// Chat history keys are dynamic (per character)
-const CHAT_KEY_PREFIX = "ancient-scroll-chat-history-";
-
-interface BackupData {
-  version: string;
-  exportedAt: string;
-  data: Record<string, string>;
-}
-
-export function exportAllData(): BackupData {
-  const data: Record<string, string> = {};
-
-  // Collect known keys
-  for (const key of BACKUP_KEYS) {
-    const value = localStorage.getItem(key);
-    if (value !== null) {
-      data[key] = value;
-    }
-  }
-
-  // Collect chat history keys
-  for (let i = 0; i < localStorage.length; i++) {
-    const key = localStorage.key(i);
-    if (key && key.startsWith(CHAT_KEY_PREFIX)) {
+export function exportAllData(): string {
+  if (typeof window === "undefined") return "{}";
+  try {
+    const data: Record<string, string> = {};
+    for (const key of BACKUP_KEYS) {
       const value = localStorage.getItem(key);
       if (value !== null) {
         data[key] = value;
       }
     }
+    return JSON.stringify(data);
+  } catch {
+    return "{}";
   }
-
-  return {
-    version: "1.0",
-    exportedAt: new Date().toISOString(),
-    data,
-  };
-}
-
-export function downloadBackup() {
-  const backup = exportAllData();
-  const json = JSON.stringify(backup, null, 2);
-  const blob = new Blob([json], { type: "application/json" });
-  const url = URL.createObjectURL(blob);
-  const link = document.createElement("a");
-  const date = new Date().toISOString().split("T")[0];
-  link.download = `古籍焕新-数据备份-${date}.json`;
-  link.href = url;
-  link.click();
-  URL.revokeObjectURL(url);
 }
 
 export function importData(jsonString: string): { success: boolean; message: string } {
+  if (typeof window === "undefined") return { success: false, message: "不可用" };
   try {
-    const backup = JSON.parse(jsonString) as BackupData;
-
-    if (!backup.data || typeof backup.data !== "object") {
-      return { success: false, message: "备份文件格式不正确" };
-    }
-
-    // Restore all data
-    let restoredCount = 0;
-    for (const [key, value] of Object.entries(backup.data)) {
-      // Only restore keys that match our prefix or are known keys
-      if (
-        BACKUP_KEYS.includes(key) ||
-        key.startsWith(CHAT_KEY_PREFIX)
-      ) {
-        localStorage.setItem(key, value);
-        restoredCount++;
+    const data = JSON.parse(jsonString);
+    if (!data || typeof data !== "object") return { success: false, message: "文件格式错误" };
+    let restored = 0;
+    for (const key of BACKUP_KEYS) {
+      const value = data[key];
+      if (typeof value === "string") {
+        try {
+          localStorage.setItem(key, value);
+          restored++;
+        } catch {}
       }
     }
-
-    if (restoredCount === 0) {
-      return { success: false, message: "未找到可恢复的数据" };
-    }
-
-    return { success: true, message: `成功恢复 ${restoredCount} 项数据` };
-  } catch (err) {
-    return { success: false, message: "文件解析失败，请检查文件格式" };
+    window.dispatchEvent(new Event("ancient-scroll:progress-changed"));
+    return { success: true, message: `成功恢复 ${restored} 项数据` };
+  } catch {
+    return { success: false, message: "文件解析失败" };
   }
 }
 
-export function clearAllData(): void {
-  // Clear known keys
-  for (const key of BACKUP_KEYS) {
-    localStorage.removeItem(key);
-  }
-  // Clear chat history
-  const keysToRemove: string[] = [];
-  for (let i = 0; i < localStorage.length; i++) {
-    const key = localStorage.key(i);
-    if (key && key.startsWith(CHAT_KEY_PREFIX)) {
-      keysToRemove.push(key);
+export function clearAllData(): boolean {
+  if (typeof window === "undefined") return false;
+  try {
+    for (const key of BACKUP_KEYS) {
+      localStorage.removeItem(key);
     }
+    window.dispatchEvent(new Event("ancient-scroll:progress-changed"));
+    return true;
+  } catch {
+    return false;
   }
-  keysToRemove.forEach((key) => localStorage.removeItem(key));
 }
 
-export function getDataStats(): { totalKeys: number; estimatedSize: number } {
-  let totalKeys = 0;
-  let estimatedSize = 0;
-
-  for (const key of BACKUP_KEYS) {
-    const value = localStorage.getItem(key);
-    if (value !== null) {
-      totalKeys++;
-      estimatedSize += value.length;
-    }
-  }
-
-  for (let i = 0; i < localStorage.length; i++) {
-    const key = localStorage.key(i);
-    if (key && key.startsWith(CHAT_KEY_PREFIX)) {
+export function getDataStats() {
+  const defaults = { totalKeys: 0, estimatedSize: 0 };
+  if (typeof window === "undefined") return defaults;
+  try {
+    let totalKeys = 0;
+    let estimatedSize = 0;
+    for (const key of BACKUP_KEYS) {
       const value = localStorage.getItem(key);
       if (value !== null) {
         totalKeys++;
-        estimatedSize += value.length;
+        estimatedSize += key.length + value.length;
       }
     }
+    return { totalKeys, estimatedSize };
+  } catch {
+    return defaults;
   }
+}
 
-  return { totalKeys, estimatedSize };
+/** Trigger a browser download of all data as JSON */
+export function downloadBackup(): void {
+  if (typeof window === "undefined") return;
+  try {
+    const data = exportAllData();
+    const blob = new Blob([data], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `ancient-scroll-backup-${new Date().toISOString().slice(0, 10)}.json`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  } catch {}
 }

@@ -50,7 +50,7 @@ export default function CharacterTooltip({
   // Load cached AI annotation on mount
   useEffect(() => {
     try {
-      const cacheKey = `annotate-${charData.char}-${context.slice(0, 20)}`;
+      const cacheKey = `annotate-${charData.char}-${context}`;
       const cached = localStorage.getItem(cacheKey);
       if (cached) {
         setAiResult(JSON.parse(cached));

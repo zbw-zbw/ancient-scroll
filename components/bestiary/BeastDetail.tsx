@@ -68,26 +68,37 @@ export default function BeastDetail({
     if (!beast || !mounted || !modalRef.current) return;
 
     const modal = modalRef.current;
-    const focusable = modal.querySelectorAll<HTMLElement>(
-      'button, [href], input, [tabindex]:not([tabindex="-1"])'
-    );
 
-    if (focusable.length > 0) {
-      // Focus first close button
-      const closeBtn = modal.querySelector('[aria-label="关闭"]') as HTMLElement;
-      (closeBtn || focusable[0]).focus();
+    // Set initial focus: prefer close button, otherwise first focusable element
+    const closeBtn = modal.querySelector('[aria-label="关闭"]') as HTMLElement | null;
+    const initialFocusable = modal.querySelectorAll<HTMLElement>(
+      'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+    );
+    if (initialFocusable.length > 0) {
+      (closeBtn || initialFocusable[0]).focus();
     }
 
     const handleTab = (e: KeyboardEvent) => {
-      if (e.key !== "Tab" || !modal.contains(document.activeElement)) return;
+      const modal = modalRef.current;
+      if (!modal) return;
+      // Real-time query each time Tab is pressed
+      const focusable = modal.querySelectorAll<HTMLElement>(
+        'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+      );
+      if (focusable.length === 0) return;
       const first = focusable[0];
       const last = focusable[focusable.length - 1];
-      if (e.shiftKey && document.activeElement === first) {
-        e.preventDefault();
-        last.focus();
-      } else if (!e.shiftKey && document.activeElement === last) {
-        e.preventDefault();
-        first.focus();
+
+      if (e.shiftKey) {
+        if (document.activeElement === first) {
+          e.preventDefault();
+          last.focus();
+        }
+      } else {
+        if (document.activeElement === last) {
+          e.preventDefault();
+          first.focus();
+        }
       }
     };
 

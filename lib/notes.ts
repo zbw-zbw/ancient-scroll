@@ -96,6 +96,9 @@ export function deleteNote(id: string) {
   const notes = getAllNotes().filter((n) => n.id !== id);
   try {
     localStorage.setItem(NOTES_KEY, JSON.stringify(notes));
+    if (typeof window !== "undefined") {
+      window.dispatchEvent(new Event("ancient-scroll:progress-changed"));
+    }
   } catch {}
 }
 

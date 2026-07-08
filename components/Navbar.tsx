@@ -25,14 +25,17 @@ const secondaryNavItems = [
 function useTheme() {
   const [isDark, setIsDark] = useState(() => {
     if (typeof window === "undefined") return false;
-    const saved = localStorage.getItem("theme");
-    if (saved === "dark" || saved === "light") return saved === "dark";
-    return window.matchMedia("(prefers-color-scheme: dark)").matches;
+    try {
+      const saved = localStorage.getItem("theme");
+      if (saved === "dark" || saved === "light") return saved === "dark";
+      return window.matchMedia("(prefers-color-scheme: dark)").matches;
+    } catch {
+      return false;
+    }
   });
 
   useEffect(() => {
     const root = document.documentElement;
-    // Apply initial theme
     if (isDark) {
       root.classList.add("dark");
     } else {
@@ -51,10 +54,10 @@ function useTheme() {
       const root = document.documentElement;
       if (prev) {
         root.classList.remove("dark");
-        localStorage.setItem("theme", "light");
+        try { localStorage.setItem("theme", "light"); } catch {}
       } else {
         root.classList.add("dark");
-        localStorage.setItem("theme", "dark");
+        try { localStorage.setItem("theme", "dark"); } catch {}
       }
       return !prev;
     });
@@ -152,6 +155,7 @@ export default function Navbar() {
             ? "bg-xuan/95 shadow-sm backdrop-blur-md"
             : "bg-xuan/70 backdrop-blur-sm"
         }`}
+        style={{ paddingTop: "max(0px, env(safe-area-inset-top))" }}
       >
         <nav className="mx-auto flex h-16 max-w-[1100px] items-center justify-between px-6">
           <Link

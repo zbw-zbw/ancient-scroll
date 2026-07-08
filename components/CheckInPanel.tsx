@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState, useRef } from "react";
 import { getStreakInfo, checkIn, getTodayCheckedIn } from "@/lib/checkin";
 import type { StreakInfo } from "@/lib/checkin";
 import { useToast } from "@/components/Toast";
@@ -24,7 +24,11 @@ export default function CheckInPanel() {
     return () => window.removeEventListener("ancient-scroll:progress-changed", handler);
   }, [refresh]);
 
+  const checkInFlightRef = useRef(false);
+
   const handleCheckIn = () => {
+    if (checkInFlightRef.current) return;
+    checkInFlightRef.current = true;
     checkIn();
     refresh();
     const info = getStreakInfo();
@@ -34,6 +38,8 @@ export default function CheckInPanel() {
       setTimeout(() => setStampAnim(false), 600);
       toast(`签到成功！连续第 ${info.currentStreak} 天`, "success");
     }
+    // Release lock after a short delay to prevent rapid double-clicks
+    setTimeout(() => { checkInFlightRef.current = false; }, 500);
   };
 
   if (!streakInfo) return null;

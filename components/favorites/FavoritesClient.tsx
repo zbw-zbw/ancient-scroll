@@ -7,7 +7,7 @@ import { useRouter } from "next/navigation";
 import PageHeader from "@/components/PageHeader";
 import EmptyState from "@/components/EmptyState";
 import { getFavorites, toggleFavoritePoem, toggleFavoriteBeast } from "@/lib/progress";
-import { getCollectedBeasts } from "@/lib/collection";
+import { getCollectedBeasts, setCollectedBeasts } from "@/lib/collection";
 import { poems } from "@/data/poems";
 import { beasts } from "@/data/beasts";
 import { categoryLabels } from "@/data/beasts";
@@ -52,6 +52,9 @@ export default function FavoritesClient() {
   const handleRemoveBeast = useCallback(
     (id: string, name: string) => {
       toggleFavoriteBeast(id);
+      // Also remove from collected beasts so bestiary-collected beasts can be un-favorited
+      const collected = getCollectedBeasts();
+      setCollectedBeasts(collected.filter((x) => x !== id));
       loadFavorites();
       toast(`已取消收藏${name}`, "info");
     },

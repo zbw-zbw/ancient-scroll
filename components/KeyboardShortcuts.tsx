@@ -43,18 +43,25 @@ export default function KeyboardShortcuts() {
       // Also ignore contentEditable elements
       if ((e.target as HTMLElement).isContentEditable) return;
 
-      if (e.key === "?") {
+      if (e.key === "?" && !helpOpen) {
         e.preventDefault();
-        setHelpOpen((v) => !v);
+        setHelpOpen(true);
       } else if (e.key === "Escape" && helpOpen) {
         setHelpOpen(false);
-      } else if (e.key === "b" && !e.ctrlKey && !e.metaKey && !helpOpen) {
+        return;
+      }
+
+      // Don't trigger navigation shortcuts when any modal/dialog is open
+      const openDialog = document.querySelector('[role="dialog"]');
+      if (openDialog || helpOpen) return;
+
+      if (e.key === "b" && !e.ctrlKey && !e.metaKey) {
         e.preventDefault();
         router.back();
       } else {
         const key = e.key.toLowerCase();
         const route = keyToRoute[key];
-        if (route && !e.ctrlKey && !e.metaKey && !helpOpen) {
+        if (route && !e.ctrlKey && !e.metaKey) {
           e.preventDefault();
           if (pathname !== route) router.push(route);
         }

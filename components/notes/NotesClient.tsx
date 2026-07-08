@@ -60,8 +60,20 @@ export default function NotesClient() {
       loadNotes();
       // Clear any existing undo timer
       if (undoTimerRef.current) clearTimeout(undoTimerRef.current);
-      // Show toast with undo hint
-      toast("笔记已删除（5秒内可撤销）", "info");
+      toast("笔记已删除", "info", {
+        action: {
+          label: "撤销",
+          onClick: () => {
+            if (deletedNoteRef.current) {
+              saveNote(deletedNoteRef.current);
+              loadNotes();
+              deletedNoteRef.current = null;
+              if (undoTimerRef.current) clearTimeout(undoTimerRef.current);
+              toast("笔记已恢复", "success");
+            }
+          },
+        },
+      });
       // Set timer to permanently clear the ref
       undoTimerRef.current = setTimeout(() => {
         deletedNoteRef.current = null;
@@ -69,17 +81,6 @@ export default function NotesClient() {
     },
     [loadNotes, toast, notes]
   );
-
-  // Undo the last deletion (can be triggered from elsewhere)
-  const handleUndoDelete = useCallback(() => {
-    if (deletedNoteRef.current) {
-      saveNote(deletedNoteRef.current);
-      loadNotes();
-      deletedNoteRef.current = null;
-      if (undoTimerRef.current) clearTimeout(undoTimerRef.current);
-      toast("笔记已恢复", "success");
-    }
-  }, [loadNotes, toast]);
 
   const handleExport = useCallback(() => {
     const md = exportNotesAsMarkdown();

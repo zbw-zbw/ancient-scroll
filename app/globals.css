@@ -41,27 +41,7 @@
   --immersive-bg: #1a1a2e;
 }
 
-/* Dark mode — candlelight night reading */
-@media (prefers-color-scheme: dark) {
-  :root {
-    --ink: #e8dcc8;
-    --light-ink: #a09585;
-    --xuan: #1a1510;
-    --xuan-dark: #221c14;
-    --surface: #252017;
-    --cinnabar: #e05a48;
-    --indigo: #5a7abf;
-    --gold: #d4a843;
-    --muted: #6b6050;
-    --rule: #3a3428;
-    --subtle-line: rgba(232, 220, 200, 0.04);
-    --seal-red: #c74038;
-    --seal-bg: #2a2218;
-    --immersive-bg: #1a1a2e;
-  }
-}
-
-/* Manual toggle dark mode */
+/* Manual toggle dark mode — pure .dark class driven by layout.tsx inline script */
 .dark {
   --ink: #e8dcc8;
   --light-ink: #a09585;
