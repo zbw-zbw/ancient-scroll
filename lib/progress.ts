@@ -1,3 +1,9 @@
+import { beasts } from "@/data/beasts";
+import { chapters } from "@/data/shanhaijing";
+import { poems } from "@/data/poems";
+import { characters } from "@/data/characters";
+import { getCollectedBeasts } from "./collection";
+
 const PROGRESS_KEY = "ancient-scroll-progress";
 const READ_HISTORY_KEY = "ancient-scroll-read-history";
 const FAVORITES_KEY = "ancient-scroll-favorites";
@@ -94,19 +100,13 @@ export function getCompletionRate(): number {
   const completedPoems = new Set(progress.completedPoems).size;
   const dialogueCharacters = new Set(progress.dialogueCharacters).size;
 
-  const totalBeasts = 30;
-  const totalChapters = 10;
-  const totalPoems = 18;
-  const totalDialogues = 9;
+  // Derive totals from data files (single source of truth)
+  const totalBeasts = beasts.length;
+  const totalChapters = chapters.length;
+  const totalPoems = poems.length;
+  const totalDialogues = characters.length;
 
-  const collectedBeasts =
-    typeof window !== "undefined"
-      ? safeParse(() => {
-          const raw = localStorage.getItem("ancient-scroll-collected-beasts");
-          const parsed = raw ? JSON.parse(raw) : [];
-          return Array.isArray(parsed) ? parsed.length : 0;
-        }, 0)
-      : 0;
+  const collectedBeasts = getCollectedBeasts().length;
 
   const completed = collectedBeasts + readChapters + completedPoems + dialogueCharacters;
   const total = totalBeasts + totalChapters + totalPoems + totalDialogues;

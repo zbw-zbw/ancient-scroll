@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 interface StreamingCallbacks {
   onChunk: (text: string) => void;
@@ -12,21 +12,32 @@ export function useStreamingResponse() {
   const [isStreaming, setIsStreaming] = useState(false);
   const abortControllerRef = useRef<AbortController | null>(null);
 
+  // Abort any active stream when the component unmounts
+  useEffect(() => {
+    return () => {
+      abortControllerRef.current?.abort();
+    };
+  }, []);
+
   const startStreaming = useCallback(
     async (
       url: string,
       body: Record<string, unknown>,
       callbacks: StreamingCallbacks,
     ) => {
+      // Abort any previous stream before starting a new one
+      abortControllerRef.current?.abort();
+
       setIsStreaming(true);
-      abortControllerRef.current = new AbortController();
+      const controller = new AbortController();
+      abortControllerRef.current = controller;
 
       try {
         const response = await fetch(url, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(body),
-          signal: abortControllerRef.current.signal,
+          signal: controller.signal,
         });
 
         if (!response.ok) {
@@ -60,6 +71,7 @@ export function useStreamingResponse() {
             if (data === "[DONE]") {
               callbacks.onComplete();
               setIsStreaming(false);
+              abortControllerRef.current = null;
               return;
             }
 
@@ -76,16 +88,20 @@ export function useStreamingResponse() {
 
         callbacks.onComplete();
       } catch (error) {
+        // AbortError: do NOT call onComplete — the stream was cancelled
+        // intentionally (clear/switch/unmount), not completed successfully.
         if (error instanceof Error && error.name === "AbortError") {
-          callbacks.onComplete();
+          // Silent — no callbacks
         } else {
           callbacks.onError(
             error instanceof Error ? error : new Error(String(error)),
           );
         }
       } finally {
+        if (abortControllerRef.current === controller) {
+          abortControllerRef.current = null;
+        }
         setIsStreaming(false);
-        abortControllerRef.current = null;
       }
     },
     [],
@@ -93,6 +109,7 @@ export function useStreamingResponse() {
 
   const abortStreaming = useCallback(() => {
     abortControllerRef.current?.abort();
+    abortControllerRef.current = null;
   }, []);
 
   return { isStreaming, startStreaming, abortStreaming };

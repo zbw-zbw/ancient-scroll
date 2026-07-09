@@ -22,7 +22,10 @@ export default function ReadAloudButton({ text }: ReadAloudButtonProps) {
       window.speechSynthesis.getVoices();
     };
     loadVoices();
-    window.speechSynthesis.onvoiceschanged = loadVoices;
+    window.speechSynthesis.addEventListener("voiceschanged", loadVoices);
+    return () => {
+      window.speechSynthesis.removeEventListener("voiceschanged", loadVoices);
+    };
   }, []);
 
   // Stop speech on unmount

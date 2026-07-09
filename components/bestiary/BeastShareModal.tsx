@@ -4,6 +4,7 @@ import { useState, useEffect, useRef, useCallback } from "react";
 import Image from "next/image";
 import type { Beast } from "@/data/beasts";
 import { IconClose, IconDownload, IconCopy, IconPaw } from "@/components/icons";
+import { useToast } from "@/components/Toast";
 
 interface BeastShareModalProps {
   open: boolean;
@@ -23,6 +24,7 @@ export default function BeastShareModal({
   const [imgError, setImgError] = useState(false);
   const overlayRef = useRef<HTMLDivElement>(null);
   const cardRef = useRef<HTMLDivElement>(null);
+  const { toast } = useToast();
 
   // Reset image error when beast changes
   useEffect(() => {
@@ -91,11 +93,12 @@ export default function BeastShareModal({
       link.href = canvas.toDataURL("image/png");
       link.click();
     } catch (err) {
-      console.error("Failed to save image:", err);
+      console.error("Save image failed:", err);
+      toast("图片保存失败，请截图分享", "error");
     } finally {
       setSaving(false);
     }
-  }, [beast]);
+  }, [beast, toast]);
 
   const handleCopyText = useCallback(async () => {
     if (!beast) return;

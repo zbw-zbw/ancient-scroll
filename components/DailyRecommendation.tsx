@@ -133,7 +133,7 @@ export default function DailyRecommendation() {
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {recommendations.map((rec) => (
             <Link key={`${rec.type}-${rec.id}-${seed}`} href={rec.href} className="group">
-              <div className="card overflow-hidden rounded-2xl bg-surface/60 p-5 transition-all duration-300 hover:border-cinnabar/30 hover:shadow-lg">
+              <div className="card animate-fade-in overflow-hidden rounded-2xl bg-surface/60 p-5 transition-all duration-300 hover:border-cinnabar/30 hover:shadow-lg">
                 <div className="flex items-start justify-between">
                   <span
                     className={`inline-flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br ${rec.color} font-calligraphy text-sm text-ink`}

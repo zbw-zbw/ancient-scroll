@@ -57,6 +57,7 @@ export async function POST(request: Request) {
         },
       ],
       temperature: 0.5,
+      max_tokens: 400,
     });
 
     const raw = completion.choices[0]?.message?.content?.trim() || "";

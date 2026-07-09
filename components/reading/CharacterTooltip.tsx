@@ -122,7 +122,7 @@ export default function CharacterTooltip({
       setAiResult(result);
       // Cache result
       try {
-        const cacheKey = `annotate-${charData.char}-${context.slice(0, 20)}`;
+        const cacheKey = `annotate-${charData.char}-${context}`;
         localStorage.setItem(cacheKey, JSON.stringify(result));
       } catch { /* ignore */ }
       // Save to reading notes

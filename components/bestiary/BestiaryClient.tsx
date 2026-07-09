@@ -60,8 +60,10 @@ export default function BestiaryClient() {
     ) {
       setShowAchievement(true);
       localStorage.setItem(ACHIEVEMENT_SHOWN_KEY, "true");
+      prevCountRef.current = collectedIds.length;
+    } else {
+      prevCountRef.current = collectedIds.length;
     }
-    prevCountRef.current = collectedIds.length;
   }, [collectedIds, selectedBeast]);
 
   // Persist to localStorage and dispatch progress event AFTER state is committed

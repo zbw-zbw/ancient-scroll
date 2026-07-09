@@ -29,12 +29,19 @@ export default function ImmersiveReader({ poem, onBack }: ImmersiveReaderProps) 
  const slides = container.querySelectorAll(".slide");
  const observer = new IntersectionObserver(
      (entries) => {
-       entries.forEach((entry) => {
+       // Find the entry with highest intersection ratio
+       let bestEntry: IntersectionObserverEntry | null = null;
+       for (const entry of entries) {
          if (entry.isIntersecting) {
-           const index = Array.from(slides).indexOf(entry.target);
-           if (index !== -1) setCurrentSlide(index);
+           if (!bestEntry || entry.intersectionRatio > bestEntry.intersectionRatio) {
+             bestEntry = entry;
+           }
          }
-       });
+       }
+       if (bestEntry) {
+         const index = Array.from(slides).indexOf(bestEntry.target);
+         if (index !== -1) setCurrentSlide(index);
+       }
      },
      { threshold: 0.3, rootMargin: "-35% 0px -35% 0px" }
    );

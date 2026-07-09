@@ -12,7 +12,8 @@ export const STORAGE_KEYS = {
   readingNotes: "ancient-scroll-reading-notes",
   readingPrefs: "ancient-scroll-reading-prefs",
   speechRate: "ancient-scroll-speech-rate",
-  achievementNotified: "ancient-scroll-achievement-notified",
+  achievementNotified: "ancient-scroll-achievements-notified",
+  readHistory: "ancient-scroll-read-history",
 } as const;
 
 // Keys included in backup/restore
@@ -25,6 +26,7 @@ const BACKUP_KEYS: string[] = [
   STORAGE_KEYS.readingPrefs,
   STORAGE_KEYS.speechRate,
   STORAGE_KEYS.achievementNotified,
+  STORAGE_KEYS.readHistory,
 ];
 
 export function exportAllData(): string {

@@ -163,7 +163,7 @@ export const beasts: Beast[] = [
     id: "tiangou",
     name: "天狗",
     chapter: "西山经",
-    category: "bird",
+    category: "beast",
     originalText: "有兽焉，其状如狸而白首，名曰天狗，其音如榴榴，可以御凶。",
     translation:
       "山中有一种兽，形状像野猫，白色的头，名叫天狗，叫声像'榴榴'，可以抵御凶邪。",
