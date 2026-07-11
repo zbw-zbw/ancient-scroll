@@ -28,27 +28,50 @@ export default function ImmersiveReader({ poem, onBack }: ImmersiveReaderProps) 
 
  const slides = container.querySelectorAll(".slide");
  const observer = new IntersectionObserver(
-     (entries) => {
-       // Find the entry with highest intersection ratio
-       let bestEntry: IntersectionObserverEntry | null = null;
-       for (const entry of entries) {
-         if (entry.isIntersecting) {
-           if (!bestEntry || entry.intersectionRatio > bestEntry.intersectionRatio) {
-             bestEntry = entry;
-           }
-         }
-       }
-       if (bestEntry) {
-         const index = Array.from(slides).indexOf(bestEntry.target);
-         if (index !== -1) setCurrentSlide(index);
-       }
-     },
-     { threshold: 0.3, rootMargin: "-35% 0px -35% 0px" }
-   );
+    (entries) => {
+      // Pick the slide with the highest intersection ratio to avoid
+      // rapid-slide jank where a leaving slide briefly wins.
+      let bestEntry: IntersectionObserverEntry | null = null;
+      for (const entry of entries) {
+        if (entry.isIntersecting) {
+          if (!bestEntry || entry.intersectionRatio > bestEntry.intersectionRatio) {
+            bestEntry = entry;
+          }
+        }
+      }
+      if (bestEntry) {
+        const index = Array.from(slides).indexOf(bestEntry.target);
+        if (index !== -1) setCurrentSlide(index);
+      }
+    },
+    { threshold: [0, 0.1, 0.25, 0.5, 0.75, 1] }
+  );
 
  slides.forEach((slide) => observer.observe(slide));
  return () => observer.disconnect();
  }, [poem.id]);
+
+ // Fallback: when scrolled to the very bottom, force last slide active.
+ // This fixes the case where the ending slide content stays opacity-0
+ // because the observer didn't fire for the final snap position.
+ useEffect(() => {
+   const container = containerRef.current;
+   if (!container) return;
+
+   const handleScroll = () => {
+     const nearBottom =
+       container.scrollHeight - container.scrollTop - container.clientHeight < 24;
+     if (nearBottom) {
+       setCurrentSlide((prev) => {
+         const last = totalSlides - 1;
+         return prev === last ? prev : last;
+       });
+     }
+   };
+
+   container.addEventListener("scroll", handleScroll, { passive: true });
+   return () => container.removeEventListener("scroll", handleScroll);
+ }, [totalSlides]);
 
  // Hide global navbar while in immersive mode
  useEffect(() => {

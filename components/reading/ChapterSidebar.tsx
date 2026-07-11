@@ -39,8 +39,8 @@ export default function ChapterSidebar({
 
   return (
     <>
-      {/* Desktop sidebar */}
-      <aside className="hidden md:flex md:w-[200px] lg:w-[240px] md:flex-col md:fixed md:top-16 md:bottom-0 md:left-0 md:bg-xuan-dark">
+      {/* Desktop sidebar - fixed so it stays visible while ReadingPanel scrolls */}
+      <aside className="hidden md:fixed md:left-0 md:top-16 md:h-[calc(100vh-4rem)] md:w-[200px] lg:w-[240px] md:flex md:flex-col md:bg-xuan-dark overflow-y-auto">
         <div className="flex flex-1 flex-col overflow-y-auto px-4 py-6">
           <h2 className="mb-5 font-calligraphy text-2xl text-ink">篇章目录</h2>
           <nav className="flex flex-col gap-1">

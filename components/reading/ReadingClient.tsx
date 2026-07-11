@@ -121,8 +121,8 @@ export default function ReadingClient() {
  subtitle="原文与译文对照，逐句品读山海经"
  compact
  />
- <div className="relative flex flex-1 min-h-0 flex-col md:flex-row">
- <ChapterSidebar
+ <div className="relative flex flex-1 min-h-0 flex-col md:flex-row md:pl-[200px] lg:pl-[240px]">
+        <ChapterSidebar
  chapters={chapters}
  selectedId={selectedChapterId}
  onSelect={(id) => {
