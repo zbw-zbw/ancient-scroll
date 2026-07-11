@@ -231,29 +231,44 @@ export default function ShareCardModal({
               {/* Thin divider line */}
               <div className="mx-12" style={{ height: 1, background: themeDark }} />
 
-              {/* Center: poem text displayed vertically (right to left) */}
+              {/* Center: poem text displayed vertically (right to left).
+                  Render each character in its own box to avoid html2canvas
+                  squeezing glyphs in writing-mode: vertical-rl. */}
               <div
                 className="flex flex-row-reverse items-center justify-center px-16"
                 style={{ height: 460 }}
               >
-                <div className="flex flex-row-reverse gap-6">
-                  {poem.lines.map((line, i) => (
-                    <div
-                      key={i}
-                      style={{
-                        writingMode: "vertical-rl",
-                        textOrientation: "upright",
-                        fontFamily:
-                          'var(--font-ma-shan-zheng), "Ma Shan Zheng", cursive',
-                        fontSize: line.text.length > 7 ? 26 : 32,
-                        lineHeight: 1.6,
-                        color: "#1a1a2e",
-                        letterSpacing: 4,
-                      }}
-                    >
-                      {line.text}
-                    </div>
-                  ))}
+                <div className="flex flex-row-reverse gap-10">
+                  {poem.lines.map((line, i) => {
+                    const charSize = line.text.length > 7 ? 26 : 32;
+                    return (
+                      <div
+                        key={i}
+                        className="flex flex-col items-center"
+                        style={{ gap: charSize * 0.35 }}
+                      >
+                        {line.text.split("").map((char, ci) => (
+                          <span
+                            key={ci}
+                            style={{
+                              fontFamily:
+                                'var(--font-ma-shan-zheng), "Ma Shan Zheng", cursive',
+                              fontSize: charSize,
+                              lineHeight: 1,
+                              color: "#1a1a2e",
+                              width: charSize * 1.2,
+                              height: charSize * 1.2,
+                              display: "flex",
+                              alignItems: "center",
+                              justifyContent: "center",
+                            }}
+                          >
+                            {char}
+                          </span>
+                        ))}
+                      </div>
+                    );
+                  })}
                 </div>
               </div>
 
@@ -292,8 +307,8 @@ export default function ShareCardModal({
                   {/* Seal stamp */}
                   <div
                     style={{
-                      width: 56,
-                      height: 56,
+                      width: 64,
+                      height: 64,
                       borderRadius: 4,
                       border: "2px solid rgba(138,31,42,0.6)",
                       display: "flex",
@@ -307,10 +322,11 @@ export default function ShareCardModal({
                       style={{
                         fontFamily:
                           'var(--font-ma-shan-zheng), "Ma Shan Zheng", cursive',
-                        fontSize: 16,
+                        fontSize: 14,
                         color: "#8a1f2a",
                         textAlign: "center",
-                        lineHeight: 1.2,
+                        lineHeight: 1.4,
+                        letterSpacing: 2,
                       }}
                     >
                       古籍
