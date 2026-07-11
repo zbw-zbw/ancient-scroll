@@ -17,9 +17,26 @@ interface ImmersiveReaderProps {
 export default function ImmersiveReader({ poem, onBack }: ImmersiveReaderProps) {
  const containerRef = useRef<HTMLDivElement>(null);
  const touchStartRef = useRef<{ x: number; y: number } | null>(null);
+ const programScrollRef = useRef(false);
+ const programScrollTimerRef = useRef<number | null>(null);
  const [currentSlide, setCurrentSlide] = useState(0);
  const totalSlides = poem.lines.length + 2;
  const { setNavbarVisible } = useNavbarVisibility();
+
+ const clearProgramScrollTimer = useCallback(() => {
+   if (programScrollTimerRef.current) {
+     window.clearTimeout(programScrollTimerRef.current);
+     programScrollTimerRef.current = null;
+   }
+ }, []);
+
+ const startProgrammaticScroll = useCallback(() => {
+   clearProgramScrollTimer();
+   programScrollRef.current = true;
+   programScrollTimerRef.current = window.setTimeout(() => {
+     programScrollRef.current = false;
+   }, 700);
+ }, [clearProgramScrollTimer]);
 
  // Intersection Observer to detect active slide
  useEffect(() => {
@@ -29,6 +46,10 @@ export default function ImmersiveReader({ poem, onBack }: ImmersiveReaderProps) 
  const slides = container.querySelectorAll(".slide");
  const observer = new IntersectionObserver(
     (entries) => {
+      // Ignore observer updates during programmatic scroll (dot/keyboard/swipe)
+      // to prevent intermediate slides from flickering their fade-in animations.
+      if (programScrollRef.current) return;
+
       // Pick the slide with the highest intersection ratio to avoid
       // rapid-slide jank where a leaving slide briefly wins.
       let bestEntry: IntersectionObserverEntry | null = null;
@@ -76,8 +97,23 @@ export default function ImmersiveReader({ poem, onBack }: ImmersiveReaderProps) 
  // Hide global navbar while in immersive mode
  useEffect(() => {
   setNavbarVisible(false);
-  return () => setNavbarVisible(true);
- }, [setNavbarVisible]);
+  return () => {
+    setNavbarVisible(true);
+    clearProgramScrollTimer();
+  };
+ }, [setNavbarVisible, clearProgramScrollTimer]);
+
+ const handleDotClick = useCallback((index: number) => {
+ const container = containerRef.current;
+ if (!container) return;
+ const slides = container.querySelectorAll(".slide");
+ const target = slides[index];
+ if (target) {
+   startProgrammaticScroll();
+   setCurrentSlide(index);
+   target.scrollIntoView({ behavior: "smooth" });
+ }
+ }, [startProgrammaticScroll]);
 
  const handleTouchStart = useCallback((e: React.TouchEvent) => {
    const touch = e.touches[0];
@@ -97,15 +133,15 @@ export default function ImmersiveReader({ poem, onBack }: ImmersiveReaderProps) 
      touchStartRef.current = null;
 
      if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy) * 1.5) {
-       // Swipe: also scroll to target slide (fixes view-dot desync)
-       const next = dx < 0
-         ? Math.min(currentSlide + 1, totalSlides - 1)
-         : Math.max(currentSlide - 1, 0);
-       handleDotClick(next);
-     }
-   },
-   [totalSlides, currentSlide]
- );
+      // Swipe: also scroll to target slide (fixes view-dot desync)
+      const next = dx < 0
+        ? Math.min(currentSlide + 1, totalSlides - 1)
+        : Math.max(currentSlide - 1, 0);
+      handleDotClick(next);
+    }
+  },
+  [totalSlides, currentSlide, handleDotClick]
+);
 
  // Keyboard arrow navigation
  useEffect(() => {
@@ -124,22 +160,14 @@ export default function ImmersiveReader({ poem, onBack }: ImmersiveReaderProps) 
      }
    };
    window.addEventListener("keydown", handleKeyDown);
-   return () => window.removeEventListener("keydown", handleKeyDown);
- }, [currentSlide, totalSlides]);
-
- const handleDotClick = useCallback((index: number) => {
- const container = containerRef.current;
- if (!container) return;
- const slides = container.querySelectorAll(".slide");
- const target = slides[index];
- if (target) {
- target.scrollIntoView({ behavior: "smooth" });
- }
- }, []);
+  return () => window.removeEventListener("keydown", handleKeyDown);
+ }, [currentSlide, totalSlides, handleDotClick]);
 
  const handleRestart = () => {
  const container = containerRef.current;
  if (!container) return;
+ startProgrammaticScroll();
+ setCurrentSlide(0);
  container.scrollTo({ top: 0, behavior: "auto" });
  };
 
