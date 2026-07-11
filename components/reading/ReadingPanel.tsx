@@ -45,7 +45,7 @@ export default function ReadingPanel({
   const readingTime = Math.max(1, Math.ceil(chapter.sentences.length * 2));
 
   return (
-    <main className="flex flex-1 flex-col md:ml-[200px] lg:ml-[240px] min-h-0">
+    <main className="flex flex-1 flex-col min-h-0">
       <div
         ref={scrollRef}
         className="flex-1 overflow-y-auto px-4 py-6 md:px-8 md:py-8"

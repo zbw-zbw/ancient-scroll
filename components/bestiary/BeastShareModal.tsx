@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef, useCallback } from "react";
+import { createPortal } from "react-dom";
 import Image from "next/image";
 import type { Beast } from "@/data/beasts";
 import { IconClose, IconDownload, IconCopy, IconPaw } from "@/components/icons";
@@ -117,7 +118,7 @@ export default function BeastShareModal({
   const colorBTint = colorB + "15";
   const accentColor = "rgba(200,64,50,0.6)";
 
-  return (
+  const modal = (
     <div
       ref={overlayRef}
       onClick={handleOverlayClick}
@@ -418,4 +419,6 @@ export default function BeastShareModal({
       </div>
     </div>
   );
+
+  return createPortal(modal, document.body);
 }
