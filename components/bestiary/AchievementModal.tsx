@@ -97,14 +97,14 @@ export default function AchievementModal({ open, onClose }: AchievementModalProp
       acc[beast.category] += 1;
       return acc;
     },
-    { beast: 0, bird: 0, fish: 0, serpent: 0 }
+    { beast: 0, bird: 0, fish: 0, serpent: 0, god: 0 }
   );
   const collectedCounts = beasts.reduce<Record<BeastCategory, number>>(
     (acc, beast) => {
       if (collected.includes(beast.id)) acc[beast.category] += 1;
       return acc;
     },
-    { beast: 0, bird: 0, fish: 0, serpent: 0 }
+    { beast: 0, bird: 0, fish: 0, serpent: 0, god: 0 }
   );
 
   const content = (

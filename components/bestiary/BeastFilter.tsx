@@ -11,6 +11,7 @@ import {
  IconBird,
  IconFish,
  IconSnake,
+ IconGod,
  IconSearch,
 } from "@/components/icons";
 
@@ -20,6 +21,7 @@ const categoryIcons: Record<string, React.ReactNode> = {
  bird: <IconBird className="h-3.5 w-3.5" />,
  fish: <IconFish className="h-3.5 w-3.5" />,
  serpent: <IconSnake className="h-3.5 w-3.5" />,
+ god: <IconGod className="h-3.5 w-3.5" />,
 };
 
 interface BeastFilterProps {
@@ -29,7 +31,7 @@ interface BeastFilterProps {
  onSearch: (value: string) => void;
 }
 
-const options: (BeastCategory | "all")[] = ["all", "beast", "bird", "fish", "serpent"];
+const options: (BeastCategory | "all")[] = ["all", "beast", "bird", "fish", "serpent", "god"];
 
 export default function BeastFilter({
  active,
