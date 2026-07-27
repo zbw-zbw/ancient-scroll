@@ -37,20 +37,18 @@ export default function PageTransition({
     window.scrollTo(0, 0);
     document.documentElement.scrollTop = 0;
 
-    // Fade in after a brief delay
-    const timer = requestAnimationFrame(() => {
-      requestAnimationFrame(() => {
-        setDisplayed(true);
-      });
-    });
+    // Fade in after fade-out completes (300ms fade-out → fade-in)
+    const timer = setTimeout(() => {
+      setDisplayed(true);
+    }, 150);
 
-    return () => cancelAnimationFrame(timer);
+    return () => clearTimeout(timer);
   }, [pathname]);
 
   return (
     <div
-      className={`transition-all duration-200 ease-out ${
-        displayed ? "opacity-100 translate-y-0" : "opacity-0 translate-y-1"
+      className={`transition-opacity duration-300 ease-out ${
+        displayed ? "opacity-100" : "opacity-0"
       }`}
     >
       {children}

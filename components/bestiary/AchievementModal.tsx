@@ -163,7 +163,7 @@ export default function AchievementModal({ open, onClose }: AchievementModalProp
 
         <button
           onClick={handleClose}
-          className="relative mt-8 w-full rounded-xl bg-cinnabar py-3 min-h-[44px] font-serif text-base text-white shadow-md transition-all hover:bg-cinnabar/90 active:scale-[0.98]"
+          className="relative mt-8 w-full rounded-xl bg-cinnabar py-3 min-h-[44px] font-serif text-base text-white shadow-md transition-all hover:bg-cinnabar/90 active:scale-95"
         >
           太棒了！
         </button>

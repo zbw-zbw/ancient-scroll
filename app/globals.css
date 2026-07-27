@@ -95,12 +95,12 @@ button,
   transition-duration: 300ms;
 }
 
-/* Active feedback for buttons only on hover-capable devices */
+/* Active feedback for buttons only on hover-capable devices — consistent with Button component */
 @media (hover: hover) {
   button:active,
   [role="button"]:active,
   .btn:active {
-    transform: scale(0.97);
+    transform: scale(0.97) translateY(1px);
   }
 }
 
@@ -311,8 +311,11 @@ footer {
 
 @media (hover: hover) {
   .card:hover {
-    transform: translateY(-2px);
+    transform: translateY(-4px);
     box-shadow: 0 8px 25px -5px rgba(0, 0, 0, 0.08), 0 4px 10px -4px rgba(0, 0, 0, 0.04);
+  }
+  .card:active {
+    transform: translateY(-2px);
   }
 }
 
@@ -508,6 +511,16 @@ footer {
   animation: fade-in-down 0.25s ease-out;
 }
 
+/* Fade out up animation for toast dismissal */
+@keyframes fade-out-up {
+  from { opacity: 1; transform: translateY(0); }
+  to { opacity: 0; transform: translateY(-12px); }
+}
+
+.animate-fade-out-up {
+  animation: fade-out-up 0.2s ease-in forwards;
+}
+
 /* Hero reveal */
 @keyframes hero-reveal {
   from {
@@ -619,7 +632,7 @@ footer {
     var(--xuan-dark) 63%
   );
   background-size: 200% 100%;
-  animation: shimmer 1.5s ease-in-out infinite;
+  animation: shimmer 1.2s ease-in-out infinite;
 }
 
 /* ===== Typewriter cursor ===== */
@@ -843,4 +856,27 @@ footer {
 }
 .dark *::-webkit-scrollbar {
   display: none;
+}
+
+/* ===== Mobile touch target enforcement (44x44px minimum) ===== */
+@media (max-width: 768px) {
+  /* Ensure icon-only buttons meet minimum touch target size */
+  button[aria-label],
+  a[aria-label] {
+    min-width: 44px;
+    min-height: 44px;
+  }
+}
+
+/* ===== Prevent horizontal overflow on mobile ===== */
+@media (max-width: 768px) {
+  html,
+  body {
+    overflow-x: hidden;
+    max-width: 100vw;
+  }
+  /* Ensure wide content doesn't cause horizontal scroll */
+  main {
+    overflow-x: hidden;
+  }
 }

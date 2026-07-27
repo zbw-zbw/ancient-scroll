@@ -271,7 +271,7 @@ export default function Navbar() {
             <button
               type="button"
               aria-label="切换深色模式"
-              className="inline-flex items-center justify-center w-9 h-9 rounded-full text-light-ink hover:text-cinnabar hover:bg-cinnabar/10 transition-colors"
+              className="inline-flex items-center justify-center w-9 h-9 rounded-full text-light-ink hover:text-cinnabar hover:bg-cinnabar/10 transition-colors active:scale-[0.97]"
               onClick={toggleTheme}
             >
               {isDark ? (
@@ -294,16 +294,16 @@ export default function Navbar() {
             </button>
           </div>
 
-          {/* Mobile: theme toggle + search + hamburger */}
+          {/* Mobile: theme toggle + search + hamburger — all 44x44px touch targets */}
           <div className="flex md:hidden items-center gap-1">
             <button
               type="button"
               aria-label="切换深色模式"
-              className="inline-flex items-center justify-center w-9 h-9 rounded-full text-light-ink hover:text-cinnabar hover:bg-cinnabar/10 transition-colors"
+              className="inline-flex items-center justify-center w-11 h-11 rounded-full text-light-ink hover:text-cinnabar hover:bg-cinnabar/10 transition-colors active:scale-[0.97]"
               onClick={toggleTheme}
             >
               {isDark ? (
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5">
                   <circle cx="12" cy="12" r="5" />
                   <line x1="12" y1="1" x2="12" y2="3" />
                   <line x1="12" y1="21" x2="12" y2="23" />
@@ -315,7 +315,7 @@ export default function Navbar() {
                   <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
                 </svg>
               ) : (
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5">
                   <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
                 </svg>
               )}
@@ -323,7 +323,7 @@ export default function Navbar() {
             <button
               type="button"
               aria-label="搜索"
-              className="inline-flex items-center justify-center w-9 h-9 rounded-full text-light-ink hover:text-cinnabar hover:bg-cinnabar/10 transition-colors"
+              className="inline-flex items-center justify-center w-11 h-11 rounded-full text-light-ink hover:text-cinnabar hover:bg-cinnabar/10 transition-colors active:scale-[0.97]"
               onClick={() => setSearchOpen(true)}
             >
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5">
@@ -336,7 +336,7 @@ export default function Navbar() {
               aria-label={menuOpen ? "关闭菜单" : "打开菜单"}
               aria-expanded={menuOpen}
               aria-controls="mobile-menu"
-              className="group inline-flex flex-col justify-center items-center w-10 h-10 rounded-full hover:bg-cinnabar/10 transition-colors"
+              className="group inline-flex flex-col justify-center items-center w-11 h-11 rounded-full hover:bg-cinnabar/10 transition-colors active:scale-[0.97]"
               onClick={() => setMenuOpen((v) => !v)}
             >
               <span
@@ -386,7 +386,7 @@ export default function Navbar() {
                   <Link
                     href={item.href}
                     role="menuitem"
-                    className={`inline-flex items-center rounded-full px-4 py-2 font-serif text-base transition-colors ${
+                    className={`inline-flex items-center rounded-full px-4 py-2.5 min-h-[44px] font-serif text-base transition-colors ${
                       isActive
                         ? "bg-cinnabar/10 text-cinnabar"
                         : "text-light-ink hover:text-cinnabar hover:bg-cinnabar/5"
@@ -407,7 +407,7 @@ export default function Navbar() {
                   <Link
                     href={item.href}
                     role="menuitem"
-                    className={`inline-flex items-center gap-1.5 rounded-full px-4 py-2 font-serif text-sm transition-colors ${
+                    className={`inline-flex items-center gap-1.5 rounded-full px-4 py-2.5 min-h-[44px] font-serif text-sm transition-colors ${
                       isActive
                         ? "bg-cinnabar/10 text-cinnabar"
                         : "text-muted hover:text-cinnabar hover:bg-cinnabar/5"

@@ -147,7 +147,7 @@ export default function BeastDetail({
 
           <button
             onClick={onClose}
-            className="absolute right-4 top-4 flex h-9 w-9 items-center justify-center rounded-full bg-ink/20 text-white transition-colors hover:bg-ink/30"
+            className="absolute right-4 top-4 flex h-11 w-11 items-center justify-center rounded-full bg-ink/20 text-white transition-colors hover:bg-ink/30 active:scale-95"
             aria-label="关闭"
           >
             <IconClose className="h-4 w-4" />
@@ -217,7 +217,7 @@ export default function BeastDetail({
               onClick={() => setAiExpanded((v) => !v)}
               aria-expanded={aiExpanded}
               aria-controls="ai-describe-panel"
-              className="inline-flex items-center gap-2 rounded-full bg-cinnabar/5 px-4 py-2 font-serif text-sm text-cinnabar transition-colors hover:bg-cinnabar/10"
+              className="inline-flex items-center gap-2 rounded-full bg-cinnabar/5 px-4 py-2.5 min-h-[44px] font-serif text-sm text-cinnabar transition-colors hover:bg-cinnabar/10 active:scale-95"
             >
               <IconSparkles className="h-3.5 w-3.5" />
               AI 解读
@@ -241,7 +241,7 @@ export default function BeastDetail({
           {onShare && (
             <button
               onClick={() => onShare(beast)}
-              className="mb-3 w-full rounded-xl border border-ink/10 py-3 font-serif text-base text-light-ink transition-all hover:bg-ink/5 active:scale-[0.98] flex items-center justify-center gap-2"
+              className="mb-3 w-full rounded-xl border border-ink/10 py-3 font-serif text-base text-light-ink transition-all hover:bg-ink/5 active:scale-95 flex items-center justify-center gap-2"
             >
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4">
                 <circle cx="18" cy="5" r="3" />
@@ -257,7 +257,7 @@ export default function BeastDetail({
           {/* Large collect button */}
           <button
             onClick={() => onToggleCollect(beast.id)}
-            className={`w-full rounded-xl py-3 min-h-[44px] font-serif text-base transition-all active:scale-[0.98] ${
+            className={`w-full rounded-xl py-3 min-h-[44px] font-serif text-base transition-all active:scale-95 ${
               collected
                 ? "bg-cinnabar/10 text-cinnabar"
                 : "bg-cinnabar text-white shadow-md hover:bg-cinnabar/90"
