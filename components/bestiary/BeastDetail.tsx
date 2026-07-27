@@ -40,12 +40,14 @@ export default function BeastDetail({
   const [mounted, setMounted] = useState(false);
   // AI 解读区域默认折叠
   const [aiExpanded, setAiExpanded] = useState(false);
+  const [imgError, setImgError] = useState(false);
   const modalRef = useRef<HTMLDivElement>(null);
   const previousFocusRef = useRef<HTMLElement | null>(null);
 
-  // 切换异兽时重置 AI 解读折叠状态
+  // 切换异兽时重置 AI 解读折叠状态和图片错误状态
   useEffect(() => {
     setAiExpanded(false);
+    setImgError(false);
   }, [beast?.id]);
 
   useEffect(() => {
@@ -136,13 +138,27 @@ export default function BeastDetail({
       >
         {/* Top image banner - full-bleed cover */}
         <div className="relative h-[300px] flex-shrink-0 overflow-hidden md:h-[340px]">
-          <Image
-            src={beast.imagePath}
-            alt={beast.name}
-            fill
-            sizes="(max-width: 768px) 100vw, 640px"
-            className="object-cover"
-          />
+          {!imgError ? (
+            <Image
+              src={beast.imagePath}
+              alt={beast.name}
+              fill
+              sizes="(max-width: 768px) 100vw, 640px"
+              className="object-cover"
+              onError={() => setImgError(true)}
+            />
+          ) : (
+            <div
+              className="flex h-full w-full items-center justify-center"
+              style={{
+                background: `linear-gradient(135deg, ${beast.gradient[0]}, ${beast.gradient[1]})`,
+              }}
+            >
+              <span className="font-calligraphy text-7xl text-white/80 drop-shadow-lg" aria-hidden="true">
+                {beast.name.charAt(0)}
+              </span>
+            </div>
+          )}
           <div className="absolute inset-0 bg-gradient-to-t from-xuan/40 via-transparent to-transparent" />
 
           <button

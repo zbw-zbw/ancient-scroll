@@ -13,6 +13,7 @@ const navItems = [
   { label: "异兽图鉴", href: "/bestiary" },
   { label: "诗境漫游", href: "/poetry" },
   { label: "古今对话", href: "/dialogue" },
+  { label: "关于", href: "/about" },
 ];
 
 const secondaryNavItems = [
