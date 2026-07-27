@@ -65,7 +65,7 @@ export async function POST(req: NextRequest) {
       stream: true,
       temperature: 0.8,
       max_tokens: 300,
-    });
+    }, { signal: req.signal });
 
     const encoder = new TextEncoder();
 

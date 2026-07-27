@@ -5,6 +5,7 @@ import { createPortal } from "react-dom";
 import Image from "next/image";
 import type { Poem } from "@/data/poems";
 import { IconClose, IconDownload, IconCopy } from "@/components/icons";
+import { useToast } from "@/components/Toast";
 
 interface ShareCardModalProps {
   open: boolean;
@@ -23,6 +24,7 @@ export default function ShareCardModal({
   const [scale, setScale] = useState(1);
   const overlayRef = useRef<HTMLDivElement>(null);
   const cardRef = useRef<HTMLDivElement>(null);
+  const { toast } = useToast();
 
   // Responsive card scaling
   useEffect(() => {
@@ -86,11 +88,12 @@ export default function ShareCardModal({
       link.href = canvas.toDataURL("image/png");
       link.click();
     } catch (err) {
-      console.error("Failed to save image:", err);
+      console.error("Save image failed:", err);
+      toast("图片保存失败，请截图分享", "error");
     } finally {
       setSaving(false);
     }
-  }, [poem]);
+  }, [poem, toast]);
 
   const handleCopyText = useCallback(async () => {
     if (!poem) return;

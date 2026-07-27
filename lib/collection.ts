@@ -14,6 +14,9 @@ export function setCollectedBeasts(ids: string[]) {
   if (typeof window === "undefined") return;
   try {
     localStorage.setItem(COLLECTION_KEY, JSON.stringify(ids));
+    if (typeof window !== "undefined") {
+      window.dispatchEvent(new Event("ancient-scroll:progress-changed"));
+    }
   } catch {}
 }
 

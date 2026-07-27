@@ -65,10 +65,8 @@ export default function ToastProvider({ children }: { children: React.ReactNode 
         {toasts.map((t) => (
           <div
             key={t.id}
-            role="status"
-            className={`pointer-events-auto rounded-lg px-4 py-3 shadow-lg font-serif text-sm backdrop-blur-sm flex items-center gap-3 w-fit max-w-full ${
-              t.exiting ? "animate-fade-out-up" : "animate-fade-in-down"
-            } ${
+            role={t.type === "error" ? "alert" : "status"}
+            className={`pointer-events-auto animate-fade-in-down rounded-lg px-4 py-2.5 shadow-lg font-serif text-sm backdrop-blur-sm flex items-center gap-3 ${
               t.type === "error" ? "bg-seal-red/90 text-white"
               : t.type === "success" ? "bg-gold/90 text-white"
               : "bg-surface/90 text-ink border border-ink/10"

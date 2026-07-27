@@ -2,6 +2,10 @@ import { getProgress, getFavorites } from "./progress";
 import { getCheckinData } from "./checkin";
 import { getAllNotes } from "./notes";
 import { getCollectedBeasts } from "./collection";
+import { chapters } from "@/data/shanhaijing";
+import { poems } from "@/data/poems";
+import { beasts } from "@/data/beasts";
+import { characters } from "@/data/characters";
 
 export interface Achievement {
   id: string;
@@ -13,10 +17,11 @@ export interface Achievement {
   category: "reading" | "poetry" | "bestiary" | "dialogue" | "checkin" | "notes" | "favorites";
 }
 
-const TOTAL_CHAPTERS = 10;
-const TOTAL_POEMS = 18;
-const TOTAL_BEASTS = 30;
-const TOTAL_CHARACTERS = 9;
+// Derive totals from data files (single source of truth)
+const TOTAL_CHAPTERS = chapters.length;
+const TOTAL_POEMS = poems.length;
+const TOTAL_BEASTS = beasts.length;
+const TOTAL_CHARACTERS = characters.length;
 
 export function getAchievements(): Achievement[] {
   const progress = getProgress();

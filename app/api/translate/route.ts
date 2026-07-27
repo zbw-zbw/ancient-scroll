@@ -49,6 +49,7 @@ export async function POST(request: Request) {
         },
       ],
       temperature: 0.7,
+      max_tokens: 800,
     });
 
     const translation = completion.choices[0]?.message?.content?.trim() || "";
