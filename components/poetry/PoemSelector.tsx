@@ -11,35 +11,45 @@ interface PoemSelectorProps {
   onSelect: (poem: Poem) => void;
 }
 
-type DynastyFilter = "all" | string;
+type CategoryFilter = "all" | string;
+
+// 固定分类顺序（与异兽图鉴筛选栏一致的胶囊标签风格）
+const categoryOrder: string[] = [
+  "全部",
+  "思乡",
+  "送别",
+  "山水",
+  "边塞",
+  "哲理",
+  "民生",
+  "抒情",
+];
 
 export default function PoemSelector({ onSelect }: PoemSelectorProps) {
   const [sharePoem, setSharePoem] = useState<Poem | null>(null);
   const [completedPoems, setCompletedPoems] = useState<string[]>([]);
-  const [activeDynasty, setActiveDynasty] = useState<DynastyFilter>("all");
+  const [activeCategory, setActiveCategory] =
+    useState<CategoryFilter>("全部");
 
   // 客户端加载已读诗词进度
   useEffect(() => {
     setCompletedPoems(getProgress().completedPoems);
   }, []);
 
-  // 提取所有不重复的朝代
-  const dynasties = useMemo(
-    () => Array.from(new Set(poems.map((p) => p.dynasty))),
-    []
-  );
-
-  // 筛选按钮组："全部" + 各朝代
-  const dynastyOptions: DynastyFilter[] = useMemo(
-    () => ["all", ...dynasties],
-    [dynasties]
-  );
-
-  // 按选中朝代筛选诗词
+  // 按选中分类筛选诗词
   const filteredPoems = useMemo(() => {
-    if (activeDynasty === "all") return poems;
-    return poems.filter((p) => p.dynasty === activeDynasty);
-  }, [activeDynasty]);
+    if (activeCategory === "全部") return poems;
+    return poems.filter((p) => p.category === activeCategory);
+  }, [activeCategory]);
+
+  // 计算每个分类的诗数（用于胶囊标签上的计数）
+  const categoryCounts = useMemo(() => {
+    const counts: Record<string, number> = { 全部: poems.length };
+    for (const p of poems) {
+      counts[p.category] = (counts[p.category] || 0) + 1;
+    }
+    return counts;
+  }, []);
 
   return (
     <div className="min-h-screen bg-xuan px-4 pb-16 md:px-6">
@@ -48,29 +58,38 @@ export default function PoemSelector({ onSelect }: PoemSelectorProps) {
         subtitle="一字一句，走进古诗的意境"
       />
       <div className="mx-auto max-w-[1100px] pt-8 md:pt-12">
-        {/* 朝代筛选条 */}
+        {/* 分类筛选条（胶囊标签，样式与异兽图鉴一致） */}
         <div className="mb-8 md:mb-10">
           <div
             className="flex flex-nowrap gap-2 overflow-x-auto scrollbar-hide"
             role="group"
-            aria-label="朝代筛选"
+            aria-label="诗词分类筛选"
           >
-            {dynastyOptions.map((dynasty) => {
-              const isActive = activeDynasty === dynasty;
-              const label = dynasty === "all" ? "全部" : dynasty;
+            {categoryOrder.map((category) => {
+              const isActive = activeCategory === category;
+              const count = categoryCounts[category] || 0;
               return (
                 <button
-                  key={dynasty}
+                  key={category}
                   type="button"
-                  onClick={() => setActiveDynasty(dynasty)}
+                  onClick={() => setActiveCategory(category)}
                   aria-pressed={isActive}
-                  className={`inline-flex flex-shrink-0 items-center rounded-full px-3.5 py-1.5 min-h-[36px] font-serif text-sm transition-all ${
+                  className={`capsule-btn inline-flex flex-shrink-0 items-center gap-1.5 rounded-full border px-3.5 py-1.5 min-h-[36px] font-serif text-sm transition-all ${
                     isActive
-                      ? "bg-cinnabar/10 text-cinnabar"
-                      : "bg-surface/60 text-light-ink hover:bg-surface"
+                      ? "border-cinnabar bg-cinnabar text-white"
+                      : "border-ink/15 bg-transparent text-ink hover:bg-ink/5"
                   }`}
                 >
-                  <span>{label}</span>
+                  <span>{category}</span>
+                  <span
+                    className={`ml-0.5 rounded-full px-1.5 py-0 text-[10px] transition-colors ${
+                      isActive
+                        ? "bg-white/20 text-white"
+                        : "bg-ink/5 text-muted"
+                    }`}
+                  >
+                    {count}
+                  </span>
                 </button>
               );
             })}

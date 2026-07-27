@@ -10,31 +10,20 @@ interface CharacterCardProps {
   onSelect: (character: HistoricalCharacter) => void;
 }
 
-// 人物代表作映射表（数据结构中无代表作字段，在此维护）
-const representativeWorks: Record<string, string> = {
-  kongzi: "《论语》",
-  libai: "《将进酒》",
-  sushi: "《赤壁赋》",
-  quyuan: "《离骚》",
-  zhuangzi: "《逍遥游》",
-  wangyangming: "《传习录》",
-  caocao: "《短歌行》",
-  liqingzhao: "《漱玉词》",
-  zhugeliang: "《出师表》",
-};
-
 export default function CharacterCard({
   character,
   onSelect,
 }: CharacterCardProps) {
   const [hasHistory, setHasHistory] = useState(false);
+  const [imgError, setImgError] = useState(false);
 
   useEffect(() => {
     setHasHistory(!!localStorage.getItem(`ancient-scroll-chat-history-${character.id}`));
+    setImgError(false);
   }, [character.id]);
 
-  // 代表作标签
-  const work = representativeWorks[character.id];
+  // 代表作标签（从数据结构中获取）
+  const work = character.representativeWork;
 
   return (
     <button
@@ -77,15 +66,28 @@ export default function CharacterCard({
             backgroundColor: `${character.color}15`,
           }}
         >
-          <Image
-            src={character.avatarPath}
-            alt={character.name}
-            width={80}
-            height={80}
-            className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
-            loading="lazy"
-            placeholder="empty"
-          />
+          {imgError ? (
+            // Emoji placeholder fallback (gradient background + large emoji)
+            <div
+              className="flex h-full w-full items-center justify-center text-3xl"
+              style={{
+                background: `linear-gradient(135deg, ${character.color}25, ${character.color}08)`,
+              }}
+            >
+              {character.emoji}
+            </div>
+          ) : (
+            <Image
+              src={character.avatarPath}
+              alt={character.name}
+              width={80}
+              height={80}
+              className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+              loading="lazy"
+              placeholder="empty"
+              onError={() => setImgError(true)}
+            />
+          )}
         </div>
 
         {/* Name */}
