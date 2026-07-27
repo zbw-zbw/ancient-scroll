@@ -12,13 +12,16 @@ export const metadata: Metadata = {
     "了解古籍焕新的使命、社会价值、技术架构和未来规划。用 AI 让每个人都能感受古文之美。",
 };
 
+// 从数据文件派生真实统计，避免文案与实际数据不一致（安全报告 L-1）
+const TOTAL_SENTENCES = chapters.reduce((n, c) => n + c.sentences.length, 0);
+
 const socialValues = [
   {
     icon: "🔓",
     title: "降低阅读门槛",
     subtitle: "古文阅读从'查字典'到'点一下'",
     description:
-      "AI 逐句翻译 + 难字即时解读，14篇山海经约290句古文全部配有白话翻译和注释，让零基础用户也能读懂",
+      `AI 逐句翻译 + 难字即时解读，${chapters.length}篇山海经${TOTAL_SENTENCES}句古文全部配有白话翻译和注释，让零基础用户也能读懂`,
     scenarios: "中小学文言文教学辅助、自学古文入门",
   },
   {
@@ -26,7 +29,7 @@ const socialValues = [
     title: "让古籍\"看得见\"",
     subtitle: "山海经异兽从文字走进画面",
     description:
-      "41只神话生物图鉴化呈现，水墨风格AI插画，让古文描述不再抽象",
+      `${beasts.length}只神话生物图鉴化呈现，水墨风格AI插画，让古文描述不再抽象`,
     scenarios: "传统文化科普、博物馆数字化展览素材",
   },
   {
@@ -34,7 +37,7 @@ const socialValues = [
     title: "激发文化兴趣",
     subtitle: "沉浸式体验让年轻人主动走进古诗",
     description:
-      "27首古诗沉浸式视觉旅程 + 15位历史人物AI对话，不是强迫阅读，而是创造'想读下去'的体验",
+      `${poems.length}首古诗沉浸式视觉旅程 + ${characters.length}位历史人物AI对话，不是强迫阅读，而是创造'想读下去'的体验`,
     scenarios: "课堂互动教学、文化推广活动",
   },
 ];
@@ -44,7 +47,7 @@ const methods = [
     icon: "📖",
     title: "AI 翻译",
     stat: `${chapters.length}篇`,
-    detail: `山海经，约290句逐句翻译，难字即点即解`,
+    detail: `山海经，${TOTAL_SENTENCES}句逐句翻译，难字即点即解`,
   },
   {
     icon: "🐉",
@@ -77,9 +80,9 @@ const techStack = [
 ];
 
 const timeline = [
-  { status: "done", text: "《山海经》14篇章约290句古文上线" },
-  { status: "done", text: "41只异兽图鉴 + 27首古诗沉浸体验" },
-  { status: "done", text: "15位历史人物 AI 对话" },
+  { status: "done", text: `《山海经》${chapters.length}篇章${TOTAL_SENTENCES}句古文上线` },
+  { status: "done", text: `${beasts.length}只异兽图鉴 + ${poems.length}首古诗沉浸体验` },
+  { status: "done", text: `${characters.length}位历史人物 AI 对话` },
   { status: "planned", text: "扩充至《山海经》全18篇，覆盖全部异兽" },
   { status: "planned", text: "AI 绘画实时生成异兽插画（用户描述 → AI绘图）" },
   { status: "planned", text: "增加《诗经》《楚辞》《论语》等更多古籍" },

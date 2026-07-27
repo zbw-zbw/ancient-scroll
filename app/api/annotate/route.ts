@@ -1,7 +1,16 @@
 import { NextResponse } from "next/server";
 import { aiClient } from "@/lib/ai";
+import { guardApiRequest } from "@/lib/api-guard";
 
 export async function POST(request: Request) {
+  // 安全基线：限流（用户可能快速连点难字，配额适当放宽）+ 请求体大小限制
+  const blocked = guardApiRequest(request, {
+    scope: "annotate",
+    limit: 30,
+    windowMs: 60_000,
+  });
+  if (blocked) return blocked;
+
   if (!process.env.DEEPSEEK_API_KEY) {
     return NextResponse.json(
       { error: "字词解读服务未配置，请检查 API 密钥" },

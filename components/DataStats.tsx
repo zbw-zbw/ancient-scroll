@@ -74,8 +74,11 @@ export default function DataStats() {
   const poemCount = useCountUp(poems.length, 1000, inView);
   const characterCount = useCountUp(characters.length, 1000, inView);
 
+  // 从数据文件派生真实句子总数，避免文案与实际数据不一致（安全报告 L-1）
+  const totalSentences = chapters.reduce((n, c) => n + c.sentences.length, 0);
+
   const stats = [
-    { value: String(chapterCount), unit: "篇", label: "山海经篇章", note: "约290句原文逐句翻译" },
+    { value: String(chapterCount), unit: "篇", label: "山海经篇章", note: `${totalSentences}句原文逐句翻译` },
     { value: String(beastCount), unit: "只", label: "异兽图鉴", note: "5大分类，水墨风格插画" },
     { value: String(poemCount), unit: "首", label: "经典诗词", note: "7大主题，沉浸式体验" },
     { value: String(characterCount), unit: "位", label: "古今人物", note: "横跨春秋至明代" },
