@@ -70,7 +70,7 @@ export default function ChatMessages({
         backgroundSize: "40px 100%",
       }}
     >
-      <div className="mx-auto max-w-[900px] space-y-5 px-4 py-6 md:space-y-6 md:px-6 md:py-8">
+      <div className="mx-auto max-w-[900px] space-y-4 px-4 py-6 md:px-6 md:py-8">
         {stableMessages.map((message, index) => {
           const isLastAssistant =
             !isStreaming &&

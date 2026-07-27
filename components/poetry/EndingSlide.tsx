@@ -79,17 +79,6 @@ export default function EndingSlide({
           active ? "translate-y-0 opacity-100" : "translate-y-12 opacity-0"
         }`}
       >
-        {/* 红色印章装饰 */}
-        <div className="mb-8 flex justify-center">
-          <div className="flex h-16 w-16 rotate-[-3deg] items-center justify-center rounded-sm bg-cinnabar/5 shadow-sm">
-            <span className="text-center font-calligraphy text-sm leading-tight text-cinnabar">
-              诗境
-              <br />
-              漫游
-            </span>
-          </div>
-        </div>
-
         {/* 诗名 */}
         <h2 className="mb-2 font-calligraphy text-4xl text-ink md:text-5xl">
           {poem.title}
@@ -98,16 +87,58 @@ export default function EndingSlide({
           {poem.author} · {poem.dynasty}
         </p>
 
-        {/* 完整诗文 */}
-        <div className="mb-10 space-y-4">
-          {poem.lines.map((line, i) => (
-            <div key={i} className="space-y-1">
-              <p className="font-calligraphy text-2xl leading-relaxed text-ink md:text-3xl">
-                {line.text}
-              </p>
-              <p className="font-serif text-sm text-muted">{line.annotation}</p>
+        {/* 完整诗文 - 竖排卷轴样式：从右到左展开，模拟卷轴 */}
+        <div className="mb-10 flex justify-center">
+          <div
+            className="rounded-lg border-4 border-xuan-dark/30 bg-surface/30 p-4 shadow-sm md:p-6"
+            style={{
+              // 模拟宣纸卷边的内阴影效果
+              boxShadow:
+                "inset 0 0 12px rgba(180, 150, 100, 0.08), 0 2px 8px rgba(0, 0, 0, 0.04)",
+            }}
+          >
+            {/* flex-row-reverse：让第一句在最右，符合古文从右到左的阅读顺序 */}
+            <div className="flex flex-row-reverse justify-center gap-4 overflow-x-auto md:gap-6">
+              {poem.lines.map((line, i) => (
+                <div key={i} className="flex flex-col items-center gap-3">
+                  {/* 诗句竖排：使用 .text-vertical 类，字号用 clamp 实现 375px 响应式 */}
+                  <p
+                    className="text-vertical font-calligraphy text-ink"
+                    style={{
+                      fontSize: "clamp(1.25rem, 4.5vw, 1.875rem)",
+                      lineHeight: "2.1",
+                    }}
+                  >
+                    {line.text}
+                  </p>
+                  {/* 注释竖排（小字）：同样使用 clamp 实现 375px 响应式 */}
+                  <p
+                    className="text-vertical font-serif text-muted"
+                    style={{
+                      fontSize: "clamp(0.7rem, 2vw, 0.875rem)",
+                      lineHeight: "2",
+                    }}
+                  >
+                    {line.annotation}
+                  </p>
+                </div>
+              ))}
             </div>
-          ))}
+          </div>
+        </div>
+
+        {/* 底部红色印章「诗境漫游」：使用 bg-seal-bg + text-seal-red + font-calligraphy */}
+        <div className="mb-8 flex justify-center">
+          <div
+            className="flex h-16 w-16 rotate-[-3deg] items-center justify-center rounded-sm border-2 border-seal-red/40 bg-seal-bg shadow-sm"
+            aria-label="诗境漫游印章"
+          >
+            <span className="text-center font-calligraphy text-sm leading-tight text-seal-red">
+              诗境
+              <br />
+              漫游
+            </span>
+          </div>
         </div>
 
         {/* 诗词赏析一句话 */}

@@ -11,6 +11,7 @@ import {
   IconBookOpen,
   IconHeart,
   IconHeartOutline,
+  IconSparkles,
 } from "@/components/icons";
 import { chapters } from "@/data/shanhaijing";
 import AiDescribeButton from "./AiDescribeButton";
@@ -37,8 +38,15 @@ export default function BeastDetail({
   onShare,
 }: BeastDetailProps) {
   const [mounted, setMounted] = useState(false);
+  // AI 解读区域默认折叠
+  const [aiExpanded, setAiExpanded] = useState(false);
   const modalRef = useRef<HTMLDivElement>(null);
   const previousFocusRef = useRef<HTMLElement | null>(null);
+
+  // 切换异兽时重置 AI 解读折叠状态
+  useEffect(() => {
+    setAiExpanded(false);
+  }, [beast?.id]);
 
   useEffect(() => {
     if (beast) {
@@ -110,15 +118,17 @@ export default function BeastDetail({
 
   const content = (
     <div
-      className={`fixed inset-0 z-[100] flex items-end justify-center bg-ink/60 backdrop-blur-sm transition-opacity duration-300 md:items-center ${mounted ? "opacity-100" : "opacity-0"}`}
+      className={`fixed inset-0 z-[100] flex items-center justify-center bg-ink/60 backdrop-blur-sm transition-opacity duration-300 ${
+        mounted ? "opacity-100" : "opacity-0"
+      }`}
       onClick={(e) => {
         if (e.target === e.currentTarget) onClose();
       }}
     >
       <div
         ref={modalRef}
-        className={`relative flex max-h-[90vh] w-full flex-col overflow-hidden rounded-t-2xl bg-xuan shadow-2xl transition-all duration-300 md:max-w-[640px] md:rounded-2xl ${
-          mounted ? "translate-y-0" : "translate-y-8"
+        className={`relative flex h-full max-h-full w-full flex-col overflow-hidden bg-xuan shadow-2xl transition-all duration-300 rounded-none md:h-auto md:max-h-[90vh] md:max-w-[640px] md:rounded-2xl ${
+          mounted ? "scale-100 opacity-100" : "scale-95 opacity-0"
         }`}
         role="dialog"
         aria-modal="true"
@@ -201,14 +211,30 @@ export default function BeastDetail({
             </p>
           </div>
 
-          {/* AI button */}
+          {/* AI 解读区域 - 可折叠，默认折叠 */}
           <div className="mb-6">
-            <AiDescribeButton
-              name={beast.name}
-              originalText={beast.originalText}
-              currentDescription={currentDescription}
-              onDescription={onDescription}
-            />
+            <button
+              onClick={() => setAiExpanded((v) => !v)}
+              aria-expanded={aiExpanded}
+              aria-controls="ai-describe-panel"
+              className="inline-flex items-center gap-2 rounded-full bg-cinnabar/5 px-4 py-2 font-serif text-sm text-cinnabar transition-colors hover:bg-cinnabar/10"
+            >
+              <IconSparkles className="h-3.5 w-3.5" />
+              AI 解读
+              <span className="font-serif text-xs text-muted">
+                {aiExpanded ? "收起" : "展开"}
+              </span>
+            </button>
+            {aiExpanded && (
+              <div id="ai-describe-panel" className="mt-3">
+                <AiDescribeButton
+                  name={beast.name}
+                  originalText={beast.originalText}
+                  currentDescription={currentDescription}
+                  onDescription={onDescription}
+                />
+              </div>
+            )}
           </div>
 
           {/* Share button - uses onShare prop to delegate to BestiaryClient */}

@@ -64,7 +64,14 @@ export default function ChapterSidebar({
                       selectedId === chapter.id ? "opacity-100" : "opacity-0 w-0 group-hover:opacity-40 group-hover:w-[2px]"
                     }`}
                   />
-                  <span className="font-calligraphy text-lg">{chapter.name}</span>
+                  {/* 篇章名称（font-calligraphy 字体）+ 句数 badge */}
+                  <div className="flex items-center gap-2">
+                    <span className="font-calligraphy text-lg">{chapter.name}</span>
+                    {/* 句数 badge：小圆圈数字 */}
+                    <span className="rounded-full bg-ink/5 px-1.5 text-[10px] text-muted">
+                      {chapter.sentences.length}
+                    </span>
+                  </div>
                   <span className="mt-0.5 font-serif text-xs text-muted">
                     {chapter.subtitle}
                   </span>
@@ -105,13 +112,10 @@ export default function ChapterSidebar({
       {/* Mobile horizontal scroll tabs */}
       <div className="md:hidden sticky top-16 z-30 bg-xuan-dark">
         <div className="mx-auto max-w-[1100px] relative">
-          {/* Left fade mask */}
-          <div className="pointer-events-none absolute left-0 top-0 bottom-0 z-10 w-6 bg-gradient-to-r from-xuan-dark to-transparent" />
-          {/* Right fade mask */}
-          <div className="pointer-events-none absolute right-0 top-0 bottom-0 z-10 w-6 bg-gradient-to-l from-xuan-dark to-transparent" />
           <div
             ref={mobileTabsRef}
-            className="flex items-center gap-2.5 overflow-x-auto py-4 px-4 scrollbar-hide"
+            // 使用 .scroll-fade-edges 类实现两侧渐隐遮罩（mask-image 方案）
+            className="scroll-fade-edges flex items-center gap-2.5 overflow-x-auto py-4 px-4 scrollbar-hide"
           >
             {chapters.map((chapter) => {
               const isSelected = selectedId === chapter.id;
@@ -130,6 +134,12 @@ export default function ChapterSidebar({
                   <span className="font-calligraphy text-base whitespace-nowrap">
                     {chapter.name}
                   </span>
+                  {/* 句数 badge：小圆圈数字，仅在非选中态显示避免拥挤 */}
+                  {!isSelected && (
+                    <span className="rounded-full bg-ink/5 px-1.5 text-[10px] text-muted">
+                      {chapter.sentences.length}
+                    </span>
+                  )}
                   {isRead && !isSelected && (
                     <span className="h-1.5 w-1.5 rounded-full bg-cinnabar/60" />
                   )}
