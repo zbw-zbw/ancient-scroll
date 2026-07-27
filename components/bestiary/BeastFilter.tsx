@@ -52,17 +52,17 @@ export default function BeastFilter({
  key={key}
  onClick={() => onChange(key)}
  aria-pressed={isActive}
- className={`inline-flex flex-shrink-0 items-center gap-1.5 rounded-full px-3.5 py-1.5 min-h-[36px] font-serif text-sm transition-all ${
+ className={`capsule-btn inline-flex flex-shrink-0 items-center gap-1.5 rounded-full border px-3.5 py-1.5 min-h-[36px] font-serif text-sm ${
  isActive
- ? "bg-cinnabar/10 text-cinnabar"
- : "bg-surface/60 text-light-ink hover:bg-surface"
+ ? "border-cinnabar bg-cinnabar text-white"
+ : "border-ink/15 bg-transparent text-ink hover:bg-ink/5"
  }`}
  >
  {icon}
  <span>{label}</span>
  <span
- className={`ml-0.5 rounded-full px-1.5 py-0 text-[10px] ${
- isActive ? "bg-cinnabar/20 text-cinnabar" : "bg-ink/5 text-muted"
+ className={`ml-0.5 rounded-full px-1.5 py-0 text-[10px] transition-colors ${
+ isActive ? "bg-white/20 text-white" : "bg-ink/5 text-muted"
  }`}
  >
  {count}

@@ -4,6 +4,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { beasts, type Beast, type BeastCategory } from "@/data/beasts";
 import { toggleFavoriteBeast } from "@/lib/progress";
+import { useToast } from "@/components/Toast";
 import BeastFilter from "@/components/bestiary/BeastFilter";
 import CollectionProgress from "@/components/bestiary/CollectionProgress";
 import PageHeader from "@/components/PageHeader";
@@ -17,6 +18,7 @@ const ACHIEVEMENT_SHOWN_KEY = "ancient-scroll-achievement-shown";
 
 export default function BestiaryClient() {
   const searchParams = useSearchParams();
+  const { toast } = useToast();
   const [activeCategory, setActiveCategory] = useState<BeastCategory | "all">("all");
   const [search, setSearch] = useState("");
   const [collectedIds, setCollectedIds] = useState<string[]>([]);
@@ -99,12 +101,20 @@ export default function BestiaryClient() {
   }, []);
 
   const handleToggleCollect = useCallback((id: string) => {
-    setCollectedIds((prev) =>
-      prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id]
-    );
+    setCollectedIds((prev) => {
+      if (prev.includes(id)) {
+        // 取消收藏
+        toast("已取消收藏", "info");
+        return prev.filter((item) => item !== id);
+      }
+      // 收藏时反馈异兽名称
+      const beast = beasts.find((b) => b.id === id);
+      toast(`已收藏「${beast?.name ?? ""}」`, "success");
+      return [...prev, id];
+    });
     // Sync with favorites system
     toggleFavoriteBeast(id);
-  }, []);
+  }, [toast]);
 
   const handleViewDetail = useCallback((beast: Beast) => {
     setSelectedBeast(beast);

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import type { Chapter, DifficultChar } from "@/data/shanhaijing";
 import ReadingControls, { type FontSize } from "./ReadingControls";
 import SentenceCard from "./SentenceCard";
@@ -35,11 +35,42 @@ export default function ReadingPanel({
   hasNext = false,
 }: ReadingPanelProps) {
   const scrollRef = useRef<HTMLDivElement>(null);
+  // 当前正在阅读的句子 id（用于 SentenceCard 的 active 高亮）
+  const [activeSentenceId, setActiveSentenceId] = useState<string | null>(null);
 
   // Scroll to top when chapter changes
   useEffect(() => {
     scrollRef.current?.scrollTo({ top: 0, behavior: "smooth" });
+    setActiveSentenceId(null);
   }, [chapter.id]);
+
+  // 通过 IntersectionObserver 追踪当前可见度最高的句子，作为 active 句子
+  useEffect(() => {
+    const container = scrollRef.current;
+    if (!container) return;
+    const sentenceEls = container.querySelectorAll<HTMLElement>("[data-sentence-id]");
+    if (sentenceEls.length === 0) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        // 选择交叉比例最高的可见句子作为当前 active 句子
+        let best: IntersectionObserverEntry | null = null;
+        for (const entry of entries) {
+          if (!entry.isIntersecting) continue;
+          if (!best || entry.intersectionRatio > best.intersectionRatio) {
+            best = entry;
+          }
+        }
+        if (best) {
+          const id = (best.target as HTMLElement).dataset.sentenceId;
+          if (id) setActiveSentenceId(id);
+        }
+      },
+      { root: container, threshold: [0.3, 0.5, 0.75, 1] }
+    );
+    sentenceEls.forEach((el) => observer.observe(el));
+    return () => observer.disconnect();
+  }, [chapter.id, chapter.sentences.length]);
 
   // Estimate reading time: ~2 minutes per sentence for classical Chinese
   const readingTime = Math.max(1, Math.ceil(chapter.sentences.length * 2));
@@ -93,17 +124,20 @@ export default function ReadingPanel({
           {/* Sentences */}
           <div className="flex flex-col gap-4">
             {chapter.sentences.map((sentence, idx) => (
-              <SentenceCard
-                key={sentence.id}
-                sentence={sentence}
-                index={idx}
-                fontSize={fontSize}
-                showTranslation={showTranslation}
-                translation={translations[sentence.id] ?? sentence.translation}
-                chapterName={chapter.name}
-                onCharClick={onCharClick}
-                onTranslation={onTranslation}
-              />
+              // 包裹一层 div 用于 IntersectionObserver 追踪当前可见句子（data-sentence-id）
+              <div key={sentence.id} data-sentence-id={sentence.id}>
+                <SentenceCard
+                  sentence={sentence}
+                  index={idx}
+                  fontSize={fontSize}
+                  showTranslation={showTranslation}
+                  translation={translations[sentence.id] ?? sentence.translation}
+                  chapterName={chapter.name}
+                  onCharClick={onCharClick}
+                  onTranslation={onTranslation}
+                  active={activeSentenceId === sentence.id}
+                />
+              </div>
             ))}
           </div>
 

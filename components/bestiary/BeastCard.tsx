@@ -41,12 +41,12 @@ function BeastCardImpl({
       tabIndex={0}
       onClick={handleCardClick}
       onKeyDown={handleKeyDown}
-      className="card group flex cursor-pointer flex-col relative"
+      className="card group flex min-w-0 cursor-pointer flex-col relative"
       style={{ animationDelay: `${index * 0.1}s` }}
       aria-label={`查看${beast.name}详情`}
     >
-      {/* Image area - full-bleed cover */}
-      <div className="relative h-[260px] overflow-hidden rounded-t-2xl img-placeholder">
+      {/* Image area - full-bleed cover，保持 260px 高度 */}
+      <div className="relative h-[260px] w-full overflow-hidden rounded-t-2xl img-placeholder">
         {!imgError ? (
           <Image
             src={beast.imagePath}
@@ -66,9 +66,9 @@ function BeastCardImpl({
       </div>
 
       {/* Content */}
-      <div className="flex flex-1 flex-col px-4 pb-4">
+      <div className="flex min-w-0 flex-1 flex-col px-4 pb-4">
         <h3 className="font-calligraphy text-xl text-ink">{beast.name}</h3>
-        <div className="mt-1.5 flex items-center gap-2">
+        <div className="mt-1.5 flex flex-wrap items-center gap-2">
           <span className="font-serif text-xs text-muted">{beast.chapter}</span>
           <span className="rounded-full bg-cinnabar/10 px-2 py-0.5 font-serif text-[10px] text-cinnabar">
             {categoryLabels[beast.category]}
@@ -93,7 +93,9 @@ function BeastCardImpl({
                   : "bg-ink/5 text-light-ink hover:bg-ink/10"
               }`}
             >
+              {/* key 随收藏状态变化，强制重新挂载以触发 animate-heart-beat 心跳动画 */}
               <span
+                key={collected ? "collected" : "uncollected"}
                 className={`transition-transform duration-200 ${
                   collected ? "animate-heart-beat" : ""
                 }`}

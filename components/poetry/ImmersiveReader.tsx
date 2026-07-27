@@ -195,6 +195,10 @@ export default function ImmersiveReader({ poem, onBack }: ImmersiveReaderProps) 
 
  {/* Slides */}
  <CoverSlide poem={poem} active={currentSlide === 0} />
+ {/*
+   PoemLineSlide 已使用 clamp(2.25rem, 8vw, 4.5rem) 实现诗句字号自适应，
+   在 375px 等小屏上会自动缩小，无需在此处额外处理。
+ */}
  {poem.lines.map((line, index) => (
  <PoemLineSlide
  key={index}
@@ -210,6 +214,11 @@ export default function ImmersiveReader({ poem, onBack }: ImmersiveReaderProps) 
  onBack={handleBack}
  />
 
+ {/*
+   ProgressDots 已确认在移动端底部水平排列：
+   使用 fixed bottom-[max(1.5rem,env(safe-area-inset-bottom))] left-1/2 -translate-x-1/2
+   + flex items-center gap-2，在所有断点（含 375px）均为底部居中水平排列。
+ */}
  <ProgressDots
  total={totalSlides}
  current={currentSlide}
