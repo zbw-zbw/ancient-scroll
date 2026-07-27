@@ -97,14 +97,14 @@ export default function AchievementModal({ open, onClose }: AchievementModalProp
       acc[beast.category] += 1;
       return acc;
     },
-    { beast: 0, bird: 0, fish: 0, serpent: 0 }
+    { beast: 0, bird: 0, fish: 0, serpent: 0, god: 0 }
   );
   const collectedCounts = beasts.reduce<Record<BeastCategory, number>>(
     (acc, beast) => {
       if (collected.includes(beast.id)) acc[beast.category] += 1;
       return acc;
     },
-    { beast: 0, bird: 0, fish: 0, serpent: 0 }
+    { beast: 0, bird: 0, fish: 0, serpent: 0, god: 0 }
   );
 
   const content = (
@@ -163,7 +163,7 @@ export default function AchievementModal({ open, onClose }: AchievementModalProp
 
         <button
           onClick={handleClose}
-          className="relative mt-8 w-full rounded-xl bg-cinnabar py-3 min-h-[44px] font-serif text-base text-white shadow-md transition-all hover:bg-cinnabar/90 active:scale-[0.98]"
+          className="relative mt-8 w-full rounded-xl bg-cinnabar py-3 min-h-[44px] font-serif text-base text-white shadow-md transition-all hover:bg-cinnabar/90 active:scale-95"
         >
           太棒了！
         </button>

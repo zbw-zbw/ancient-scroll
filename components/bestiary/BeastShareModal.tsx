@@ -144,7 +144,7 @@ export default function BeastShareModal({
         {/* Close button */}
         <button
           onClick={onClose}
-          className="absolute -right-2 -top-2 z-10 flex h-10 w-10 items-center justify-center rounded-full bg-surface/80 text-light-ink shadow-md transition-colors hover:text-ink hover:bg-surface"
+          className="absolute -right-2 -top-2 z-10 flex h-11 w-11 items-center justify-center rounded-full bg-surface/80 text-light-ink shadow-md transition-colors hover:text-ink hover:bg-surface active:scale-95"
           aria-label="关闭"
         >
           <IconClose className="h-5 w-5" />
@@ -406,14 +406,14 @@ export default function BeastShareModal({
           <button
             onClick={handleSaveImage}
             disabled={saving}
-            className="inline-flex items-center gap-2 rounded-full bg-white/90 px-6 py-2.5 font-serif text-sm text-[#1a1a2e] shadow-lg transition-colors hover:bg-white disabled:opacity-50 disabled:cursor-not-allowed"
+            className="inline-flex items-center gap-2 rounded-full bg-white/90 px-6 py-2.5 min-h-[44px] font-serif text-sm text-[#1a1a2e] shadow-lg transition-colors hover:bg-white active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed disabled:active:scale-100"
           >
             <IconDownload className="h-4 w-4" />
             {saving ? "正在保存..." : "保存图片"}
           </button>
           <button
             onClick={handleCopyText}
-            className="inline-flex items-center gap-2 rounded-full bg-white/90 px-6 py-2.5 font-serif text-sm text-[#1a1a2e] shadow-lg transition-colors hover:bg-white"
+            className="inline-flex items-center gap-2 rounded-full bg-white/90 px-6 py-2.5 min-h-[44px] font-serif text-sm text-[#1a1a2e] shadow-lg transition-colors hover:bg-white active:scale-95"
           >
             <IconCopy className="h-4 w-4" />
             {copied ? "已复制" : "复制文字"}

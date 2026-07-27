@@ -64,7 +64,7 @@ export default function ChatInput({
           }}
           disabled={disabled || !value.trim()}
           aria-label="发送消息"
-          className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-cinnabar text-white transition-transform active:scale-90 hover:shadow-md disabled:bg-muted disabled:cursor-not-allowed md:h-11 md:w-11"
+          className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-cinnabar text-white transition-transform active:scale-95 hover:shadow-md disabled:bg-muted disabled:cursor-not-allowed md:h-11 md:w-11"
         >
           {disabled ? (
             <span className="inline-flex gap-0.5">

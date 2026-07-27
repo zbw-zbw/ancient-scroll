@@ -1,4 +1,4 @@
-export type BeastCategory = "beast" | "bird" | "fish" | "serpent";
+export type BeastCategory = "beast" | "bird" | "fish" | "serpent" | "god";
 
 export interface Beast {
   id: string;
@@ -289,7 +289,7 @@ export const beasts: Beast[] = [
     id: "zhulong",
     name: "烛龙",
     chapter: "海内经",
-    category: "serpent",
+    category: "god",
     originalText:
       "有神，人面蛇身而赤，直目正乘，其瞑乃晦，其视乃明，不食不寝不息。",
     translation:
@@ -446,6 +446,171 @@ export const beasts: Beast[] = [
     description:
       "肥遗是北山经中最为诡异的蛇类——一个脑袋却拖着两条身子。它出现在哪里，哪里便赤地千里、大旱成灾。山海经中以\"肥遗\"为名的异兽共有数种，分属鸟、蛇，皆是旱灾的凶兆，足见先民对旱魃之苦的深刻记忆。",
   },
+  {
+    id: "kuafu",
+    name: "夸父",
+    chapter: "海外北经",
+    category: "god",
+    originalText:
+      "夸父与日逐走，入日，渴欲得饮，饮于河渭，河渭不足，北饮大泽。未至，道渴而死。弃其杖，化为邓林。",
+    translation:
+      "夸父与太阳赛跑，追赶到了太阳落下的地方。他口渴想喝水，就喝黄河和渭河的水，黄河渭河的水不够喝，他又向北去喝大泽的水。还没走到，就在半路上渴死了。他丢弃的手杖，化作了一片桃林。",
+    traits: ["逐日", "化为邓林", "巨人"],
+    gradient: ["#ea580c", "#fbbf24"],
+    imagePath: "/images/beasts/kuafu.webp",
+    description:
+      "夸父是中国神话中最具悲剧色彩的英雄。他身为巨人，竟敢与太阳赛跑，追赶至日落之处。虽因口渴而死，手杖却化为绵延千里的桃林，为后人留下甘甜的果实与荫凉。他的故事象征着先民对光明的无畏追求和至死不渝的执着精神。",
+  },
+  {
+    id: "xingtian",
+    name: "刑天",
+    chapter: "海外西经",
+    category: "god",
+    originalText:
+      "刑天与帝至此争神，帝断其首，葬之常羊之山，乃以乳为目，以脐为口，操干戚以舞。",
+    translation:
+      "刑天与天帝争夺神位，天帝砍下了他的头颅，埋葬在常羊山中。刑天便以双乳为眼睛，以肚脐为嘴巴，手持盾牌和斧头继续挥舞战斗。",
+    traits: ["无首", "以乳为目", "操干戚而舞"],
+    gradient: ["#1e293b", "#64748b"],
+    imagePath: "/images/beasts/xingtian.webp",
+    description:
+      "刑天是中国神话中最具反抗精神的战神。被天帝斩首后，他以双乳为目、肚脐为口，依然手持干戚挥舞不止。陶渊明赞他\"刑天舞干戚，猛志固常在\"，他的形象成为永不屈服、战斗到底的精神图腾，激励了无数后世志士。",
+  },
+  {
+    id: "yingzhao",
+    name: "英招",
+    chapter: "西山经",
+    category: "god",
+    originalText:
+      "实惟帝之平圃，神英招司之，其状马身而人面，虎文鸟翼，徇于四海，其音如榴。",
+    translation:
+      "这里是天帝的平圃花园，由神灵英招掌管。他长着马的身体和人的面孔，身上有老虎般的斑纹，还长着鸟的翅膀。他巡行四海，声音如同水流冲击石头。",
+    traits: ["马身人面", "虎文鸟翼", "巡行四海"],
+    gradient: ["#eab308", "#7c3aed"],
+    imagePath: "/images/beasts/yingzhao.webp",
+    description:
+      "英招是天帝平圃的守护神，半人半马的身形融合了多种神圣特质——马的力量、人的智慧、虎的威严与鸟的自由。他巡行四海，守护着天帝的花园，是山海经中最具威仪的神灵之一，其形象与西方半人马遥相呼应。",
+  },
+  {
+    id: "tianwu",
+    name: "天吴",
+    chapter: "海外东经",
+    category: "god",
+    originalText:
+      "朝阳之谷，神曰天吴，是为水伯。其为兽也，八首人面，八足八尾，皆青黄。",
+    translation:
+      "朝阳之谷的神灵名叫天吴，是水神之长。他的形貌如兽，长着八个脑袋都是人的面孔，八只脚八条尾巴，通体青黄色。",
+    traits: ["八首人面", "八足八尾", "水伯"],
+    gradient: ["#0ea5e9", "#0284c7"],
+    imagePath: "/images/beasts/tianwu.webp",
+    description:
+      "天吴是山海经中的水神之长，又称水伯。他拥有八个脑袋、八只脚和八条尾巴，每个脑袋都是人的面孔，通体青黄之色。他掌管朝阳之谷的水域，是上古先民对水之伟力的拟人化想象，其多头多足的形象象征着水的无处不在与不可阻挡。",
+  },
+  {
+    id: "dijiang",
+    name: "帝江",
+    chapter: "西山经",
+    category: "beast",
+    originalText:
+      "有神焉，其状如黄囊，赤如丹火，六足四翼，浑敦无面目，是识歌舞，实惟帝江也。",
+    translation:
+      "山中有一种神灵，形状像黄色的皮囊，红得像丹火，长着六只脚四只翅膀，浑浑沌沌没有面目五官，却懂得唱歌跳舞，它的名字叫帝江。",
+    traits: ["如黄囊", "六足四翼", "无面目", "识歌舞"],
+    gradient: ["#f59e0b", "#dc2626"],
+    imagePath: "/images/beasts/dijiang.webp",
+    description:
+      "帝江是山海经中最奇异的混沌之神。它形如黄色的皮囊，赤红似火，六足四翼，却没有面目五官，却偏偏能歌善舞。后世学者认为帝江即混沌的化身——无面目象征天地未分、浑然一体，能歌舞则暗示混沌中蕴含着创造万物的基础。",
+  },
+  {
+    id: "mingshe",
+    name: "鸣蛇",
+    chapter: "中山经",
+    category: "serpent",
+    originalText:
+      "其中多鸣蛇，其状如蛇而四翼，其音如磬，见则其邑大旱。",
+    translation:
+      "水中多有鸣蛇，形状像蛇却长着四只翅膀，发出的声音像敲击磬石，它一出现那个地方就会发生大旱灾。",
+    traits: ["蛇身四翼", "音如磬", "旱灾预兆"],
+    gradient: ["#dc2626", "#f97316"],
+    imagePath: "/images/beasts/mingshe.webp",
+    description:
+      "鸣蛇是中山经中的旱兆之蛇。它长着四只翅膀，叫声清越如磬石敲击，看似优美却是灾祸的使者——它出现在哪里，哪里便赤地千里。四翼蛇身的形象在古人的想象中既瑰丽又可怖，是先民将自然灾害拟物化的典型表达。",
+  },
+  {
+    id: "dangkang",
+    name: "当康",
+    chapter: "东山经",
+    category: "beast",
+    originalText:
+      "有兽焉，其状如豚而有牙，其名曰当康，其鸣自叫，见则天下大穰。",
+    translation:
+      "山中有一种兽，形状像猪却长着锯齿般的利牙，名叫当康，它的叫声就像在呼唤自己的名字，它一出现天下就会五谷丰登。",
+    traits: ["猪形有牙", "鸣自叫", "丰收之兆"],
+    gradient: ["#16a34a", "#ca8a04"],
+    imagePath: "/images/beasts/dangkang.webp",
+    description:
+      "当康是山海经中罕见的瑞兽。它形如野猪却生利牙，叫声如同自呼其名\"当康\"。与众多预兆灾祸的异兽不同，当康出现意味着天下大丰收——它是先民对丰衣足食的美好期盼的化身，其猪的形象也暗合了中国农耕文化中\"豕\"与\"家\"的深厚关联。",
+  },
+  {
+    id: "luyu",
+    name: "鯥鱼",
+    chapter: "南山经",
+    category: "fish",
+    originalText:
+      "有鱼焉，其状如牛，陵居，蛇尾有翼，其羽在魼下，其音如留牛，其名曰鯥，冬死而春生，食之无肿疾。",
+    translation:
+      "山中有一种鱼，形状像牛，生活在山陵上，长着蛇一样的尾巴和翅膀，羽毛长在肋下，叫声像留牛，名叫鯥。它在冬天死去，到春天又复活，吃了它的肉就不会患痈肿之疾。",
+    traits: ["状如牛", "陵居", "冬死春生", "蛇尾有翼"],
+    gradient: ["#0ea5e9", "#67e8f9"],
+    imagePath: "/images/beasts/luyu.webp",
+    description:
+      "鯥鱼是南山经中最不可思议的生物之一。它虽为鱼类，却形如牛、居山陵、长蛇尾、生羽翼，更奇特的是\"冬死而春生\"——冬季如枯木般死去，春季又焕然复活。这种死而复生的特性使鯥鱼成为生命循环与万物复苏的象征，也反映了先民对季节更替的原始理解。",
+  },
+  {
+    id: "shuhu",
+    name: "孰湖",
+    chapter: "西山经",
+    category: "bird",
+    originalText:
+      "有兽焉，其状马身而鸟翼，人面蛇尾，好举人，名曰孰湖。",
+    translation:
+      "山中有一种兽，长着马的身体和鸟的翅膀，人的面孔和蛇的尾巴，喜欢把人举起来，名叫孰湖。",
+    traits: ["马身鸟翼", "人面蛇尾", "好举人"],
+    gradient: ["#6b7280", "#9ca3af"],
+    imagePath: "/images/beasts/shuhu.webp",
+    description:
+      "孰湖是山海经中最奇特的合体异兽之一——马的身体、鸟的翅膀、人的面孔、蛇的尾巴，四种生灵的特征集于一身。它最独特的行为是\"好举人\"，喜欢将人高高举起，这种看似恶作剧的习性令它在众多凶残的异兽中显得格外有趣，也为先民的想象增添了一抹幽默的色彩。",
+  },
+  {
+    id: "baize",
+    name: "白泽",
+    chapter: "海内经",
+    category: "beast",
+    originalText:
+      "东望山海有兽，名曰白泽。能言语，达于万物之情，知鬼神之事，王者德及幽明则至。",
+    translation:
+      "东望山海之间有一种兽，名叫白泽。它能说人话，通晓万物的情理，了解鬼神的事迹。当君王的德政恩及天地幽明之时，它便会出现。",
+    traits: ["能言语", "通万物之情", "知鬼神之事", "祥瑞"],
+    gradient: ["#fbbf24", "#a855f7"],
+    imagePath: "/images/beasts/baize.webp",
+    description:
+      "白泽是中国神话中最具智慧的神兽。它能说人话，通晓万物之情，深知鬼神之事，是天下所有精怪妖邪的克星。传说黄帝东巡至海滨时曾遇白泽，它向黄帝详述了天下一万一千五百二十种精怪的形象与驱除之法，黄帝据此作《白泽图》传世。白泽因此成为智慧与祥瑞的最高象征。",
+  },
+  {
+    id: "zhuyan",
+    name: "朱厌",
+    chapter: "西山经",
+    category: "beast",
+    originalText:
+      "有兽焉，其状如猿，而白首赤足，名曰朱厌，见则大兵。",
+    translation:
+      "山中有一种兽，形状像猿猴，白色的头红色的脚，名叫朱厌，它一出现就会发生大规模战争。",
+    traits: ["猿形", "白首赤足", "战乱预兆"],
+    gradient: ["#dc2626", "#b45309"],
+    imagePath: "/images/beasts/zhuyan.webp",
+    description:
+      "朱厌是西山经中最为不祥的异兽之一。它形如猿猴，白首赤足，看似不起眼，却是最可怕的战争预兆——它出现在哪里，哪里便烽烟四起、兵戈遍地。古人将猿猴的躁动不安与战争的动荡联系在一起，朱厌便是这种联想的极致表达，其\"白首赤足\"的形象也成为血与火交织的隐喻。",
+  },
 ];
 
 export const categoryLabels: Record<BeastCategory, string> = {
@@ -453,6 +618,7 @@ export const categoryLabels: Record<BeastCategory, string> = {
   bird: "禽类",
   fish: "鱼类",
   serpent: "蛇类",
+  god: "神灵",
 };
 
 export const categoryCounts: Record<BeastCategory | "all", number> = {
@@ -461,4 +627,5 @@ export const categoryCounts: Record<BeastCategory | "all", number> = {
   bird: beasts.filter((b) => b.category === "bird").length,
   fish: beasts.filter((b) => b.category === "fish").length,
   serpent: beasts.filter((b) => b.category === "serpent").length,
+  god: beasts.filter((b) => b.category === "god").length,
 };

@@ -151,7 +151,7 @@ export default function FavoritesClient() {
                           e.stopPropagation();
                           handleRemovePoem(poem.id, poem.title);
                         }}
-                        className="favorite-btn absolute right-3 top-3 z-10 flex h-8 w-8 items-center justify-center rounded-full bg-cinnabar/20 text-cinnabar shadow-sm backdrop-blur-sm transition-all active:scale-90"
+                        className="favorite-btn absolute right-3 top-3 z-10 flex h-8 w-8 items-center justify-center rounded-full bg-cinnabar/20 text-cinnabar shadow-sm backdrop-blur-sm transition-all active:scale-95"
                         aria-label={`取消收藏《${poem.title}》`}
                       >
                         <IconHeart className="h-4 w-4" />
@@ -225,7 +225,7 @@ export default function FavoritesClient() {
                           e.stopPropagation();
                           handleRemoveBeast(beast.id, beast.name);
                         }}
-                        className="favorite-btn absolute right-3 top-3 z-10 flex h-8 w-8 items-center justify-center rounded-full bg-cinnabar/20 text-cinnabar shadow-sm backdrop-blur-sm transition-all active:scale-90"
+                        className="favorite-btn absolute right-3 top-3 z-10 flex h-8 w-8 items-center justify-center rounded-full bg-cinnabar/20 text-cinnabar shadow-sm backdrop-blur-sm transition-all active:scale-95"
                         aria-label={`取消收藏${beast.name}`}
                       >
                         <IconHeart className="h-4 w-4" />

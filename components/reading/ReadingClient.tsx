@@ -12,13 +12,38 @@ import CharacterTooltip from "@/components/reading/CharacterTooltip";
 import type { FontSize } from "@/components/reading/ReadingControls";
 import { markChapterRead, setLastReadChapter, getLastReadChapter } from "@/lib/progress";
 
+// Define the canonical chapter order for the sidebar (14 chapters)
+const chapterOrder = [
+  "nanshan",
+  "xishan",
+  "beishan",
+  "dongshan",
+  "zhongshan",
+  "hainei",
+  "haiwainan",
+  "haiwaixi",
+  "haiwaidong",
+  "haiwaibei",
+  "dahuangdong",
+  "dahuangbei",
+  "dahuangnan",
+  "dahuangxi",
+];
+
+// Sort chapters to match the canonical order
+const sortedChapters = [...chapters].sort((a, b) => {
+  const aIdx = chapterOrder.indexOf(a.id);
+  const bIdx = chapterOrder.indexOf(b.id);
+  return aIdx - bIdx;
+});
+
 export default function ReadingClient() {
  const searchParams = useSearchParams();
  const [selectedChapterId, setSelectedChapterId] = useState(() => {
  const id = searchParams.get("chapter");
- if (id && chapters.some((c) => c.id === id)) return id;
+ if (id && sortedChapters.some((c) => c.id === id)) return id;
  const lastRead = typeof window !== "undefined" ? getLastReadChapter() : null;
- if (lastRead && chapters.some((c) => c.id === lastRead)) return lastRead;
+ if (lastRead && sortedChapters.some((c) => c.id === lastRead)) return lastRead;
  return "nanshan";
  });
  const [fontSize, setFontSize] = useState<FontSize>("md");
@@ -48,23 +73,23 @@ export default function ReadingClient() {
 
  useEffect(() => {
  const id = searchParams.get("chapter");
- if (id && chapters.some((c) => c.id === id)) {
+ if (id && sortedChapters.some((c) => c.id === id)) {
  setSelectedChapterId(id);
  }
  }, [searchParams]);
 
  const chapter = useMemo(
-   () => chapters.find((c) => c.id === selectedChapterId) || chapters[0],
+   () => sortedChapters.find((c) => c.id === selectedChapterId) || sortedChapters[0],
    [selectedChapterId]
  );
 
- const chapterIndex = chapters.findIndex((c) => c.id === selectedChapterId);
+ const chapterIndex = sortedChapters.findIndex((c) => c.id === selectedChapterId);
  const hasPrev = chapterIndex > 0;
- const hasNext = chapterIndex >= 0 && chapterIndex < chapters.length - 1;
+ const hasNext = chapterIndex >= 0 && chapterIndex < sortedChapters.length - 1;
 
  const handlePrevChapter = () => {
    if (hasPrev) {
-     const prevId = chapters[chapterIndex - 1].id;
+     const prevId = sortedChapters[chapterIndex - 1].id;
      setSelectedChapterId(prevId);
      markChapterRead(prevId);
      setLastReadChapter(prevId);
@@ -73,7 +98,7 @@ export default function ReadingClient() {
 
  const handleNextChapter = () => {
    if (hasNext) {
-     const nextId = chapters[chapterIndex + 1].id;
+     const nextId = sortedChapters[chapterIndex + 1].id;
      setSelectedChapterId(nextId);
      markChapterRead(nextId);
      setLastReadChapter(nextId);
@@ -86,19 +111,19 @@ export default function ReadingClient() {
  }, [selectedChapterId]);
 
  const handleCharClick = (
- sentenceId: string,
- charData: DifficultChar,
- rect: DOMRect
+   sentenceId: string,
+   charData: DifficultChar,
+   rect: DOMRect
  ) => {
- setActiveTooltip((prev) => {
- if (
- prev &&
- prev.sentenceId === sentenceId &&
- prev.charData.char === charData.char
- ) {
- return null;
- }
- return { sentenceId, charData, rect };
+   setActiveTooltip((prev) => {
+   if (
+   prev &&
+   prev.sentenceId === sentenceId &&
+   prev.charData.char === charData.char
+   ) {
+   return null;
+   }
+   return { sentenceId, charData, rect };
  });
  };
 
@@ -123,7 +148,7 @@ export default function ReadingClient() {
  />
  <div className="relative flex flex-1 min-h-0 flex-col md:flex-row md:pl-[200px] lg:pl-[240px]">
         <ChapterSidebar
- chapters={chapters}
+ chapters={sortedChapters}
  selectedId={selectedChapterId}
  onSelect={(id) => {
  setSelectedChapterId(id);

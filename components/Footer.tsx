@@ -39,7 +39,7 @@ function BackToTop() {
       type="button"
       aria-label="回到顶部"
       onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-      className={`fixed bottom-6 right-6 z-40 flex h-10 w-10 items-center justify-center rounded-full bg-surface/80 backdrop-blur-sm shadow-md border border-ink/10 text-light-ink hover:text-cinnabar hover:border-cinnabar/30 transition-all duration-300 active:scale-90 md:bottom-8 md:right-8 md:h-11 md:w-11 ${
+      className={`fixed bottom-6 right-6 z-40 flex h-11 w-11 items-center justify-center rounded-full bg-surface/80 backdrop-blur-sm shadow-md border border-ink/10 text-light-ink hover:text-cinnabar hover:border-cinnabar/30 transition-all duration-300 active:scale-95 md:bottom-8 md:right-8 md:h-11 md:w-11 ${
         visible
           ? "translate-y-0 opacity-100 pointer-events-auto"
           : "translate-y-12 opacity-0 pointer-events-none"

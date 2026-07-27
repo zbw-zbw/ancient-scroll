@@ -95,6 +95,12 @@ export const IconSnake = ({ className, size }: IconProps) => (
  </IconBase>
 );
 
+export const IconGod = ({ className, size }: IconProps) => (
+ <IconBase className={className} size={size}>
+ <path d="M12 2 L14 8 L20 8 L15.5 12 L17 18 L12 14.5 L7 18 L8.5 12 L4 8 L10 8 Z" />
+ </IconBase>
+);
+
 export const IconClose = ({ className, size }: IconProps) => (
  <IconBase className={className} size={size}>
  <path d="M18 6 6 18" />

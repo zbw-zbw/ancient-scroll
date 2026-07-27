@@ -7,6 +7,7 @@ const categoryColors: Record<BeastCategory, string> = {
   bird: "#2c3e6b",
   fish: "#2E8B57",
   serpent: "#b8860b",
+  god: "#8b5cf6",
 };
 
 interface CollectionProgressProps {
