@@ -1,7 +1,8 @@
 # 古籍焕新（ancient-scroll）对抗性安全审查报告
 
 > 审查方式：从第一性原理出发，假设攻击者可以无成本、无限制地访问所有公开入口，逐一推演每个信任边界的滥用路径。
-> 技术栈：Next.js 16.2.9（App Router）+ React 19.2.4 + DeepSeek API（OpenAI SDK），用户数据仅存 localStorage，部署于 Vercel。
+> 技术栈：Next.js（App Router）+ React 19 + DeepSeek API（OpenAI SDK），用户数据仅存 localStorage，部署于 Vercel。
+> **状态：全部 8 项发现已于 commit `b91e766` 修复并验证（构建通过、lint 无新增错误、npm audit 高危清零）。**
 
 ## 执行摘要
 
