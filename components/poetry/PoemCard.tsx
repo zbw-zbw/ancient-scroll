@@ -78,8 +78,17 @@ export default function PoemCard({ poem, onSelect, onShare, isRead }: PoemCardPr
             onError={() => setImgError(true)}
           />
         ) : (
-          <div className="flex h-full items-center justify-center">
-            <span className="font-calligraphy text-5xl text-ink/10">{poem.title[0]}</span>
+          <div className="relative flex h-full items-center justify-center overflow-hidden" style={{ background: `linear-gradient(135deg, ${poem.theme}40, ${poem.theme}15)` }}>
+            {/* 水墨大字水印 */}
+            <div className="text-center">
+              <span className="font-calligraphy text-4xl text-white/90" style={{ textShadow: "0 2px 12px rgba(0,0,0,0.15)" }}>
+                {poem.title}
+              </span>
+              <p className="mt-1 font-serif text-xs text-white/60">{poem.author} · {poem.dynasty}</p>
+              <p className="mt-2 font-handwrite text-sm text-white/50 line-clamp-1">{poem.lines[0]?.text}</p>
+            </div>
+            {/* 底部装饰线 */}
+            <div className="absolute bottom-3 left-1/2 h-px w-16 -translate-x-1/2 bg-white/20" />
           </div>
         )}
       </div>

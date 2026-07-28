@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useEffect, useState, useRef } from "react";
 import { createPortal } from "react-dom";
 import type { Beast } from "@/data/beasts";
-import { beasts, categoryLabels } from "@/data/beasts";
+import { beasts, categoryLabels, categoryEmojis } from "@/data/beasts";
 import { beastImageExists } from "@/lib/knownImages";
 import {
   IconClose,
@@ -151,13 +151,23 @@ export default function BeastDetail({
             />
           ) : (
             <div
-              className="flex h-full w-full items-center justify-center"
+              className="relative flex h-full w-full items-center justify-center overflow-hidden"
               style={{
                 background: `linear-gradient(135deg, ${beast.gradient[0]}, ${beast.gradient[1]})`,
               }}
             >
-              <span className="font-calligraphy text-7xl text-white/80 drop-shadow-lg" aria-hidden="true">
-                {beast.name.charAt(0)}
+              {/* 对角线装饰 */}
+              <div className="pointer-events-none absolute inset-0" style={{ background: "linear-gradient(135deg, transparent 49%, rgba(255,255,255,0.04) 50%, transparent 51%)" }} />
+              {/* 水墨大字水印 */}
+              <span
+                className="font-calligraphy text-8xl text-white/15 select-none"
+                aria-hidden="true"
+              >
+                {beast.name}
+              </span>
+              {/* 分类 emoji */}
+              <span className="absolute bottom-4 right-4 text-2xl opacity-40" aria-hidden="true">
+                {categoryEmojis[beast.category]}
               </span>
             </div>
           )}

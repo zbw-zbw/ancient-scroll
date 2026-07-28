@@ -621,6 +621,14 @@ export const categoryLabels: Record<BeastCategory, string> = {
   god: "神灵",
 };
 
+export const categoryEmojis: Record<BeastCategory, string> = {
+  beast: "🐾",
+  bird: "🦅",
+  fish: "🐟",
+  serpent: "🐍",
+  god: "✨",
+};
+
 export const categoryCounts: Record<BeastCategory | "all", number> = {
   all: beasts.length,
   beast: beasts.filter((b) => b.category === "beast").length,

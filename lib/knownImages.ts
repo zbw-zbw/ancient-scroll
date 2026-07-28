@@ -9,17 +9,28 @@ const existingBeasts = new Set([
   "jingwei", "jiuhuweiu", "luanniao", "lushu", "qianyang", "qiuyu",
   "tiangou", "tushu", "xiangliu", "xingxing", "xuangui", "yongyong",
   "zhujian", "zhulong",
+  // 新生成的水墨风格异兽插画
+  "bifang", "chenghuang", "kuiniu", "yinglong", "jiufeng", "qiangliang",
+  "feilian", "zhuhuai", "minniao", "feiwei", "kuafu", "xingtian",
+  "yingzhao", "tianwu", "dijiang", "mingshe", "dangkang", "luyu",
+  "shuhu", "baize", "zhuyan",
 ]);
 
 const existingCharacters = new Set([
   "caocao", "kongzi", "libai", "liqingzhao", "quyuan", "sushi",
   "wangyangming", "zhuangzi", "zhugeliang",
+  // 新生成的水墨风格人物头像
+  "dufu", "xinqiji", "taoyuanming", "wuzetian", "simaqian", "baijuyi",
 ]);
 
 const existingPoetry = new Set([
   "chunxiao", "chusai", "dengguan", "fengqiao", "jiangjinjiu",
   "jiangxue", "jingyesi", "lushan", "minnong", "shuidiaogetou",
   "songyanji", "xiangsi",
+  // 新生成的水墨风格诗词封面
+  "guanju", "duangexing", "yumeiren", "tianjingzha", "shengshengman",
+  "denggao", "jueju", "liangzhouci", "huixiang", "jiuyue",
+  "huanghelou", "baidi", "zhuliguang", "chunri", "shier",
 ]);
 
 function extractFilename(path: string): string | null {

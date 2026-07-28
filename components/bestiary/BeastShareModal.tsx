@@ -178,8 +178,22 @@ export default function BeastShareModal({
                     onError={() => setImgError(true)}
                   />
                 ) : (
-                  <div className="flex h-full w-full items-center justify-center bg-xuan-dark">
-                    <IconPaw className="h-8 w-8 text-muted/40" />
+                  <div
+                    className="relative flex h-full w-full items-center justify-center"
+                    style={{
+                      background: `linear-gradient(135deg, ${beast.gradient[0]}, ${beast.gradient[1]})`,
+                    }}
+                  >
+                    <span
+                      className="font-calligraphy select-none"
+                      style={{
+                        fontSize: 72,
+                        color: "rgba(255,255,255,0.15)",
+                      }}
+                      aria-hidden="true"
+                    >
+                      {beast.name}
+                    </span>
                   </div>
                 )}
                 {/* Dark overlay on top image */}

@@ -53,7 +53,12 @@ export default function ChatHeader({ character, onBack, onClear }: ChatHeaderPro
               onError={() => setImgError(true)}
             />
           ) : (
-            <span className="text-lg md:text-xl">{character.emoji}</span>
+            <span
+              className="font-calligraphy text-base md:text-lg"
+              style={{ color: `${character.color}cc` }}
+            >
+              {character.name.charAt(0)}
+            </span>
           )}
         </div>
 

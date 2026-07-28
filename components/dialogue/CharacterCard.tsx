@@ -81,12 +81,17 @@ export default function CharacterCard({
             />
           ) : (
             <div
-              className="flex h-full w-full items-center justify-center text-3xl"
+              className="flex h-full w-full items-center justify-center"
               style={{
-                background: `linear-gradient(135deg, ${character.color}25, ${character.color}08)`,
+                background: `radial-gradient(circle at 35% 35%, ${character.color}40, ${character.color}15 60%, ${character.color}08)`,
               }}
             >
-              {character.emoji}
+              <span
+                className="font-calligraphy text-3xl"
+                style={{ color: `${character.color}cc` }}
+              >
+                {character.name.charAt(0)}
+              </span>
             </div>
           )}
         </div>

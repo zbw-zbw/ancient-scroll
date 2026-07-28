@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { memo, useState } from "react";
 import type { Beast } from "@/data/beasts";
-import { categoryLabels } from "@/data/beasts";
+import { categoryLabels, categoryEmojis } from "@/data/beasts";
 import { beastImageExists } from "@/lib/knownImages";
 import { IconHeart, IconHeartOutline, IconArrowRight, IconShare } from "@/components/icons";
 
@@ -62,13 +62,23 @@ function BeastCardImpl({
           />
         ) : (
           <div
-            className="flex h-full w-full items-center justify-center"
+            className="relative flex h-full w-full items-center justify-center overflow-hidden"
             style={{
               background: `linear-gradient(135deg, ${beast.gradient[0]}, ${beast.gradient[1]})`,
             }}
           >
-            <span className="font-calligraphy text-5xl text-white/80 drop-shadow-lg" aria-hidden="true">
-              {beast.name.charAt(0)}
+            {/* 对角线装饰 */}
+            <div className="pointer-events-none absolute inset-0" style={{ background: "linear-gradient(135deg, transparent 49%, rgba(255,255,255,0.04) 50%, transparent 51%)" }} />
+            {/* 水墨大字水印 */}
+            <span
+              className="font-calligraphy text-6xl text-white/15 select-none"
+              aria-hidden="true"
+            >
+              {beast.name}
+            </span>
+            {/* 分类 emoji */}
+            <span className="absolute bottom-3 right-3 text-xl opacity-40" aria-hidden="true">
+              {categoryEmojis[beast.category]}
             </span>
           </div>
         )}
