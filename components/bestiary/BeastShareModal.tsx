@@ -6,6 +6,7 @@ import Image from "next/image";
 import type { Beast } from "@/data/beasts";
 import { IconClose, IconDownload, IconCopy, IconPaw } from "@/components/icons";
 import { useToast } from "@/components/Toast";
+import { beastImageExists } from "@/lib/knownImages";
 
 interface BeastShareModalProps {
   open: boolean;
@@ -167,7 +168,7 @@ export default function BeastShareModal({
             >
               {/* Top area: beast image with dark overlay */}
               <div className="relative" style={{ height: 230 }}>
-                {!imgError ? (
+                {!imgError && beastImageExists(beast.imagePath) ? (
                   <Image
                     src={beast.imagePath}
                     alt={beast.name}

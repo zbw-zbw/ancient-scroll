@@ -5,6 +5,7 @@ import Image from "next/image";
 import { IconBot, IconCopy } from "@/components/icons";
 import StreamingCursor from "./StreamingCursor";
 import { useToast } from "@/components/Toast";
+import { characterImageExists } from "@/lib/knownImages";
 
 interface ChatBubbleProps {
   role: "user" | "assistant";
@@ -93,7 +94,7 @@ function ChatBubbleImpl({
           </div>
         ) : (
           <div className="h-8 w-8 flex-shrink-0 overflow-hidden rounded-full bg-surface shadow-sm">
-            {characterAvatarPath ? (
+            {characterAvatarPath && characterImageExists(characterAvatarPath) ? (
               <Image
                 src={characterAvatarPath}
                 alt={characterName || "AI"}

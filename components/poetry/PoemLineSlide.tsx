@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useState } from "react";
 import Image from "next/image";
 import type { PoemLine, ParticleType } from "@/data/poems";
+import { poemImageExists } from "@/lib/knownImages";
 import Particles from "./Particles";
 
 interface PoemLineSlideProps {
@@ -65,7 +66,7 @@ export default function PoemLineSlide({ line, active, coverImage }: PoemLineSlid
       }}
     >
       {/* Cover image background */}
-      {coverImage && (
+      {coverImage && poemImageExists(coverImage) && (
         <Image
           src={coverImage}
           alt=""
@@ -79,7 +80,8 @@ export default function PoemLineSlide({ line, active, coverImage }: PoemLineSlid
       {line.sceneImage && (
         <Image src={line.sceneImage} alt="" fill
           className="absolute inset-0 object-cover opacity-20"
-          loading="lazy" />
+          loading="lazy"
+          onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }} />
       )}
 
       {/* Strong gradient overlay for text readability */}

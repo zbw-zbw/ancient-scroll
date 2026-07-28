@@ -13,6 +13,7 @@ import { beasts } from "@/data/beasts";
 import { categoryLabels } from "@/data/beasts";
 import { IconHeart, IconArrowRight } from "@/components/icons";
 import { useToast } from "@/components/Toast";
+import { poemImageExists, beastImageExists } from "@/lib/knownImages";
 
 type Tab = "poems" | "beasts";
 
@@ -138,13 +139,19 @@ export default function FavoritesClient() {
                     onClick={() => router.push(`/poetry?id=${poem.id}`)}
                   >
                     <div className="relative h-[200px] overflow-hidden img-placeholder" style={{ background: `linear-gradient(135deg, ${poem.theme}40, ${poem.theme}15)` }}>
-                      <Image
-                        src={poem.coverImage}
-                        alt={poem.title}
-                        fill
-                        className="object-cover opacity-80 transition-transform duration-500 group-hover:scale-105"
-                        loading="lazy"
-                      />
+                      {poemImageExists(poem.coverImage) ? (
+                        <Image
+                          src={poem.coverImage}
+                          alt={poem.title}
+                          fill
+                          className="object-cover opacity-80 transition-transform duration-500 group-hover:scale-105"
+                          loading="lazy"
+                        />
+                      ) : (
+                        <div className="flex h-full items-center justify-center">
+                          <span className="font-calligraphy text-5xl text-ink/10">{poem.title[0]}</span>
+                        </div>
+                      )}
                       <div className="absolute inset-0 bg-gradient-to-t from-surface to-transparent" />
                       <button
                         onClick={(e) => {
@@ -213,13 +220,21 @@ export default function FavoritesClient() {
                       className="relative h-[260px] overflow-hidden img-placeholder"
                       style={{ background: `linear-gradient(135deg, ${beast.gradient[0]}20, ${beast.gradient[1]}10)` }}
                     >
-                      <Image
-                        src={beast.imagePath}
-                        alt={beast.name}
-                        fill
-                        className="object-cover transition-transform duration-500 group-hover:scale-105"
-                        loading="lazy"
-                      />
+                      {beastImageExists(beast.imagePath) ? (
+                        <Image
+                          src={beast.imagePath}
+                          alt={beast.name}
+                          fill
+                          className="object-cover transition-transform duration-500 group-hover:scale-105"
+                          loading="lazy"
+                        />
+                      ) : (
+                        <div className="flex h-full w-full items-center justify-center">
+                          <span className="font-calligraphy text-5xl text-white/80 drop-shadow-lg" aria-hidden="true">
+                            {beast.name.charAt(0)}
+                          </span>
+                        </div>
+                      )}
                       <button
                         onClick={(e) => {
                           e.stopPropagation();

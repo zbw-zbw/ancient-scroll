@@ -6,6 +6,7 @@ import { useEffect, useState, useRef } from "react";
 import { createPortal } from "react-dom";
 import type { Beast } from "@/data/beasts";
 import { beasts, categoryLabels } from "@/data/beasts";
+import { beastImageExists } from "@/lib/knownImages";
 import {
   IconClose,
   IconBookOpen,
@@ -41,6 +42,7 @@ export default function BeastDetail({
   // AI 解读区域默认折叠
   const [aiExpanded, setAiExpanded] = useState(false);
   const [imgError, setImgError] = useState(false);
+  const imgAvailable = beast ? beastImageExists(beast.imagePath) : false;
   const modalRef = useRef<HTMLDivElement>(null);
   const previousFocusRef = useRef<HTMLElement | null>(null);
 
@@ -138,7 +140,7 @@ export default function BeastDetail({
       >
         {/* Top image banner - full-bleed cover */}
         <div className="relative h-[300px] flex-shrink-0 overflow-hidden md:h-[340px]">
-          {!imgError ? (
+          {imgAvailable && !imgError ? (
             <Image
               src={beast.imagePath}
               alt={beast.name}

@@ -4,6 +4,7 @@ import Image from "next/image";
 import { memo, useState } from "react";
 import type { Beast } from "@/data/beasts";
 import { categoryLabels } from "@/data/beasts";
+import { beastImageExists } from "@/lib/knownImages";
 import { IconHeart, IconHeartOutline, IconArrowRight, IconShare } from "@/components/icons";
 
 interface BeastCardProps {
@@ -24,6 +25,7 @@ function BeastCardImpl({
   onShare,
 }: BeastCardProps) {
   const [imgError, setImgError] = useState(false);
+  const imgAvailable = beastImageExists(beast.imagePath);
 
   const handleCardClick = () => {
     onViewDetail(beast);
@@ -47,7 +49,7 @@ function BeastCardImpl({
     >
       {/* Image area - full-bleed cover，保持 260px 高度 */}
       <div className="relative h-[260px] w-full overflow-hidden rounded-t-2xl img-placeholder">
-        {!imgError ? (
+        {imgAvailable && !imgError ? (
           <Image
             src={beast.imagePath}
             alt={beast.name}

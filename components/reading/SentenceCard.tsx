@@ -19,7 +19,6 @@ interface SentenceCardProps {
   chapterName: string;
   onCharClick: (sentenceId: string, charData: DifficultChar, rect: DOMRect) => void;
   onTranslation: (sentenceId: string, translation: string) => void;
-  /** 当前正在阅读的句子（可选），active 时高亮显示 */
   active?: boolean;
 }
 
@@ -48,7 +47,6 @@ export default function SentenceCard({
 }: SentenceCardProps) {
   const ref = useRef<HTMLDivElement>(null);
   const [visible, setVisible] = useState(false);
-  // 竖排阅读模式切换状态：默认横排
   const [isVertical, setIsVertical] = useState(false);
 
   useEffect(() => {
@@ -74,47 +72,62 @@ export default function SentenceCard({
   return (
     <article
       ref={ref}
-      className={`relative rounded-lg bg-surface/60 p-5 transition-all duration-700 md:p-6 ${
+      className={`relative rounded-xl border border-ink/8 bg-surface/60 p-5 transition-all duration-700 md:p-6 ${
         visible ? "translate-y-0 opacity-100" : "translate-y-6 opacity-0"
-      } ${active ? "bg-cinnabar/5" : ""}`}
+      } ${active ? "border-cinnabar/20 bg-cinnabar/[0.03]" : ""}`}
     >
-      {/* Index circle */}
-      <div className="mb-4 flex h-7 w-7 items-center justify-center rounded-full bg-cinnabar/5 font-serif text-sm text-cinnabar">
-        {index + 1}
-      </div>
-
-      {/* 原文区域：相对定位以便放置右上角的竖排切换按钮 */}
-      <div className="relative">
-        {/* 竖排/横排切换按钮（右上角） */}
+      {/* Header row: index circle + vertical toggle */}
+      <div className="mb-4 flex items-center justify-between">
+        <div className="flex h-7 w-7 items-center justify-center rounded-full bg-cinnabar/5 font-serif text-sm text-cinnabar">
+          {index + 1}
+        </div>
         <button
           type="button"
           onClick={() => setIsVertical((v) => !v)}
           aria-label={isVertical ? "切换为横排阅读" : "切换为竖排阅读"}
           title={isVertical ? "横排阅读" : "竖排阅读"}
-          className="absolute right-0 top-0 z-10 inline-flex h-7 w-7 items-center justify-center rounded-full bg-ink/5 text-muted transition-colors hover:bg-ink/10 hover:text-cinnabar active:scale-95"
+          className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-ink/5 text-muted transition-colors hover:bg-ink/10 hover:text-cinnabar active:scale-95"
         >
           {isVertical ? (
-            // 横排图标（横线 + 箭头）：当前为竖排，点击切回横排
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-3.5 w-3.5">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4">
               <path d="M3 6h18" />
               <path d="M3 12h18" />
               <path d="M3 18h18" />
             </svg>
           ) : (
-            // 竖排图标（竖线）：当前为横排，点击切换为竖排
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-3.5 w-3.5">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4">
               <path d="M7 3v18" />
               <path d="M12 3v18" />
               <path d="M17 3v18" />
             </svg>
           )}
         </button>
+      </div>
 
-        {/* 原文：竖排时添加 .text-vertical 类 */}
-        <div
-          className={`break-words ${isVertical ? "text-vertical" : ""}`}
-          style={isVertical ? { maxHeight: "60vh", lineHeight: "2.2" } : undefined}
-        >
+      {/* 原文区域 */}
+      {isVertical ? (
+        <div className="flex justify-center overflow-x-auto py-2">
+          <div
+            className="text-vertical mx-auto"
+            style={{
+              maxHeight: "60vh",
+              lineHeight: "2.2",
+              columnGap: "2rem",
+              paddingLeft: "0.5rem",
+              paddingRight: "0.5rem",
+              textOrientation: "upright",
+            }}
+          >
+            <HighlightedText
+              text={sentence.original}
+              difficultChars={sentence.difficultChars}
+              fontSizeClass={fontSizeClasses[fontSize]}
+              onCharClick={handleCharClick}
+            />
+          </div>
+        </div>
+      ) : (
+        <div className="break-words">
           <HighlightedText
             text={sentence.original}
             difficultChars={sentence.difficultChars}
@@ -122,18 +135,18 @@ export default function SentenceCard({
             onCharClick={handleCharClick}
           />
         </div>
-      </div>
+      )}
 
       {/* Translation section */}
       {showTranslation && (
         <p
-          className={`mt-5 font-serif leading-relaxed text-light-ink ${translationSizeClasses[fontSize]}`}
+          className={`mt-5 border-t border-ink/8 pt-4 font-serif leading-relaxed text-light-ink ${translationSizeClasses[fontSize]}`}
         >
           {translation}
         </p>
       )}
 
-      {/* Action toolbar - always visible */}
+      {/* Action toolbar */}
       <div className="mt-4 flex flex-wrap items-center gap-2">
         {showTranslation && sentence.relatedBeastId && (
           <Link
@@ -166,7 +179,7 @@ export default function SentenceCard({
         )}
       </div>
 
-      {/* 古典分隔线：居中的小菱形，作为句子之间的分隔符 */}
+      {/* 分隔线 */}
       <div className="mt-6 flex items-center justify-center" aria-hidden="true">
         <span className="text-[10px] text-cinnabar/40">◆</span>
       </div>

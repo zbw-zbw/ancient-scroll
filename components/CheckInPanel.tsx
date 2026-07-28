@@ -18,7 +18,6 @@ export default function CheckInPanel() {
 
   useEffect(() => {
     refresh();
-    // Listen for progress changes (checkin dispatches them)
     const handler = () => refresh();
     window.addEventListener("ancient-scroll:progress-changed", handler);
     return () => window.removeEventListener("ancient-scroll:progress-changed", handler);
@@ -33,19 +32,41 @@ export default function CheckInPanel() {
     refresh();
     const info = getStreakInfo();
     if (info && !justCheckedIn) {
-      // Trigger stamp animation
       setStampAnim(true);
       setTimeout(() => setStampAnim(false), 600);
       toast(`签到成功！连续第 ${info.currentStreak} 天`, "success");
     }
-    // Release lock after a short delay to prevent rapid double-clicks
     setTimeout(() => { checkInFlightRef.current = false; }, 500);
   };
 
-  if (!streakInfo) return null;
+  // 加载中骨架屏：不返回 null，确保面板始终可见
+  if (!streakInfo) {
+    return (
+      <section className="relative w-full py-10 md:py-16">
+        <div className="relative mx-auto max-w-[1100px] px-6">
+          <div className="rounded-2xl bg-surface/60 p-6 md:p-8">
+            <div className="flex items-center justify-between">
+              <div className="h-7 w-24 animate-pulse rounded-lg bg-ink/10" />
+            </div>
+            <div className="mt-6 flex items-center justify-center gap-3 md:gap-4">
+              {[1, 2, 3, 4, 5, 6, 7].map((i) => (
+                <div key={i} className="flex flex-col items-center gap-1.5">
+                  <div className="h-3 w-3 animate-pulse rounded bg-ink/5" />
+                  <div className="h-8 w-8 animate-pulse rounded-full bg-ink/5" />
+                </div>
+              ))}
+            </div>
+            <div className="mt-6 flex justify-center">
+              <div className="h-11 w-24 animate-pulse rounded-full bg-ink/5" />
+            </div>
+          </div>
+        </div>
+      </section>
+    );
+  }
 
   return (
-    <section className="fade-in relative w-full py-10 md:py-16">
+    <section className="relative w-full py-10 md:py-16">
       <div className="relative mx-auto max-w-[1100px] px-6">
         <div className="rounded-2xl bg-surface/60 p-6 md:p-8">
           {/* Header */}
@@ -142,7 +163,6 @@ export default function CheckInPanel() {
                   : "bg-cinnabar text-white shadow-sm hover:bg-cinnabar/90 hover:shadow-md"
               }`}
             >
-              {/* Stamp animation overlay */}
               {stampAnim && (
                 <span
                   className="pointer-events-none absolute inset-0 flex items-center justify-center"

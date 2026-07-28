@@ -8,6 +8,7 @@ import { markPoemComplete } from "@/lib/progress";
 import { IconRefresh, IconChat, IconArrowRight, IconShare } from "@/components/icons";
 import CopyButton from "@/components/CopyButton";
 import ShareCardModal from "./ShareCardModal";
+import { poemImageExists } from "@/lib/knownImages";
 
 // Read full poem aloud using SpeechSynthesis (queues all lines sequentially)
 function readFullPoem(text: string) {
@@ -60,7 +61,7 @@ export default function EndingSlide({
       }}
     >
       {/* 背景装饰：用封面图做半透明底图 */}
-      {poem.coverImage && (
+      {poem.coverImage && poemImageExists(poem.coverImage) && (
         <Image
           src={poem.coverImage}
           alt=""

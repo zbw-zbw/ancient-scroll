@@ -69,7 +69,7 @@ export default function AchievementSummary() {
   const recentUnlocked = unlocked.slice(-3).reverse();
 
   return (
-    <section className="fade-in relative w-full py-8 md:py-12">
+    <section className="relative w-full py-8 md:py-12">
       <div className="mx-auto max-w-[1100px] px-6">
         <div className="overflow-hidden rounded-2xl border border-gold/20 bg-surface/60">
           {/* Header */}

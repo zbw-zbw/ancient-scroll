@@ -44,7 +44,6 @@ const categoryColors: Record<Achievement["category"], string> = {
   favorites: "#ec4899",
 };
 
-/** Maps an achievement icon name (see lib/achievements.ts) to its SVG icon component. */
 const achievementIconMap: Record<string, ComponentType<{ className?: string }>> = {
   book: IconBook,
   scroll: IconScroll,
@@ -66,7 +65,6 @@ const achievementIconMap: Record<string, ComponentType<{ className?: string }>> 
   gem: IconGem,
 };
 
-/** Render the SVG icon component for a given achievement icon name. */
 export function renderAchievementIcon(iconName: string, className = "h-6 w-6") {
   const Icon = achievementIconMap[iconName] ?? IconSparkles;
   return <Icon className={className} />;
@@ -82,7 +80,6 @@ export default function AchievementPanel() {
     setAchievements(getAchievements());
   }, []);
 
-  // Avoid hydration mismatch: show skeleton during SSR
   if (!mounted) {
     return (
       <section className="px-4 py-16 md:px-6 md:py-24">
@@ -143,7 +140,7 @@ export default function AchievementPanel() {
         <div className="mt-8 flex flex-wrap justify-center gap-2">
           <button
             onClick={() => setFilter("all")}
-            className={`rounded-full px-4 py-1.5 font-serif text-xs transition-colors ${
+            className={`rounded-full px-4 py-1.5 min-h-[32px] font-serif text-xs transition-all capsule-btn ${
               filter === "all"
                 ? "bg-cinnabar/10 text-cinnabar"
                 : "text-muted hover:bg-ink/5 hover:text-light-ink"
@@ -155,7 +152,7 @@ export default function AchievementPanel() {
             <button
               key={cat}
               onClick={() => setFilter(cat)}
-              className={`rounded-full px-4 py-1.5 font-serif text-xs transition-colors ${
+              className={`rounded-full px-4 py-1.5 min-h-[32px] font-serif text-xs transition-all capsule-btn ${
                 filter === cat
                   ? "bg-cinnabar/10 text-cinnabar"
                   : "text-muted hover:bg-ink/5 hover:text-light-ink"
@@ -173,26 +170,34 @@ export default function AchievementPanel() {
             return (
               <div
                 key={ach.id}
-                className={`relative overflow-hidden rounded-lg border p-5 transition-all duration-300 ${
+                className={`group relative overflow-hidden rounded-xl border-2 p-5 transition-all duration-300 ${
                   ach.unlocked
-                    ? "border-ink/10 bg-surface/60"
-                    : "border-ink/5 bg-surface/30 opacity-60"
+                    ? "border-ink/10 bg-surface/60 hover:border-ink/20 hover:shadow-lg hover:-translate-y-1"
+                    : "border-ink/5 bg-surface/30 opacity-60 hover:opacity-80 hover:border-ink/10"
                 }`}
                 style={
                   ach.unlocked
-                    ? { boxShadow: `0 0 0 1px ${color}15, 0 2px 8px ${color}10` }
+                    ? { boxShadow: `0 0 0 1px ${color}10, 0 2px 8px rgba(0,0,0,0.03)` }
                     : undefined
                 }
               >
-                {/* Accent bar */}
+                {/* Accent bar — animates on hover */}
                 <div
-                  className="absolute left-0 top-0 h-full w-1"
+                  className="absolute left-0 top-0 h-full w-1.5 transition-all duration-300 group-hover:w-2"
                   style={{ background: ach.unlocked ? color : "rgba(0,0,0,0.05)" }}
                 />
 
-                <div className="flex items-start gap-3">
+                {/* Decorative glow on hover for unlocked cards */}
+                {ach.unlocked && (
                   <div
-                    className={`flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full ${
+                    className="pointer-events-none absolute -right-8 -top-8 h-24 w-24 rounded-full opacity-0 blur-2xl transition-opacity duration-300 group-hover:opacity-20"
+                    style={{ background: color }}
+                  />
+                )}
+
+                <div className="relative flex items-start gap-3">
+                  <div
+                    className={`flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-xl transition-transform duration-300 group-hover:scale-110 ${
                       ach.unlocked ? "" : "grayscale"
                     }`}
                     style={{ background: ach.unlocked ? `${color}15` : "rgba(0,0,0,0.03)" }}
@@ -203,17 +208,18 @@ export default function AchievementPanel() {
                       <IconLock className="h-6 w-6" />
                     )}
                   </div>
-                  <div className="flex-1">
+                  <div className="flex-1 min-w-0">
                     <h3 className="font-calligraphy text-lg text-ink">{ach.title}</h3>
                     <p className="mt-0.5 font-serif text-xs text-muted">{ach.description}</p>
                     {ach.progress && !ach.unlocked && (
-                      <div className="mt-2">
+                      <div className="mt-2.5">
                         <div className="flex items-center justify-between font-serif text-[10px] text-muted">
                           <span>{ach.progress.current} / {ach.progress.total}</span>
+                          <span>{Math.min(100, Math.round((ach.progress.current / ach.progress.total) * 100))}%</span>
                         </div>
-                        <div className="mt-1 h-1.5 overflow-hidden rounded-full bg-ink/10">
+                        <div className="mt-1 h-2 overflow-hidden rounded-full bg-ink/8">
                           <div
-                            className="h-full transition-all duration-700"
+                            className="h-full rounded-full transition-all duration-700"
                             style={{
                               width: `${Math.min(100, (ach.progress.current / ach.progress.total) * 100)}%`,
                               background: color,
@@ -223,7 +229,7 @@ export default function AchievementPanel() {
                       </div>
                     )}
                     {ach.unlocked && (
-                      <div className="mt-1.5 inline-flex items-center gap-1 font-serif text-[10px] text-cinnabar">
+                      <div className="mt-1.5 inline-flex items-center gap-1 rounded-full px-2 py-0.5 font-serif text-[10px] text-cinnabar" style={{ background: `${color}10` }}>
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className="h-3 w-3">
                           <polyline points="20 6 9 17 4 12" />
                         </svg>

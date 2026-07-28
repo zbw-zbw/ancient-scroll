@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { HistoricalCharacter } from "@/data/characters";
+import { characterImageExists } from "@/lib/knownImages";
 import { IconArrowRight, IconBookOpen } from "@/components/icons";
 
 interface CharacterCardProps {
@@ -16,6 +17,7 @@ export default function CharacterCard({
 }: CharacterCardProps) {
   const [hasHistory, setHasHistory] = useState(false);
   const [imgError, setImgError] = useState(false);
+  const imgAvailable = characterImageExists(character.avatarPath);
 
   useEffect(() => {
     setHasHistory(!!localStorage.getItem(`ancient-scroll-chat-history-${character.id}`));
@@ -66,17 +68,7 @@ export default function CharacterCard({
             backgroundColor: `${character.color}15`,
           }}
         >
-          {imgError ? (
-            // Emoji placeholder fallback (gradient background + large emoji)
-            <div
-              className="flex h-full w-full items-center justify-center text-3xl"
-              style={{
-                background: `linear-gradient(135deg, ${character.color}25, ${character.color}08)`,
-              }}
-            >
-              {character.emoji}
-            </div>
-          ) : (
+          {imgAvailable && !imgError ? (
             <Image
               src={character.avatarPath}
               alt={character.name}
@@ -87,6 +79,15 @@ export default function CharacterCard({
               placeholder="empty"
               onError={() => setImgError(true)}
             />
+          ) : (
+            <div
+              className="flex h-full w-full items-center justify-center text-3xl"
+              style={{
+                background: `linear-gradient(135deg, ${character.color}25, ${character.color}08)`,
+              }}
+            >
+              {character.emoji}
+            </div>
           )}
         </div>
 

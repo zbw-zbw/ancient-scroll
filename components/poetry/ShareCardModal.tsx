@@ -6,6 +6,7 @@ import Image from "next/image";
 import type { Poem } from "@/data/poems";
 import { IconClose, IconDownload, IconCopy } from "@/components/icons";
 import { useToast } from "@/components/Toast";
+import { poemImageExists } from "@/lib/knownImages";
 
 interface ShareCardModalProps {
   open: boolean;
@@ -160,7 +161,7 @@ export default function ShareCardModal({
             >
               {/* Top area: scene image with dark overlay */}
               <div className="relative" style={{ height: 380 }}>
-                {poem.coverImage && (
+                {poem.coverImage && poemImageExists(poem.coverImage) && (
                   <Image
                     src={poem.coverImage}
                     alt=""

@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useCallback, useEffect, useState } from "react";
 import type { Poem } from "@/data/poems";
+import { poemImageExists } from "@/lib/knownImages";
 import { IconArrowRight, IconHeart, IconHeartOutline } from "@/components/icons";
 import { isFavoritePoem, toggleFavoritePoem } from "@/lib/progress";
 
@@ -16,6 +17,7 @@ interface PoemCardProps {
 export default function PoemCard({ poem, onSelect, onShare, isRead }: PoemCardProps) {
   const [favorited, setFavorited] = useState(false);
   const [imgError, setImgError] = useState(false);
+  const imgAvailable = poemImageExists(poem.coverImage);
 
   useEffect(() => {
     setFavorited(isFavoritePoem(poem.id));
@@ -63,8 +65,8 @@ export default function PoemCard({ poem, onSelect, onShare, isRead }: PoemCardPr
       )}
 
       {/* Cover image - same approach as BeastCard */}
-      <div className="relative h-[200px] overflow-hidden rounded-t-2xl img-placeholder" style={{ background: poem.coverImage && !imgError ? undefined : `linear-gradient(135deg, ${poem.theme}40, ${poem.theme}15)` }}>
-        {poem.coverImage && !imgError ? (
+      <div className="relative h-[200px] overflow-hidden rounded-t-2xl img-placeholder" style={{ background: imgAvailable && !imgError ? undefined : `linear-gradient(135deg, ${poem.theme}40, ${poem.theme}15)` }}>
+        {imgAvailable && !imgError ? (
           <Image
             src={poem.coverImage}
             alt={poem.title}

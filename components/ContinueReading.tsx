@@ -41,7 +41,7 @@ export default function ContinueReading() {
   })();
 
   return (
-    <section className="fade-in relative w-full py-10 md:py-16">
+    <section className="relative w-full py-10 md:py-16">
       <div className="relative mx-auto max-w-[1100px] px-6">
         <div className="card overflow-hidden rounded-2xl border border-cinnabar/20 bg-surface/60 transition-all duration-300 hover:border-cinnabar/40 hover:shadow-lg">
           <div className="flex flex-col gap-4 p-6 md:flex-row md:items-center md:gap-6 md:p-8">

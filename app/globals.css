@@ -64,7 +64,7 @@
 }
 
 html {
-  scroll-behavior: smooth;
+  scroll-behavior: auto;
 }
 
 body {
@@ -327,6 +327,18 @@ footer {
   text-orientation: upright;
 }
 
+/* Ensure p tag inside vertical text has no default margins breaking layout */
+.text-vertical p {
+  margin: 0;
+  writing-mode: vertical-rl;
+  text-orientation: upright;
+}
+
+/* Vertical text highlighted char styling */
+.text-vertical [data-char-highlight] {
+  display: inline;
+}
+
 .emoji {
   font-family: "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji", sans-serif;
   font-style: normal;
@@ -566,7 +578,7 @@ footer {
 @keyframes pageEnter {
   from {
     opacity: 0;
-    transform: translateY(16px);
+    transform: translateY(12px);
   }
   to {
     opacity: 1;
@@ -574,8 +586,8 @@ footer {
   }
 }
 
-.page-transition {
-  animation: pageEnter 0.45s ease-out;
+.page-enter {
+  animation: pageEnter 0.3s ease-out;
 }
 
 /* ===== Skeleton shimmer ===== */
