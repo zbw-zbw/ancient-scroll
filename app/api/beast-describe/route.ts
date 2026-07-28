@@ -1,10 +1,19 @@
 import { NextResponse } from "next/server";
 import { aiClient } from "@/lib/ai";
+import { guardApiRequest } from "@/lib/api-guard";
 
 const MAX_NAME_LENGTH = 100;
 const MAX_ORIGINAL_TEXT_LENGTH = 2000;
 
 export async function POST(request: Request) {
+  // 安全基线：限流 + 请求体大小限制
+  const blocked = guardApiRequest(request, {
+    scope: "beast-describe",
+    limit: 20,
+    windowMs: 60_000,
+  });
+  if (blocked) return blocked;
+
   if (!process.env.DEEPSEEK_API_KEY) {
     return NextResponse.json(
       { error: "异兽解读服务未配置，请检查 API 密钥" },

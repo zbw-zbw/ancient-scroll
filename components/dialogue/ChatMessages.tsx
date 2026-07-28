@@ -61,6 +61,7 @@ export default function ChatMessages({
     <div
       ref={scrollRef}
       data-messages-container
+      role="log"
       aria-live={isStreaming ? "off" : "polite"}
       aria-label="对话消息"
       className="scrollbar-hide relative flex-1 overflow-y-auto overflow-x-hidden"

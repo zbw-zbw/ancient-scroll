@@ -30,19 +30,20 @@ const longCang = Long_Cang({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://ancient-scroll.vercel.app"),
+  metadataBase: new URL("https://scroll.kyriewen.cn"),
   alternates: { canonical: "/" },
   title: {
-    default: "古籍焕新 - 交互式古籍阅读平台",
-    template: "%s - 古籍焕新",
+    default: "古籍焕新 — AI 驱动的古籍交互阅读平台",
+    template: "%s — 古籍焕新",
   },
   description:
-    '让千年文字"活"起来。双语阅读、异兽图鉴、诗境漫游、古今对话，开启一场跨越时空的文化之旅。',
+    '让千年文字"活"起来。AI逐句翻译山海经14篇，41只异兽图鉴，27首古诗沉浸体验，15位历史人物穿越对话。',
   openGraph: {
-    title: "古籍焕新 - 交互式古籍阅读平台",
+    title: "古籍焕新 — AI 驱动的古籍交互阅读平台",
     description:
-      '让千年文字"活"起来。双语阅读、异兽图鉴、诗境漫游、古今对话。',
+      '让千年文字"活"起来。AI逐句翻译山海经14篇，41只异兽图鉴，27首古诗沉浸体验，15位历史人物穿越对话。',
     type: "website",
+    url: "https://scroll.kyriewen.cn",
   },
   icons: {
     icon: { url: "/icon.png?v=4", type: "image/png" },

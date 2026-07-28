@@ -45,15 +45,38 @@ export function exportAllData(): string {
   }
 }
 
+/** 单个备份键允许的最大字节数（正常全部数据合计远低于此值） */
+const MAX_BACKUP_VALUE_BYTES = 256 * 1024;
+
+/**
+ * 校验备份值的结构合法性（安全报告 L-2）：
+ * 所有正常存储值都是 JSON.stringify 的产物，因此必须能被 JSON.parse；
+ * 拒绝无法解析的内容，防止损坏数据写入 localStorage 导致 UI 异常。
+ */
+function isValidBackupValue(value: string): boolean {
+  if (value.length > MAX_BACKUP_VALUE_BYTES) return false;
+  try {
+    JSON.parse(value);
+    return true;
+  } catch {
+    return false;
+  }
+}
+
 export function importData(jsonString: string): { success: boolean; message: string } {
   if (typeof window === "undefined") return { success: false, message: "不可用" };
   try {
     const data = JSON.parse(jsonString);
     if (!data || typeof data !== "object") return { success: false, message: "文件格式错误" };
     let restored = 0;
+    let skipped = 0;
     for (const key of BACKUP_KEYS) {
       const value = data[key];
       if (typeof value === "string") {
+        if (!isValidBackupValue(value)) {
+          skipped++;
+          continue;
+        }
         try {
           localStorage.setItem(key, value);
           restored++;
@@ -61,7 +84,8 @@ export function importData(jsonString: string): { success: boolean; message: str
       }
     }
     window.dispatchEvent(new Event("ancient-scroll:progress-changed"));
-    return { success: true, message: `成功恢复 ${restored} 项数据` };
+    const suffix = skipped > 0 ? `，跳过 ${skipped} 项格式异常数据` : "";
+    return { success: true, message: `成功恢复 ${restored} 项数据${suffix}` };
   } catch {
     return { success: false, message: "文件解析失败" };
   }

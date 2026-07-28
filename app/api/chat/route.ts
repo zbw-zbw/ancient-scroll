@@ -1,6 +1,7 @@
 import { NextRequest } from "next/server";
 import { aiClient } from "../../../lib/ai";
 import { getCharacterById } from "../../../data/characters";
+import { guardApiRequest } from "../../../lib/api-guard";
 
 export const runtime = "edge";
 
@@ -11,8 +12,18 @@ interface ChatMessage {
 
 const MAX_MESSAGES = 20;
 const MAX_CONTENT_LENGTH = 2000;
+// 安全基线：限制单次请求的总输入字符数，控制 LLM token 成本（安全报告 C-1）
+const MAX_TOTAL_CHARS = 16000;
 
 export async function POST(req: NextRequest) {
+  // 安全基线：限流（对话接口成本最高，配额最严格）+ 请求体大小限制
+  const blocked = guardApiRequest(req, {
+    scope: "chat",
+    limit: 10,
+    windowMs: 60_000,
+  });
+  if (blocked) return blocked;
+
   if (!process.env.DEEPSEEK_API_KEY) {
     return Response.json(
       { error: "对话服务未配置，请检查 API 密钥" },
@@ -52,7 +63,13 @@ export async function POST(req: NextRequest) {
       .map((m) => ({
         role: m.role,
         content: m.content.slice(0, MAX_CONTENT_LENGTH),
-      }));
+      }))
+      // 从最旧的消息开始丢弃，直到总字符数进入预算（保留最新对话上下文）
+      .reduceRight<ChatMessage[]>((acc, m) => {
+        const used = acc.reduce((n, x) => n + x.content.length, 0);
+        if (used + m.content.length <= MAX_TOTAL_CHARS) acc.unshift(m);
+        return acc;
+      }, []);
 
     const systemMessage: ChatMessage = {
       role: "system",

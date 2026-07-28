@@ -1,9 +1,20 @@
 import { NextResponse } from "next/server";
 import { aiClient } from "@/lib/ai";
+import { guardApiRequest } from "@/lib/api-guard";
 
 const MAX_TEXT_LENGTH = 2000;
+// 安全基线：context 仅为篇章名，必须有长度上限，否则可被注入超长文本放大 token 成本（安全报告 H-1）
+const MAX_CONTEXT_LENGTH = 200;
 
 export async function POST(request: Request) {
+  // 安全基线：限流 + 请求体大小限制
+  const blocked = guardApiRequest(request, {
+    scope: "translate",
+    limit: 20,
+    windowMs: 60_000,
+  });
+  if (blocked) return blocked;
+
   if (!process.env.DEEPSEEK_API_KEY) {
     return NextResponse.json(
       { error: "翻译服务未配置，请检查 API 密钥" },
@@ -31,6 +42,13 @@ export async function POST(request: Request) {
     if (context !== undefined && typeof context !== "string") {
       return NextResponse.json(
         { error: "Missing or invalid context" },
+        { status: 400 }
+      );
+    }
+
+    if (typeof context === "string" && context.length > MAX_CONTEXT_LENGTH) {
+      return NextResponse.json(
+        { error: "篇章信息过长" },
         { status: 400 }
       );
     }

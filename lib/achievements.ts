@@ -58,7 +58,7 @@ export function getAchievements(): Achievement[] {
     {
       id: "all-chapters",
       title: "通读山海",
-      description: "阅读全部10个篇章",
+      description: `阅读全部${TOTAL_CHAPTERS}个篇章`,
       icon: "mountain",
       unlocked: readCount >= TOTAL_CHAPTERS,
       progress: { current: readCount, total: TOTAL_CHAPTERS },
@@ -85,7 +85,7 @@ export function getAchievements(): Achievement[] {
     {
       id: "all-poems",
       title: "诗境大成",
-      description: "完整阅读全部18首诗",
+      description: `完整阅读全部${TOTAL_POEMS}首诗`,
       icon: "sparkles",
       unlocked: poemCount >= TOTAL_POEMS,
       progress: { current: poemCount, total: TOTAL_POEMS },
@@ -112,7 +112,7 @@ export function getAchievements(): Achievement[] {
     {
       id: "all-beasts",
       title: "山海图鉴",
-      description: "收集全部30只异兽",
+      description: `收集全部${TOTAL_BEASTS}只异兽`,
       icon: "dragon",
       unlocked: collectedBeasts >= TOTAL_BEASTS,
       progress: { current: collectedBeasts, total: TOTAL_BEASTS },
@@ -130,7 +130,7 @@ export function getAchievements(): Achievement[] {
     {
       id: "all-dialogues",
       title: "谈古论今",
-      description: "与全部9位古人对话",
+      description: `与全部${TOTAL_CHARACTERS}位古人对话`,
       icon: "lantern",
       unlocked: dialogueCount >= TOTAL_CHARACTERS,
       progress: { current: dialogueCount, total: TOTAL_CHARACTERS },
