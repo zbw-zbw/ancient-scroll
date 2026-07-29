@@ -19,7 +19,6 @@ interface ChatMessagesProps {
   showSuggestions: boolean;
   onSelectQuestion: (question: string) => void;
   onRegenerate?: () => void;
-  scrollContainerRef: React.RefObject<HTMLDivElement | null>;
 }
 
 // Assign stable IDs to messages that lack them (for localStorage restored messages)
@@ -40,13 +39,13 @@ export default function ChatMessages({
   showSuggestions,
   onSelectQuestion,
   onRegenerate,
-  scrollContainerRef,
 }: ChatMessagesProps) {
+  const scrollRef = useRef<HTMLDivElement>(null);
   const prevMessageCountRef = useRef(messages.length);
   const stableMessages = useStableMessages(messages);
 
   useEffect(() => {
-    const container = scrollContainerRef.current;
+    const container = scrollRef.current;
     if (!container) return;
 
     const isNewMessage = messages.length > prevMessageCountRef.current;
@@ -56,15 +55,16 @@ export default function ChatMessages({
       top: container.scrollHeight,
       behavior: isStreaming ? "auto" : isNewMessage ? "smooth" : "auto",
     });
-  }, [messages, streamingContent, isStreaming, scrollContainerRef]);
+  }, [messages, streamingContent, isStreaming]);
 
   return (
     <div
+      ref={scrollRef}
       data-messages-container
       role="log"
       aria-live={isStreaming ? "off" : "polite"}
       aria-label="对话消息"
-      className="overflow-x-hidden"
+      className="scrollbar-hide relative flex-1 overflow-y-auto overflow-x-hidden"
       style={{
         backgroundImage:
           "repeating-linear-gradient(90deg, transparent, transparent 39px, var(--rule) 39px, var(--rule) 40px)",
