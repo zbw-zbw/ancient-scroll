@@ -16,7 +16,7 @@ export default function ChatHeader({ character, onBack, onClear }: ChatHeaderPro
   const imgAvailable = characterImageExists(character.avatarPath);
 
   return (
-    <div className="flex items-center justify-between bg-xuan/95 px-3 py-3 md:px-6 md:py-4 backdrop-blur-md">
+    <div className="sticky top-0 z-10 flex items-center justify-between bg-xuan/95 px-3 py-3 backdrop-blur-md md:px-6 md:py-4">
       <div className="flex items-center gap-2 md:gap-3">
         <button
           onClick={onBack}

@@ -185,26 +185,27 @@ export default function ChatInterface({
     setTimeout(() => handleSendRef.current(lastUserMsg.content), 100);
   }, [messages, isStreaming, abortStreaming]);
 
+ const scrollRef = useRef<HTMLDivElement>(null);
+
  // Scroll messages to bottom when mobile keyboard opens/closes
  useEffect(() => {
  const handleResize = () => {
- const messagesEl = document.querySelector("[data-messages-container]");
- if (messagesEl) {
- messagesEl.scrollTop = messagesEl.scrollHeight;
+ if (scrollRef.current) {
+ scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
  }
  };
  window.visualViewport?.addEventListener("resize", handleResize);
  return () => window.visualViewport?.removeEventListener("resize", handleResize);
  }, []);
 
- return (
- <div className="absolute inset-x-0 top-16 bottom-0 z-20 flex flex-col bg-xuan">
- <ChatHeader
- character={character}
- onBack={onBack}
- onClear={handleClear}
- />
- <ChatMessages
+  return (
+    <div ref={scrollRef} className="fixed inset-x-0 top-16 bottom-0 z-20 overflow-y-auto bg-xuan">
+      <ChatHeader
+        character={character}
+        onBack={onBack}
+        onClear={handleClear}
+      />
+      <ChatMessages
         character={character}
         messages={messages}
         streamingContent={streamingContent}
@@ -212,13 +213,14 @@ export default function ChatInterface({
         showSuggestions={showSuggestions}
         onSelectQuestion={handleSend}
         onRegenerate={handleRegenerate}
- />
- <ChatInput
- value={inputValue}
- onChange={setInputValue}
- onSend={() => handleSend(inputValue)}
- disabled={isStreaming}
- />
- </div>
- );
+        scrollContainerRef={scrollRef}
+      />
+      <ChatInput
+        value={inputValue}
+        onChange={setInputValue}
+        onSend={() => handleSend(inputValue)}
+        disabled={isStreaming}
+      />
+    </div>
+  );
 }

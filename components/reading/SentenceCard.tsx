@@ -110,12 +110,9 @@ export default function SentenceCard({
           <div
             className="text-vertical mx-auto"
             style={{
-              maxHeight: "60vh",
-              lineHeight: "2.2",
-              columnGap: "2rem",
+              lineHeight: "2.4",
               paddingLeft: "0.5rem",
               paddingRight: "0.5rem",
-              textOrientation: "upright",
             }}
           >
             <HighlightedText
@@ -123,6 +120,7 @@ export default function SentenceCard({
               difficultChars={sentence.difficultChars}
               fontSizeClass={fontSizeClasses[fontSize]}
               onCharClick={handleCharClick}
+              vertical
             />
           </div>
         </div>
