@@ -4,7 +4,6 @@ export interface HistoricalCharacter {
   title: string;
   era: string;
   color: string;
-  emoji: string;
   avatarPath: string;
   greeting: string;
   description: string;
@@ -20,7 +19,6 @@ export const characters: HistoricalCharacter[] = [
     title: "至圣先师",
     era: "春秋时期（前551-前479）",
     color: "#8B4513",
-    emoji: "📚",
     avatarPath: "/images/characters/kongzi.webp",
     greeting:
       "后生晚辈，请坐。吾乃孔丘，字仲尼。今日你我虽相隔两千五百载，但道不远人，有何困惑，尽管道来。",
@@ -44,7 +42,6 @@ export const characters: HistoricalCharacter[] = [
     title: "诗仙",
     era: "唐代（701-762）",
     color: "#4169E1",
-    emoji: "🌙",
     avatarPath: "/images/characters/libai.webp",
     greeting:
       "哈哈！来者何人？且坐，且饮！吾乃太白，平生最爱明月与美酒。今夜月色正好，不如你我把酒言欢，聊聊这天下诗文如何？",
@@ -68,7 +65,6 @@ export const characters: HistoricalCharacter[] = [
     title: "东坡居士",
     era: "北宋（1037-1101）",
     color: "#2E8B57",
-    emoji: "🍖",
     avatarPath: "/images/characters/sushi.webp",
     greeting:
       "哎呀，有客来访！老夫苏轼，号东坡居士。说来惭愧，一生被贬无数次，倒是每到一处便发明一道美食。你若不嫌，咱们边吃边聊？",
@@ -92,7 +88,6 @@ export const characters: HistoricalCharacter[] = [
     title: "楚辞之祖",
     era: "战国时期（前340-前278）",
     color: "#800020",
-    emoji: "🌊",
     avatarPath: "/images/characters/quyuan.webp",
     greeting:
       "路漫漫其修远兮……你来了。吾乃屈原，屈平。楚国虽已远去，但吾心中那份对家国的赤诚，两千年来从未熄灭。你可愿听我说说？",
@@ -116,7 +111,6 @@ export const characters: HistoricalCharacter[] = [
     title: "南华真人",
     era: "战国时期（约前369-前286）",
     color: "#6A5ACD",
-    emoji: "🦋",
     avatarPath: "/images/characters/zhuangzi.webp",
     greeting:
       "昔者庄周梦为蝴蝶……哦，你来啦？不知是你来找我，还是我梦见了你？哈哈，这有什么区别呢？坐坐坐，咱们随便聊聊。",
@@ -140,7 +134,6 @@ export const characters: HistoricalCharacter[] = [
     title: "心学宗师",
     era: "明代（1472-1529）",
     color: "#0d9488",
-    emoji: "⚖️",
     avatarPath: "/images/characters/wangyangming.webp",
     greeting:
       "知是行之始，行是知之成。朋友，你来了，可是心中有了困惑？别急，咱们坐下来，且说且行。",
@@ -164,7 +157,6 @@ export const characters: HistoricalCharacter[] = [
     title: "魏武帝",
     era: "东汉末年（155-220）",
     color: "#1e3a5f",
-    emoji: "⚔️",
     avatarPath: "/images/characters/caocao.webp",
     greeting:
       "哈哈哈！来者可是英雄？孤乃曹孟德。世人皆说孤是奸雄，可'宁教我负天下人'这话孤可没说过。坐，说说你的志向。",
@@ -188,7 +180,6 @@ export const characters: HistoricalCharacter[] = [
     title: "千古第一才女",
     era: "宋代（1084-1155）",
     color: "#be185d",
-    emoji: "🌸",
     avatarPath: "/images/characters/liqingzhao.webp",
     greeting:
       "你好啊。我是李清照，号易安居士。人们都记得我'知否知否'那句词，却不知我也写过'生当作人杰，死亦为鬼雄'。来，咱们聊聊。",
@@ -212,7 +203,6 @@ export const characters: HistoricalCharacter[] = [
     title: "卧龙先生",
     era: "三国时期（181-234）",
     color: "#4338ca",
-    emoji: "🪭",
     avatarPath: "/images/characters/zhugeliang.webp",
     greeting:
       "亮虽不才，蒙先主三顾之恩，托以天下之重。今虽星落五丈原，然一生无愧于心。阁下有何疑问，亮知无不言。",
@@ -236,7 +226,6 @@ export const characters: HistoricalCharacter[] = [
     title: "诗圣",
     era: "唐代（712-770）",
     color: "#6B4423",
-    emoji: "📜",
     avatarPath: "/images/characters/dufu.webp",
     greeting:
       "老夫杜甫，字子美。一生漂泊，所幸以笔为家。你若不嫌老夫话多，咱们聊聊这人间疾苦与山河壮美？",
@@ -260,7 +249,6 @@ export const characters: HistoricalCharacter[] = [
     title: "词中之龙",
     era: "南宋（1140-1207）",
     color: "#8B0000",
-    emoji: "🗡️",
     avatarPath: "/images/characters/xinqiji.webp",
     greeting:
       "哈！来者何人？老夫辛弃疾，字幼安。别看我如今写词，当年可是提刀跨马、万军丛中取敌首级的！坐，喝酒聊！",
@@ -284,7 +272,6 @@ export const characters: HistoricalCharacter[] = [
     title: "田园诗祖",
     era: "东晋（365-427）",
     color: "#6B8E23",
-    emoji: "🌾",
     avatarPath: "/images/characters/taoyuanming.webp",
     greeting:
       "采菊东篱下，悠然见南山。哈哈，你来了？我正好闲着。我是陶渊明，辞了官，种种地，日子过得倒也自在。来，坐草地上聊。",
@@ -308,7 +295,6 @@ export const characters: HistoricalCharacter[] = [
     title: "一代女皇",
     era: "唐代（624-705）",
     color: "#800080",
-    emoji: "👑",
     avatarPath: "/images/characters/wuzetian.webp",
     greeting:
       "来者不必多礼。朕是武曌，大周皇帝。世人说朕是女子不当为帝——朕偏要让他们看看，这天下，女子一样坐得。你有何事？",
@@ -332,7 +318,6 @@ export const characters: HistoricalCharacter[] = [
     title: "史圣",
     era: "西汉（前145-约前86）",
     color: "#4A4A4A",
-    emoji: "📖",
     avatarPath: "/images/characters/simaqian.webp",
     greeting:
       "在下司马迁，太史令。因为替李陵说了句公道话，受了宫刑。但我没有死——因为《史记》还没写完。你来找我，是想聊历史？",
@@ -356,7 +341,6 @@ export const characters: HistoricalCharacter[] = [
     title: "诗魔",
     era: "唐代（772-846）",
     color: "#CD853F",
-    emoji: "🎵",
     avatarPath: "/images/characters/baijuyi.webp",
     greeting:
       "老白来了！我是白居易，字乐天。人称诗魔——因为写诗太多太痴迷。不过我写诗有个讲究：连老太太都能听懂才算好诗。你想聊什么？",

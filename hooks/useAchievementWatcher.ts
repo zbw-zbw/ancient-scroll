@@ -48,7 +48,7 @@ export function useAchievementWatcher() {
       // Show toast for each newly unlocked achievement
       newlyUnlocked.forEach((ach, index) => {
         setTimeout(() => {
-          toast(`🎉 成就解锁：${ach.title}`, "success");
+          toast(`成就解锁：${ach.title}`, "success");
         }, index * 1500);
       });
     }

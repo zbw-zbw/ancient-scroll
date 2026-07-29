@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useEffect, useState, useRef } from "react";
 import { createPortal } from "react-dom";
 import type { Beast } from "@/data/beasts";
-import { beasts, categoryLabels, categoryEmojis } from "@/data/beasts";
+import { beasts, categoryLabels, categoryIconNames } from "@/data/beasts";
 import { beastImageExists } from "@/lib/knownImages";
 import {
   IconClose,
@@ -13,6 +13,11 @@ import {
   IconHeart,
   IconHeartOutline,
   IconSparkles,
+  IconPaw,
+  IconBird,
+  IconFish,
+  IconSnake,
+  IconGod,
 } from "@/components/icons";
 import { chapters } from "@/data/shanhaijing";
 import AiDescribeButton from "./AiDescribeButton";
@@ -165,9 +170,13 @@ export default function BeastDetail({
               >
                 {beast.name}
               </span>
-              {/* 分类 emoji */}
-              <span className="absolute bottom-4 right-4 text-2xl opacity-40" aria-hidden="true">
-                {categoryEmojis[beast.category]}
+              {/* 分类图标 */}
+              <span className="absolute bottom-4 right-4 text-white/40" aria-hidden="true">
+                {categoryIconNames[beast.category] === "IconPaw" ? <IconPaw className="h-6 w-6" /> :
+                 categoryIconNames[beast.category] === "IconBird" ? <IconBird className="h-6 w-6" /> :
+                 categoryIconNames[beast.category] === "IconFish" ? <IconFish className="h-6 w-6" /> :
+                 categoryIconNames[beast.category] === "IconSnake" ? <IconSnake className="h-6 w-6" /> :
+                 <IconGod className="h-6 w-6" />}
               </span>
             </div>
           )}

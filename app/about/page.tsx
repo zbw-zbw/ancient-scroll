@@ -5,6 +5,17 @@ import { chapters } from "@/data/shanhaijing";
 import { beasts } from "@/data/beasts";
 import { poems } from "@/data/poems";
 import { characters } from "@/data/characters";
+import {
+  IconUnlock,
+  IconEye,
+  IconSparkles,
+  IconBookOpen,
+  IconDragon,
+  IconFlower,
+  IconChat,
+  IconCheck,
+  IconClock,
+} from "@/components/icons";
 
 export const metadata: Metadata = {
   title: "关于",
@@ -17,7 +28,7 @@ const TOTAL_SENTENCES = chapters.reduce((n, c) => n + c.sentences.length, 0);
 
 const socialValues = [
   {
-    icon: "🔓",
+    icon: <IconUnlock className="h-8 w-8 text-cinnabar" />,
     title: "降低阅读门槛",
     subtitle: "古文阅读从'查字典'到'点一下'",
     description:
@@ -25,7 +36,7 @@ const socialValues = [
     scenarios: "中小学文言文教学辅助、自学古文入门",
   },
   {
-    icon: "👁️",
+    icon: <IconEye className="h-8 w-8 text-cinnabar" />,
     title: "让古籍\"看得见\"",
     subtitle: "山海经异兽从文字走进画面",
     description:
@@ -33,7 +44,7 @@ const socialValues = [
     scenarios: "传统文化科普、博物馆数字化展览素材",
   },
   {
-    icon: "✨",
+    icon: <IconSparkles className="h-8 w-8 text-cinnabar" />,
     title: "激发文化兴趣",
     subtitle: "沉浸式体验让年轻人主动走进古诗",
     description:
@@ -44,25 +55,25 @@ const socialValues = [
 
 const methods = [
   {
-    icon: "📖",
+    icon: <IconBookOpen className="h-7 w-7 text-cinnabar" />,
     title: "AI 翻译",
     stat: `${chapters.length}篇`,
     detail: `山海经，${TOTAL_SENTENCES}句逐句翻译，难字即点即解`,
   },
   {
-    icon: "🐉",
+    icon: <IconDragon className="h-7 w-7 text-cinnabar" />,
     title: "可视化",
     stat: `${beasts.length}只`,
     detail: "山海经异兽图鉴，5大分类（兽/禽/鱼/蛇/神）",
   },
   {
-    icon: "🌸",
+    icon: <IconFlower className="h-7 w-7 text-cinnabar" />,
     title: "沉浸式",
     stat: `${poems.length}首`,
     detail: "经典古诗，7大主题分类，6种粒子特效",
   },
   {
-    icon: "💬",
+    icon: <IconChat className="h-7 w-7 text-cinnabar" />,
     title: "对话式",
     stat: `${characters.length}位`,
     detail: "历史人物，横跨春秋到明代，AI模拟真实人格",
@@ -135,7 +146,7 @@ export default function AboutPage() {
                 className="group relative overflow-hidden rounded-2xl border border-ink/8 bg-surface/50 p-8 transition-all hover:border-cinnabar/20 hover:shadow-lg"
               >
                 <div
-                  className="mb-4 text-4xl"
+                  className="mb-4"
                   aria-hidden="true"
                 >
                   {item.icon}
@@ -176,7 +187,7 @@ export default function AboutPage() {
                 key={i}
                 className="rounded-2xl border border-ink/8 bg-xuan p-6 text-center transition-all hover:border-cinnabar/20 hover:shadow-md"
               >
-                <div className="mb-3 text-3xl" aria-hidden="true">
+                <div className="mb-3 flex items-center justify-center" aria-hidden="true">
                   {item.icon}
                 </div>
                 <h3 className="mb-1 font-serif text-base font-semibold text-ink">
@@ -267,10 +278,12 @@ export default function AboutPage() {
                     }`}
                   >
                     <span
-                      className="mr-2 text-sm"
+                      className="mr-2 inline-flex items-center align-middle"
                       aria-hidden="true"
                     >
-                      {item.status === "done" ? "✅" : "🔜"}
+                      {item.status === "done"
+                        ? <IconCheck className="h-4 w-4 text-cinnabar" />
+                        : <IconClock className="h-4 w-4 text-muted" />}
                     </span>
                     <span className="font-serif text-sm text-light-ink">
                       {item.text}

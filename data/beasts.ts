@@ -621,12 +621,12 @@ export const categoryLabels: Record<BeastCategory, string> = {
   god: "神灵",
 };
 
-export const categoryEmojis: Record<BeastCategory, string> = {
-  beast: "🐾",
-  bird: "🦅",
-  fish: "🐟",
-  serpent: "🐍",
-  god: "✨",
+export const categoryIconNames: Record<BeastCategory, string> = {
+  beast: "IconPaw",
+  bird: "IconBird",
+  fish: "IconFish",
+  serpent: "IconSnake",
+  god: "IconGod",
 };
 
 export const categoryCounts: Record<BeastCategory | "all", number> = {

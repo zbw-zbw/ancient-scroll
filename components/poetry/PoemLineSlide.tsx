@@ -5,6 +5,7 @@ import Image from "next/image";
 import type { PoemLine, ParticleType } from "@/data/poems";
 import { poemImageExists } from "@/lib/knownImages";
 import Particles from "./Particles";
+import { IconFlower, IconSnow, IconRain, IconLeaf, IconStar, IconSparkles } from "@/components/icons";
 
 interface PoemLineSlideProps {
   line: PoemLine;
@@ -12,22 +13,22 @@ interface PoemLineSlideProps {
   coverImage?: string;
 }
 
-// 从粒子类型派生意境 emoji（数据中无独立 emoji 字段，由 particleType 语义映射）
-const PARTICLE_EMOJI: Record<ParticleType, string> = {
-  petals: "🌸",
-  snow: "❄️",
-  rain: "🌧️",
-  leaves: "🍂",
-  stars: "⭐",
-  fireflies: "✨",
+// 从粒子类型派生意境图标组件
+const PARTICLE_ICON: Record<ParticleType, React.FC<{ className?: string }>> = {
+  petals: IconFlower,
+  snow: IconSnow,
+  rain: IconRain,
+  leaves: IconLeaf,
+  stars: IconStar,
+  fireflies: IconSparkles,
 };
 
 export default function PoemLineSlide({ line, active, coverImage }: PoemLineSlideProps) {
   const textLight = line.textColor === "light";
   const [speaking, setSpeaking] = useState(false);
 
-  // 意境 emoji：根据粒子类型派生（如果有）
-  const moodEmoji = line.particleType ? PARTICLE_EMOJI[line.particleType] : null;
+  // 意境图标：根据粒子类型派生（如果有）
+  const MoodIcon = line.particleType ? PARTICLE_ICON[line.particleType] : null;
 
   // Stop speech on unmount
   useEffect(() => {
@@ -121,16 +122,14 @@ export default function PoemLineSlide({ line, active, coverImage }: PoemLineSlid
       {active && <Particles type={line.particleType} />}
 
       <div className="relative z-10 mx-auto w-full max-w-5xl px-4 text-center md:max-w-6xl md:px-6">
-        {/* 2. 意境 emoji（如果有）从中心弹出：.animate-emoji-pop，delay 0.2s */}
-        {moodEmoji && (
+        {/* 2. 意境图标（如果有）从中心弹出：.animate-emoji-pop，delay 0.2s */}
+        {MoodIcon && (
           <div
             className={`mb-4 ${active ? "animate-emoji-pop" : "opacity-0"}`}
             style={{ animationDelay: active ? "0.2s" : undefined }}
             aria-hidden="true"
           >
-            <span className="emoji inline-block text-5xl md:text-6xl" style={{ filter: "drop-shadow(0 2px 8px rgba(0,0,0,0.25))" }}>
-              {moodEmoji}
-            </span>
+            <MoodIcon className={`h-12 w-12 md:h-16 md:w-16 ${textLight ? "text-white/80" : "text-ink/60"}`} />
           </div>
         )}
 

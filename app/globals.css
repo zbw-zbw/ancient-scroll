@@ -339,11 +339,6 @@ footer {
   display: inline;
 }
 
-.emoji {
-  font-family: "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji", sans-serif;
-  font-style: normal;
-}
-
 /* (stroke-draw, ink-wash, animate-fall-char removed - unused dead code) */
 
 /* Streaming cursor blink */

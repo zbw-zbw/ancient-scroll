@@ -3,9 +3,9 @@
 import Image from "next/image";
 import { memo, useState } from "react";
 import type { Beast } from "@/data/beasts";
-import { categoryLabels, categoryEmojis } from "@/data/beasts";
+import { categoryLabels, categoryIconNames } from "@/data/beasts";
 import { beastImageExists } from "@/lib/knownImages";
-import { IconHeart, IconHeartOutline, IconArrowRight, IconShare } from "@/components/icons";
+import { IconHeart, IconHeartOutline, IconArrowRight, IconShare, IconPaw, IconBird, IconFish, IconSnake, IconGod } from "@/components/icons";
 
 interface BeastCardProps {
   beast: Beast;
@@ -76,9 +76,13 @@ function BeastCardImpl({
             >
               {beast.name}
             </span>
-            {/* 分类 emoji */}
-            <span className="absolute bottom-3 right-3 text-xl opacity-40" aria-hidden="true">
-              {categoryEmojis[beast.category]}
+            {/* 分类图标 */}
+            <span className="absolute bottom-3 right-3 text-white/40" aria-hidden="true">
+              {categoryIconNames[beast.category] === "IconPaw" ? <IconPaw className="h-5 w-5" /> :
+               categoryIconNames[beast.category] === "IconBird" ? <IconBird className="h-5 w-5" /> :
+               categoryIconNames[beast.category] === "IconFish" ? <IconFish className="h-5 w-5" /> :
+               categoryIconNames[beast.category] === "IconSnake" ? <IconSnake className="h-5 w-5" /> :
+               <IconGod className="h-5 w-5" />}
             </span>
           </div>
         )}

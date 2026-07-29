@@ -363,7 +363,6 @@ function generateBeastSVG(beast, index) {
   const splashes = generateInkSplashes(rng, 10, 300, 200, 250, [0.03, 0.12]);
 
   // 底部标签条
-  const categoryEmojis = { "禽": "🦅", "兽": "🐾", "鱼": "🐟", "蛇": "🐍", "神": "✨" };
   const labelBar = `
     <rect x="0" y="360" width="600" height="40" fill="rgba(0,0,0,0.25)"/>
     <text x="30" y="385" 
@@ -601,7 +600,7 @@ function generatePoetrySVG(poem, index) {
 // ============================================================
 
 async function generateAll() {
-  console.log("🎨 开始生成水墨风格图片...\n");
+  console.log("开始生成水墨风格图片...\n");
 
   // 确保目录存在
   await mkdir(join(OUTPUT_BASE, "characters"), { recursive: true });
@@ -609,7 +608,7 @@ async function generateAll() {
   await mkdir(join(OUTPUT_BASE, "poetry"), { recursive: true });
 
   // 生成人物头像
-  console.log("📋 生成 6 张人物头像...");
+  console.log("生成 6 张人物头像...");
   for (let i = 0; i < characters.length; i++) {
     const char = characters[i];
     const svg = generateCharacterSVG(char, i);
@@ -617,11 +616,11 @@ async function generateAll() {
     await sharp(Buffer.from(svg))
       .webp({ quality: 90 })
       .toFile(outputPath);
-    console.log(`  ✓ ${char.id}.webp (${char.surname} · ${char.title})`);
+    console.log(`  [OK] ${char.id}.webp (${char.surname} - ${char.title})`);
   }
 
   // 生成异兽插画
-  console.log("\n📋 生成 21 张异兽插画...");
+  console.log("\n生成 21 张异兽插画...");
   for (let i = 0; i < beasts.length; i++) {
     const beast = beasts[i];
     const svg = generateBeastSVG(beast, i);
@@ -629,11 +628,11 @@ async function generateAll() {
     await sharp(Buffer.from(svg))
       .webp({ quality: 90 })
       .toFile(outputPath);
-    console.log(`  ✓ ${beast.id}.webp (${beast.name} · ${beast.category})`);
+    console.log(`  [OK] ${beast.id}.webp (${beast.name} - ${beast.category})`);
   }
 
   // 生成诗词封面
-  console.log("\n📋 生成 15 张诗词封面...");
+  console.log("\n生成 15 张诗词封面...");
   for (let i = 0; i < poems.length; i++) {
     const poem = poems[i];
     const svg = generatePoetrySVG(poem, i);
@@ -641,13 +640,13 @@ async function generateAll() {
     await sharp(Buffer.from(svg))
       .webp({ quality: 90 })
       .toFile(outputPath);
-    console.log(`  ✓ ${poem.id}.webp (${poem.title} · ${poem.author})`);
+    console.log(`  [OK] ${poem.id}.webp (${poem.title} - ${poem.author})`);
   }
 
-  console.log("\n✅ 全部完成！共生成 42 张图片。");
+  console.log("\n全部完成！共生成 42 张图片。");
 }
 
 generateAll().catch((err) => {
-  console.error("❌ 生成失败:", err);
+  console.error("生成失败:", err);
   process.exit(1);
 });

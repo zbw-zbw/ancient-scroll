@@ -309,3 +309,111 @@ export const IconLock = ({ className, size }: IconProps) => (
     <path d="M7 11V7a5 5 0 0 1 10 0v4" />
   </IconBase>
 );
+
+export const IconUnlock = ({ className, size }: IconProps) => (
+  <IconBase className={className} size={size}>
+    <rect width="18" height="11" x="3" y="11" rx="2" />
+    <path d="M7 11V7a5 5 0 0 1 9.9-1" />
+  </IconBase>
+);
+
+export const IconEye = ({ className, size }: IconProps) => (
+  <IconBase className={className} size={size}>
+    <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z" />
+    <circle cx="12" cy="12" r="3" />
+  </IconBase>
+);
+
+export const IconCheck = ({ className, size }: IconProps) => (
+  <IconBase className={className} size={size}>
+    <path d="M20 6 9 17l-5-5" />
+  </IconBase>
+);
+
+export const IconClock = ({ className, size }: IconProps) => (
+  <IconBase className={className} size={size}>
+    <circle cx="12" cy="12" r="10" />
+    <polyline points="12 6 12 12 16 14" />
+  </IconBase>
+);
+
+export const IconSnow = ({ className, size }: IconProps) => (
+  <IconBase className={className} size={size}>
+    <path d="M12 2v20M2 12h20M4.9 4.9l14.2 14.2M4.9 19.1L19.1 4.9" />
+  </IconBase>
+);
+
+export const IconRain = ({ className, size }: IconProps) => (
+  <IconBase className={className} size={size}>
+    <path d="M16 13v8M8 13v8M12 15v8M20 16.58A5 5 0 0 0 18 7h-1.26A8 8 0 1 0 4 15.25" />
+  </IconBase>
+);
+
+export const IconLeaf = ({ className, size }: IconProps) => (
+  <IconBase className={className} size={size}>
+    <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z" />
+    <path d="M2 21c0-3 1.85-5.36 5.08-6" />
+  </IconBase>
+);
+
+export const IconStar = ({ className, size }: IconProps) => (
+  <IconBase className={className} size={size}>
+    <path d="m12 2 2.4 7.2h7.6l-6 4.8 2.4 7.2-6-4.8-6 4.8 2.4-7.2-6-4.8h7.6Z" />
+  </IconBase>
+);
+
+export const IconWine = ({ className, size }: IconProps) => (
+  <IconBase className={className} size={size}>
+    <path d="M8 22h8M12 15v7M5 3h14l-1 9a6 6 0 0 1-12 0L5 3Z" />
+  </IconBase>
+);
+
+export const IconMusic = ({ className, size }: IconProps) => (
+  <IconBase className={className} size={size}>
+    <path d="M9 18V5l12-2v13" />
+    <circle cx="6" cy="18" r="3" />
+    <circle cx="18" cy="16" r="3" />
+  </IconBase>
+);
+
+export const IconSun = ({ className, size }: IconProps) => (
+  <IconBase className={className} size={size}>
+    <circle cx="12" cy="12" r="4" />
+    <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41" />
+  </IconBase>
+);
+
+export const IconWind = ({ className, size }: IconProps) => (
+  <IconBase className={className} size={size}>
+    <path d="M17.7 7.7a2.5 2.5 0 1 1 1.8 4.3H2M9.6 4.6A2 2 0 1 1 11 8H2M12.6 19.4A2 2 0 1 0 14 16H2" />
+  </IconBase>
+);
+
+export const IconMoon = ({ className, size }: IconProps) => (
+  <IconBase className={className} size={size}>
+    <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z" />
+  </IconBase>
+);
+
+export const IconBoat = ({ className, size }: IconProps) => (
+  <IconBase className={className} size={size}>
+    <path d="M2 20a2.4 2.4 0 0 0 2 1 2.4 2.4 0 0 0 2-1 2.4 2.4 0 0 1 2-1 2.4 2.4 0 0 1 2 1 2.4 2.4 0 0 0 2 1 2.4 2.4 0 0 0 2-1 2.4 2.4 0 0 1 2-1 2.4 2.4 0 0 1 2 1 2.4 2.4 0 0 0 2 1 2.4 2.4 0 0 0 2-1" />
+    <path d="M4 18 2 12h20l-2 6" />
+    <path d="M12 12V4H7l5 8" />
+    <path d="M12 4h3l-3 8" />
+  </IconBase>
+);
+
+export const IconTree = ({ className, size }: IconProps) => (
+  <IconBase className={className} size={size}>
+    <path d="M12 2 6 10h3l-4 6h5v6h4v-6h5l-4-6h3L12 2Z" />
+  </IconBase>
+);
+
+export const IconMilestone = ({ className, size }: IconProps) => (
+  <IconBase className={className} size={size}>
+    <path d="M18 6H5a2 2 0 0 0-2 2v3a2 2 0 0 0 2 2h13l4-3.5L18 6Z" />
+    <path d="M7 21v-7" />
+    <path d="M17 21V10" />
+  </IconBase>
+);
