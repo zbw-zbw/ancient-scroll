@@ -337,12 +337,12 @@ export default function Navbar() {
               aria-label={menuOpen ? "关闭菜单" : "打开菜单"}
               aria-expanded={menuOpen}
               aria-controls="mobile-menu"
-              className="group inline-flex flex-col justify-center items-center w-11 h-11 rounded-full hover:bg-cinnabar/10 transition-colors active:scale-[0.97]"
+              className="group inline-flex flex-col justify-center items-center gap-1.5 w-11 h-11 rounded-full hover:bg-cinnabar/10 transition-colors active:scale-[0.97]"
               onClick={() => setMenuOpen((v) => !v)}
             >
               <span
                 className={`block w-5 h-0.5 bg-ink group-hover:bg-cinnabar transition-all duration-300 ${
-                  menuOpen ? "rotate-45 translate-y-[6px]" : ""
+                  menuOpen ? "rotate-45 translate-y-[7px]" : ""
                 }`}
               />
               <span
@@ -352,7 +352,7 @@ export default function Navbar() {
               />
               <span
                 className={`block w-5 h-0.5 bg-ink group-hover:bg-cinnabar transition-all duration-300 ${
-                  menuOpen ? "-rotate-45 -translate-y-[6px]" : ""
+                  menuOpen ? "-rotate-45 -translate-y-[7px]" : ""
                 }`}
               />
             </button>
@@ -375,11 +375,11 @@ export default function Navbar() {
         <div
           id="mobile-menu"
           role="menu"
-          className={`md:hidden overflow-hidden transition-all duration-300 ${
-            menuOpen ? "max-h-[28rem]" : "max-h-0"
+          className={`md:hidden overflow-y-auto overscroll-contain transition-all duration-300 ${
+            menuOpen ? "max-h-[calc(100dvh-4rem)]" : "max-h-0"
           }`}
         >
-          <ul className="flex flex-col items-center gap-1 pb-6 pt-2 bg-xuan/95 backdrop-blur-md">
+          <ul className="flex flex-col items-center gap-1 pb-[max(1.5rem,env(safe-area-inset-bottom))] pt-2 bg-xuan/95 backdrop-blur-md">
             {navItems.map((item) => {
               const isActive = pathname === item.href || pathname.startsWith(`${item.href}/`);
               return (

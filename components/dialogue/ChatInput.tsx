@@ -89,7 +89,7 @@ export default function ChatInput({
           )}
         </button>
       </div>
-      <div className="mx-auto flex max-w-[900px] items-center justify-between">
+      <div className="mx-auto mt-2 flex max-w-[900px] items-center justify-between">
         <p className="font-serif text-xs text-muted">
           Enter 发送，Shift + Enter 换行
         </p>
