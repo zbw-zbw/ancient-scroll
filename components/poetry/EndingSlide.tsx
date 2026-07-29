@@ -76,7 +76,7 @@ export default function EndingSlide({
       </div>
 
       <div
-        className={`relative z-10 mx-auto max-w-2xl px-6 pb-20 text-center transition-all duration-1000 md:pb-0 ${
+        className={`relative z-10 mx-auto max-w-2xl px-6 pb-24 text-center transition-all duration-1000 md:pb-16 ${
           active ? "translate-y-0 opacity-100" : "translate-y-12 opacity-0"
         }`}
       >

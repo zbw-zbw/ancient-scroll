@@ -1199,6 +1199,7 @@ export const poems: Poem[] = [
         gradientTo: "#86efac",
         textColor: "dark",
         particleType: "petals",
+        sceneImage: "/images/poetry/lines/jueju-1.webp",
       },
       {
         text: "一行白鹭上青天",
@@ -1207,6 +1208,7 @@ export const poems: Poem[] = [
         gradientFrom: "#dbeafe",
         gradientTo: "#93c5fd",
         textColor: "dark",
+        sceneImage: "/images/poetry/lines/jueju-2.webp",
       },
       {
         text: "窗含西岭千秋雪",
@@ -1216,6 +1218,7 @@ export const poems: Poem[] = [
         gradientTo: "#bae6fd",
         textColor: "dark",
         particleType: "snow",
+        sceneImage: "/images/poetry/lines/jueju-3.webp",
       },
       {
         text: "门泊东吴万里船",
@@ -1224,6 +1227,7 @@ export const poems: Poem[] = [
         gradientFrom: "#ecfeff",
         gradientTo: "#67e8f9",
         textColor: "dark",
+        sceneImage: "/images/poetry/lines/jueju-4.webp",
       },
     ],
   },
@@ -1247,6 +1251,7 @@ export const poems: Poem[] = [
         gradientTo: "#fde68a",
         textColor: "dark",
         particleType: "fireflies",
+        sceneImage: "/images/poetry/lines/liangzhouci-1.webp",
       },
       {
         text: "欲饮琵琶马上催",
@@ -1255,6 +1260,7 @@ export const poems: Poem[] = [
         gradientFrom: "#fde68a",
         gradientTo: "#fbbf24",
         textColor: "dark",
+        sceneImage: "/images/poetry/lines/liangzhouci-2.webp",
       },
       {
         text: "醉卧沙场君莫笑",
@@ -1263,6 +1269,7 @@ export const poems: Poem[] = [
         gradientFrom: "#fed7aa",
         gradientTo: "#fb923c",
         textColor: "dark",
+        sceneImage: "/images/poetry/lines/liangzhouci-3.webp",
       },
       {
         text: "古来征战几人回",
@@ -1271,6 +1278,7 @@ export const poems: Poem[] = [
         gradientFrom: "#f97316",
         gradientTo: "#ea580c",
         textColor: "light",
+        sceneImage: "/images/poetry/lines/liangzhouci-4.webp",
       },
     ],
   },
@@ -1294,6 +1302,7 @@ export const poems: Poem[] = [
         gradientTo: "#5eead4",
         textColor: "dark",
         particleType: "leaves",
+        sceneImage: "/images/poetry/lines/huixiang-1.webp",
       },
       {
         text: "乡音无改鬓毛衰",
@@ -1302,6 +1311,7 @@ export const poems: Poem[] = [
         gradientFrom: "#99f6e4",
         gradientTo: "#2dd4bf",
         textColor: "dark",
+        sceneImage: "/images/poetry/lines/huixiang-2.webp",
       },
       {
         text: "儿童相见不相识",
@@ -1310,6 +1320,7 @@ export const poems: Poem[] = [
         gradientFrom: "#5eead4",
         gradientTo: "#14b8a6",
         textColor: "dark",
+        sceneImage: "/images/poetry/lines/huixiang-3.webp",
       },
       {
         text: "笑问客从何处来",
@@ -1318,6 +1329,7 @@ export const poems: Poem[] = [
         gradientFrom: "#14b8a6",
         gradientTo: "#0d9488",
         textColor: "light",
+        sceneImage: "/images/poetry/lines/huixiang-4.webp",
       },
     ],
   },
@@ -1340,6 +1352,7 @@ export const poems: Poem[] = [
         gradientFrom: "#ede9fe",
         gradientTo: "#c4b5fd",
         textColor: "dark",
+        sceneImage: "/images/poetry/lines/jiuyue-1.webp",
       },
       {
         text: "每逢佳节倍思亲",
@@ -1349,6 +1362,7 @@ export const poems: Poem[] = [
         gradientTo: "#a78bfa",
         textColor: "dark",
         particleType: "fireflies",
+        sceneImage: "/images/poetry/lines/jiuyue-2.webp",
       },
       {
         text: "遥知兄弟登高处",
@@ -1357,6 +1371,7 @@ export const poems: Poem[] = [
         gradientFrom: "#a78bfa",
         gradientTo: "#8b5cf6",
         textColor: "light",
+        sceneImage: "/images/poetry/lines/jiuyue-3.webp",
       },
       {
         text: "遍插茱萸少一人",
@@ -1366,6 +1381,7 @@ export const poems: Poem[] = [
         gradientTo: "#7c3aed",
         textColor: "light",
         particleType: "leaves",
+        sceneImage: "/images/poetry/lines/jiuyue-4.webp",
       },
     ],
   },
@@ -1389,6 +1405,7 @@ export const poems: Poem[] = [
         gradientTo: "#fbcfe8",
         textColor: "dark",
         particleType: "petals",
+        sceneImage: "/images/poetry/lines/huanghelou-1.webp",
       },
       {
         text: "烟花三月下扬州",
@@ -1398,6 +1415,7 @@ export const poems: Poem[] = [
         gradientTo: "#f9a8d4",
         textColor: "dark",
         particleType: "petals",
+        sceneImage: "/images/poetry/lines/huanghelou-2.webp",
       },
       {
         text: "孤帆远影碧空尽",
@@ -1406,6 +1424,7 @@ export const poems: Poem[] = [
         gradientFrom: "#f9a8d4",
         gradientTo: "#f472b6",
         textColor: "dark",
+        sceneImage: "/images/poetry/lines/huanghelou-3.webp",
       },
       {
         text: "唯见长江天际流",
@@ -1414,6 +1433,7 @@ export const poems: Poem[] = [
         gradientFrom: "#dbeafe",
         gradientTo: "#93c5fd",
         textColor: "dark",
+        sceneImage: "/images/poetry/lines/huanghelou-4.webp",
       },
     ],
   },
@@ -1436,6 +1456,7 @@ export const poems: Poem[] = [
         gradientFrom: "#fef3c7",
         gradientTo: "#fde68a",
         textColor: "dark",
+        sceneImage: "/images/poetry/lines/baidi-1.webp",
       },
       {
         text: "千里江陵一日还",
@@ -1444,6 +1465,7 @@ export const poems: Poem[] = [
         gradientFrom: "#dbeafe",
         gradientTo: "#93c5fd",
         textColor: "dark",
+        sceneImage: "/images/poetry/lines/baidi-2.webp",
       },
       {
         text: "两岸猿声啼不住",
@@ -1453,6 +1475,7 @@ export const poems: Poem[] = [
         gradientTo: "#86efac",
         textColor: "dark",
         particleType: "leaves",
+        sceneImage: "/images/poetry/lines/baidi-3.webp",
       },
       {
         text: "轻舟已过万重山",
@@ -1461,6 +1484,7 @@ export const poems: Poem[] = [
         gradientFrom: "#bae6fd",
         gradientTo: "#38bdf8",
         textColor: "dark",
+        sceneImage: "/images/poetry/lines/baidi-4.webp",
       },
     ],
   },
@@ -1484,6 +1508,7 @@ export const poems: Poem[] = [
         gradientTo: "#a7f3d0",
         textColor: "dark",
         particleType: "leaves",
+        sceneImage: "/images/poetry/lines/zhuliguang-1.webp",
       },
       {
         text: "弹琴复长啸",
@@ -1492,6 +1517,7 @@ export const poems: Poem[] = [
         gradientFrom: "#a7f3d0",
         gradientTo: "#6ee7b7",
         textColor: "dark",
+        sceneImage: "/images/poetry/lines/zhuliguang-2.webp",
       },
       {
         text: "深林人不知",
@@ -1501,6 +1527,7 @@ export const poems: Poem[] = [
         gradientTo: "#34d399",
         textColor: "dark",
         particleType: "fireflies",
+        sceneImage: "/images/poetry/lines/zhuliguang-3.webp",
       },
       {
         text: "明月来相照",
@@ -1510,6 +1537,7 @@ export const poems: Poem[] = [
         gradientTo: "#2c5f8a",
         textColor: "light",
         particleType: "stars",
+        sceneImage: "/images/poetry/lines/zhuliguang-4.webp",
       },
     ],
   },
@@ -1533,6 +1561,7 @@ export const poems: Poem[] = [
         gradientTo: "#bbf7d0",
         textColor: "dark",
         particleType: "petals",
+        sceneImage: "/images/poetry/lines/chunri-1.webp",
       },
       {
         text: "无边光景一时新",
@@ -1542,6 +1571,7 @@ export const poems: Poem[] = [
         gradientTo: "#fde047",
         textColor: "dark",
         particleType: "petals",
+        sceneImage: "/images/poetry/lines/chunri-2.webp",
       },
       {
         text: "等闲识得东风面",
@@ -1551,6 +1581,7 @@ export const poems: Poem[] = [
         gradientTo: "#fbcfe8",
         textColor: "dark",
         particleType: "petals",
+        sceneImage: "/images/poetry/lines/chunri-3.webp",
       },
       {
         text: "万紫千红总是春",
@@ -1560,6 +1591,7 @@ export const poems: Poem[] = [
         gradientTo: "#fb7185",
         textColor: "dark",
         particleType: "petals",
+        sceneImage: "/images/poetry/lines/chunri-4.webp",
       },
     ],
   },
@@ -1582,6 +1614,7 @@ export const poems: Poem[] = [
         gradientFrom: "#f5f5f4",
         gradientTo: "#e7e5e4",
         textColor: "dark",
+        sceneImage: "/images/poetry/lines/shier-1.webp",
       },
       {
         text: "但悲不见九州同",
@@ -1590,6 +1623,7 @@ export const poems: Poem[] = [
         gradientFrom: "#e7e5e4",
         gradientTo: "#d6d3d1",
         textColor: "dark",
+        sceneImage: "/images/poetry/lines/shier-2.webp",
       },
       {
         text: "王师北定中原日",
@@ -1598,6 +1632,7 @@ export const poems: Poem[] = [
         gradientFrom: "#fecaca",
         gradientTo: "#fca5a5",
         textColor: "dark",
+        sceneImage: "/images/poetry/lines/shier-3.webp",
       },
       {
         text: "家祭无忘告乃翁",
@@ -1607,6 +1642,7 @@ export const poems: Poem[] = [
         gradientTo: "#ef4444",
         textColor: "light",
         particleType: "fireflies",
+        sceneImage: "/images/poetry/lines/shier-4.webp",
       },
     ],
   },
