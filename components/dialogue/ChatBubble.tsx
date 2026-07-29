@@ -1,6 +1,6 @@
 "use client";
 
-import { memo, useCallback } from "react";
+import { memo, useCallback, useEffect } from "react";
 import Image from "next/image";
 import { IconBot, IconCopy } from "@/components/icons";
 import StreamingCursor from "./StreamingCursor";
@@ -32,6 +32,15 @@ function ChatBubbleImpl({
 }: ChatBubbleProps) {
   const isUser = role === "user";
   const { toast } = useToast();
+
+  // Stop speech synthesis when leaving the page
+  useEffect(() => {
+    return () => {
+      if (typeof window !== "undefined" && window.speechSynthesis) {
+        window.speechSynthesis.cancel();
+      }
+    };
+  }, []);
 
   // 复制消息文字到剪贴板
   const handleCopy = useCallback(async () => {

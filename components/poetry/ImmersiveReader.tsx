@@ -100,6 +100,10 @@ export default function ImmersiveReader({ poem, onBack }: ImmersiveReaderProps) 
   return () => {
     setNavbarVisible(true);
     clearProgramScrollTimer();
+    // Stop any ongoing speech synthesis when leaving the immersive reader
+    if (typeof window !== "undefined" && window.speechSynthesis) {
+      window.speechSynthesis.cancel();
+    }
   };
  }, [setNavbarVisible, clearProgramScrollTimer]);
 

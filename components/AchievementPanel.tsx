@@ -172,8 +172,8 @@ export default function AchievementPanel() {
                 key={ach.id}
                 className={`group relative overflow-hidden rounded-xl border-2 p-5 transition-all duration-300 ${
                   ach.unlocked
-                    ? "border-ink/10 bg-surface/60 hover:border-ink/20 hover:shadow-lg hover:-translate-y-1"
-                    : "border-ink/5 bg-surface/30 opacity-60 hover:opacity-80 hover:border-ink/10"
+                    ? "cursor-pointer border-ink/10 bg-surface/60 hover:border-ink/25 hover:shadow-lg hover:-translate-y-1"
+                    : "cursor-pointer border-dashed border-ink/15 bg-surface/20 hover:border-ink/30 hover:bg-surface/40"
                 }`}
                 style={
                   ach.unlocked
@@ -184,7 +184,7 @@ export default function AchievementPanel() {
                 {/* Accent bar — animates on hover */}
                 <div
                   className="absolute left-0 top-0 h-full w-1.5 transition-all duration-300 group-hover:w-2"
-                  style={{ background: ach.unlocked ? color : "rgba(0,0,0,0.05)" }}
+                  style={{ background: ach.unlocked ? color : "rgba(0,0,0,0.06)" }}
                 />
 
                 {/* Decorative glow on hover for unlocked cards */}
@@ -195,21 +195,28 @@ export default function AchievementPanel() {
                   />
                 )}
 
+                {/* Lock pattern overlay for locked cards */}
+                {!ach.unlocked && (
+                  <div className="pointer-events-none absolute inset-0 opacity-[0.03]" style={{
+                    backgroundImage: `repeating-linear-gradient(45deg, ${color} 0, ${color} 1px, transparent 1px, transparent 12px)`,
+                  }} />
+                )}
+
                 <div className="relative flex items-start gap-3">
                   <div
                     className={`flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-xl transition-transform duration-300 group-hover:scale-110 ${
                       ach.unlocked ? "" : "grayscale"
                     }`}
-                    style={{ background: ach.unlocked ? `${color}15` : "rgba(0,0,0,0.03)" }}
+                    style={{ background: ach.unlocked ? `${color}15` : "rgba(0,0,0,0.04)" }}
                   >
                     {ach.unlocked ? (
                       renderAchievementIcon(ach.icon, "h-6 w-6")
                     ) : (
-                      <IconLock className="h-6 w-6" />
+                      <IconLock className="h-6 w-6 text-muted/60" />
                     )}
                   </div>
                   <div className="flex-1 min-w-0">
-                    <h3 className="font-calligraphy text-lg text-ink">{ach.title}</h3>
+                    <h3 className={`font-calligraphy text-lg ${ach.unlocked ? "text-ink" : "text-muted"}`}>{ach.title}</h3>
                     <p className="mt-0.5 font-serif text-xs text-muted">{ach.description}</p>
                     {ach.progress && !ach.unlocked && (
                       <div className="mt-2.5">
@@ -234,6 +241,12 @@ export default function AchievementPanel() {
                           <polyline points="20 6 9 17 4 12" />
                         </svg>
                         已达成
+                      </div>
+                    )}
+                    {!ach.unlocked && (
+                      <div className="mt-1.5 inline-flex items-center gap-1 rounded-full bg-ink/5 px-2 py-0.5 font-serif text-[10px] text-muted">
+                        <IconLock className="h-3 w-3" />
+                        未解锁
                       </div>
                     )}
                   </div>

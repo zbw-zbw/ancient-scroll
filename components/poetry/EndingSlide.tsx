@@ -53,6 +53,15 @@ export default function EndingSlide({
     }
   }, [active, poem.id]);
 
+  // Stop speech synthesis when leaving the page
+  useEffect(() => {
+    return () => {
+      if (typeof window !== "undefined" && window.speechSynthesis) {
+        window.speechSynthesis.cancel();
+      }
+    };
+  }, []);
+
   return (
     <section
       className="slide relative flex min-h-screen items-center justify-center overflow-hidden"
