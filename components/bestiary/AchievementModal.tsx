@@ -5,6 +5,7 @@ import { createPortal } from "react-dom";
 import { beasts, categoryLabels, type BeastCategory } from "@/data/beasts";
 import { getCollectedBeasts } from "@/lib/collection";
 import { IconTrophy } from "@/components/icons";
+import { useBodyScrollLock } from "@/lib/useBodyScrollLock";
 
 interface AchievementModalProps {
   open: boolean;
@@ -23,17 +24,14 @@ export default function AchievementModal({ open, onClose }: AchievementModalProp
     }
   }, [onClose]);
 
-  // Save focus and lock scroll on open
+  // 引用计数滚动锁：与其他弹窗共存时不互相解除
+  useBodyScrollLock(open);
+
+  // Save focus on open
   useEffect(() => {
     if (open) {
       previousFocusRef.current = document.activeElement as HTMLElement;
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "";
     }
-    return () => {
-      document.body.style.overflow = "";
-    };
   }, [open]);
 
   // ESC to close

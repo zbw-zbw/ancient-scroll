@@ -57,6 +57,10 @@ export default function ChatInterface({
   const { toast } = useToast();
 
  const autoSentRef = useRef(false);
+ // 流式内容的同步累积 ref：onComplete 通过它读取最终文本，
+ // 避免在 setState updater 内执行副作用（StrictMode 下 updater 会被双调用，
+ // 导致助手消息重复追加——对抗式审查发现的竞态/纯度问题）
+ const streamingRef = useRef("");
 
   // Persist messages to localStorage
  useEffect(() => {
@@ -65,10 +69,7 @@ export default function ChatInterface({
  }
  }, [messages, character.id]);
 
- // Abort any active stream when the component unmounts
- useEffect(() => {
- return () => abortStreaming();
- }, [abortStreaming]);
+ // 卸载时中止流式请求由 useStreamingResponse 内部 effect 统一处理
 
  const handleSend = useCallback(
  async (content: string) => {
@@ -78,6 +79,7 @@ export default function ChatInterface({
     const updatedMessages = [...messages, userMessage];
     setMessages(updatedMessages);
     setInputValue("");
+    streamingRef.current = "";
     setStreamingContent("");
     // Collapse suggestions after first user message
     setShowSuggestions(false);
@@ -94,10 +96,14 @@ export default function ChatInterface({
  },
  {
  onChunk: (text) => {
- setStreamingContent((prev) => prev + text);
+ streamingRef.current += text;
+ setStreamingContent(streamingRef.current);
  },
  onComplete: () => {
- setStreamingContent((final) => {
+ // 从 ref 读取最终文本，updater 外执行副作用，StrictMode 安全
+ const final = streamingRef.current;
+ streamingRef.current = "";
+ setStreamingContent("");
  if (final.trim()) {
  setMessages((prev) => [
  ...prev,
@@ -108,11 +114,11 @@ export default function ChatInterface({
  setMessages((prev) => prev.slice(0, -1));
  toast("未收到回复，请重试", "error");
  }
- return "";
- });
  },
  onError: (error) => {
  console.error("Streaming error:", error);
+ streamingRef.current = "";
+ setStreamingContent("");
  toast("网络不佳，请稍后再试", "error");
  setMessages((prev) => [
  ...prev,
@@ -125,7 +131,7 @@ export default function ChatInterface({
  },
  );
  },
- [character.id, messages, isStreaming, startStreaming],
+ [character.id, messages, isStreaming, startStreaming, toast],
   );
 
   // Auto-send prefilled question (e.g., from reading page "问问古人")
@@ -148,6 +154,7 @@ export default function ChatInterface({
     const prevMessages = messages;
     setMessages([{ role: "assistant", content: character.greeting }]);
     localStorage.removeItem(`${STORAGE_KEY}-${character.id}`);
+    streamingRef.current = "";
     setStreamingContent("");
     setShowSuggestions(true);
     setInputValue("");
@@ -172,15 +179,16 @@ export default function ChatInterface({
   const handleRegenerate = useCallback(() => {
     if (isStreaming) abortStreaming();
     // Find the last user message
-    const lastUserMsg = [...messages].reverse().find((m) => m.role === "user");
-    if (!lastUserMsg) return;
-    // Remove the last assistant message
-    const newMessages = messages.filter((m, i) => {
-      // Keep all messages except the last assistant one
-      if (m.role === "assistant" && i === messages.length - 1) return false;
-      return true;
-    });
+    const lastUserIdx = messages.length - 1 - [...messages].reverse().findIndex((m) => m.role === "user");
+    if (lastUserIdx < 0 || lastUserIdx >= messages.length) return;
+    const lastUserMsg = messages[lastUserIdx];
+    // 对抗式审查修复：原实现只删除末尾 assistant 消息，handleSend 会把 user
+    // 消息再追加一次，导致用户提问重复显示。应把最后一轮问答整体截掉，
+    // 由 handleSend 统一重新追加 user 消息并请求新回复。
+    const newMessages = messages.slice(0, lastUserIdx);
     setMessages(newMessages);
+    streamingRef.current = "";
+    setStreamingContent("");
     // Re-send the last user message
     setTimeout(() => handleSendRef.current(lastUserMsg.content), 100);
   }, [messages, isStreaming, abortStreaming]);

@@ -147,7 +147,13 @@ export default function ImmersiveReader({ poem, onBack }: ImmersiveReaderProps) 
   [totalSlides, currentSlide, handleDotClick]
 );
 
- // Keyboard arrow navigation
+ const handleBack = useCallback(() => {
+  setNavbarVisible(true);
+  onBack();
+ }, [setNavbarVisible, onBack]);
+
+ // Keyboard arrow navigation + ESC 退出沉浸模式
+ // （该模式只是 fixed 遮罩而非原生 Fullscreen API，ESC 可用且符合用户直觉）
  useEffect(() => {
    const handleKeyDown = (e: KeyboardEvent) => {
      const tag = (e.target as HTMLElement).tagName;
@@ -161,11 +167,13 @@ export default function ImmersiveReader({ poem, onBack }: ImmersiveReaderProps) 
        e.preventDefault();
        const prev = Math.max(currentSlide - 1, 0);
        if (prev !== currentSlide) handleDotClick(prev);
+     } else if (e.key === "Escape") {
+       handleBack();
      }
    };
    window.addEventListener("keydown", handleKeyDown);
   return () => window.removeEventListener("keydown", handleKeyDown);
- }, [currentSlide, totalSlides, handleDotClick]);
+ }, [currentSlide, totalSlides, handleDotClick, handleBack]);
 
  const handleRestart = () => {
  const container = containerRef.current;
@@ -173,11 +181,6 @@ export default function ImmersiveReader({ poem, onBack }: ImmersiveReaderProps) 
  startProgrammaticScroll();
  setCurrentSlide(0);
  container.scrollTo({ top: 0, behavior: "auto" });
- };
-
- const handleBack = () => {
-  setNavbarVisible(true);
-  onBack();
  };
 
  return (

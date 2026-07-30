@@ -21,6 +21,7 @@ import {
 import { chapters } from "@/data/shanhaijing";
 import ModalCloseButton from "@/components/ModalCloseButton";
 import AiDescribeButton from "./AiDescribeButton";
+import { useBodyScrollLock } from "@/lib/useBodyScrollLock";
 
 interface BeastDetailProps {
   beast: Beast | null;
@@ -57,28 +58,45 @@ export default function BeastDetail({
     setImgError(false);
   }, [beast?.id]);
 
+  // 引用计数滚动锁：与嵌套的分享弹窗共存时不会互相解除
+  useBodyScrollLock(!!beast);
+
   useEffect(() => {
     if (beast) {
       previousFocusRef.current = document.activeElement as HTMLElement;
-      document.body.style.overflow = "hidden";
       requestAnimationFrame(() => setMounted(true));
     } else {
       setMounted(false);
-      document.body.style.overflow = "";
     }
-    return () => {
-      document.body.style.overflow = "";
-    };
+  }, [beast]);
+
+  // 关闭时还原焦点到打开弹窗的元素（键盘/读屏用户不迷失位置）
+  const prevBeastRef = useRef<Beast | null>(null);
+  useEffect(() => {
+    if (beast) {
+      prevBeastRef.current = beast;
+    } else if (prevBeastRef.current) {
+      prevBeastRef.current = null;
+      // 等卸载动画与嵌套弹窗关闭完成后再还原焦点
+      requestAnimationFrame(() => {
+        previousFocusRef.current?.focus?.();
+        previousFocusRef.current = null;
+      });
+    }
   }, [beast]);
 
   // ESC to close
   useEffect(() => {
+    if (!beast) return;
     const handleEsc = (e: KeyboardEvent) => {
-      if (e.key === "Escape") onClose();
+      if (e.key !== "Escape") return;
+      // 嵌套弹窗（分享卡片）打开时，由上层弹窗消费 ESC，详情弹窗不响应
+      if (e.defaultPrevented) return;
+      onClose();
     };
     window.addEventListener("keydown", handleEsc);
     return () => window.removeEventListener("keydown", handleEsc);
-  }, [onClose]);
+  }, [beast, onClose]);
 
   // Focus trap
   useEffect(() => {

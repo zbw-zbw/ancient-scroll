@@ -1,5 +1,5 @@
 "use client";
-import { createContext, useContext, useState, useCallback, useRef } from "react";
+import { createContext, useContext, useState, useCallback, useRef, useEffect } from "react";
 
 type ToastType = "success" | "error" | "info";
 interface ToastAction {
@@ -26,6 +26,9 @@ export default function ToastProvider({ children }: { children: React.ReactNode 
   const timersRef = useRef<Map<number, ReturnType<typeof setTimeout>>>(new Map());
 
   const removeToast = useCallback((id: number) => {
+    // 先清理该 toast 可能仍在等待的自动关闭定时器，避免重复触发退出流程
+    const pending = timersRef.current.get(id);
+    if (pending) clearTimeout(pending);
     // Mark as exiting for fade-out animation
     setToasts((prev) => prev.map((t) => (t.id === id ? { ...t, exiting: true } : t)));
     // Remove from DOM after animation completes
@@ -50,12 +53,17 @@ export default function ToastProvider({ children }: { children: React.ReactNode 
     [removeToast]
   );
 
-  // Cleanup all timers on unmount
-  useState(() => {
+  // 对抗式审查修复：原实现误用 useState 初始化器注册卸载清理——
+  // 初始化器的返回值只会被当作 state 存储，清理函数永远不会执行，
+  // Provider 卸载后挂起的定时器仍会回调 setState。
+  // 改用 useEffect 清理才是正确语义。
+  useEffect(() => {
+    const timers = timersRef.current;
     return () => {
-      timersRef.current.forEach((timer) => clearTimeout(timer));
+      timers.forEach((timer) => clearTimeout(timer));
+      timers.clear();
     };
-  });
+  }, []);
 
   return (
     <ToastContext.Provider value={{ toast: addToast }}>

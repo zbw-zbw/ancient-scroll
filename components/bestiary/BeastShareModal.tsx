@@ -8,6 +8,7 @@ import { IconDownload, IconCopy, IconPaw } from "@/components/icons";
 import { useToast } from "@/components/Toast";
 import { beastImageExists } from "@/lib/knownImages";
 import ModalCloseButton from "@/components/ModalCloseButton";
+import { useBodyScrollLock } from "@/lib/useBodyScrollLock";
 
 interface BeastShareModalProps {
   open: boolean;
@@ -27,6 +28,7 @@ export default function BeastShareModal({
   const [imgError, setImgError] = useState(false);
   const overlayRef = useRef<HTMLDivElement>(null);
   const cardRef = useRef<HTMLDivElement>(null);
+  const previousFocusRef = useRef<HTMLElement | null>(null);
   const { toast } = useToast();
 
   // Reset image error when beast changes
@@ -59,19 +61,69 @@ export default function BeastShareModal({
     }
   }, [open]);
 
-  // Escape key + lock body scroll
+  // 引用计数滚动锁：作为嵌套弹窗叠在详情弹窗上时，关闭不会误解除外层的锁
+  useBodyScrollLock(open);
+
+  // 打开时保存焦点，关闭时还原（通常还原到详情弹窗的“分享异兽”按钮）
+  useEffect(() => {
+    if (open) {
+      previousFocusRef.current = document.activeElement as HTMLElement;
+    } else {
+      const el = previousFocusRef.current;
+      previousFocusRef.current = null;
+      if (el && document.contains(el)) {
+        requestAnimationFrame(() => el.focus());
+      }
+    }
+  }, [open]);
+
+  // Escape key
   useEffect(() => {
     if (!open) return;
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape") onClose();
+      if (e.key === "Escape") {
+        // preventDefault 标记事件已被本层消费：
+        // 下层的 BeastDetail 通过 e.defaultPrevented 判断后不再响应，避免两层同时关闭
+        e.preventDefault();
+        onClose();
+      }
     };
     document.addEventListener("keydown", handleKeyDown);
-    document.body.style.overflow = "hidden";
     return () => {
       document.removeEventListener("keydown", handleKeyDown);
-      document.body.style.overflow = "";
     };
   }, [open, onClose]);
+
+  // 焦点陷阱 + 初始焦点：键盘用户 Tab 不会跑出弹窗
+  useEffect(() => {
+    if (!open || !overlayRef.current) return;
+    const root = overlayRef.current;
+
+    const focusable = root.querySelectorAll<HTMLElement>(
+      'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+    );
+    if (focusable.length > 0) focusable[0].focus();
+
+    const handleTab = (e: KeyboardEvent) => {
+      if (e.key !== "Tab") return;
+      const items = root.querySelectorAll<HTMLElement>(
+        'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+      );
+      if (items.length === 0) return;
+      const first = items[0];
+      const last = items[items.length - 1];
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      }
+    };
+
+    document.addEventListener("keydown", handleTab);
+    return () => document.removeEventListener("keydown", handleTab);
+  }, [open]);
 
   const handleOverlayClick = useCallback(
     (e: React.MouseEvent) => {
@@ -111,9 +163,11 @@ export default function BeastShareModal({
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     } catch {
+      // 复制失败（剪贴板权限被拒 / 非安全上下文）必须告知用户，而非静默失败
       console.error("Failed to copy text");
+      toast("复制失败，请长按手动复制", "error");
     }
-  }, [beast]);
+  }, [beast, toast]);
 
   if (!visible || !beast) return null;
 

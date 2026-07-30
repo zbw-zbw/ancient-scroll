@@ -572,6 +572,22 @@ footer {
   box-shadow: 0 0 0 2px rgba(224, 90, 72, 0.3);
 }
 
+/* ===== Theme toggle icons (pure .dark class driven, hydration-safe) ===== */
+/* 图标显隐只依赖 <html> 的 .dark class（由 layout 内联脚本在 hydration 前设置），
+   不依赖 React 状态，避免 SSR/客户端首帧不一致导致的 hydration 失配与图标闪烁 */
+.theme-icon-sun {
+  display: none;
+}
+.theme-icon-moon {
+  display: block;
+}
+.dark .theme-icon-sun {
+  display: block;
+}
+.dark .theme-icon-moon {
+  display: none;
+}
+
 /* ===== Page transition animation ===== */
 @keyframes pageEnter {
   from {

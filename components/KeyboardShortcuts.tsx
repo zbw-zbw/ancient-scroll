@@ -43,16 +43,21 @@ export default function KeyboardShortcuts() {
       // Also ignore contentEditable elements
       if ((e.target as HTMLElement).isContentEditable) return;
 
+      // Don't trigger shortcuts when any modal/dialog is open
+      const openDialog = document.querySelector('[role="dialog"]');
+
       if (e.key === "?" && !helpOpen) {
+        // 已有弹窗打开时不再叠加帮助层，避免 ESC 一键关两层
+        if (openDialog) return;
         e.preventDefault();
         setHelpOpen(true);
       } else if (e.key === "Escape" && helpOpen) {
+        // preventDefault 标记事件已消费，下层弹窗据此不再响应
+        e.preventDefault();
         setHelpOpen(false);
         return;
       }
 
-      // Don't trigger navigation shortcuts when any modal/dialog is open
-      const openDialog = document.querySelector('[role="dialog"]');
       if (openDialog || helpOpen) return;
 
       if (e.key === "b" && !e.ctrlKey && !e.metaKey) {

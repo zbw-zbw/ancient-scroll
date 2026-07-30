@@ -8,6 +8,7 @@ import { poems } from "@/data/poems";
 import { characters } from "@/data/characters";
 import { IconBook, IconPaw, IconScroll, IconChat } from "@/components/icons";
 import ModalCloseButton from "@/components/ModalCloseButton";
+import { useBodyScrollLock } from "@/lib/useBodyScrollLock";
 
 interface SearchResult {
   module: string;
@@ -203,6 +204,7 @@ export default function SearchModal({
   const overlayRef = useRef<HTMLDivElement>(null);
   const closeTimerRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
   const resultRefs = useRef<(HTMLAnchorElement | null)[]>([]);
+  const previousFocusRef = useRef<HTMLElement | null>(null);
 
   const groupedResults = useMemo((): ModuleGroup[] => {
     if (!query.trim()) return [];
@@ -240,13 +242,14 @@ export default function SearchModal({
     [groupedResults]
   );
 
-  // Animate in/out
+  // Animate in/out + 焦点管理：打开时保存触发元素，关闭后还原焦点
   useEffect(() => {
     if (open) {
       if (closeTimerRef.current) {
         clearTimeout(closeTimerRef.current);
         closeTimerRef.current = undefined;
       }
+      previousFocusRef.current = document.activeElement as HTMLElement;
       setVisible(true);
       setQuery("");
       setActiveIndex(-1);
@@ -254,7 +257,12 @@ export default function SearchModal({
         inputRef.current?.focus();
       });
     } else {
-      closeTimerRef.current = setTimeout(() => setVisible(false), 200);
+      closeTimerRef.current = setTimeout(() => {
+        setVisible(false);
+        const el = previousFocusRef.current;
+        previousFocusRef.current = null;
+        if (el && document.contains(el)) el.focus();
+      }, 200);
       return () => {
         if (closeTimerRef.current) clearTimeout(closeTimerRef.current);
       };
@@ -267,7 +275,10 @@ export default function SearchModal({
     resultRefs.current = [];
   }, [query]);
 
-  // Escape + lock body scroll (keyboard navigation handled by handleResultKeyDown on input)
+  // 引用计数滚动锁：与其他弹窗共存时不互相解除
+  useBodyScrollLock(open);
+
+  // Escape (keyboard navigation handled by handleResultKeyDown on input)
   useEffect(() => {
     if (!open) return;
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -277,10 +288,8 @@ export default function SearchModal({
       }
     };
     document.addEventListener("keydown", handleKeyDown);
-    document.body.style.overflow = "hidden";
     return () => {
       document.removeEventListener("keydown", handleKeyDown);
-      document.body.style.overflow = "";
     };
   }, [open, onClose]);
 
@@ -317,7 +326,9 @@ export default function SearchModal({
         }
       } else if (e.key === "Enter") {
         e.preventDefault();
-        resultRefs.current[activeIndex]?.click();
+        // activeIndex 为 -1 时回车默认跳转第一个结果，避免静默无响应
+        const target = activeIndex >= 0 ? activeIndex : 0;
+        resultRefs.current[target]?.click();
       }
     },
     [flatResults.length, activeIndex]
@@ -357,6 +368,13 @@ export default function SearchModal({
             placeholder="搜索山海经、异兽、诗词、人物…"
             className="flex-1 bg-transparent px-2 py-2 font-serif text-ink placeholder:text-light-ink/50 outline-none text-base"
             aria-label="搜索内容"
+            role="combobox"
+            aria-expanded={query.trim() !== "" && totalResults > 0}
+            aria-controls="search-results-listbox"
+            aria-activedescendant={
+              activeIndex >= 0 ? `search-option-${activeIndex}` : undefined
+            }
+            aria-autocomplete="list"
             onKeyDown={handleResultKeyDown}
           />
           <ModalCloseButton
@@ -440,43 +458,48 @@ export default function SearchModal({
               <p className="mt-1 font-serif text-xs text-muted">试试其他关键词，如「九尾狐」「静夜思」</p>
             </div>
           ) : (
-            groupedResults.map((group) => (
-              <div key={group.key} className="border-b border-ink/5 last:border-b-0">
-                <div className="flex items-center gap-2 px-4 pt-3 pb-1">
-                  <span className="text-sm">{group.icon}</span>
-                  <span className="text-xs font-serif text-light-ink/70 font-medium">{group.label}</span>
-                  <span className="text-xs text-light-ink/40 bg-ink/5 rounded-full px-1.5 py-0.5">{group.results.length}</span>
+            // 单一 listbox 容器与输入框 aria-controls 对应，分组用 role="group" 表达
+            <div id="search-results-listbox" role="listbox" aria-label="搜索结果">
+              {groupedResults.map((group) => (
+                <div key={group.key} className="border-b border-ink/5 last:border-b-0">
+                  <div className="flex items-center gap-2 px-4 pt-3 pb-1" id={`search-group-${group.key}`}>
+                    <span className="text-sm">{group.icon}</span>
+                    <span className="text-xs font-serif text-light-ink/70 font-medium">{group.label}</span>
+                    <span className="text-xs text-light-ink/40 bg-ink/5 rounded-full px-1.5 py-0.5">{group.results.length}</span>
+                  </div>
+                  <ul role="group" aria-labelledby={`search-group-${group.key}`}>
+                    {group.results.map((result) => {
+                      resultIdx++;
+                      const isActive = resultIdx === activeIndex;
+                      const optionId = `search-option-${resultIdx}`;
+                      return (
+                        <li key={`${group.key}-${resultIdx}`}>
+                          <Link
+                            ref={(el) => { resultRefs.current[resultIdx] = el; }}
+                            href={result.href}
+                            onClick={handleLinkClick}
+                            onKeyDown={handleResultKeyDown}
+                            className={`block px-4 py-2.5 transition-colors ${
+                              isActive ? "bg-cinnabar/10" : "hover:bg-ink/5"
+                            }`}
+                            role="option"
+                            id={optionId}
+                            aria-selected={isActive}
+                          >
+                            <div className="font-serif text-sm text-ink">
+                              <HighlightText text={result.title} query={query} />
+                            </div>
+                            <div className="text-xs text-light-ink/60 mt-0.5 line-clamp-1">
+                              <HighlightText text={result.description} query={query} />
+                            </div>
+                          </Link>
+                        </li>
+                      );
+                    })}
+                  </ul>
                 </div>
-                <ul role="listbox">
-                  {group.results.map((result) => {
-                    resultIdx++;
-                    const isActive = resultIdx === activeIndex;
-                    return (
-                      <li key={`${group.key}-${resultIdx}`}>
-                        <Link
-                          ref={(el) => { resultRefs.current[resultIdx] = el; }}
-                          href={result.href}
-                          onClick={handleLinkClick}
-                          onKeyDown={handleResultKeyDown}
-                          className={`block px-4 py-2.5 transition-colors ${
-                            isActive ? "bg-cinnabar/10" : "hover:bg-ink/5"
-                          }`}
-                          role="option"
-                          aria-selected={isActive}
-                        >
-                          <div className="font-serif text-sm text-ink">
-                            <HighlightText text={result.title} query={query} />
-                          </div>
-                          <div className="text-xs text-light-ink/60 mt-0.5 line-clamp-1">
-                            <HighlightText text={result.description} query={query} />
-                          </div>
-                        </Link>
-                      </li>
-                    );
-                  })}
-                </ul>
-              </div>
-            ))
+              ))}
+            </div>
           )}
         </div>
 

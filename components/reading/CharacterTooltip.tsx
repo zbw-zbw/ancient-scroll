@@ -41,6 +41,18 @@ export default function CharacterTooltip({
   const [size, setSize] = useState({ width: 280, height: 180 });
   const [isMobile, setIsMobile] = useState(false);
   const autoFetchedRef = useRef(false);
+  const previousFocusRef = useRef<HTMLElement | null>(null);
+
+  // 非模态弹层焦点管理：打开时把焦点移入弹层容器（键盘/读屏用户可直接 Tab 到内部按钮），
+  // 卸载时还原焦点到触发的高亮字，避免焦点丢失到 body
+  useEffect(() => {
+    previousFocusRef.current = document.activeElement as HTMLElement;
+    tooltipRef.current?.focus();
+    return () => {
+      const el = previousFocusRef.current;
+      if (el && document.contains(el)) el.focus();
+    };
+  }, []);
 
   useLayoutEffect(() => {
     setIsMobile(typeof window !== "undefined" && window.innerWidth < 768);
@@ -165,7 +177,9 @@ export default function CharacterTooltip({
   const tooltipContent = (
     <div
       ref={tooltipRef}
-      className={`fixed z-[100] min-w-[240px] max-w-[320px] rounded-md bg-surface shadow-lg ${mounted ? "opacity-100" : "opacity-0"}`}
+      // tabIndex=-1 使容器可接收程序化焦点；非模态弹层不做焦点陷阱
+      tabIndex={-1}
+      className={`fixed z-[100] min-w-[240px] max-w-[320px] rounded-md bg-surface shadow-lg focus:outline-none ${mounted ? "opacity-100" : "opacity-0"}`}
       style={{
         ...style,
         // 从点击位置展开：transform-origin 设为触发点相对弹窗的位置
@@ -175,8 +189,9 @@ export default function CharacterTooltip({
         transition: "opacity 0.18s ease-out, transform 0.18s cubic-bezier(0.34, 1.56, 0.64, 1)",
         maxWidth: isMobile ? `calc(100vw - 16px)` : 320,
       }}
+      // 对抗式审查修复：这是非模态弹层（点击外部即关闭、无焦点陷阱、页面不锁定），
+      // aria-modal="true" 会向读屏软件谎称页面其余部分不可用，必须移除
       role="dialog"
-      aria-modal="true"
       aria-label={`${charData.char}的字词注释`}
     >
       <div className="p-4">
