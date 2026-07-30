@@ -151,7 +151,7 @@ export default function BestiaryClient() {
     : "";
 
   return (
-    <main className="min-h-screen bg-xuan px-4 pb-12 md:px-6 md:pb-16">
+    <main className="min-h-dvh bg-xuan px-4 pb-12 md:px-6 md:pb-16">
       <PageHeader
         title="异兽图鉴"
         subtitle="收藏山海奇兽，解锁文化成就"

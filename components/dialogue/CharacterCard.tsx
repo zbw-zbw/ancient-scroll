@@ -74,7 +74,7 @@ export default function CharacterCard({
               alt={character.name}
               width={80}
               height={80}
-              className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+              className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105 group-active:scale-105"
               loading="lazy"
               placeholder="empty"
               onError={() => setImgError(true)}
@@ -129,7 +129,7 @@ export default function CharacterCard({
 
         {/* CTA */}
         <span className="inline-flex items-center gap-1 font-serif text-sm text-cinnabar transition-all group-hover:gap-2">
-          {hasHistory ? '继续对话' : '开始对话'} <IconArrowRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-1" />
+          {hasHistory ? '继续对话' : '开始对话'} <IconArrowRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-1 group-active:translate-x-1" />
         </span>
       </div>
     </button>

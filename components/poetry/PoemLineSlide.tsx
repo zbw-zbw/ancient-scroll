@@ -60,7 +60,7 @@ export default function PoemLineSlide({ line, active, coverImage }: PoemLineSlid
 
   return (
     <section
-      className="slide relative flex min-h-screen items-center justify-center overflow-hidden"
+      className="slide relative flex min-h-dvh items-center justify-center overflow-hidden"
       style={{
         // 1. 背景渐变先显示（0s，始终显示）
         background: `linear-gradient(135deg, ${line.gradientFrom}, ${line.gradientTo})`,

@@ -82,7 +82,7 @@ export default function SettingsPage() {
   }, [clearStep, toast]);
 
   return (
-    <main className="min-h-screen bg-xuan px-4 pb-12 md:px-6 md:pb-16">
+    <main className="min-h-dvh bg-xuan px-4 pb-12 md:px-6 md:pb-16">
       <PageHeader title="设置" subtitle="数据管理与偏好设置" />
 
       <div className="mx-auto max-w-[700px] pt-8 md:pt-12 space-y-8">

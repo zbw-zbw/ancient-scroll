@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import type { Chapter, DifficultChar } from "@/data/shanhaijing";
 import ReadingControls, { type FontSize } from "./ReadingControls";
 import SentenceCard from "./SentenceCard";
+import { IconPaw } from "@/components/icons";
 
 interface ReadingPanelProps {
   chapter: Chapter;
@@ -18,6 +19,8 @@ interface ReadingPanelProps {
   onNextChapter?: () => void;
   hasPrev?: boolean;
   hasNext?: boolean;
+  highlightSentenceId?: string | null;
+  highlightBeastName?: string | null;
 }
 
 export default function ReadingPanel({
@@ -33,16 +36,32 @@ export default function ReadingPanel({
   onNextChapter,
   hasPrev = false,
   hasNext = false,
+  highlightSentenceId,
+  highlightBeastName,
 }: ReadingPanelProps) {
   const scrollRef = useRef<HTMLDivElement>(null);
   // 当前正在阅读的句子 id（用于 SentenceCard 的 active 高亮）
   const [activeSentenceId, setActiveSentenceId] = useState<string | null>(null);
 
-  // Scroll to top when chapter changes
+  // Scroll to top when chapter changes (instant, not smooth, for clear context switch)
   useEffect(() => {
-    scrollRef.current?.scrollTo({ top: 0, behavior: "smooth" });
+    scrollRef.current?.scrollTo({ top: 0, behavior: "auto" });
     setActiveSentenceId(null);
   }, [chapter.id]);
+
+  // Scroll to highlighted sentence when coming from bestiary
+  useEffect(() => {
+    if (!highlightSentenceId || !scrollRef.current) return;
+    const container = scrollRef.current;
+    const target = container.querySelector(`[data-sentence-id="${highlightSentenceId}"]`);
+    if (target) {
+      // Small delay to ensure layout is settled
+      const timer = setTimeout(() => {
+        target.scrollIntoView({ behavior: "smooth", block: "center" });
+      }, 300);
+      return () => clearTimeout(timer);
+    }
+  }, [highlightSentenceId]);
 
   // 通过 IntersectionObserver 追踪当前可见度最高的句子，作为 active 句子
   useEffect(() => {
@@ -123,22 +142,33 @@ export default function ReadingPanel({
 
           {/* Sentences */}
           <div className="flex flex-col gap-4">
-            {chapter.sentences.map((sentence, idx) => (
-              // 包裹一层 div 用于 IntersectionObserver 追踪当前可见句子（data-sentence-id）
-              <div key={sentence.id} data-sentence-id={sentence.id}>
-                <SentenceCard
-                  sentence={sentence}
-                  index={idx}
-                  fontSize={fontSize}
-                  showTranslation={showTranslation}
-                  translation={translations[sentence.id] ?? sentence.translation}
-                  chapterName={chapter.name}
-                  onCharClick={onCharClick}
-                  onTranslation={onTranslation}
-                  active={activeSentenceId === sentence.id}
-                />
-              </div>
-            ))}
+            {chapter.sentences.map((sentence, idx) => {
+              const isHighlighted = highlightSentenceId === sentence.id;
+              return (
+                <div key={sentence.id} data-sentence-id={sentence.id} className="relative">
+                  {/* Beast highlight badge */}
+                  {isHighlighted && highlightBeastName && (
+                    <div className="absolute -top-3 left-4 z-10 inline-flex items-center gap-1.5 rounded-full bg-cinnabar px-3 py-1 font-serif text-xs text-white shadow-md animate-fade-in-down">
+                      <IconPaw className="h-3 w-3" />
+                      异兽图鉴 · {highlightBeastName}
+                    </div>
+                  )}
+                  <div className={isHighlighted ? "beast-highlight rounded-xl" : ""}>
+                    <SentenceCard
+                      sentence={sentence}
+                      index={idx}
+                      fontSize={fontSize}
+                      showTranslation={showTranslation}
+                      translation={translations[sentence.id] ?? sentence.translation}
+                      chapterName={chapter.name}
+                      onCharClick={onCharClick}
+                      onTranslation={onTranslation}
+                      active={activeSentenceId === sentence.id}
+                    />
+                  </div>
+                </div>
+              );
+            })}
           </div>
 
           {/* Chapter navigation */}
@@ -166,7 +196,7 @@ export default function ReadingPanel({
                 >
                   <span className="hidden sm:inline">下一章</span>
                   <span className="sm:hidden">下</span>
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4 transition-transform group-hover:translate-x-0.5">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4 transition-transform group-hover:translate-x-0.5 group-active:translate-x-0.5">
                     <path d="m9 18 6-6-6-6" />
                   </svg>
                 </button>

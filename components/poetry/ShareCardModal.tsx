@@ -4,9 +4,10 @@ import { useState, useEffect, useRef, useCallback } from "react";
 import { createPortal } from "react-dom";
 import Image from "next/image";
 import type { Poem } from "@/data/poems";
-import { IconClose, IconDownload, IconCopy } from "@/components/icons";
+import { IconDownload, IconCopy } from "@/components/icons";
 import { useToast } from "@/components/Toast";
 import { poemImageExists } from "@/lib/knownImages";
+import ModalCloseButton from "@/components/ModalCloseButton";
 
 interface ShareCardModalProps {
   open: boolean;
@@ -136,13 +137,7 @@ export default function ShareCardModal({
         }`}
       >
         {/* Close button */}
-        <button
-          onClick={onClose}
-          className="absolute -right-2 -top-2 z-10 flex h-11 w-11 items-center justify-center rounded-full bg-surface/80 text-light-ink shadow-md transition-colors hover:text-ink hover:bg-surface active:scale-95"
-          aria-label="关闭"
-        >
-          <IconClose className="h-5 w-5" />
-        </button>
+        <ModalCloseButton onClick={onClose} className="absolute -right-2 -top-2 z-10" />
 
         {/* Card preview wrapper with responsive scaling */}
         <div className="flex items-center justify-center overflow-hidden" style={{ maxHeight: '75vh' }}>

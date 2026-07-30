@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { chapters } from "@/data/shanhaijing";
 import type { DifficultChar } from "@/data/shanhaijing";
+import { beasts } from "@/data/beasts";
 import { getReadingPrefs, saveReadingPrefs } from "@/lib/progress";
 import PageHeader from "@/components/PageHeader";
 import ChapterSidebar from "@/components/reading/ChapterSidebar";
@@ -56,6 +57,11 @@ export default function ReadingClient() {
  } | null>(null);
  const [mounted, setMounted] = useState(false);
 
+ // Beast highlight from bestiary "在原文中阅读" link
+ const beastParam = searchParams.get("beast");
+ const [highlightSentenceId, setHighlightSentenceId] = useState<string | null>(null);
+ const [highlightBeastName, setHighlightBeastName] = useState<string | null>(null);
+
  // Load persisted reading prefs on mount
   useEffect(() => {
     setMounted(true);
@@ -82,6 +88,43 @@ export default function ReadingClient() {
    () => sortedChapters.find((c) => c.id === selectedChapterId) || sortedChapters[0],
    [selectedChapterId]
  );
+
+ // Find matching sentence when navigating from bestiary
+ useEffect(() => {
+   if (!beastParam || !chapter) {
+     setHighlightSentenceId(null);
+     setHighlightBeastName(null);
+     return;
+   }
+
+   const beast = beasts.find((b) => b.name === beastParam);
+   if (!beast) {
+     setHighlightSentenceId(null);
+     setHighlightBeastName(null);
+     return;
+   }
+
+   // Try matching by relatedBeastId first, then by originalText inclusion
+   const matchedSentence = chapter.sentences.find(
+     (s) => s.relatedBeastId === beast.id
+   ) || chapter.sentences.find(
+     (s) => s.original.includes(beast.originalText) || beast.originalText.includes(s.original)
+   );
+
+   if (matchedSentence) {
+     setHighlightSentenceId(matchedSentence.id);
+     setHighlightBeastName(beast.name);
+     // Clear highlight after 6 seconds (3 pulses × 1.5s + buffer)
+     const timer = setTimeout(() => {
+       setHighlightSentenceId(null);
+       setHighlightBeastName(null);
+     }, 6000);
+     return () => clearTimeout(timer);
+   } else {
+     setHighlightSentenceId(null);
+     setHighlightBeastName(null);
+   }
+ }, [beastParam, chapter]);
 
  const chapterIndex = sortedChapters.findIndex((c) => c.id === selectedChapterId);
  const hasPrev = chapterIndex > 0;
@@ -140,7 +183,7 @@ export default function ReadingClient() {
  }, [activeTooltip, chapter]);
 
  return (
- <div className="relative flex min-h-[calc(100vh-4rem)] flex-col bg-xuan">
+ <div className="relative flex min-h-[calc(100dvh-4rem)] flex-col bg-xuan">
  <PageHeader
  title="双语阅读"
  subtitle="原文与译文对照，逐句品读山海经"
@@ -170,6 +213,8 @@ export default function ReadingClient() {
  onNextChapter={handleNextChapter}
  hasPrev={hasPrev}
  hasNext={hasNext}
+ highlightSentenceId={highlightSentenceId}
+ highlightBeastName={highlightBeastName}
  />
  </div>
 
@@ -177,7 +222,7 @@ export default function ReadingClient() {
         <CharacterTooltip
           key={activeTooltip.charData.char + activeTooltip.sentenceId}
           charData={activeTooltip.charData}
- context={tooltipContext}
+          context={tooltipContext}
  triggerRect={activeTooltip.rect}
  chapterId={chapter.id}
  sentenceId={activeTooltip.sentenceId}

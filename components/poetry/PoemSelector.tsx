@@ -52,7 +52,7 @@ export default function PoemSelector({ onSelect }: PoemSelectorProps) {
   }, []);
 
   return (
-    <div className="min-h-screen bg-xuan px-4 pb-16 md:px-6">
+    <div className="min-h-dvh bg-xuan px-4 pb-16 md:px-6">
       <PageHeader
         title="诗境漫游"
         subtitle="一字一句，走进古诗的意境"

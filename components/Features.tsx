@@ -161,7 +161,7 @@ export default function Features() {
                   href={feature.href}
                   className="inline-flex items-center gap-2 font-serif text-sm text-cinnabar hover:underline"
                 >
-                  探索功能 <IconArrowRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-1" />
+                  探索功能 <IconArrowRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-1 group-active:translate-x-1" />
                 </Link>
               </div>
 

@@ -130,10 +130,10 @@ export default function DailyRecommendation() {
         </div>
 
         {/* Recommendation cards */}
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="grid grid-cols-1 items-stretch gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {recommendations.map((rec) => (
-            <Link key={`${rec.type}-${rec.id}-${seed}`} href={rec.href} className="group">
-              <div className="card animate-fade-in overflow-hidden rounded-2xl bg-surface/60 p-5 transition-all duration-300 hover:border-cinnabar/30 hover:shadow-lg">
+            <Link key={`${rec.type}-${rec.id}-${seed}`} href={rec.href} className="group flex">
+              <div className="card animate-fade-in flex h-full w-full flex-col overflow-hidden rounded-2xl bg-surface/60 p-5 transition-all duration-300 hover:border-cinnabar/30 hover:shadow-lg">
                 <div className="flex items-start justify-between">
                   <span
                     className={`inline-flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br ${rec.color} font-calligraphy text-sm text-ink`}
@@ -148,7 +148,7 @@ export default function DailyRecommendation() {
                     strokeWidth="2"
                     strokeLinecap="round"
                     strokeLinejoin="round"
-                    className="h-4 w-4 text-muted transition-transform duration-300 group-hover:translate-x-0.5 group-hover:text-cinnabar"
+                    className="h-4 w-4 text-muted transition-transform duration-300 group-hover:translate-x-0.5 group-active:translate-x-0.5 group-hover:text-cinnabar"
                   >
                     <path d="m9 18 6-6-6-6" />
                   </svg>
@@ -158,6 +158,7 @@ export default function DailyRecommendation() {
                   {rec.title}
                 </h3>
                 <p className="mt-1 font-serif text-sm text-muted">{rec.subtitle}</p>
+                <div className="flex-1" />
               </div>
             </Link>
           ))}

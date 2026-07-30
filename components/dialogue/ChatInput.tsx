@@ -53,7 +53,7 @@ export default function ChatInput({
           placeholder="请输入你的问题……"
           disabled={disabled}
           aria-label="输入消息"
-          className="max-h-28 flex-1 resize-none rounded-2xl bg-surface px-4 py-3 font-serif text-sm text-ink placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-cinnabar/30 disabled:opacity-60"
+          className="max-h-28 flex-1 resize-none rounded-2xl bg-surface px-4 py-3 font-serif text-base text-ink placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-cinnabar/30 disabled:opacity-60"
         />
         <button
           onClick={() => {
@@ -64,7 +64,7 @@ export default function ChatInput({
           }}
           disabled={disabled || !value.trim()}
           aria-label="发送消息"
-          className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-cinnabar text-white transition-transform active:scale-95 hover:shadow-md disabled:bg-muted disabled:cursor-not-allowed md:h-11 md:w-11"
+          className="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-full bg-cinnabar text-white transition-transform active:scale-95 hover:shadow-md disabled:bg-muted disabled:cursor-not-allowed"
         >
           {disabled ? (
             <span className="inline-flex gap-0.5">

@@ -72,7 +72,7 @@ export default function PoemCard({ poem, onSelect, onShare, isRead }: PoemCardPr
             alt={poem.title}
             fill
             sizes="(max-width: 768px) 50vw, 33vw"
-            className="object-cover transition-transform duration-500 group-hover:scale-105"
+            className="object-cover transition-transform duration-500 group-hover:scale-105 group-active:scale-105"
             loading="lazy"
             placeholder="empty"
             onError={() => setImgError(true)}
@@ -166,7 +166,7 @@ export default function PoemCard({ poem, onSelect, onShare, isRead }: PoemCardPr
             className="inline-flex items-center gap-1 font-serif text-sm text-cinnabar transition-colors group-hover:underline group-focus-within:underline cursor-pointer"
           >
             进入诗境
-            <IconArrowRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-1" />
+            <IconArrowRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-1 group-active:translate-x-1" />
           </span>
         </div>
       </div>

@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 
 export default function ReadingPage() {
   return (
-    <main className="min-h-screen bg-xuan">
+    <main className="min-h-dvh bg-xuan">
       <Suspense fallback={null}>
         <ReadingClient />
       </Suspense>

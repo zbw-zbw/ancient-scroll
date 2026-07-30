@@ -104,7 +104,7 @@ const timeline = [
 
 export default function AboutPage() {
   return (
-    <main className="min-h-screen bg-xuan">
+    <main className="min-h-dvh bg-xuan">
       {/* Section 1: 使命宣言 */}
       <section className="relative overflow-hidden px-6 pt-32 pb-20 md:pt-40 md:pb-28">
         {/* Decorative background */}

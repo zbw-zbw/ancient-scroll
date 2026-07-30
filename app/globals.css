@@ -71,7 +71,9 @@ body {
   @apply bg-xuan text-ink;
   font-family: var(--font-noto-serif-sc), "Noto Serif SC", "Songti SC", "SimSun", serif;
   min-height: 100vh;
+  min-height: 100dvh;
   overflow-x: hidden;
+  overscroll-behavior: none;
   position: relative;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.03'/%3E%3C/svg%3E");
 }
@@ -368,6 +370,7 @@ footer {
 
 .slide {
   min-height: 100vh;
+  min-height: 100dvh;
   scroll-snap-align: start;
 }
 
@@ -648,6 +651,22 @@ footer {
   opacity: 1;
 }
 
+/* ===== Beast highlight pulse animation (from bestiary → reading) ===== */
+@keyframes beast-highlight-pulse {
+  0%, 100% {
+    box-shadow: 0 0 0 2px rgba(200, 64, 50, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 0 6px rgba(200, 64, 50, 0.12);
+  }
+}
+
+.beast-highlight {
+  animation: beast-highlight-pulse 1.5s ease-in-out 3;
+  border-color: rgba(200, 64, 50, 0.3) !important;
+  background-color: rgba(200, 64, 50, 0.04) !important;
+}
+
 /* ===== Enhanced particle animations ===== */
 
 /* Petals: rotate + sway */
@@ -826,12 +845,41 @@ footer {
 }
 
 /* ===== Mobile touch target enforcement (44x44px minimum) ===== */
-@media (max-width: 768px) {
-  /* Ensure icon-only buttons meet minimum touch target size */
+@media (hover: none) and (pointer: coarse) {
+  /* Ensure all interactive elements meet minimum touch target size */
+  button,
+  a,
+  [role="button"] {
+    min-height: 44px;
+  }
+  /* Icon-only buttons need both dimensions */
   button[aria-label],
   a[aria-label] {
     min-width: 44px;
     min-height: 44px;
+  }
+}
+
+/* ===== Touch device: momentum scrolling + hover fallbacks ===== */
+@media (hover: none) and (pointer: coarse) {
+  /* Momentum scrolling for all scrollable containers */
+  .overflow-y-auto,
+  .overflow-x-auto,
+  .overflow-auto {
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Ensure hover-only functional content is visible on touch devices */
+  .group-hover\:opacity-100 {
+    opacity: 1 !important;
+  }
+
+  /* Message action buttons: always visible on touch */
+  .msg-actions {
+    opacity: 0.5;
+  }
+  .group:active .msg-actions {
+    opacity: 1;
   }
 }
 

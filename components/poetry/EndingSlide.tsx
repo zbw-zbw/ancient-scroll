@@ -64,7 +64,7 @@ export default function EndingSlide({
 
   return (
     <section
-      className="slide relative flex min-h-screen items-center justify-center overflow-hidden"
+      className="slide relative flex min-h-dvh items-center justify-center overflow-hidden"
       style={{
         background: "linear-gradient(180deg, var(--xuan-dark) 0%, var(--xuan) 100%)",
       }}

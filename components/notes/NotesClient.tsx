@@ -129,7 +129,7 @@ export default function NotesClient() {
   void tick;
 
   return (
-    <div className="min-h-screen bg-xuan px-4 pb-16 md:px-6">
+    <div className="min-h-dvh bg-xuan px-4 pb-16 md:px-6">
       <PageHeader title="我的笔记" subtitle="山海经字词笔记，温故而知新" />
 
       <div className="mx-auto max-w-[1000px] pt-8 md:pt-12">

@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Ma_Shan_Zheng, Noto_Serif_SC, Long_Cang } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
@@ -7,6 +7,7 @@ import ToastProvider from "@/components/Toast";
 import PageTransition from "@/components/PageTransition";
 import AchievementWatcher from "@/components/AchievementWatcher";
 import NavbarVisibilityProvider from "@/components/NavbarVisibilityContext";
+import BackToTop from "@/components/BackToTop";
 
 const maShanZheng = Ma_Shan_Zheng({
   weight: "400",
@@ -28,6 +29,13 @@ const longCang = Long_Cang({
   variable: "--font-long-cang",
   display: "swap",
 });
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 5,
+  viewportFit: "cover",
+};
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://scroll.kyriewen.cn"),
@@ -70,13 +78,14 @@ export default function RootLayout({
           } catch {}
         ` }} />
       </head>
-      <body className="min-h-screen">
+      <body className="min-h-dvh">
         <NavbarVisibilityProvider>
         <Navbar />
         <KeyboardShortcuts />
         <ToastProvider>
           <AchievementWatcher />
           <PageTransition>{children}</PageTransition>
+          <BackToTop />
         </ToastProvider>
         </NavbarVisibilityProvider>
       </body>

@@ -16,7 +16,7 @@ export default function CoverSlide({ poem, active }: CoverSlideProps) {
 
   return (
     <section
-      className="slide relative flex min-h-screen items-center justify-center overflow-hidden"
+      className="slide relative flex min-h-dvh items-center justify-center overflow-hidden"
       style={{
         background: `linear-gradient(135deg, ${firstLine?.gradientFrom ?? "#fef3c7"}, ${firstLine?.gradientTo ?? "#fde68a"})`,
       }}

@@ -7,6 +7,7 @@ import { beasts } from "@/data/beasts";
 import { poems } from "@/data/poems";
 import { characters } from "@/data/characters";
 import { IconBook, IconPaw, IconScroll, IconChat } from "@/components/icons";
+import ModalCloseButton from "@/components/ModalCloseButton";
 
 interface SearchResult {
   module: string;
@@ -358,16 +359,12 @@ export default function SearchModal({
             aria-label="搜索内容"
             onKeyDown={handleResultKeyDown}
           />
-          <button
+          <ModalCloseButton
             onClick={onClose}
-            className="flex-shrink-0 text-light-ink hover:text-ink transition-colors p-2 min-h-[44px] min-w-[44px] rounded-full hover:bg-ink/5 active:scale-95 inline-flex items-center justify-center"
-            aria-label="关闭搜索"
-          >
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5">
-              <line x1="18" y1="6" x2="6" y2="18" />
-              <line x1="6" y1="6" x2="18" y2="18" />
-            </svg>
-          </button>
+            variant="ghost"
+            className=""
+            ariaLabel="关闭搜索"
+          />
         </div>
 
         {/* Results area */}

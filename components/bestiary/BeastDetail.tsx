@@ -8,7 +8,6 @@ import type { Beast } from "@/data/beasts";
 import { beasts, categoryLabels, categoryIconNames } from "@/data/beasts";
 import { beastImageExists } from "@/lib/knownImages";
 import {
-  IconClose,
   IconBookOpen,
   IconHeart,
   IconHeartOutline,
@@ -20,6 +19,7 @@ import {
   IconGod,
 } from "@/components/icons";
 import { chapters } from "@/data/shanhaijing";
+import ModalCloseButton from "@/components/ModalCloseButton";
 import AiDescribeButton from "./AiDescribeButton";
 
 interface BeastDetailProps {
@@ -182,13 +182,7 @@ export default function BeastDetail({
           )}
           <div className="absolute inset-0 bg-gradient-to-t from-xuan/40 via-transparent to-transparent" />
 
-          <button
-            onClick={onClose}
-            className="absolute right-4 top-4 flex h-11 w-11 items-center justify-center rounded-full bg-ink/20 text-white transition-colors hover:bg-ink/30 active:scale-95"
-            aria-label="关闭"
-          >
-            <IconClose className="h-4 w-4" />
-          </button>
+          <ModalCloseButton onClick={onClose} variant="light" />
         </div>
 
         {/* Scrollable content */}
@@ -212,7 +206,7 @@ export default function BeastDetail({
           </blockquote>
           <div className="mb-5">
             <Link
-              href={`/reading?chapter=${chapters.find((c) => c.name === beast.chapter)?.id || "nanshan"}`}
+              href={`/reading?chapter=${chapters.find((c) => c.name === beast.chapter)?.id || "nanshan"}&beast=${encodeURIComponent(beast.name)}`}
               onClick={onClose}
               className="inline-flex items-center gap-1 font-serif text-xs text-cinnabar hover:underline"
             >

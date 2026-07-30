@@ -204,7 +204,7 @@ export default function AchievementPanel() {
 
                 <div className="relative flex items-start gap-3">
                   <div
-                    className={`flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-xl transition-transform duration-300 group-hover:scale-110 ${
+                    className={`flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-xl transition-transform duration-300 group-hover:scale-110 group-active:scale-110 ${
                       ach.unlocked ? "" : "grayscale"
                     }`}
                     style={{ background: ach.unlocked ? `${color}15` : "rgba(0,0,0,0.04)" }}

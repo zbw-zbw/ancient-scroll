@@ -63,7 +63,7 @@ export default function FavoritesClient() {
   );
 
   return (
-    <div className="min-h-screen bg-xuan px-4 pb-16 md:px-6">
+    <div className="min-h-dvh bg-xuan px-4 pb-16 md:px-6">
       <PageHeader title="我的收藏" subtitle="珍藏的诗词与异兽，随时回味" />
 
       <div className="mx-auto max-w-[1100px] pt-8 md:pt-12">
@@ -144,7 +144,7 @@ export default function FavoritesClient() {
                           src={poem.coverImage}
                           alt={poem.title}
                           fill
-                          className="object-cover opacity-80 transition-transform duration-500 group-hover:scale-105"
+                          className="object-cover opacity-80 transition-transform duration-500 group-hover:scale-105 group-active:scale-105"
                           loading="lazy"
                         />
                       ) : (
@@ -177,7 +177,7 @@ export default function FavoritesClient() {
                       </p>
                       <span className="mt-auto inline-flex items-center gap-1 self-start pt-4 font-serif text-sm text-cinnabar transition-colors group-hover:underline">
                         进入诗境
-                        <IconArrowRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-1" />
+                        <IconArrowRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-1 group-active:translate-x-1" />
                       </span>
                     </div>
                   </article>
@@ -225,7 +225,7 @@ export default function FavoritesClient() {
                           src={beast.imagePath}
                           alt={beast.name}
                           fill
-                          className="object-cover transition-transform duration-500 group-hover:scale-105"
+                          className="object-cover transition-transform duration-500 group-hover:scale-105 group-active:scale-105"
                           loading="lazy"
                         />
                       ) : (
@@ -269,7 +269,7 @@ export default function FavoritesClient() {
                       </div>
                       <span className="mt-auto inline-flex items-center gap-1 self-start pt-4 font-serif text-sm text-cinnabar transition-colors group-hover:underline">
                         查看详情
-                        <IconArrowRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-1" />
+                        <IconArrowRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-1 group-active:translate-x-1" />
                       </span>
                     </div>
                   </article>

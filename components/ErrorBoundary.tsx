@@ -15,7 +15,7 @@ export default function ErrorBoundary({
   }, [error]);
 
   return (
-    <main className="relative flex min-h-screen flex-col items-center justify-center bg-xuan overflow-hidden px-6">
+    <main className="relative flex min-h-dvh flex-col items-center justify-center bg-xuan overflow-hidden px-6">
       {/* Background decoration */}
       <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-[500px] w-[500px] rounded-full bg-gradient-to-br from-cinnabar/[0.03] to-transparent blur-3xl" />
