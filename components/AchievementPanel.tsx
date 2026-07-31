@@ -32,6 +32,7 @@ const categoryLabels: Record<Achievement["category"], string> = {
   checkin: "每日签到",
   notes: "阅读笔记",
   favorites: "我的收藏",
+  quiz: "知识问答",
 };
 
 const categoryColors: Record<Achievement["category"], string> = {
@@ -42,6 +43,7 @@ const categoryColors: Record<Achievement["category"], string> = {
   checkin: "#10b981",
   notes: "#6366f1",
   favorites: "#ec4899",
+  quiz: "#c84032",
 };
 
 const achievementIconMap: Record<string, ComponentType<{ className?: string }>> = {

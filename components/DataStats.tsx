@@ -6,6 +6,7 @@ import { chapters } from "@/data/shanhaijing";
 import { beasts } from "@/data/beasts";
 import { poems } from "@/data/poems";
 import { characters } from "@/data/characters";
+import { totalQuizQuestions } from "@/data/quiz";
 
 // Count-up animation hook: animates from 0 to target when element enters viewport
 function useCountUp(target: number, duration: number = 1000, start: boolean) {
@@ -73,6 +74,7 @@ export default function DataStats() {
   const beastCount = useCountUp(beasts.length, 1000, inView);
   const poemCount = useCountUp(poems.length, 1000, inView);
   const characterCount = useCountUp(characters.length, 1000, inView);
+  const quizCount = useCountUp(totalQuizQuestions, 1000, inView);
 
   // 从数据文件派生真实句子总数，避免文案与实际数据不一致（安全报告 L-1）
   const totalSentences = chapters.reduce((n, c) => n + c.sentences.length, 0);
@@ -82,6 +84,7 @@ export default function DataStats() {
     { value: String(beastCount), unit: "只", label: "异兽图鉴", note: "5大分类，水墨风格插画" },
     { value: String(poemCount), unit: "首", label: "经典诗词", note: "7大主题，沉浸式体验" },
     { value: String(characterCount), unit: "位", label: "古今人物", note: "横跨春秋至明代" },
+    { value: String(quizCount), unit: "题", label: "知识问答", note: "4大题型，闯关挑战" },
   ];
 
   return (
@@ -108,7 +111,7 @@ export default function DataStats() {
         </div>
 
         <div className="relative overflow-hidden rounded-2xl bg-[#1a1a2e] px-6 py-12 md:px-12 md:py-16 dark:bg-[#1a1a2e]">
-          <div className="grid grid-cols-2 gap-8 md:grid-cols-4">
+          <div className="grid grid-cols-2 gap-6 md:grid-cols-5 md:gap-8">
             {stats.map((stat, index) => (
               <div key={index} className="text-center">
                 <div className="mb-2 flex items-baseline justify-center gap-1">

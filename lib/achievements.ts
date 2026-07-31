@@ -1,4 +1,4 @@
-import { getProgress, getFavorites } from "./progress";
+import { getProgress, getFavorites, getQuizStats } from "./progress";
 import { getCheckinData } from "./checkin";
 import { getAllNotes } from "./notes";
 import { getCollectedBeasts } from "./collection";
@@ -14,7 +14,7 @@ export interface Achievement {
   icon: string; // SVG icon name (maps to a component in components/icons.tsx)
   unlocked: boolean;
   progress?: { current: number; total: number };
-  category: "reading" | "poetry" | "bestiary" | "dialogue" | "checkin" | "notes" | "favorites";
+  category: "reading" | "poetry" | "bestiary" | "dialogue" | "checkin" | "notes" | "favorites" | "quiz";
 }
 
 // Derive totals from data files (single source of truth)
@@ -35,6 +35,7 @@ export function getAchievements(): Achievement[] {
   const collectedBeasts = getCollectedBeasts().length;
   const favCount = favorites.favoritePoems.length + favorites.favoriteBeasts.length;
   const checkinDays = checkin.dates.length;
+  const quizStats = getQuizStats();
 
   return [
     // Reading achievements
@@ -198,6 +199,32 @@ export function getAchievements(): Achievement[] {
       unlocked: favCount >= 5,
       progress: { current: favCount, total: 5 },
       category: "favorites",
+    },
+    // Quiz achievements
+    {
+      id: "quiz-first",
+      title: "初试牛刀",
+      description: "完成第一次问答",
+      icon: "trophy",
+      unlocked: quizStats.totalAttempts >= 1,
+      category: "quiz",
+    },
+    {
+      id: "quiz-perfect",
+      title: "学富五车",
+      description: "单次答题全部正确",
+      icon: "sparkles",
+      unlocked: quizStats.bestScore >= 10,
+      category: "quiz",
+    },
+    {
+      id: "quiz-master",
+      title: "博古通今",
+      description: "累计答对50题",
+      icon: "scroll",
+      unlocked: quizStats.totalCorrect >= 50,
+      progress: { current: quizStats.totalCorrect, total: 50 },
+      category: "quiz",
     },
   ];
 }

@@ -7,6 +7,7 @@ import { getCollectedBeasts } from "./collection";
 const PROGRESS_KEY = "ancient-scroll-progress";
 const READ_HISTORY_KEY = "ancient-scroll-read-history";
 const FAVORITES_KEY = "ancient-scroll-favorites";
+const QUIZ_STATS_KEY = "ancient-scroll-quiz-stats";
 
 export interface Progress {
   readChapters: string[];
@@ -207,6 +208,53 @@ export function isFavoritePoem(id: string): boolean {
 
 export function isFavoriteBeast(id: string): boolean {
   return getFavorites().favoriteBeasts.includes(id);
+}
+
+// --- Quiz Stats ---
+
+export interface QuizStats {
+  totalAttempts: number;
+  totalCorrect: number;
+  bestScore: number;
+  lastPlayedAt: string;
+}
+
+const defaultQuizStats: QuizStats = {
+  totalAttempts: 0,
+  totalCorrect: 0,
+  bestScore: 0,
+  lastPlayedAt: "",
+};
+
+export function getQuizStats(): QuizStats {
+  if (typeof window === "undefined") return defaultQuizStats;
+  return safeParse(() => {
+    const raw = localStorage.getItem(QUIZ_STATS_KEY);
+    if (!raw) return defaultQuizStats;
+    const parsed = JSON.parse(raw);
+    return {
+      totalAttempts: typeof parsed.totalAttempts === "number" ? parsed.totalAttempts : 0,
+      totalCorrect: typeof parsed.totalCorrect === "number" ? parsed.totalCorrect : 0,
+      bestScore: typeof parsed.bestScore === "number" ? parsed.bestScore : 0,
+      lastPlayedAt: typeof parsed.lastPlayedAt === "string" ? parsed.lastPlayedAt : "",
+    };
+  }, defaultQuizStats);
+}
+
+/** 保存一次答题结果，更新统计数据并通知成就系统 */
+export function saveQuizResult(score: number, correctCount: number) {
+  if (typeof window === "undefined") return;
+  const current = getQuizStats();
+  const updated: QuizStats = {
+    totalAttempts: current.totalAttempts + 1,
+    totalCorrect: current.totalCorrect + correctCount,
+    bestScore: Math.max(current.bestScore, score),
+    lastPlayedAt: new Date().toISOString(),
+  };
+  try {
+    localStorage.setItem(QUIZ_STATS_KEY, JSON.stringify(updated));
+  } catch {}
+  notifyProgressChange();
 }
 
 // --- Reading Preferences ---

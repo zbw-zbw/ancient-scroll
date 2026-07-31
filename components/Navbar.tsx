@@ -14,6 +14,7 @@ const navItems = [
   { label: "异兽图鉴", href: "/bestiary" },
   { label: "诗境漫游", href: "/poetry" },
   { label: "古今对话", href: "/dialogue" },
+  { label: "知识问答", href: "/quiz" },
   { label: "关于", href: "/about" },
 ];
 

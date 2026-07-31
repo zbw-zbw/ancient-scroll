@@ -11,6 +11,7 @@ import {
   IconCalendar,
   IconPencil,
   IconHeart,
+  IconTrophy,
 } from "@/components/icons";
 import { renderAchievementIcon } from "@/components/AchievementPanel";
 
@@ -22,6 +23,7 @@ const categoryLabels: Record<Achievement["category"], string> = {
   checkin: "每日签到",
   notes: "阅读笔记",
   favorites: "我的收藏",
+  quiz: "知识问答",
 };
 
 const categoryIcons: Record<Achievement["category"], ReactNode> = {
@@ -32,6 +34,7 @@ const categoryIcons: Record<Achievement["category"], ReactNode> = {
   checkin: <IconCalendar className="h-4 w-4 text-muted" />,
   notes: <IconPencil className="h-4 w-4 text-muted" />,
   favorites: <IconHeart className="h-4 w-4 text-muted" />,
+  quiz: <IconTrophy className="h-4 w-4 text-muted" />,
 };
 
 export default function AchievementSummary() {
@@ -137,7 +140,7 @@ export default function AchievementSummary() {
             </div>
 
             {/* Category mini progress */}
-            <div className="mt-5 grid grid-cols-3 gap-2 md:grid-cols-4 xl:grid-cols-7">
+            <div className="mt-5 grid grid-cols-4 gap-2 md:grid-cols-4 xl:grid-cols-8">
               {categoryProgress.map((cp) => (
                 <div
                   key={cp.category}

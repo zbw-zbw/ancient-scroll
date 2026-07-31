@@ -7,6 +7,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/bestiary",
     "/poetry",
     "/dialogue",
+    "/quiz",
     "/about",
     "/notes",
     "/favorites",

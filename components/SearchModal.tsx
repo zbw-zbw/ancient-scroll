@@ -6,7 +6,8 @@ import { chapters } from "@/data/shanhaijing";
 import { beasts } from "@/data/beasts";
 import { poems } from "@/data/poems";
 import { characters } from "@/data/characters";
-import { IconBook, IconPaw, IconScroll, IconChat } from "@/components/icons";
+import { totalQuizQuestions } from "@/data/quiz";
+import { IconBook, IconPaw, IconScroll, IconChat, IconTrophy } from "@/components/icons";
 import ModalCloseButton from "@/components/ModalCloseButton";
 import { useBodyScrollLock } from "@/lib/useBodyScrollLock";
 
@@ -390,7 +391,7 @@ export default function SearchModal({
           {query.trim() === "" ? (
             <div className="px-4 py-6">
               {/* Module counts */}
-              <div className="mb-4 grid grid-cols-4 gap-2">
+              <div className="mb-4 grid grid-cols-5 gap-2">
                 <Link
                   href="/reading"
                   onClick={handleLinkClick}
@@ -422,6 +423,14 @@ export default function SearchModal({
                 >
                   <IconChat className="h-4 w-4" />
                   <span className="text-xs font-serif text-light-ink/70">{characters.length} 人物</span>
+                </Link>
+                <Link
+                  href="/quiz"
+                  onClick={handleLinkClick}
+                  className="flex flex-col items-center gap-1 rounded-lg p-3 transition-colors hover:bg-ink/5"
+                >
+                  <IconTrophy className="h-4 w-4" />
+                  <span className="text-xs font-serif text-light-ink/70">{totalQuizQuestions} 问答</span>
                 </Link>
               </div>
 
