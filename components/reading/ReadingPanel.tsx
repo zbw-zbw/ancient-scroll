@@ -5,6 +5,7 @@ import type { Chapter, DifficultChar } from "@/data/shanhaijing";
 import ReadingControls, { type FontSize } from "./ReadingControls";
 import SentenceCard from "./SentenceCard";
 import { IconPaw } from "@/components/icons";
+import { speak, stop, isSupported } from "@/lib/tts";
 
 interface ReadingPanelProps {
   chapter: Chapter;
@@ -43,11 +44,99 @@ export default function ReadingPanel({
   // 当前正在阅读的句子 id（用于 SentenceCard 的 active 高亮）
   const [activeSentenceId, setActiveSentenceId] = useState<string | null>(null);
 
+  // ===== 听书模式状态 =====
+  const [listenMode, setListenMode] = useState<"idle" | "playing" | "paused">("idle");
+  const [listenIndex, setListenIndex] = useState<number>(-1);
+  // refs 供回调中读取最新值，避免闭包陈旧
+  const listenModeRef = useRef(listenMode);
+  const showTranslationRef = useRef(showTranslation);
+  const translationsRef = useRef(translations);
+
+  useEffect(() => { listenModeRef.current = listenMode; }, [listenMode]);
+  useEffect(() => { showTranslationRef.current = showTranslation; }, [showTranslation]);
+  useEffect(() => { translationsRef.current = translations; }, [translations]);
+
+  // 组件卸载时停止朗读
+  useEffect(() => {
+    return () => stop();
+  }, []);
+
   // Scroll to top when chapter changes (instant, not smooth, for clear context switch)
   useEffect(() => {
+    stop();
+    setListenMode("idle");
+    setListenIndex(-1);
     scrollRef.current?.scrollTo({ top: 0, behavior: "auto" });
     setActiveSentenceId(null);
   }, [chapter.id]);
+
+  // ===== 听书核心逻辑：当 listenMode=playing 时逐句朗读 =====
+  useEffect(() => {
+    if (listenMode !== "playing") return;
+    if (!isSupported()) {
+      setListenMode("idle");
+      setListenIndex(-1);
+      return;
+    }
+    // 读完所有句子 → 停止
+    if (listenIndex < 0 || listenIndex >= chapter.sentences.length) {
+      setListenMode("idle");
+      setListenIndex(-1);
+      return;
+    }
+
+    const sentence = chapter.sentences[listenIndex];
+    // 构建朗读文本：原文 + 译文（如果开启翻译）
+    let text = sentence.original;
+    if (showTranslationRef.current) {
+      const tr = translationsRef.current[sentence.id] ?? sentence.translation;
+      text += "。" + tr;
+    }
+
+    // 自动滚动到当前朗读句
+    const container = scrollRef.current;
+    if (container) {
+      const target = container.querySelector(`[data-sentence-id="${sentence.id}"]`);
+      if (target) {
+        target.scrollIntoView({ behavior: "smooth", block: "center" });
+      }
+    }
+
+    speak(text, {
+      onEnd: () => {
+        if (listenModeRef.current !== "playing") return;
+        setListenIndex((prev) => prev + 1);
+      },
+      onError: () => {
+        if (listenModeRef.current !== "playing") return;
+        // 出错时也继续下一句，避免卡住
+        setListenIndex((prev) => prev + 1);
+      },
+    });
+
+    return () => {
+      stop();
+    };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [listenMode, listenIndex, chapter.id, chapter.sentences]);
+
+  // 切换听书模式
+  const handleToggleListen = () => {
+    if (listenMode === "idle") {
+      // 从当前可见句子开始，否则从第一句开始
+      const startIdx = activeSentenceId
+        ? chapter.sentences.findIndex((s) => s.id === activeSentenceId)
+        : 0;
+      setListenIndex(startIdx >= 0 ? startIdx : 0);
+      setListenMode("playing");
+    } else if (listenMode === "playing") {
+      stop();
+      setListenMode("paused");
+    } else {
+      // paused → 继续播放
+      setListenMode("playing");
+    }
+  };
 
   // Scroll to highlighted sentence when coming from bestiary
   useEffect(() => {
@@ -137,6 +226,8 @@ export default function ReadingPanel({
               showTranslation={showTranslation}
               onFontSizeChange={onFontSizeChange}
               onShowTranslationChange={onShowTranslationChange}
+              listenMode={listenMode}
+              onToggleListen={handleToggleListen}
             />
           </div>
 
@@ -144,6 +235,7 @@ export default function ReadingPanel({
           <div className="flex flex-col gap-4">
             {chapter.sentences.map((sentence, idx) => {
               const isHighlighted = highlightSentenceId === sentence.id;
+              const isListening = listenMode !== "idle" && listenIndex === idx;
               return (
                 <div key={sentence.id} data-sentence-id={sentence.id} className="relative">
                   {/* Beast highlight badge */}
@@ -153,7 +245,7 @@ export default function ReadingPanel({
                       异兽图鉴 · {highlightBeastName}
                     </div>
                   )}
-                  <div className={isHighlighted ? "beast-highlight rounded-xl" : ""}>
+                  <div className={`${isHighlighted ? "beast-highlight rounded-xl" : ""} ${isListening ? "listening-active rounded-xl" : ""}`}>
                     <SentenceCard
                       sentence={sentence}
                       index={idx}

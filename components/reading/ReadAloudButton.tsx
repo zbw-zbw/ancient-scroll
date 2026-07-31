@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
+import { speak, stop, isSupported, getPreferredVoice, getSpeechRate } from "@/lib/tts";
 
 interface ReadAloudButtonProps {
   text: string;
@@ -15,64 +16,42 @@ export default function ReadAloudButton({ text }: ReadAloudButtonProps) {
     setMounted(true);
   }, []);
 
-  // Load Chinese voices
+  // 预加载语音列表（触发 voiceschanged 事件）
   useEffect(() => {
-    if (typeof window === "undefined" || !window.speechSynthesis) return;
-    const loadVoices = () => {
-      window.speechSynthesis.getVoices();
-    };
-    loadVoices();
-    window.speechSynthesis.addEventListener("voiceschanged", loadVoices);
+    if (!isSupported()) return;
+    // 触发语音加载
+    getPreferredVoice();
+    const handler = () => getPreferredVoice();
+    window.speechSynthesis.addEventListener("voiceschanged", handler);
     return () => {
-      window.speechSynthesis.removeEventListener("voiceschanged", loadVoices);
+      window.speechSynthesis.removeEventListener("voiceschanged", handler);
     };
   }, []);
 
   // Stop speech on unmount
   useEffect(() => {
     return () => {
-      if (typeof window !== "undefined" && window.speechSynthesis) {
-        window.speechSynthesis.cancel();
-      }
+      stop();
     };
   }, []);
 
-  const getZhVoice = useCallback((): SpeechSynthesisVoice | undefined => {
-    if (typeof window === "undefined" || !window.speechSynthesis) return undefined;
-    const voices = window.speechSynthesis.getVoices();
-    return (
-      voices.find((v) => v.lang === "zh-CN" && v.name.includes("Female")) ||
-      voices.find((v) => v.lang === "zh-CN") ||
-      voices.find((v) => v.lang.startsWith("zh")) ||
-      undefined
-    );
-  }, []);
-
   const handleClick = useCallback(() => {
-    if (typeof window === "undefined" || !window.speechSynthesis) return;
+    if (!isSupported()) return;
 
-    if (window.speechSynthesis.speaking) {
-      window.speechSynthesis.cancel();
+    // 如果正在朗读，点击则停止
+    if (speaking) {
+      stop();
       setSpeaking(false);
       return;
     }
 
-    const utterance = new SpeechSynthesisUtterance(text);
-    utterance.lang = "zh-CN";
-    // Load speech rate from settings
-    const savedRate = localStorage.getItem("ancient-scroll-speech-rate");
-    utterance.rate = savedRate ? parseFloat(savedRate) : 0.85;
-    utterance.pitch = 1;
-
-    const zhVoice = getZhVoice();
-    if (zhVoice) utterance.voice = zhVoice;
-
-    utterance.onend = () => setSpeaking(false);
-    utterance.onerror = () => setSpeaking(false);
-
+    // 使用统一 TTS 工具朗读
+    speak(text, {
+      onEnd: () => setSpeaking(false),
+      onError: () => setSpeaking(false),
+    });
     setSpeaking(true);
-    window.speechSynthesis.speak(utterance);
-  }, [text, getZhVoice]);
+  }, [text, speaking]);
 
   // Render placeholder until mounted (prevents hydration mismatch)
   if (!mounted) {
@@ -83,7 +62,7 @@ export default function ReadAloudButton({ text }: ReadAloudButtonProps) {
     );
   }
 
-  if (typeof window === "undefined" || !window.speechSynthesis) {
+  if (!isSupported()) {
     return null;
   }
 

@@ -5,6 +5,15 @@ import PageHeader from "@/components/PageHeader";
 import { useToast } from "@/components/Toast";
 import { downloadBackup, importData, clearAllData, getDataStats } from "@/lib/dataManager";
 import { getReadingPrefs, saveReadingPrefs, type ReadingPrefs } from "@/lib/progress";
+import {
+  getZhVoices,
+  getSpeechRate,
+  saveSpeechRate,
+  savePreferredVoice,
+  speak,
+  stop,
+  isSupported,
+} from "@/lib/tts";
 
 export default function SettingsPage() {
   const { toast } = useToast();
@@ -16,6 +25,9 @@ export default function SettingsPage() {
     showTranslation: true,
   });
   const [speechRate, setSpeechRate] = useState(0.85);
+  const [voices, setVoices] = useState<SpeechSynthesisVoice[]>([]);
+  const [selectedVoice, setSelectedVoice] = useState<string>("");
+  const [previewing, setPreviewing] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const clearTimerRef = useRef<ReturnType<typeof setTimeout>>(undefined);
 
@@ -23,14 +35,31 @@ export default function SettingsPage() {
     setStats(getDataStats());
     const savedPrefs = getReadingPrefs();
     setPrefs(savedPrefs);
-    // Load speech rate from localStorage
-    try {
-      const savedRate = localStorage.getItem("ancient-scroll-speech-rate");
-      if (savedRate) {
-        const rate = parseFloat(savedRate);
-        if (Number.isFinite(rate)) setSpeechRate(rate);
-      }
-    } catch {}
+    // Load speech rate from lib/tts (handles both new and old localStorage keys)
+    setSpeechRate(getSpeechRate());
+
+    // 加载中文音色列表
+    if (!isSupported()) return;
+    const loadVoices = () => {
+      const zhVoices = getZhVoices();
+      setVoices(zhVoices);
+      // 从 localStorage 恢复之前的选择
+      try {
+        const saved = localStorage.getItem("ancient-scroll:voice");
+        if (saved && zhVoices.find((v) => v.name === saved)) {
+          setSelectedVoice(saved);
+        } else if (zhVoices.length > 0 && !selectedVoice) {
+          // 如果没有保存的选择但有可用音色，默认选中第一个
+          setSelectedVoice(zhVoices[0].name);
+        }
+      } catch {}
+    };
+    loadVoices();
+    window.speechSynthesis.addEventListener("voiceschanged", loadVoices);
+    return () => {
+      window.speechSynthesis.removeEventListener("voiceschanged", loadVoices);
+    };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleExport = useCallback(() => {
@@ -65,6 +94,41 @@ export default function SettingsPage() {
       if (fileInputRef.current) fileInputRef.current.value = "";
     }
   }, [toast]);
+
+  // 试听当前选中的音色
+  const handlePreview = useCallback(() => {
+    if (!isSupported() || voices.length === 0) return;
+    // 如果正在试听，点击则停止
+    if (previewing) {
+      stop();
+      setPreviewing(false);
+      return;
+    }
+    const voice = voices.find((v) => v.name === selectedVoice);
+    speak("春眠不觉晓，处处闻啼鸟。", {
+      voice: voice || undefined,
+      onEnd: () => setPreviewing(false),
+      onError: () => setPreviewing(false),
+    });
+    setPreviewing(true);
+  }, [voices, selectedVoice, previewing]);
+
+  // 选择音色并保存
+  const handleVoiceChange = useCallback(
+    (voiceName: string) => {
+      setSelectedVoice(voiceName);
+      savePreferredVoice(voiceName);
+      toast("音色已保存", "success");
+    },
+    [toast],
+  );
+
+  // 页面卸载时停止朗读
+  useEffect(() => {
+    return () => {
+      stop();
+    };
+  }, []);
 
   const handleClear = useCallback(() => {
     if (clearStep === 0) {
@@ -165,9 +229,7 @@ export default function SettingsPage() {
                 onChange={(e) => {
                   const rate = parseFloat(e.target.value);
                   setSpeechRate(rate);
-                  try {
-                    localStorage.setItem("ancient-scroll-speech-rate", String(rate));
-                  } catch {}
+                  saveSpeechRate(rate);
                 }}
                 className="w-full h-1.5 rounded-full bg-ink/10 appearance-none cursor-pointer accent-cinnabar"
               />
@@ -175,6 +237,87 @@ export default function SettingsPage() {
                 <span>慢</span>
                 <span>快</span>
               </div>
+            </div>
+
+            {/* Voice Selection */}
+            <div>
+              <div className="flex items-center justify-between mb-3">
+                <div>
+                  <p className="font-serif text-sm text-ink">朗读音色</p>
+                  <p className="font-serif text-xs text-muted">选择中文朗读语音</p>
+                </div>
+                {isSupported() && voices.length > 0 && (
+                  <button
+                    onClick={handlePreview}
+                    className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 min-h-[36px] font-serif text-xs transition-all active:scale-95 ${
+                      previewing
+                        ? "bg-cinnabar/10 text-cinnabar"
+                        : "bg-ink/5 text-light-ink hover:bg-ink/10"
+                    }`}
+                    title={previewing ? "停止试听" : "试听音色"}
+                  >
+                    {previewing ? (
+                      <>
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          className="h-3.5 w-3.5 animate-pulse"
+                        >
+                          <rect x="6" y="5" width="4" height="14" rx="1" />
+                          <rect x="14" y="5" width="4" height="14" rx="1" />
+                        </svg>
+                        停止试听
+                      </>
+                    ) : (
+                      <>
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          className="h-3.5 w-3.5"
+                        >
+                          <path d="M11 5 6 9H2v6h4l5 4V5z" />
+                          <path d="M15.54 8.46a5 5 0 0 1 0 7.07" />
+                          <path d="M19.07 4.93a10 10 0 0 1 0 14.14" />
+                        </svg>
+                        试听
+                      </>
+                    )}
+                  </button>
+                )}
+              </div>
+              {isSupported() ? (
+                voices.length > 0 ? (
+                  <select
+                    value={selectedVoice}
+                    onChange={(e) => handleVoiceChange(e.target.value)}
+                    className="w-full rounded-xl bg-xuan/50 px-4 py-2.5 min-h-[44px] font-serif text-sm text-ink border border-ink/10 cursor-pointer focus:outline-none focus:border-cinnabar/40 transition-colors"
+                  >
+                    {voices.map((v) => (
+                      <option key={v.name} value={v.name}>
+                        {v.name} ({v.lang})
+                      </option>
+                    ))}
+                  </select>
+                ) : (
+                  <p className="font-serif text-xs text-muted rounded-xl bg-xuan/50 px-4 py-3">
+                    当前设备没有中文语音，系统将使用默认语音朗读
+                  </p>
+                )
+              ) : (
+                <p className="font-serif text-xs text-muted rounded-xl bg-xuan/50 px-4 py-3">
+                  当前浏览器不支持语音朗读功能
+                </p>
+              )}
             </div>
           </div>
         </section>

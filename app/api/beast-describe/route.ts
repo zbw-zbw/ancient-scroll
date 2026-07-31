@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { aiClient } from "@/lib/ai";
+import { getAiClient } from "@/lib/ai";
 import { guardApiRequest } from "@/lib/api-guard";
 
 const MAX_NAME_LENGTH = 100;
@@ -55,7 +55,7 @@ export async function POST(request: Request) {
       );
     }
 
-    const completion = await aiClient.chat.completions.create({
+    const completion = await getAiClient().chat.completions.create({
       model: "deepseek-chat",
       messages: [
         {

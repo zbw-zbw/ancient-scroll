@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { aiClient } from "@/lib/ai";
+import { getAiClient } from "@/lib/ai";
 import { guardApiRequest } from "@/lib/api-guard";
 
 export async function POST(request: Request) {
@@ -52,7 +52,7 @@ export async function POST(request: Request) {
       );
     }
 
-    const completion = await aiClient.chat.completions.create({
+    const completion = await getAiClient().chat.completions.create({
       model: "deepseek-chat",
       messages: [
         {

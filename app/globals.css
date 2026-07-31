@@ -122,6 +122,28 @@ button,
   50% { opacity: 0.6; }
 }
 
+/* 朗诵高亮效果：诗句正在朗读时的发光脉动 */
+@keyframes reciting-glow {
+  0%, 100% {
+    text-shadow: 0 0 8px rgba(255, 215, 0, 0.6), 0 0 24px rgba(255, 215, 0, 0.3);
+  }
+  50% {
+    text-shadow: 0 0 16px rgba(255, 215, 0, 0.9), 0 0 48px rgba(255, 215, 0, 0.5);
+  }
+}
+.reciting-glow {
+  animation: reciting-glow 1.5s ease-in-out infinite;
+}
+
+/* 听书模式：当前朗读句的高亮 */
+@keyframes listening-pulse {
+  0%, 100% { background-color: rgba(200, 64, 50, 0.08); }
+  50% { background-color: rgba(200, 64, 50, 0.16); }
+}
+.listening-active {
+  animation: listening-pulse 1.5s ease-in-out infinite;
+}
+
 /* Global pointer cursor for interactive elements */
 a,
 button,

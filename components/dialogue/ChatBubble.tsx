@@ -1,11 +1,12 @@
 "use client";
 
-import { memo, useCallback, useEffect } from "react";
+import { memo, useCallback, useEffect, useState } from "react";
 import Image from "next/image";
 import { IconBot, IconCopy } from "@/components/icons";
 import StreamingCursor from "./StreamingCursor";
 import { useToast } from "@/components/Toast";
 import { characterImageExists } from "@/lib/knownImages";
+import { speak, stop, isSupported, getVoiceForCharacter } from "@/lib/tts";
 
 interface ChatBubbleProps {
   role: "user" | "assistant";
@@ -13,6 +14,7 @@ interface ChatBubbleProps {
   characterAvatarPath?: string;
   characterName?: string;
   characterColor?: string;
+  characterId?: string;
   isStreaming?: boolean;
   isThinking?: boolean;
   showRegenerate?: boolean;
@@ -25,6 +27,7 @@ function ChatBubbleImpl({
   characterAvatarPath,
   characterName,
   characterColor,
+  characterId,
   isStreaming,
   isThinking,
   showRegenerate,
@@ -32,13 +35,12 @@ function ChatBubbleImpl({
 }: ChatBubbleProps) {
   const isUser = role === "user";
   const { toast } = useToast();
+  const [speaking, setSpeaking] = useState(false);
 
   // Stop speech synthesis when leaving the page
   useEffect(() => {
     return () => {
-      if (typeof window !== "undefined" && window.speechSynthesis) {
-        window.speechSynthesis.cancel();
-      }
+      stop();
     };
   }, []);
 
@@ -52,23 +54,29 @@ function ChatBubbleImpl({
     }
   }, [content, toast]);
 
-  // 调用浏览器语音合成 API 朗读消息（中文语音 zh-CN）
+  // 朗读消息：使用统一 TTS 工具，按角色性别选择音色
   const handleSpeak = useCallback(() => {
-    if (typeof window === "undefined" || !("speechSynthesis" in window)) {
+    if (!isSupported()) {
       toast("浏览器不支持语音朗读", "error");
       return;
     }
-    // 停止之前的朗读，避免叠加
-    window.speechSynthesis.cancel();
-    const utterance = new SpeechSynthesisUtterance(content);
-    utterance.lang = "zh-CN";
-    // 优先选择中文语音
-    const voices = window.speechSynthesis.getVoices();
-    const zhVoice = voices.find((v) => v.lang.startsWith("zh"));
-    if (zhVoice) utterance.voice = zhVoice;
-    window.speechSynthesis.speak(utterance);
-    toast("正在朗读", "info");
-  }, [content, toast]);
+
+    // 正在朗读时点击则停止
+    if (speaking) {
+      stop();
+      setSpeaking(false);
+      return;
+    }
+
+    // 根据角色性别选择音色
+    const voice = getVoiceForCharacter(characterId);
+    speak(content, {
+      voice: voice || undefined,
+      onEnd: () => setSpeaking(false),
+      onError: () => setSpeaking(false),
+    });
+    setSpeaking(true);
+  }, [content, characterId, speaking, toast]);
 
   // 是否显示底部操作按钮（仅 AI 已完成的消息且内容非空时）
   const showActions =
@@ -171,28 +179,51 @@ function ChatBubbleImpl({
               >
                 <IconCopy className="h-3.5 w-3.5" />
               </button>
-              {/* 朗读按钮 */}
+              {/* 朗读按钮：正在朗读时显示脉冲动画 */}
               <button
                 onClick={handleSpeak}
-                className="rounded-md p-1 text-muted transition-colors hover:text-cinnabar"
-                aria-label="朗读消息"
-                title="朗读"
+                className={`rounded-md p-1 transition-colors ${
+                  speaking
+                    ? "text-cinnabar"
+                    : "text-muted hover:text-cinnabar"
+                }`}
+                aria-label={speaking ? "停止朗读" : "朗读消息"}
+                title={speaking ? "停止朗读" : "朗读"}
               >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  className="h-3.5 w-3.5"
-                  aria-hidden="true"
-                >
-                  <path d="M11 5 6 9H2v6h4l5 4V5z" />
-                  <path d="M15.54 8.46a5 5 0 0 1 0 7.07" />
-                  <path d="M19.07 4.93a10 10 0 0 1 0 14.14" />
-                </svg>
+                {speaking ? (
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    className="h-3.5 w-3.5 animate-pulse"
+                    aria-hidden="true"
+                  >
+                    <path d="m11 5-6 14" />
+                    <path d="M22 5-16 14" />
+                    <path d="M4.72 8.72a3 3 0 0 1 0 6.56" />
+                    <path d="M19.28 8.72a3 3 0 0 1 0 6.56" />
+                  </svg>
+                ) : (
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    className="h-3.5 w-3.5"
+                    aria-hidden="true"
+                  >
+                    <path d="M11 5 6 9H2v6h4l5 4V5z" />
+                    <path d="M15.54 8.46a5 5 0 0 1 0 7.07" />
+                    <path d="M19.07 4.93a10 10 0 0 1 0 14.14" />
+                  </svg>
+                )}
               </button>
               {/* 重新生成按钮 */}
               {showRegenerate && onRegenerate && (

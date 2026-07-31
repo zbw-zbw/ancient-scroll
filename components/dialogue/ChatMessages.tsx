@@ -86,6 +86,7 @@ export default function ChatMessages({
               characterAvatarPath={character.avatarPath}
               characterName={character.name}
               characterColor={character.color}
+              characterId={character.id}
               showRegenerate={isLastAssistant}
               onRegenerate={onRegenerate}
             />
@@ -100,6 +101,7 @@ export default function ChatMessages({
             characterAvatarPath={character.avatarPath}
             characterName={character.name}
             characterColor={character.color}
+            characterId={character.id}
             isStreaming={true}
             isThinking={streamingContent === ""}
           />

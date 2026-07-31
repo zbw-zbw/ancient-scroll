@@ -11,6 +11,7 @@ interface PoemLineSlideProps {
   line: PoemLine;
   active: boolean;
   coverImage?: string;
+  reciting?: boolean;
 }
 
 // 从粒子类型派生意境图标组件
@@ -23,7 +24,7 @@ const PARTICLE_ICON: Record<ParticleType, React.FC<{ className?: string }>> = {
   fireflies: IconSparkles,
 };
 
-export default function PoemLineSlide({ line, active, coverImage }: PoemLineSlideProps) {
+export default function PoemLineSlide({ line, active, coverImage, reciting }: PoemLineSlideProps) {
   const textLight = line.textColor === "light";
   const [speaking, setSpeaking] = useState(false);
 
@@ -137,7 +138,7 @@ export default function PoemLineSlide({ line, active, coverImage }: PoemLineSlid
         <h3
           className={`font-calligraphy ${active ? "animate-poem-rise" : "opacity-0"} ${
             textLight ? "text-white" : "text-ink"
-          }`}
+          } ${reciting ? "reciting-glow" : ""}`}
           style={{
             fontSize: "clamp(2.25rem, 8vw, 4.5rem)",
             animationDelay: active ? "0.4s" : undefined,

@@ -1,5 +1,5 @@
 import { NextRequest } from "next/server";
-import { aiClient } from "../../../lib/ai";
+import { getAiClient } from "../../../lib/ai";
 import { getCharacterById } from "../../../data/characters";
 import { guardApiRequest } from "../../../lib/api-guard";
 
@@ -76,7 +76,7 @@ export async function POST(req: NextRequest) {
       content: character.systemPrompt,
     };
 
-    const stream = await aiClient.chat.completions.create({
+    const stream = await getAiClient().chat.completions.create({
       model: "deepseek-chat",
       messages: [systemMessage, ...safeMessages],
       stream: true,
