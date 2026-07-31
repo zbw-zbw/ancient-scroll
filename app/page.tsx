@@ -7,12 +7,10 @@ import DailyRecommendation from "@/components/DailyRecommendation";
 import AchievementSummary from "@/components/AchievementSummary";
 import QuizEntryCard from "@/components/QuizEntryCard";
 import Footer from "@/components/Footer";
-import ScrollReveal from "@/components/ScrollReveal";
 
 export default function Home() {
   return (
     <>
-      <ScrollReveal />
       <main className="relative w-full bg-xuan">
         <Hero />
         <ContinueReading />

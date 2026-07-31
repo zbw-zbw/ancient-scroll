@@ -160,8 +160,8 @@ export default function QuizClient() {
   return (
     <div className="mx-auto max-w-3xl px-6 py-12 md:py-16">
       {/* Title */}
-      <div className="fade-in text-center">
-        <h1 className="font-calligraphy text-5xl text-ink md:text-6xl">
+      <div className="animate-fade-in text-center">
+        <h1 className="font-calligraphy text-4xl text-ink sm:text-5xl md:text-6xl">
           国学问答
         </h1>
         <p className="mt-3 font-serif text-base text-muted">
@@ -172,19 +172,19 @@ export default function QuizClient() {
 
       {/* Stats Banner */}
       {stats && stats.totalAttempts > 0 && (
-        <div className="fade-in mt-8 flex items-center justify-center gap-8">
+        <div className="animate-fade-in mt-8 flex items-center justify-center gap-4 sm:gap-8">
           <div className="text-center">
-            <p className="font-calligraphy text-3xl text-cinnabar">{stats.bestScore}</p>
+            <p className="font-calligraphy text-2xl text-cinnabar sm:text-3xl">{stats.bestScore}</p>
             <p className="font-serif text-xs text-muted">最高分</p>
           </div>
-          <div className="h-10 w-px bg-ink/10" />
+          <div className="h-8 w-px bg-ink/10 sm:h-10" />
           <div className="text-center">
-            <p className="font-calligraphy text-3xl text-indigo">{stats.totalAttempts}</p>
+            <p className="font-calligraphy text-2xl text-indigo sm:text-3xl">{stats.totalAttempts}</p>
             <p className="font-serif text-xs text-muted">答题次数</p>
           </div>
-          <div className="h-10 w-px bg-ink/10" />
+          <div className="h-8 w-px bg-ink/10 sm:h-10" />
           <div className="text-center">
-            <p className="font-calligraphy text-3xl text-gold">{stats.totalCorrect}</p>
+            <p className="font-calligraphy text-2xl text-gold sm:text-3xl">{stats.totalCorrect}</p>
             <p className="font-serif text-xs text-muted">累计答对</p>
           </div>
         </div>
@@ -196,8 +196,8 @@ export default function QuizClient() {
           <button
             key={mode.id}
             onClick={() => startQuiz(mode)}
-            className={`fade-in group relative overflow-hidden rounded-2xl border border-ink/8 bg-gradient-to-br ${mode.accent} p-6 text-left transition-all duration-300 hover:border-cinnabar/20 hover:shadow-lg active:scale-[0.98]`}
-            style={{ animationDelay: `${index * 0.1}s` }}
+            className={`animate-fade-in group relative overflow-hidden rounded-2xl border border-ink/8 bg-gradient-to-br ${mode.accent} p-5 text-left transition-all duration-300 hover:border-cinnabar/20 hover:shadow-lg active:scale-[0.98] sm:p-6`}
+            style={{ animationDelay: `${index * 0.1}s`, animationFillMode: "both" }}
           >
             {/* Decorative watermark */}
             <span className="pointer-events-none absolute -bottom-4 -right-2 font-calligraphy text-6xl leading-none opacity-5 select-none text-ink">
@@ -224,7 +224,7 @@ export default function QuizClient() {
       </div>
 
       {/* Quiz Info */}
-      <div className="fade-in mt-10 rounded-xl bg-surface p-5 text-center">
+      <div className="animate-fade-in mt-10 rounded-xl bg-surface p-5 text-center">
         <p className="font-serif text-sm text-light-ink">
           题库共 <span className="font-calligraphy text-lg text-cinnabar">{totalQuizQuestions}</span> 道题，
           涵盖诗词填空、异兽辨识、名人名句、看图识兽四大题型

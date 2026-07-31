@@ -163,7 +163,7 @@ export default function QuizGame({ questions, onComplete, onQuit }: QuizGameProp
       {/* Question Card */}
       <div
         key={currentQuestion.id}
-        className="fade-in rounded-2xl border border-ink/8 bg-surface p-6 md:p-8 shadow-sm"
+        className="animate-fade-in rounded-2xl border border-ink/8 bg-surface p-5 shadow-sm md:p-8"
         style={{
           backgroundImage:
             "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.6' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.02'/%3E%3C/svg%3E\")",
@@ -182,20 +182,20 @@ export default function QuizGame({ questions, onComplete, onQuit }: QuizGameProp
         {/* Image for beast-image type */}
         {currentQuestion.type === "beast-image" && imgAvailable && (
           <div className="mb-6 flex justify-center">
-            <div className="relative h-48 w-48 overflow-hidden rounded-xl bg-xuan-dark md:h-56 md:w-56">
+            <div className="relative h-40 w-40 overflow-hidden rounded-xl bg-xuan-dark sm:h-48 sm:w-48 md:h-56 md:w-56">
               <Image
                 src={currentQuestion.imagePath!}
                 alt="异兽图片"
                 fill
                 className="object-contain"
-                sizes="224px"
+                sizes="(max-width: 640px) 160px, (max-width: 768px) 192px, 224px"
               />
             </div>
           </div>
         )}
         {currentQuestion.type === "beast-image" && !imgAvailable && (
           <div className="mb-6 flex justify-center">
-            <div className="flex h-48 w-48 items-center justify-center rounded-xl bg-xuan-dark text-muted md:h-56 md:w-56">
+            <div className="flex h-40 w-40 items-center justify-center rounded-xl bg-xuan-dark text-muted sm:h-48 sm:w-48 md:h-56 md:w-56">
               <span className="font-serif text-sm">图片加载中</span>
             </div>
           </div>
@@ -212,18 +212,18 @@ export default function QuizGame({ questions, onComplete, onQuit }: QuizGameProp
             const isSelected = selectedIndex === index;
             const isCorrect = index === currentQuestion.correctIndex;
             let buttonClass =
-              "flex w-full items-center gap-3 rounded-xl border border-ink/10 bg-xuan/50 px-4 py-3.5 text-left transition-all duration-200 hover:border-cinnabar/30 hover:bg-xuan";
+              "flex w-full items-center gap-3 rounded-xl border border-ink/10 bg-xuan/50 px-3 py-3 text-left transition-all duration-200 hover:border-cinnabar/30 hover:bg-xuan sm:px-4 sm:py-3.5";
 
             if (showFeedback) {
               if (isCorrect) {
                 buttonClass =
-                  "flex w-full items-center gap-3 rounded-xl border-2 border-green-500 bg-green-50 px-4 py-3.5 text-left transition-all duration-200";
+                  "flex w-full items-center gap-3 rounded-xl border-2 border-green-500 bg-green-50 px-3 py-3 text-left transition-all duration-200 sm:px-4 sm:py-3.5";
               } else if (isSelected) {
                 buttonClass =
-                  "flex w-full items-center gap-3 rounded-xl border-2 border-red-400 bg-red-50 px-4 py-3.5 text-left transition-all duration-200";
+                  "flex w-full items-center gap-3 rounded-xl border-2 border-red-400 bg-red-50 px-3 py-3 text-left transition-all duration-200 sm:px-4 sm:py-3.5";
               } else {
                 buttonClass =
-                  "flex w-full items-center gap-3 rounded-xl border border-ink/5 bg-xuan/30 px-4 py-3.5 text-left transition-all duration-200 opacity-50";
+                  "flex w-full items-center gap-3 rounded-xl border border-ink/5 bg-xuan/30 px-3 py-3 text-left transition-all duration-200 opacity-50 sm:px-4 sm:py-3.5";
               }
             }
 
@@ -267,7 +267,7 @@ export default function QuizGame({ questions, onComplete, onQuit }: QuizGameProp
         {/* Feedback Explanation */}
         {showFeedback && (
           <div
-            className={`mt-4 fade-in rounded-xl p-4 ${
+            className={`mt-4 animate-fade-in rounded-xl p-4 ${
               selectedIndex === currentQuestion.correctIndex
                 ? "bg-green-50/80"
                 : "bg-amber-50/80"

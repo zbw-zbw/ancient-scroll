@@ -63,13 +63,13 @@ export default function QuizResult({
   return (
     <div className="mx-auto max-w-2xl px-6 py-12 md:py-16">
       {/* Score Card */}
-      <div className="fade-in text-center">
-        <div className="mb-4 text-6xl">{rating.emoji}</div>
-        <h2 className={`font-calligraphy text-4xl md:text-5xl ${rating.color}`}>
+      <div className="animate-fade-in text-center">
+        <div className="mb-4 text-5xl sm:text-6xl">{rating.emoji}</div>
+        <h2 className={`font-calligraphy text-3xl sm:text-4xl md:text-5xl ${rating.color}`}>
           {rating.title}
         </h2>
         <div className="mt-6 flex items-baseline justify-center gap-2">
-          <span className="font-calligraphy text-6xl text-cinnabar">{score}</span>
+          <span className="font-calligraphy text-5xl text-cinnabar sm:text-6xl">{score}</span>
           <span className="font-serif text-2xl text-muted">/ {total}</span>
         </div>
         <p className="mt-2 font-serif text-sm text-muted">
