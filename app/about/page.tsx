@@ -78,6 +78,12 @@ const methods = [
     stat: `${characters.length}位`,
     detail: "历史人物，横跨春秋到明代，AI模拟真实人格",
   },
+  {
+    icon: <IconSparkles className="h-7 w-7 text-cinnabar" />,
+    title: "互动式",
+    stat: "知识问答",
+    detail: "多难度分级，古今知识竞答，成就系统激励",
+  },
 ];
 
 const techStack = [
@@ -94,11 +100,12 @@ const timeline = [
   { status: "done", text: `《山海经》${chapters.length}篇章${TOTAL_SENTENCES}句古文上线` },
   { status: "done", text: `${beasts.length}只异兽图鉴 + ${poems.length}首古诗沉浸体验` },
   { status: "done", text: `${characters.length}位历史人物 AI 对话` },
+  { status: "done", text: "知识问答 + 成就系统 + 每日签到" },
+  { status: "done", text: "无障碍阅读支持（语音朗读、大字模式、阅读偏好设置）" },
   { status: "planned", text: "扩充至《山海经》全18篇，覆盖全部异兽" },
   { status: "planned", text: "AI 绘画实时生成异兽插画（用户描述 → AI绘图）" },
   { status: "planned", text: "增加《诗经》《楚辞》《论语》等更多古籍" },
   { status: "planned", text: "教师端课堂互动模式（学生分组竞答、实时投屏）" },
-  { status: "planned", text: "无障碍阅读支持（语音朗读、大字模式）" },
   { status: "planned", text: "多语言版本（英/日/韩），向全球传播中华文化" },
 ];
 
@@ -179,9 +186,9 @@ export default function AboutPage() {
             我们的方法
           </h2>
           <p className="mb-12 text-center font-serif text-sm text-muted">
-            四大功能，四种体验
+            五大功能，五种体验
           </p>
-          <div className="grid gap-6 sm:grid-cols-2 md:grid-cols-4">
+          <div className="grid gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
             {methods.map((item, i) => (
               <div
                 key={i}

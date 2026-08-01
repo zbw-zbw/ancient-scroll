@@ -84,7 +84,7 @@ export default function AchievementPanel() {
 
   if (!mounted) {
     return (
-      <section className="px-4 py-16 md:px-6 md:py-24">
+      <section className="px-4 pt-24 pb-16 md:px-6 md:pt-32 md:pb-24">
         <div className="mx-auto max-w-[1100px]">
           <div className="text-center">
             <div className="mx-auto h-9 w-32 animate-pulse rounded-lg bg-ink/10" />
@@ -117,7 +117,7 @@ export default function AchievementPanel() {
   const categories = Array.from(new Set(achievements.map((a) => a.category)));
 
   return (
-    <section className="px-4 py-16 md:px-6 md:py-24">
+    <section className="px-4 pt-24 pb-16 md:px-6 md:pt-32 md:pb-24">
       <div className="mx-auto max-w-[1100px]">
         <div className="text-center">
           <h2 className="font-calligraphy text-3xl text-ink md:text-4xl">成就之路</h2>

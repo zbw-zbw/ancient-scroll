@@ -140,7 +140,7 @@ export default function QuizGame({ questions, onComplete, onQuit }: QuizGameProp
     beastImageExists(currentQuestion.imagePath);
 
   return (
-    <div className="mx-auto max-w-2xl px-6 py-8">
+    <div className="mx-auto max-w-2xl px-6 pt-24 pb-8 md:pt-28">
       {/* Header: Progress + Score */}
       <div className="mb-6">
         <div className="mb-2 flex items-center justify-between">

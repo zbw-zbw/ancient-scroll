@@ -158,7 +158,7 @@ export default function QuizClient() {
 
   // ===== Entry State =====
   return (
-    <div className="mx-auto max-w-3xl px-6 py-12 md:py-16">
+    <div className="mx-auto max-w-3xl px-6 pt-24 pb-12 md:pt-28 md:pb-16">
       {/* Title */}
       <div className="animate-fade-in text-center">
         <h1 className="font-calligraphy text-4xl text-ink sm:text-5xl md:text-6xl">

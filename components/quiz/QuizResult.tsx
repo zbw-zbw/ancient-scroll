@@ -61,7 +61,7 @@ export default function QuizResult({
   };
 
   return (
-    <div className="mx-auto max-w-2xl px-6 py-12 md:py-16">
+    <div className="mx-auto max-w-2xl px-6 pt-24 pb-12 md:pt-28 md:pb-16">
       {/* Score Card */}
       <div className="animate-fade-in text-center">
         <div className="mb-4 text-5xl sm:text-6xl">{rating.emoji}</div>

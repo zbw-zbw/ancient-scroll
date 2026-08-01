@@ -94,20 +94,14 @@ function ChatBubbleImpl({
       >
         {/* Avatar */}
         {isUser ? (
-          <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-surface text-base shadow-sm md:h-10 md:w-10">
-            <svg
-              className="h-5 w-5 text-light-ink"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={1.5}
-                d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
-              />
-            </svg>
+          <div className="h-8 w-8 flex-shrink-0 overflow-hidden rounded-full bg-surface shadow-sm md:h-10 md:w-10">
+            <Image
+              src="/images/user-avatar.jpg"
+              alt="我"
+              width={40}
+              height={40}
+              className="h-full w-full object-cover"
+            />
           </div>
         ) : (
           <div className="h-8 w-8 flex-shrink-0 overflow-hidden rounded-full bg-surface shadow-sm">

@@ -106,23 +106,54 @@ export interface SpeakOptions {
 }
 
 /**
+ * 全局引用，防止 utterance 被垃圾回收导致无声（Chrome 已知问题）。
+ */
+let _currentUtterance: SpeechSynthesisUtterance | null = null;
+
+/**
  * 朗读指定文本。会先取消正在进行的朗读。
  * 返回创建的 utterance（可用于绑定额外事件）。
  */
 export function speak(text: string, options?: SpeakOptions): SpeechSynthesisUtterance | null {
   if (!isSupported()) return null;
 
+  // 先取消已有朗读
   window.speechSynthesis.cancel();
+  _currentUtterance = null;
 
   const utterance = new SpeechSynthesisUtterance(text);
   utterance.voice = options?.voice || getPreferredVoice();
   utterance.rate = options?.rate ?? getSpeechRate();
   utterance.pitch = options?.pitch ?? 1;
   utterance.lang = "zh-CN";
-  if (options?.onEnd) utterance.onend = options.onEnd;
-  if (options?.onError) utterance.onerror = options.onError;
 
-  window.speechSynthesis.speak(utterance);
+  // 包装回调，确保结束后释放全局引用
+  const cleanup = () => {
+    if (_currentUtterance === utterance) {
+      _currentUtterance = null;
+    }
+  };
+  if (options?.onEnd) {
+    utterance.onend = () => { cleanup(); options.onEnd!(); };
+  } else {
+    utterance.onend = cleanup;
+  }
+  if (options?.onError) {
+    utterance.onerror = () => { cleanup(); options.onError!(); };
+  } else {
+    utterance.onerror = cleanup;
+  }
+
+  // 保持引用防止 GC 回收（Chrome bug workaround）
+  _currentUtterance = utterance;
+
+  // 使用微延迟确保 cancel 已完成，避免部分浏览器无声
+  setTimeout(() => {
+    if (_currentUtterance === utterance) {
+      window.speechSynthesis.speak(utterance);
+    }
+  }, 50);
+
   return utterance;
 }
 
@@ -149,6 +180,7 @@ export function speakQueued(text: string, options?: SpeakOptions): SpeechSynthes
  */
 export function stop(): void {
   if (!isSupported()) return;
+  _currentUtterance = null;
   window.speechSynthesis.cancel();
 }
 

@@ -178,7 +178,7 @@ export default function Navbar() {
           </Link>
 
           {/* Center: Nav links */}
-          <ul className="hidden md:flex items-center gap-1">
+          <ul className="hidden lg:flex items-center gap-1">
             {navItems.map((item) => {
               const isActive = pathname === item.href || pathname.startsWith(`${item.href}/`);
               return (
@@ -199,7 +199,7 @@ export default function Navbar() {
           </ul>
 
           {/* Right: Search first, then icon links + Theme toggle */}
-          <div className="hidden md:flex items-center gap-1">
+          <div className="hidden lg:flex items-center gap-1">
             {/* Search trigger - styled as input-like command palette (first) */}
             <button
               type="button"
@@ -305,7 +305,7 @@ export default function Navbar() {
           </div>
 
           {/* Mobile: theme toggle + search + hamburger — all 44x44px touch targets */}
-          <div className="flex md:hidden items-center gap-1">
+          <div className="flex lg:hidden items-center gap-1">
             <button
               type="button"
               aria-label="切换深色模式"
@@ -383,11 +383,11 @@ export default function Navbar() {
         <div
           id="mobile-menu"
           aria-hidden={!menuOpen}
-          className={`md:hidden overflow-y-auto overscroll-contain transition-all duration-300 ${
+          className={`lg:hidden overflow-y-auto overscroll-contain transition-all duration-300 ${
             menuOpen ? "max-h-[calc(100dvh-4rem)]" : "max-h-0"
           }`}
         >
-          <ul className="flex flex-col items-center gap-1 pb-[max(1.5rem,env(safe-area-inset-bottom))] pt-2 bg-xuan/95 backdrop-blur-md">
+          <ul className="flex flex-col items-center gap-1 pb-[max(1.5rem,env(safe-area-inset-bottom))] pt-2 bg-xuan/95 backdrop-blur-md lg:hidden">
             {navItems.map((item) => {
               const isActive = pathname === item.href || pathname.startsWith(`${item.href}/`);
               return (

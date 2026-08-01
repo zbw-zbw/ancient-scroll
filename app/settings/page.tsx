@@ -1,7 +1,8 @@
 "use client";
 
-import { useState, useEffect, useCallback, useRef } from "react";
+import { useState, useEffect, useCallback, useRef, useMemo } from "react";
 import PageHeader from "@/components/PageHeader";
+import Dropdown from "@/components/ui/Dropdown";
 import { useToast } from "@/components/Toast";
 import { downloadBackup, importData, clearAllData, getDataStats } from "@/lib/dataManager";
 import { getReadingPrefs, saveReadingPrefs, type ReadingPrefs } from "@/lib/progress";
@@ -113,14 +114,25 @@ export default function SettingsPage() {
     setPreviewing(true);
   }, [voices, selectedVoice, previewing]);
 
-  // 选择音色并保存
+  // 选择音色并保存：切换音色时停止试听并重置按钮状态
   const handleVoiceChange = useCallback(
     (voiceName: string) => {
+      // 停止正在进行的试听
+      if (previewing) {
+        stop();
+        setPreviewing(false);
+      }
       setSelectedVoice(voiceName);
       savePreferredVoice(voiceName);
       toast("音色已保存", "success");
     },
-    [toast],
+    [toast, previewing],
+  );
+
+  // 下拉框选项（使用 useMemo 避免每次渲染重建数组）
+  const voiceOptions = useMemo(
+    () => voices.map((v) => ({ value: v.name, label: `${v.name} (${v.lang})` })),
+    [voices],
   );
 
   // 页面卸载时停止朗读
@@ -297,17 +309,12 @@ export default function SettingsPage() {
               </div>
               {isSupported() ? (
                 voices.length > 0 ? (
-                  <select
+                  <Dropdown
+                    options={voiceOptions}
                     value={selectedVoice}
-                    onChange={(e) => handleVoiceChange(e.target.value)}
-                    className="w-full rounded-xl bg-xuan/50 px-4 py-2.5 min-h-[44px] font-serif text-sm text-ink border border-ink/10 cursor-pointer focus:outline-none focus:border-cinnabar/40 transition-colors"
-                  >
-                    {voices.map((v) => (
-                      <option key={v.name} value={v.name}>
-                        {v.name} ({v.lang})
-                      </option>
-                    ))}
-                  </select>
+                    onChange={handleVoiceChange}
+                    placeholder="选择中文语音"
+                  />
                 ) : (
                   <p className="font-serif text-xs text-muted rounded-xl bg-xuan/50 px-4 py-3">
                     当前设备没有中文语音，系统将使用默认语音朗读
