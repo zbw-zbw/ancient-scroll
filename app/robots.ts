@@ -7,6 +7,6 @@ export default function robots(): MetadataRoute.Robots {
       allow: "/",
       disallow: ["/api/"],
     },
-    sitemap: "/sitemap.xml",
+    sitemap: "https://scroll.kyriewen.cn/sitemap.xml",
   };
 }

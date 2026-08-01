@@ -1,5 +1,7 @@
 import type { MetadataRoute } from "next";
 
+const BASE_URL = "https://scroll.kyriewen.cn";
+
 export default function sitemap(): MetadataRoute.Sitemap {
   const routes = [
     "",
@@ -16,7 +18,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   ];
 
   return routes.map((route) => ({
-    url: route || "/",
+    url: `${BASE_URL}${route}`,
     lastModified: new Date(),
     changeFrequency: "weekly" as const,
     priority: route === "" ? 1 : 0.8,

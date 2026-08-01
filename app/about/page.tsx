@@ -87,26 +87,21 @@ const methods = [
 ];
 
 const techStack = [
-  { label: "前端", value: "Next.js + TypeScript + Tailwind CSS" },
-  { label: "AI 引擎", value: "DeepSeek API（流式对话、文本翻译、内容解读）" },
-  { label: "部署", value: "Vercel（香港节点，低延迟）" },
-  {
-    label: "设计理念",
-    value: "中国传统美学设计系统（宣纸纹理 + 书法字体 + 朱砂红强调色 + AI水墨插画）",
-  },
+  { label: "AI 对话", value: "DeepSeek API 驱动 15 位历史人物个性化对话，支持流式输出" },
+  { label: "AI 插画", value: "AI 生成 80+ 张水墨风格插画（异兽、人物、诗词配图）" },
+  { label: "语音朗读", value: "Web Speech API 多音色朗读，支持诗词朗诵与山海经听书" },
+  { label: "技术框架", value: "Next.js + TypeScript + Tailwind CSS，Vercel 全球部署" },
 ];
 
 const timeline = [
   { status: "done", text: `《山海经》${chapters.length}篇章${TOTAL_SENTENCES}句古文上线` },
   { status: "done", text: `${beasts.length}只异兽图鉴 + ${poems.length}首古诗沉浸体验` },
   { status: "done", text: `${characters.length}位历史人物 AI 对话` },
-  { status: "done", text: "知识问答 + 成就系统 + 每日签到" },
-  { status: "done", text: "无障碍阅读支持（语音朗读、大字模式、阅读偏好设置）" },
+  { status: "done", text: "多音色语音朗读 + 诗词朗诵 + 山海经听书模式" },
+  { status: "done", text: "知识问答闯关（诗词填空、异兽辨识、看图识兽）" },
   { status: "planned", text: "扩充至《山海经》全18篇，覆盖全部异兽" },
-  { status: "planned", text: "AI 绘画实时生成异兽插画（用户描述 → AI绘图）" },
-  { status: "planned", text: "增加《诗经》《楚辞》《论语》等更多古籍" },
+  { status: "planned", text: "增加《诗经》《楚辞》等更多古籍" },
   { status: "planned", text: "教师端课堂互动模式（学生分组竞答、实时投屏）" },
-  { status: "planned", text: "多语言版本（英/日/韩），向全球传播中华文化" },
 ];
 
 export default function AboutPage() {

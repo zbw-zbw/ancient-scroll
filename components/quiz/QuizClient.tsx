@@ -44,7 +44,7 @@ const modes: ModeConfig[] = [
     id: "poetry",
     title: "诗词专项",
     subtitle: "Poetry",
-    desc: "精选15道诗词填空题，从唐诗到宋词，测测你的诗学功底",
+    desc: "精选10道诗词填空题，从唐诗到宋词，测测你的诗学功底",
     count: 10,
     filter: "poem-fill",
     accent: "from-indigo/10 to-indigo/5",
@@ -112,7 +112,7 @@ export default function QuizClient() {
     setFinalAnswers(answers);
     setGameState("result");
     // Save to localStorage and update stats
-    saveQuizResult(score, score);
+    saveQuizResult(score, questions.length);
     // Refresh displayed stats
     setStats(getQuizStats());
     // Scroll to top for results
@@ -230,7 +230,7 @@ export default function QuizClient() {
           涵盖诗词填空、异兽辨识、名人名句、看图识兽四大题型
         </p>
         <div className="mt-3 flex flex-wrap items-center justify-center gap-2">
-          <span className="rounded-full bg-indigo/8 px-3 py-1 font-serif text-xs text-indigo">诗词填空 15题</span>
+          <span className="rounded-full bg-indigo/8 px-3 py-1 font-serif text-xs text-indigo">诗词填空 10题</span>
           <span className="rounded-full bg-cinnabar/8 px-3 py-1 font-serif text-xs text-cinnabar">异兽辨识 10题</span>
           <span className="rounded-full bg-gold/8 px-3 py-1 font-serif text-xs text-gold">名人名句 10题</span>
           <span className="rounded-full bg-seal-red/8 px-3 py-1 font-serif text-xs text-seal-red">看图识兽 5题</span>
