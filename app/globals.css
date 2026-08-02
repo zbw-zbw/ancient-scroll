@@ -922,14 +922,15 @@ footer {
 }
 
 /* ===== Prevent horizontal overflow on mobile ===== */
+/* Only set overflow-x on body, NOT on html — setting it on html
+   creates a BFC scroll container on iOS Safari that blocks
+   vertical scrolling of the body. */
 @media (max-width: 768px) {
-  html,
   body {
     overflow-x: hidden;
-    max-width: 100vw;
   }
-  /* Ensure wide content doesn't cause horizontal scroll */
+  /* Allow vertical scroll but clip horizontal */
   main {
-    overflow-x: hidden;
+    overflow-x: clip;
   }
 }

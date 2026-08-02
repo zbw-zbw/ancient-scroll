@@ -8,6 +8,8 @@ import PageTransition from "@/components/PageTransition";
 import AchievementWatcher from "@/components/AchievementWatcher";
 import NavbarVisibilityProvider from "@/components/NavbarVisibilityContext";
 import BackToTop from "@/components/BackToTop";
+import ServiceWorkerRegister from "@/components/ServiceWorkerRegister";
+import OfflineIndicator from "@/components/OfflineIndicator";
 
 const maShanZheng = Ma_Shan_Zheng({
   weight: "400",
@@ -56,7 +58,7 @@ export const metadata: Metadata = {
   icons: {
     icon: { url: "/icon.png?v=4", type: "image/png" },
     shortcut: { url: "/favicon.ico?v=4", type: "image/x-icon" },
-    apple: { url: "/icon.png?v=4", type: "image/png" },
+    apple: { url: "/icons/icon-192.png", type: "image/png" },
   },
 };
 
@@ -77,8 +79,13 @@ export default function RootLayout({
             }
           } catch {}
         ` }} />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+        <meta name="apple-mobile-web-app-title" content="古籍焕新" />
+        <link rel="apple-touch-icon" href="/icons/icon-192.png" />
       </head>
       <body className="min-h-dvh">
+        <OfflineIndicator />
         <NavbarVisibilityProvider>
         <Navbar />
         <KeyboardShortcuts />
@@ -88,6 +95,7 @@ export default function RootLayout({
           <BackToTop />
         </ToastProvider>
         </NavbarVisibilityProvider>
+        <ServiceWorkerRegister />
       </body>
     </html>
   );

@@ -30,7 +30,7 @@ export default function DialogueClient() {
     <main className="relative min-h-[100dvh] bg-xuan">
       <div className="relative mx-auto max-w-[1100px]">
         <div
-          className={`pt-16 transition-all duration-500 ease-out ${
+          className={`transition-all duration-500 ease-out ${
             selectedCharacter ? "pointer-events-none -translate-x-8 opacity-0" : "translate-x-0 opacity-100"
           }`}
         >

@@ -10,10 +10,11 @@ interface CharacterSelectProps {
 
 export default function CharacterSelect({ onSelect }: CharacterSelectProps) {
  return (
- <div className="relative z-10 mx-auto max-w-[1100px] px-6 pb-16 pt-8 md:pb-24 md:pt-12">
+ <div className="relative z-10 mx-auto max-w-[1100px] px-6 pb-16 md:pb-24">
       <PageHeader
         title="古今对话"
         subtitle="与古人促膝长谈，问你所想"
+        compact
       />
       <div className="mb-12 text-center md:mb-16">
         <p className="font-serif text-base text-muted md:text-lg">

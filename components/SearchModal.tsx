@@ -391,14 +391,14 @@ export default function SearchModal({
           {query.trim() === "" ? (
             <div className="px-4 py-6">
               {/* Module counts */}
-              <div className="mb-4 grid grid-cols-5 gap-2">
+              <div className="mb-4 grid grid-cols-3 gap-2 sm:grid-cols-5">
                 <Link
                   href="/reading"
                   onClick={handleLinkClick}
                   className="flex flex-col items-center gap-1 rounded-lg p-3 transition-colors hover:bg-ink/5"
                 >
                   <IconBook className="h-4 w-4" />
-                  <span className="text-xs font-serif text-light-ink/70">{chapters.length} 篇章</span>
+                  <span className="text-xs font-serif text-light-ink/70 whitespace-nowrap">{chapters.length} 篇章</span>
                 </Link>
                 <Link
                   href="/bestiary"
@@ -406,7 +406,7 @@ export default function SearchModal({
                   className="flex flex-col items-center gap-1 rounded-lg p-3 transition-colors hover:bg-ink/5"
                 >
                   <IconPaw className="h-4 w-4" />
-                  <span className="text-xs font-serif text-light-ink/70">{beasts.length} 异兽</span>
+                  <span className="text-xs font-serif text-light-ink/70 whitespace-nowrap">{beasts.length} 异兽</span>
                 </Link>
                 <Link
                   href="/poetry"
@@ -414,7 +414,7 @@ export default function SearchModal({
                   className="flex flex-col items-center gap-1 rounded-lg p-3 transition-colors hover:bg-ink/5"
                 >
                   <IconScroll className="h-4 w-4" />
-                  <span className="text-xs font-serif text-light-ink/70">{poems.length} 首诗</span>
+                  <span className="text-xs font-serif text-light-ink/70 whitespace-nowrap">{poems.length} 首诗</span>
                 </Link>
                 <Link
                   href="/dialogue"
@@ -422,7 +422,7 @@ export default function SearchModal({
                   className="flex flex-col items-center gap-1 rounded-lg p-3 transition-colors hover:bg-ink/5"
                 >
                   <IconChat className="h-4 w-4" />
-                  <span className="text-xs font-serif text-light-ink/70">{characters.length} 人物</span>
+                  <span className="text-xs font-serif text-light-ink/70 whitespace-nowrap">{characters.length} 人物</span>
                 </Link>
                 <Link
                   href="/quiz"
@@ -430,7 +430,7 @@ export default function SearchModal({
                   className="flex flex-col items-center gap-1 rounded-lg p-3 transition-colors hover:bg-ink/5"
                 >
                   <IconTrophy className="h-4 w-4" />
-                  <span className="text-xs font-serif text-light-ink/70">{totalQuizQuestions} 问答</span>
+                  <span className="text-xs font-serif text-light-ink/70 whitespace-nowrap">{totalQuizQuestions} 问答</span>
                 </Link>
               </div>
 

@@ -285,25 +285,26 @@ export default function QuizGame({ questions, onComplete, onQuit }: QuizGameProp
         )}
       </div>
 
-      {/* Bottom Actions */}
+      {/* Bottom Actions — transition-none prevents the global button transition
+          from animating bg-cinnabar in on mount, which causes a red flash */}
       <div className="mt-6 flex items-center justify-between">
         <button
           onClick={onQuit}
-          className="font-serif text-sm text-muted hover:text-cinnabar transition-colors"
+          className="font-serif text-sm text-muted hover:text-cinnabar transition-none"
         >
           退出答题
         </button>
         {!showFeedback ? (
           <button
             onClick={handleSkip}
-            className="font-serif text-sm text-muted hover:text-cinnabar transition-colors"
+            className="font-serif text-sm text-muted hover:text-cinnabar transition-none"
           >
             跳过此题 →
           </button>
         ) : (
           <button
             onClick={handleNext}
-            className="inline-flex items-center gap-1 rounded-full bg-cinnabar px-5 py-2 font-serif text-sm text-surface hover:bg-cinnabar/90 transition-colors active:scale-[0.98]"
+            className="inline-flex items-center gap-1 rounded-full bg-cinnabar px-5 py-2 font-serif text-sm text-surface hover:bg-cinnabar/90 active:scale-[0.98] transition-none"
           >
             {isLastQuestion ? "查看结果" : "下一题"}
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-3.5 w-3.5">

@@ -1,8 +1,7 @@
 "use client";
 
-import { useState, useEffect, useCallback, useRef, useMemo } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import PageHeader from "@/components/PageHeader";
-import Dropdown from "@/components/ui/Dropdown";
 import { useToast } from "@/components/Toast";
 import { downloadBackup, importData, clearAllData, getDataStats } from "@/lib/dataManager";
 import { getReadingPrefs, saveReadingPrefs, type ReadingPrefs } from "@/lib/progress";
@@ -28,7 +27,7 @@ export default function SettingsPage() {
   const [speechRate, setSpeechRate] = useState(0.85);
   const [voices, setVoices] = useState<SpeechSynthesisVoice[]>([]);
   const [selectedVoice, setSelectedVoice] = useState<string>("");
-  const [previewing, setPreviewing] = useState(false);
+  const [previewingVoice, setPreviewingVoice] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const clearTimerRef = useRef<ReturnType<typeof setTimeout>>(undefined);
 
@@ -96,43 +95,38 @@ export default function SettingsPage() {
     }
   }, [toast]);
 
-  // 试听当前选中的音色
-  const handlePreview = useCallback(() => {
+  // 试听指定音色
+  const handlePreviewVoice = useCallback((voiceName: string) => {
     if (!isSupported() || voices.length === 0) return;
-    // 如果正在试听，点击则停止
-    if (previewing) {
+    // 如果正在试听这个音色，点击则停止
+    if (previewingVoice === voiceName) {
       stop();
-      setPreviewing(false);
+      setPreviewingVoice(null);
       return;
     }
-    const voice = voices.find((v) => v.name === selectedVoice);
+    // 停止之前的试听
+    stop();
+    const voice = voices.find((v) => v.name === voiceName);
     speak("春眠不觉晓，处处闻啼鸟。", {
       voice: voice || undefined,
-      onEnd: () => setPreviewing(false),
-      onError: () => setPreviewing(false),
+      onEnd: () => setPreviewingVoice((prev) => (prev === voiceName ? null : prev)),
+      onError: () => setPreviewingVoice((prev) => (prev === voiceName ? null : prev)),
     });
-    setPreviewing(true);
-  }, [voices, selectedVoice, previewing]);
+    setPreviewingVoice(voiceName);
+  }, [voices, previewingVoice]);
 
-  // 选择音色并保存：切换音色时停止试听并重置按钮状态
+  // 选择音色并保存：切换音色时停止试听
   const handleVoiceChange = useCallback(
     (voiceName: string) => {
-      // 停止正在进行的试听
-      if (previewing) {
+      if (previewingVoice) {
         stop();
-        setPreviewing(false);
+        setPreviewingVoice(null);
       }
       setSelectedVoice(voiceName);
       savePreferredVoice(voiceName);
       toast("音色已保存", "success");
     },
-    [toast, previewing],
-  );
-
-  // 下拉框选项（使用 useMemo 避免每次渲染重建数组）
-  const voiceOptions = useMemo(
-    () => voices.map((v) => ({ value: v.name, label: `${v.name} (${v.lang})` })),
-    [voices],
+    [toast, previewingVoice],
   );
 
   // 页面卸载时停止朗读
@@ -251,70 +245,70 @@ export default function SettingsPage() {
               </div>
             </div>
 
-            {/* Voice Selection */}
+            {/* Voice Selection — 每个音色选项后附带试听按钮 */}
             <div>
-              <div className="flex items-center justify-between mb-3">
-                <div>
-                  <p className="font-serif text-sm text-ink">朗读音色</p>
-                  <p className="font-serif text-xs text-muted">选择中文朗读语音</p>
-                </div>
-                {isSupported() && voices.length > 0 && (
-                  <button
-                    onClick={handlePreview}
-                    className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 min-h-[36px] font-serif text-xs transition-all active:scale-95 ${
-                      previewing
-                        ? "bg-cinnabar/10 text-cinnabar"
-                        : "bg-ink/5 text-light-ink hover:bg-ink/10"
-                    }`}
-                    title={previewing ? "停止试听" : "试听音色"}
-                  >
-                    {previewing ? (
-                      <>
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          stroke="currentColor"
-                          strokeWidth="2"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          className="h-3.5 w-3.5 animate-pulse"
-                        >
-                          <rect x="6" y="5" width="4" height="14" rx="1" />
-                          <rect x="14" y="5" width="4" height="14" rx="1" />
-                        </svg>
-                        停止试听
-                      </>
-                    ) : (
-                      <>
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          stroke="currentColor"
-                          strokeWidth="2"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          className="h-3.5 w-3.5"
-                        >
-                          <path d="M11 5 6 9H2v6h4l5 4V5z" />
-                          <path d="M15.54 8.46a5 5 0 0 1 0 7.07" />
-                          <path d="M19.07 4.93a10 10 0 0 1 0 14.14" />
-                        </svg>
-                        试听
-                      </>
-                    )}
-                  </button>
-                )}
+              <div className="mb-3">
+                <p className="font-serif text-sm text-ink">朗读音色</p>
+                <p className="font-serif text-xs text-muted">点击试听预览，选择喜欢的音色</p>
               </div>
               {isSupported() ? (
                 voices.length > 0 ? (
-                  <Dropdown
-                    options={voiceOptions}
-                    value={selectedVoice}
-                    onChange={handleVoiceChange}
-                    placeholder="选择中文语音"
-                  />
+                  <div className="max-h-60 overflow-y-auto rounded-xl border border-ink/10 bg-xuan/30">
+                    {voices.map((voice) => {
+                      const isSelected = voice.name === selectedVoice;
+                      const isPreviewing = voice.name === previewingVoice;
+                      return (
+                        <div
+                          key={voice.name}
+                          onClick={() => handleVoiceChange(voice.name)}
+                          className={`flex items-center gap-2 px-4 py-2.5 border-b border-ink/5 last:border-b-0 cursor-pointer transition-colors ${
+                            isSelected ? "bg-cinnabar/8" : "hover:bg-ink/5"
+                          }`}
+                        >
+                          <span className={`flex-1 truncate font-serif text-sm ${isSelected ? "text-cinnabar" : "text-ink"}`}>
+                            {voice.name}
+                            <span className="text-xs text-muted ml-1">{voice.lang}</span>
+                          </span>
+                          {/* 试听按钮 */}
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handlePreviewVoice(voice.name);
+                            }}
+                            className={`inline-flex items-center gap-1 rounded-full px-2.5 py-1 min-h-[32px] font-serif text-xs transition-none flex-shrink-0 ${
+                              isPreviewing
+                                ? "bg-cinnabar/10 text-cinnabar"
+                                : "bg-ink/5 text-light-ink hover:bg-ink/10"
+                            }`}
+                          >
+                            {isPreviewing ? (
+                              <>
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-3 w-3 animate-pulse">
+                                  <rect x="6" y="5" width="4" height="14" rx="1" />
+                                  <rect x="14" y="5" width="4" height="14" rx="1" />
+                                </svg>
+                                停止
+                              </>
+                            ) : (
+                              <>
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-3 w-3">
+                                  <path d="M11 5 6 9H2v6h4l5 4V5z" />
+                                  <path d="M15.54 8.46a5 5 0 0 1 0 7.07" />
+                                </svg>
+                                试听
+                              </>
+                            )}
+                          </button>
+                          {/* 选中标记 */}
+                          {isSelected && (
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className="h-3.5 w-3.5 text-cinnabar flex-shrink-0">
+                              <polyline points="20 6 9 17 4 12" />
+                            </svg>
+                          )}
+                        </div>
+                      );
+                    })}
+                  </div>
                 ) : (
                   <p className="font-serif text-xs text-muted rounded-xl bg-xuan/50 px-4 py-3">
                     当前设备没有中文语音，系统将使用默认语音朗读
