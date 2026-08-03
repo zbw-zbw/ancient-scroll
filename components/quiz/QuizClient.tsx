@@ -230,10 +230,55 @@ export default function QuizClient() {
           涵盖诗词填空、异兽辨识、名人名句、看图识兽四大题型
         </p>
         <div className="mt-3 flex flex-wrap items-center justify-center gap-2">
-          <span className="rounded-full bg-indigo/8 px-3 py-1 font-serif text-xs text-indigo">诗词填空 10题</span>
-          <span className="rounded-full bg-cinnabar/8 px-3 py-1 font-serif text-xs text-cinnabar">异兽辨识 10题</span>
-          <span className="rounded-full bg-gold/8 px-3 py-1 font-serif text-xs text-gold">名人名句 10题</span>
+          <span className="rounded-full bg-indigo/8 px-3 py-1 font-serif text-xs text-indigo">诗词填空 35题</span>
+          <span className="rounded-full bg-cinnabar/8 px-3 py-1 font-serif text-xs text-cinnabar">异兽辨识 30题</span>
+          <span className="rounded-full bg-gold/8 px-3 py-1 font-serif text-xs text-gold">名人名句 30题</span>
           <span className="rounded-full bg-seal-red/8 px-3 py-1 font-serif text-xs text-seal-red">看图识兽 5题</span>
+        </div>
+      </div>
+
+      {/* How to Play */}
+      <div className="animate-fade-in mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2">
+        <div className="rounded-xl border border-ink/8 bg-surface/50 p-5">
+          <div className="mb-3 flex items-center gap-2">
+            <span className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-cinnabar/10 text-cinnabar">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4">
+                <circle cx="12" cy="12" r="10" />
+                <path d="M12 16v-4" />
+                <path d="M12 8h.01" />
+              </svg>
+            </span>
+            <h4 className="font-calligraphy text-lg text-ink">答题规则</h4>
+          </div>
+          <ul className="space-y-2 font-serif text-xs leading-relaxed text-light-ink">
+            <li>每题有四个选项，点击即可作答</li>
+            <li>答题后显示正确答案与详细解析</li>
+            <li>答对一题得一分，答错不扣分</li>
+            <li>可跳过当前题目，计入未答</li>
+            <li>支持键盘快捷键：1-4 选答案，Enter 下一题</li>
+          </ul>
+        </div>
+        <div className="rounded-xl border border-ink/8 bg-surface/50 p-5">
+          <div className="mb-3 flex items-center gap-2">
+            <span className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-gold/10 text-gold">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4">
+                <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6" />
+                <path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18" />
+                <path d="M4 22h16" />
+                <path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22" />
+                <path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22" />
+                <path d="M18 2H6v7a6 6 0 0 0 12 0V2Z" />
+              </svg>
+            </span>
+            <h4 className="font-calligraphy text-lg text-ink">称号体系</h4>
+          </div>
+          <ul className="space-y-2 font-serif text-xs leading-relaxed text-light-ink">
+            <li>全部答对 — 国学大师</li>
+            <li>正确率 80% 以上 — 博学多才</li>
+            <li>正确率 60% 以上 — 学有所成</li>
+            <li>正确率 40% 以上 — 初窥门径</li>
+            <li>正确率不足 40% — 再接再厉</li>
+          </ul>
         </div>
       </div>
     </div>

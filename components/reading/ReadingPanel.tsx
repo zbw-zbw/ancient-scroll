@@ -43,6 +43,8 @@ export default function ReadingPanel({
   const scrollRef = useRef<HTMLDivElement>(null);
   // 当前正在阅读的句子 id（用于 SentenceCard 的 active 高亮）
   const [activeSentenceId, setActiveSentenceId] = useState<string | null>(null);
+  // 局部返回顶部按钮可见性
+  const [showScrollTop, setShowScrollTop] = useState(false);
 
   // ===== 听书模式状态 =====
   const [listenMode, setListenMode] = useState<"idle" | "playing" | "paused">("idle");
@@ -180,6 +182,18 @@ export default function ReadingPanel({
     return () => observer.disconnect();
   }, [chapter.id, chapter.sentences.length]);
 
+  // 局部滚动追踪：控制返回顶部按钮显隐
+  useEffect(() => {
+    const container = scrollRef.current;
+    if (!container) return;
+    const handleScroll = () => {
+      setShowScrollTop(container.scrollTop > 300);
+    };
+    container.addEventListener("scroll", handleScroll, { passive: true });
+    handleScroll();
+    return () => container.removeEventListener("scroll", handleScroll);
+  }, [chapter.id]);
+
   // Estimate reading time: ~2 minutes per sentence for classical Chinese
   const readingTime = Math.max(1, Math.ceil(chapter.sentences.length * 2));
 
@@ -304,10 +318,11 @@ export default function ReadingPanel({
       </div>
 
       {/* 悬浮听书控制按钮 — 听书模式激活时显示，方便随时暂停/继续 */}
+      {/* 放在左下角，避免与右下角的返回顶部按钮重叠 */}
       {listenMode !== "idle" && (
         <button
           onClick={handleToggleListen}
-          className="fixed bottom-[max(1.5rem,env(safe-area-inset-bottom))] right-[max(1.5rem,env(safe-area-inset-right))] z-40 flex h-12 w-12 items-center justify-center rounded-full shadow-lg transition-all active:scale-95 md:h-14 md:w-14"
+          className="fixed bottom-[max(1.5rem,env(safe-area-inset-bottom))] left-[max(1.5rem,env(safe-area-inset-left))] z-40 flex h-12 w-12 items-center justify-center rounded-full shadow-lg transition-opacity duration-300 active:scale-95 md:h-14 md:w-14"
           style={{
             backgroundColor: listenMode === "playing" ? "var(--cinnabar)" : "var(--surface)",
             color: listenMode === "playing" ? "#fff" : "var(--cinnabar)",
@@ -326,6 +341,20 @@ export default function ReadingPanel({
               <path d="M8 5v14l11-7z" />
             </svg>
           )}
+        </button>
+      )}
+
+      {/* 局部返回顶部按钮 — 针对阅读内容滚动区域 */}
+      {showScrollTop && (
+        <button
+          onClick={() => scrollRef.current?.scrollTo({ top: 0, behavior: "smooth" })}
+          className="fixed bottom-[max(1.5rem,env(safe-area-inset-bottom))] right-[max(1.5rem,env(safe-area-inset-right))] z-40 flex h-11 w-11 items-center justify-center rounded-full bg-surface/80 backdrop-blur-sm shadow-md border border-ink/10 text-light-ink hover:text-cinnabar hover:border-cinnabar/30 transition-opacity duration-300 active:scale-95"
+          aria-label="回到顶部"
+          title="回到顶部"
+        >
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5">
+            <path d="m18 15-6-6-6 6" />
+          </svg>
         </button>
       )}
     </main>

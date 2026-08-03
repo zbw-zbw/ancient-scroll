@@ -921,6 +921,13 @@ footer {
   }
 }
 
+/* ===== Hide global back-to-top & scroll progress when chat container is active ===== */
+/* Safety net: even if pathname guards fail, CSS hides duplicates when [data-messages-container] exists */
+html:has([data-messages-container]) .global-back-to-top,
+html:has([data-messages-container]) .global-scroll-progress {
+  display: none !important;
+}
+
 /* ===== Prevent horizontal overflow on mobile ===== */
 /* Only set overflow-x on body, NOT on html — setting it on html
    creates a BFC scroll container on iOS Safari that blocks

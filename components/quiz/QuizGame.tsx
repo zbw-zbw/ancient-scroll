@@ -285,34 +285,29 @@ export default function QuizGame({ questions, onComplete, onQuit }: QuizGameProp
         )}
       </div>
 
-      {/* Bottom Actions — transition-none prevents the global button transition
-          from animating bg-cinnabar in on mount, which causes a red flash */}
+      {/* Bottom Actions */}
       <div className="mt-6 flex items-center justify-between">
         <button
           onClick={onQuit}
-          className="font-serif text-sm text-muted hover:text-cinnabar transition-none"
+          className="inline-flex items-center gap-1 rounded-full px-4 py-2 font-serif text-sm text-muted transition-colors hover:bg-ink/5 hover:text-cinnabar"
         >
           退出答题
         </button>
-        {!showFeedback ? (
-          <button
-            onClick={handleSkip}
-            className="font-serif text-sm text-muted hover:text-cinnabar transition-none"
-          >
-            跳过此题 →
-          </button>
-        ) : (
-          <button
-            onClick={handleNext}
-            className="inline-flex items-center gap-1 rounded-full bg-cinnabar px-5 py-2 font-serif text-sm text-surface hover:bg-cinnabar/90 active:scale-[0.98] transition-none"
-          >
-            {isLastQuestion ? "查看结果" : "下一题"}
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-3.5 w-3.5">
-              <path d="M5 12h14" />
-              <path d="m12 5 7 7-7 7" />
-            </svg>
-          </button>
-        )}
+        {/* 单一按钮：根据 showFeedback 切换样式和行为，避免双按钮 key 切换导致的闪烁 */}
+        <button
+          onClick={showFeedback ? handleNext : handleSkip}
+          className={`inline-flex items-center gap-1 rounded-full px-5 py-2 font-serif text-sm transition-colors active:scale-[0.98] ${
+            showFeedback
+              ? "bg-cinnabar text-surface hover:bg-cinnabar/90"
+              : "border border-ink/15 bg-surface/60 text-muted hover:border-ink/30 hover:text-cinnabar"
+          }`}
+        >
+          {showFeedback ? (isLastQuestion ? "查看结果" : "下一题") : "跳过此题"}
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-3.5 w-3.5">
+            <path d="M5 12h14" />
+            <path d="m12 5 7 7-7 7" />
+          </svg>
+        </button>
       </div>
 
       {/* Keyboard hint */}

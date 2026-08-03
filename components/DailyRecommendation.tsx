@@ -13,7 +13,7 @@ interface Recommendation {
   title: string;
   subtitle: string;
   href: string;
-  emoji: string;
+  icon: React.ReactNode;
   color: string;
 }
 
@@ -34,7 +34,16 @@ function getRecommendations(seed: number): Recommendation[] {
       title: p.title,
       subtitle: `${p.author} · ${p.dynasty}`,
       href: `/poetry?id=${p.id}`,
-      emoji: "詩",
+      icon: (
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5">
+          <path d="M12 12C10 8 10 4 12 2C14 4 14 8 12 12Z" />
+          <path d="M12 12C10 8 10 4 12 2C14 4 14 8 12 12Z" transform="rotate(72 12 12)" />
+          <path d="M12 12C10 8 10 4 12 2C14 4 14 8 12 12Z" transform="rotate(144 12 12)" />
+          <path d="M12 12C10 8 10 4 12 2C14 4 14 8 12 12Z" transform="rotate(216 12 12)" />
+          <path d="M12 12C10 8 10 4 12 2C14 4 14 8 12 12Z" transform="rotate(288 12 12)" />
+          <circle cx="12" cy="12" r="1.5" />
+        </svg>
+      ),
       color: "from-cinnabar/20 to-seal-red/10",
     });
   }
@@ -48,7 +57,15 @@ function getRecommendations(seed: number): Recommendation[] {
       title: b.name,
       subtitle: `${b.category} · ${b.chapter}`,
       href: `/bestiary?beast=${b.id}`,
-      emoji: "獸",
+      icon: (
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5">
+          <path d="M12 2C8 6 6 8 6 12c0 4 2 6 6 6s6-2 6-6c0-4-2-6-6-10z" />
+          <path d="M9 12h.01" />
+          <path d="M15 12h.01" />
+          <path d="M8 5l-2-2" />
+          <path d="M16 5l2-2" />
+        </svg>
+      ),
       color: "from-indigo/20 to-blue-600/10",
     });
   }
@@ -62,7 +79,12 @@ function getRecommendations(seed: number): Recommendation[] {
       title: c.name,
       subtitle: `${c.sentences.length} 段经文`,
       href: `/reading?chapter=${c.id}`,
-      emoji: "經",
+      icon: (
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5">
+          <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
+          <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
+        </svg>
+      ),
       color: "from-gold/20 to-amber-600/10",
     });
   }
@@ -76,7 +98,12 @@ function getRecommendations(seed: number): Recommendation[] {
       title: ch.name,
       subtitle: `${ch.era} · ${ch.title}`,
       href: `/dialogue?character=${ch.id}`,
-      emoji: "人",
+      icon: (
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5">
+          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+          <circle cx="12" cy="7" r="4" />
+        </svg>
+      ),
       color: "from-emerald-600/20 to-green-600/10",
     });
   }
@@ -136,9 +163,9 @@ export default function DailyRecommendation() {
               <div className="card animate-fade-in flex h-full w-full flex-col overflow-hidden rounded-2xl bg-surface/60 p-5 transition-all duration-300 hover:border-cinnabar/30 hover:shadow-lg">
                 <div className="flex items-start justify-between">
                   <span
-                    className={`inline-flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br ${rec.color} font-calligraphy text-sm text-ink`}
+                    className={`inline-flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br ${rec.color} text-ink`}
                   >
-                    {rec.emoji}
+                    {rec.icon}
                   </span>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"

@@ -21,11 +21,63 @@ interface QuizResultProps {
 
 function getRating(score: number, total: number) {
   const ratio = score / total;
-  if (score === total) return { title: "国学大师", emoji: "🎓", color: "text-gold" };
-  if (ratio >= 0.8) return { title: "博学多才", emoji: "📚", color: "text-cinnabar" };
-  if (ratio >= 0.6) return { title: "学有所成", emoji: "✍️", color: "text-indigo" };
-  if (ratio >= 0.4) return { title: "初窥门径", emoji: "🌱", color: "text-muted" };
-  return { title: "再接再厉", emoji: "💪", color: "text-muted" };
+  if (score === total)
+    return {
+      title: "国学大师",
+      icon: (
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="h-12 w-12 sm:h-14 sm:w-14">
+          <path d="M22 10v6M2 10l10-5 10 5-10 5z" />
+          <path d="M6 12v5c3 3 9 3 12 0v-5" />
+        </svg>
+      ),
+      color: "text-gold",
+    };
+  if (ratio >= 0.8)
+    return {
+      title: "博学多才",
+      icon: (
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="h-12 w-12 sm:h-14 sm:w-14">
+          <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
+          <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
+        </svg>
+      ),
+      color: "text-cinnabar",
+    };
+  if (ratio >= 0.6)
+    return {
+      title: "学有所成",
+      icon: (
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="h-12 w-12 sm:h-14 sm:w-14">
+          <path d="M12 20h9" />
+          <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z" />
+        </svg>
+      ),
+      color: "text-indigo",
+    };
+  if (ratio >= 0.4)
+    return {
+      title: "初窥门径",
+      icon: (
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="h-12 w-12 sm:h-14 sm:w-14">
+          <path d="M7 20h10" />
+          <path d="M10 20c5.5-2.5.8-6.4 3-10" />
+          <path d="M9.5 9.4c1.1.8 1.8 2.2 2.3 3.7-2 .4-3.5.4-4.8-.3-1.2-.6-2.3-1.9-3-4.2 2.8-.5 4.4 0 5.5.8z" />
+          <path d="M14.1 6a7 7 0 0 0-1.1 4c1.9-.1 3.3-.6 4.3-1.4 1-1 1.6-2.3 1.7-4.6-2.7.1-4 1-4.9 2z" />
+        </svg>
+      ),
+      color: "text-muted",
+    };
+  return {
+    title: "再接再厉",
+    icon: (
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="h-12 w-12 sm:h-14 sm:w-14">
+        <path d="M6 9l6-6 6 6" />
+        <path d="M12 3v18" />
+        <path d="M6 15l6 6 6-6" />
+      </svg>
+    ),
+    color: "text-muted",
+  };
 }
 
 const typeLabels: Record<string, string> = {
@@ -64,7 +116,7 @@ export default function QuizResult({
     <div className="mx-auto max-w-2xl px-6 pt-24 pb-12 md:pt-28 md:pb-16">
       {/* Score Card */}
       <div className="animate-fade-in text-center">
-        <div className="mb-4 text-5xl sm:text-6xl">{rating.emoji}</div>
+        <div className={`mb-4 flex justify-center ${rating.color}`}>{rating.icon}</div>
         <h2 className={`font-calligraphy text-3xl sm:text-4xl md:text-5xl ${rating.color}`}>
           {rating.title}
         </h2>

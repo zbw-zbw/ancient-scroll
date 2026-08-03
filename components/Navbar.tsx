@@ -375,9 +375,10 @@ export default function Navbar() {
           </div>
         </nav>
 
-        {/* Scroll progress bar */}
+        {/* Scroll progress bar — 对话详情页使用局部进度条，隐藏全局的 */}
+        {pathname !== "/dialogue" && (
         <div
-          className="absolute left-0 right-0 bottom-0 h-[2px] bg-cinnabar/10 overflow-hidden"
+          className="global-scroll-progress absolute left-0 right-0 bottom-0 h-[2px] bg-cinnabar/10 overflow-hidden"
           aria-hidden="true"
         >
           <div
@@ -386,6 +387,7 @@ export default function Navbar() {
             style={{ width: "0%" }}
           />
         </div>
+        )}
 
         {/* Mobile menu — 使用原生导航列表语义；menu/menuitem 角色要求完整方向键交互，此处并不适用 */}
         <div
