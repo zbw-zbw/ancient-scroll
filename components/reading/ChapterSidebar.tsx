@@ -98,14 +98,6 @@ export default function ChapterSidebar({
               style={{ width: `${chapters.length > 0 ? (readChapters.length / chapters.length) * 100 : 0}%` }}
             />
           </div>
-
-          <Link
-            href="/"
-            className="mt-3 inline-flex items-center gap-1 font-serif text-sm text-muted transition-colors hover:text-cinnabar"
-          >
-            <IconArrowLeft className="h-3.5 w-3.5" />
-            返回首页
-          </Link>
         </div>
       </aside>
 

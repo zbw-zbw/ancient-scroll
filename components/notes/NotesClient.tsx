@@ -130,7 +130,7 @@ export default function NotesClient() {
 
   return (
     <div className="min-h-dvh bg-xuan px-4 pb-16 md:px-6">
-      <PageHeader title="我的笔记" subtitle="山海经字词笔记，温故而知新" />
+      <PageHeader title="我的笔记" subtitle="山海经字词笔记，温故而知新" compact />
 
       <div className="mx-auto max-w-[1000px] pt-8 md:pt-12">
         {/* Toolbar */}

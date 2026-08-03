@@ -179,18 +179,17 @@ export default function ShareCardModal({
       aria-label="分享诗词卡片"
     >
       <div
-        className={`relative mx-4 flex flex-col items-center gap-6 transition-all duration-200 ${
+        className={`relative mx-4 flex flex-col items-center transition-all duration-200 ${
           open
             ? "translate-y-0 opacity-100 scale-100"
             : "-translate-y-4 opacity-0 scale-95"
         }`}
       >
-        {/* Close button */}
-        <ModalCloseButton onClick={onClose} className="absolute -right-2 -top-2 z-10" />
-
-        {/* Card preview wrapper with responsive scaling */}
-        <div className="flex items-center justify-center overflow-hidden" style={{ maxHeight: '75vh' }}>
-          <div style={{ transform: `scale(${scale})`, transformOrigin: 'center center' }}>
+        {/* Card preview wrapper — 使用缩放后的精确尺寸，关闭按钮贴右上角 */}
+        <div className="relative overflow-hidden rounded-lg" style={{ width: 750 * scale, height: 1000 * scale }}>
+          {/* Close button — 贴在卡片可视区域右上角 */}
+          <ModalCloseButton onClick={onClose} variant="light" className="absolute right-2 top-2 z-20" />
+          <div style={{ transform: `scale(${scale})`, transformOrigin: 'top left' }}>
             {/* Share card - the element to capture */}
             <div
               ref={cardRef}

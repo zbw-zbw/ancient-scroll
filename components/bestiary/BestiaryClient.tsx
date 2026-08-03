@@ -155,6 +155,7 @@ export default function BestiaryClient() {
       <PageHeader
         title="异兽图鉴"
         subtitle="收藏山海奇兽，解锁文化成就"
+        compact
       />
       <div className="mx-auto max-w-[1100px] pt-8 md:pt-12">
         <div className="mb-8 flex flex-col gap-4 md:mb-10 md:flex-row md:items-end md:justify-between">

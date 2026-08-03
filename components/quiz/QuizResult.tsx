@@ -87,13 +87,6 @@ export default function QuizResult({
           再来一局
         </button>
         <button
-          onClick={onBackHome}
-          className="inline-flex items-center justify-center gap-2 rounded-full border border-ink/15 bg-surface px-6 py-3 font-serif text-sm text-ink hover:border-ink/30 transition-colors active:scale-[0.98]"
-        >
-          返回首页
-          <IconArrowRight className="h-4 w-4" />
-        </button>
-        <button
           onClick={handleShare}
           className="inline-flex items-center justify-center gap-2 rounded-full border border-gold/30 bg-gold/10 px-6 py-3 font-serif text-sm text-gold hover:bg-gold/20 transition-colors active:scale-[0.98]"
         >

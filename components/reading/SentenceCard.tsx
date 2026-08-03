@@ -48,6 +48,12 @@ export default function SentenceCard({
   const ref = useRef<HTMLDivElement>(null);
   const [visible, setVisible] = useState(false);
   const [isVertical, setIsVertical] = useState(false);
+  const [localShowTranslation, setLocalShowTranslation] = useState(showTranslation);
+
+  // Sync with global toggle
+  useEffect(() => {
+    setLocalShowTranslation(showTranslation);
+  }, [showTranslation]);
 
   useEffect(() => {
     const el = ref.current;
@@ -135,8 +141,8 @@ export default function SentenceCard({
         </div>
       )}
 
-      {/* Translation section */}
-      {showTranslation && (
+      {/* Translation section — 逐句翻译开关 */}
+      {localShowTranslation && (
         <p
           className={`mt-5 border-t border-ink/8 pt-4 font-serif leading-relaxed text-light-ink ${translationSizeClasses[fontSize]}`}
         >
@@ -146,7 +152,34 @@ export default function SentenceCard({
 
       {/* Action toolbar */}
       <div className="mt-4 flex flex-wrap items-center gap-2">
-        {showTranslation && sentence.relatedBeastId && (
+        {/* 逐句翻译/隐藏按钮 */}
+        <button
+          type="button"
+          onClick={() => setLocalShowTranslation((v) => !v)}
+          className={`inline-flex items-center gap-1 rounded-full px-3 py-1.5 font-serif text-xs transition-colors ${
+            localShowTranslation
+              ? "text-muted hover:bg-ink/5"
+              : "text-cinnabar hover:bg-cinnabar/5"
+          }`}
+          title={localShowTranslation ? "隐藏本句翻译" : "显示本句翻译"}
+        >
+          {localShowTranslation ? (
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-3.5 w-3.5">
+              <path d="M9.88 9.88a3 3 0 1 0 4.24 4.24" />
+              <path d="M10.73 5.08A10.43 10.43 0 0 1 12 5c7 0 10 7 10 7a13.16 13.16 0 0 1-1.67 2.68" />
+              <path d="M6.61 6.61A13.526 13.526 0 0 0 2 12s3 7 10 7a9.74 9.74 0 0 0 5.39-1.61" />
+              <line x1="2" y1="2" x2="22" y2="22" />
+            </svg>
+          ) : (
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-3.5 w-3.5">
+              <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z" />
+              <circle cx="12" cy="12" r="3" />
+            </svg>
+          )}
+          {localShowTranslation ? "隐藏翻译" : "显示翻译"}
+        </button>
+        {/* 异兽图鉴链接 — 始终显示，不依赖全局翻译开关 */}
+        {sentence.relatedBeastId && (
           <Link
             href={`/bestiary?beast=${sentence.relatedBeastId}`}
             className="inline-flex items-center gap-1 rounded-full px-3 py-1.5 font-serif text-xs text-indigo transition-colors hover:bg-indigo/5"
@@ -162,11 +195,11 @@ export default function SentenceCard({
         </Link>
         <ReadAloudButton text={sentence.original} />
         <CopyButton
-          text={showTranslation ? `《${chapterName}》\n${sentence.original}\n${translation}` : `《${chapterName}》\n${sentence.original}`}
+          text={localShowTranslation ? `《${chapterName}》\n${sentence.original}\n${translation}` : `《${chapterName}》\n${sentence.original}`}
           label="复制"
           successMessage="已复制到剪贴板"
         />
-        {showTranslation && (
+        {localShowTranslation && (
           <AiTranslateButton
             sentenceId={sentence.id}
             original={sentence.original}

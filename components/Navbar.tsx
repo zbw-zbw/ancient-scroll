@@ -204,6 +204,7 @@ export default function Navbar() {
             <button
               type="button"
               aria-label="搜索"
+              title="搜索"
               className="inline-flex items-center gap-2 rounded-full border border-ink/10 bg-surface/40 px-3.5 py-1.5 font-serif text-xs text-muted hover:border-ink/20 hover:text-light-ink transition-colors"
               onClick={() => setSearchOpen(true)}
             >
@@ -218,6 +219,7 @@ export default function Navbar() {
             <Link
               href="/notes"
               aria-label="我的笔记"
+              title="我的笔记"
               className={`inline-flex items-center justify-center w-9 h-9 rounded-full transition-colors ${
                 pathname === "/notes"
                   ? "bg-cinnabar/10 text-cinnabar"
@@ -235,6 +237,7 @@ export default function Navbar() {
             <Link
               href="/favorites"
               aria-label="我的收藏"
+              title="我的收藏"
               className={`inline-flex items-center justify-center w-9 h-9 rounded-full transition-colors ${
                 pathname === "/favorites"
                   ? "bg-cinnabar/10 text-cinnabar"
@@ -249,6 +252,7 @@ export default function Navbar() {
             <Link
               href="/achievements"
               aria-label="成就之路"
+              title="成就之路"
               className={`inline-flex items-center justify-center w-9 h-9 rounded-full transition-colors ${
                 pathname === "/achievements"
                   ? "bg-cinnabar/10 text-cinnabar"
@@ -268,6 +272,7 @@ export default function Navbar() {
             <Link
               href="/settings"
               aria-label="设置"
+              title="设置"
               className={`inline-flex items-center justify-center w-9 h-9 rounded-full transition-colors ${
                 pathname === "/settings"
                   ? "bg-cinnabar/10 text-cinnabar"
@@ -283,6 +288,7 @@ export default function Navbar() {
             <button
               type="button"
               aria-label="切换深色模式"
+              title="切换深色模式"
               aria-pressed={isDark}
               className="inline-flex items-center justify-center w-9 h-9 rounded-full text-light-ink hover:text-cinnabar hover:bg-cinnabar/10 transition-colors active:scale-[0.97]"
               onClick={toggleTheme}
@@ -309,6 +315,7 @@ export default function Navbar() {
             <button
               type="button"
               aria-label="切换深色模式"
+              title="切换深色模式"
               aria-pressed={isDark}
               className="inline-flex items-center justify-center w-11 h-11 rounded-full text-light-ink hover:text-cinnabar hover:bg-cinnabar/10 transition-colors active:scale-[0.97]"
               onClick={toggleTheme}
@@ -331,6 +338,7 @@ export default function Navbar() {
             <button
               type="button"
               aria-label="搜索"
+              title="搜索"
               className="inline-flex items-center justify-center w-11 h-11 rounded-full text-light-ink hover:text-cinnabar hover:bg-cinnabar/10 transition-colors active:scale-[0.97]"
               onClick={() => setSearchOpen(true)}
             >

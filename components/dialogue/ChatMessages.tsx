@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useMemo } from "react";
+import { useEffect, useRef, useMemo, useState } from "react";
 import { HistoricalCharacter } from "../../data/characters";
 import ChatBubble from "./ChatBubble";
 import SuggestedQuestions from "./SuggestedQuestions";
@@ -43,6 +43,8 @@ export default function ChatMessages({
   const scrollRef = useRef<HTMLDivElement>(null);
   const prevMessageCountRef = useRef(messages.length);
   const stableMessages = useStableMessages(messages);
+  const [showScrollTop, setShowScrollTop] = useState(false);
+  const [scrollProgress, setScrollProgress] = useState(0);
 
   useEffect(() => {
     const container = scrollRef.current;
@@ -57,14 +59,37 @@ export default function ChatMessages({
     });
   }, [messages, streamingContent, isStreaming]);
 
+  // Show back-to-top button when scrolled down in the local container + track scroll progress
+  useEffect(() => {
+    const container = scrollRef.current;
+    if (!container) return;
+    const handleScroll = () => {
+      setShowScrollTop(container.scrollTop > 300);
+      const max = container.scrollHeight - container.clientHeight;
+      const progress = max > 0 ? container.scrollTop / max : 0;
+      setScrollProgress(Math.min(1, Math.max(0, progress)));
+    };
+    container.addEventListener("scroll", handleScroll);
+    handleScroll();
+    return () => container.removeEventListener("scroll", handleScroll);
+  }, []);
+
   return (
+    <div className="relative flex-1 min-h-0">
+    {/* 局部滚动进度条 — 针对话对话内容区域而非整个页面 */}
+    <div className="absolute top-0 left-0 right-0 z-10 h-[2px] bg-cinnabar/10" aria-hidden="true">
+      <div
+        className="h-full bg-gradient-to-r from-cinnabar to-gold transition-[width] duration-150"
+        style={{ width: `${scrollProgress * 100}%` }}
+      />
+    </div>
     <div
       ref={scrollRef}
       data-messages-container
       role="log"
       aria-live={isStreaming ? "off" : "polite"}
       aria-label="对话消息"
-      className="scrollbar-hide relative flex-1 overflow-y-auto overflow-x-hidden"
+      className="scrollbar-hide h-full overflow-y-auto overflow-x-hidden"
       style={{
         backgroundImage:
           "repeating-linear-gradient(90deg, transparent, transparent 39px, var(--rule) 39px, var(--rule) 40px)",
@@ -118,6 +143,19 @@ export default function ChatMessages({
           />
         )}
       </div>
+    </div>
+    {showScrollTop && (
+      <button
+        onClick={() => scrollRef.current?.scrollTo({ top: 0, behavior: "smooth" })}
+        className="absolute bottom-4 right-4 z-10 flex h-10 w-10 items-center justify-center rounded-full bg-surface/80 shadow-md border border-ink/10 text-light-ink hover:text-cinnabar transition-opacity duration-300 active:scale-95"
+        aria-label="回到顶部"
+        title="回到顶部"
+      >
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4">
+          <path d="m18 15-6-6-6 6" />
+        </svg>
+      </button>
+    )}
     </div>
   );
 }

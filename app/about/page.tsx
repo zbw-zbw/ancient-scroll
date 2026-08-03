@@ -317,12 +317,6 @@ export default function AboutPage() {
           <p className="mt-1 font-serif text-xs text-muted">
             让千年文字&ldquo;活&rdquo;起来
           </p>
-          <Link
-            href="/"
-            className="mt-6 inline-flex items-center gap-1 rounded-full border border-ink/10 px-4 py-2 font-serif text-sm text-light-ink transition-colors hover:border-cinnabar/20 hover:text-cinnabar"
-          >
-            ← 返回首页
-          </Link>
         </div>
       </section>
 

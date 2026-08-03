@@ -302,6 +302,32 @@ export default function ReadingPanel({
           <div className="h-12" />
         </div>
       </div>
+
+      {/* 悬浮听书控制按钮 — 听书模式激活时显示，方便随时暂停/继续 */}
+      {listenMode !== "idle" && (
+        <button
+          onClick={handleToggleListen}
+          className="fixed bottom-[max(1.5rem,env(safe-area-inset-bottom))] right-[max(1.5rem,env(safe-area-inset-right))] z-40 flex h-12 w-12 items-center justify-center rounded-full shadow-lg transition-all active:scale-95 md:h-14 md:w-14"
+          style={{
+            backgroundColor: listenMode === "playing" ? "var(--cinnabar)" : "var(--surface)",
+            color: listenMode === "playing" ? "#fff" : "var(--cinnabar)",
+            border: listenMode === "playing" ? "none" : "1px solid rgba(200, 64, 50, 0.2)",
+          }}
+          title={listenMode === "playing" ? "暂停听书" : "继续听书"}
+          aria-label={listenMode === "playing" ? "暂停听书" : "继续听书"}
+        >
+          {listenMode === "playing" ? (
+            <svg viewBox="0 0 24 24" fill="currentColor" className="h-5 w-5">
+              <rect x="6" y="5" width="4" height="14" rx="1" />
+              <rect x="14" y="5" width="4" height="14" rx="1" />
+            </svg>
+          ) : (
+            <svg viewBox="0 0 24 24" fill="currentColor" className="h-5 w-5">
+              <path d="M8 5v14l11-7z" />
+            </svg>
+          )}
+        </button>
+      )}
     </main>
   );
 }

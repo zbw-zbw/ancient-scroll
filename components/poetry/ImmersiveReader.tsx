@@ -369,8 +369,8 @@ export default function ImmersiveReader({ poem, onBack }: ImmersiveReaderProps) 
         返回
       </button>
 
-      {/* 自动朗诵控制按钮 */}
-      {ttsSupported() && (
+      {/* 自动朗诵控制按钮 — 结尾页不显示（没有诗句可朗诵） */}
+      {ttsSupported() && currentSlide < totalSlides - 1 && (
         <button
           onClick={handleToggleAutoRecite}
           className={`fixed right-[max(1rem,env(safe-area-inset-right))] top-[max(1rem,env(safe-area-inset-top))] z-50 flex cursor-pointer items-center gap-1.5 rounded-full px-4 py-2 font-serif text-sm backdrop-blur-sm transition-all active:scale-95 ${

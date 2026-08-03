@@ -1,7 +1,9 @@
 "use client";
 
-import { useEffect, useState, type ComponentType } from "react";
+import { useEffect, useRef, useState, type ComponentType } from "react";
+import { useSearchParams } from "next/navigation";
 import { getAchievements, type Achievement } from "@/lib/achievements";
+import PageHeader from "@/components/PageHeader";
 import {
   IconBook,
   IconScroll,
@@ -76,11 +78,23 @@ export default function AchievementPanel() {
   const [achievements, setAchievements] = useState<Achievement[]>([]);
   const [mounted, setMounted] = useState(false);
   const [filter, setFilter] = useState<Achievement["category"] | "all">("all");
+  const searchParams = useSearchParams();
+  const highlightId = searchParams?.get("highlight") ?? null;
+  const highlightRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     setMounted(true);
     setAchievements(getAchievements());
   }, []);
+
+  // 滚动并高亮刚刚解锁的成就
+  useEffect(() => {
+    if (!mounted || !highlightId) return;
+    const timer = setTimeout(() => {
+      highlightRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
+    }, 400);
+    return () => clearTimeout(timer);
+  }, [mounted, highlightId]);
 
   if (!mounted) {
     return (
@@ -117,14 +131,11 @@ export default function AchievementPanel() {
   const categories = Array.from(new Set(achievements.map((a) => a.category)));
 
   return (
-    <section className="px-4 pt-24 pb-16 md:px-6 md:pt-32 md:pb-24">
-      <div className="mx-auto max-w-[1100px]">
-        <div className="text-center">
-          <h2 className="font-calligraphy text-3xl text-ink md:text-4xl">成就之路</h2>
-          <p className="mx-auto mt-3 max-w-md font-serif text-base text-muted">
-            每一步探索，都是一段旅程
-          </p>
-          <div className="mt-4 inline-flex items-center gap-3 rounded-full bg-surface/60 px-5 py-2">
+    <section className="pb-16 md:pb-24">
+      <PageHeader title="成就之路" subtitle="每一步探索，都是一段旅程" compact />
+      <div className="mx-auto max-w-[1100px] px-4 md:px-6">
+        <div className="mt-6 flex justify-center">
+          <div className="inline-flex items-center gap-3 rounded-full bg-surface/60 px-5 py-2">
             <span className="font-calligraphy text-2xl text-cinnabar">
               {unlockedCount}
               <span className="text-base text-muted"> / {totalCount}</span>
@@ -169,14 +180,16 @@ export default function AchievementPanel() {
         <div className="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {filtered.map((ach) => {
             const color = categoryColors[ach.category];
+            const isHighlighted = ach.id === highlightId;
             return (
               <div
                 key={ach.id}
+                ref={isHighlighted ? highlightRef : undefined}
                 className={`group relative overflow-hidden rounded-xl border-2 p-5 transition-all duration-300 ${
                   ach.unlocked
                     ? "cursor-pointer border-ink/10 bg-surface/60 hover:border-ink/25 hover:shadow-lg hover:-translate-y-1"
                     : "cursor-pointer border-dashed border-ink/15 bg-surface/20 hover:border-ink/30 hover:bg-surface/40"
-                }`}
+                } ${isHighlighted ? "ring-2 ring-cinnabar ring-offset-2 ring-offset-xuan animate-pulse" : ""}`}
                 style={
                   ach.unlocked
                     ? { boxShadow: `0 0 0 1px ${color}10, 0 2px 8px rgba(0,0,0,0.03)` }

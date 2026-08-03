@@ -236,16 +236,6 @@ export default function QuizClient() {
           <span className="rounded-full bg-seal-red/8 px-3 py-1 font-serif text-xs text-seal-red">看图识兽 5题</span>
         </div>
       </div>
-
-      {/* Back link */}
-      <div className="mt-8 text-center">
-        <Link
-          href="/"
-          className="font-serif text-sm text-muted hover:text-cinnabar transition-colors"
-        >
-          ← 返回首页
-        </Link>
-      </div>
     </div>
   );
 }

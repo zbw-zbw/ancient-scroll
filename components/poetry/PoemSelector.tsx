@@ -56,6 +56,7 @@ export default function PoemSelector({ onSelect }: PoemSelectorProps) {
       <PageHeader
         title="诗境漫游"
         subtitle="一字一句，走进古诗的意境"
+        compact
       />
       <div className="mx-auto max-w-[1100px] pt-8 md:pt-12">
         {/* 分类筛选条（胶囊标签，样式与异兽图鉴一致） */}

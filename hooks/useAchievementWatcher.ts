@@ -48,7 +48,14 @@ export function useAchievementWatcher() {
       // Show toast for each newly unlocked achievement
       newlyUnlocked.forEach((ach, index) => {
         setTimeout(() => {
-          toast(`成就解锁：${ach.title}`, "success");
+          toast(`成就解锁：${ach.title}（${ach.description}）`, "success", {
+            action: {
+              label: "查看",
+              onClick: () => {
+                window.location.href = `/achievements?highlight=${ach.id}`;
+              },
+            },
+          });
         }, index * 1500);
       });
     }
