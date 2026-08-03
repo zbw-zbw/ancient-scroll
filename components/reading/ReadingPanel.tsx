@@ -68,8 +68,11 @@ export default function ReadingPanel({
     stop();
     setListenMode("idle");
     setListenIndex(-1);
-    scrollRef.current?.scrollTo({ top: 0, behavior: "auto" });
     setActiveSentenceId(null);
+    // Use rAF to ensure DOM has updated with new chapter content before scrolling
+    requestAnimationFrame(() => {
+      scrollRef.current?.scrollTo({ top: 0, behavior: "auto" });
+    });
   }, [chapter.id]);
 
   // ===== 听书核心逻辑：当 listenMode=playing 时逐句朗读 =====
@@ -187,11 +190,15 @@ export default function ReadingPanel({
     const container = scrollRef.current;
     if (!container) return;
     const handleScroll = () => {
-      setShowScrollTop(container.scrollTop > 300);
+      setShowScrollTop(container.scrollTop > 200 || window.scrollY > 200);
     };
     container.addEventListener("scroll", handleScroll, { passive: true });
+    window.addEventListener("scroll", handleScroll, { passive: true });
     handleScroll();
-    return () => container.removeEventListener("scroll", handleScroll);
+    return () => {
+      container.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("scroll", handleScroll);
+    };
   }, [chapter.id]);
 
   // Estimate reading time: ~2 minutes per sentence for classical Chinese
@@ -318,11 +325,11 @@ export default function ReadingPanel({
       </div>
 
       {/* 悬浮听书控制按钮 — 听书模式激活时显示，方便随时暂停/继续 */}
-      {/* 放在左下角，避免与右下角的返回顶部按钮重叠 */}
+      {/* 放在右侧中间位置，显眼且不挡住内容 */}
       {listenMode !== "idle" && (
         <button
           onClick={handleToggleListen}
-          className="fixed bottom-[max(1.5rem,env(safe-area-inset-bottom))] left-[max(1.5rem,env(safe-area-inset-left))] z-40 flex h-12 w-12 items-center justify-center rounded-full shadow-lg transition-opacity duration-300 active:scale-95 md:h-14 md:w-14"
+          className="fixed top-1/2 right-[max(1rem,env(safe-area-inset-right))] z-40 flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full shadow-lg transition-all duration-300 active:scale-95 md:h-14 md:w-14"
           style={{
             backgroundColor: listenMode === "playing" ? "var(--cinnabar)" : "var(--surface)",
             color: listenMode === "playing" ? "#fff" : "var(--cinnabar)",
@@ -347,7 +354,10 @@ export default function ReadingPanel({
       {/* 局部返回顶部按钮 — 针对阅读内容滚动区域 */}
       {showScrollTop && (
         <button
-          onClick={() => scrollRef.current?.scrollTo({ top: 0, behavior: "smooth" })}
+          onClick={() => {
+            scrollRef.current?.scrollTo({ top: 0, behavior: "smooth" });
+            window.scrollTo({ top: 0, behavior: "smooth" });
+          }}
           className="fixed bottom-[max(1.5rem,env(safe-area-inset-bottom))] right-[max(1.5rem,env(safe-area-inset-right))] z-40 flex h-11 w-11 items-center justify-center rounded-full bg-surface/80 backdrop-blur-sm shadow-md border border-ink/10 text-light-ink hover:text-cinnabar hover:border-cinnabar/30 transition-opacity duration-300 active:scale-95"
           aria-label="回到顶部"
           title="回到顶部"

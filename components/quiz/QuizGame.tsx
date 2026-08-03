@@ -36,15 +36,41 @@ const difficultyColors: Record<string, string> = {
   hard: "text-red-500 bg-red-50",
 };
 
+/** Fisher-Yates 洗牌 */
+function shuffleArray<T>(arr: T[]): T[] {
+  const result = [...arr];
+  for (let i = result.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [result[i], result[j]] = [result[j], result[i]];
+  }
+  return result;
+}
+
+/** 将原始选项打乱，返回新选项数组 + 正确答案的新索引 */
+function shuffleOptions(question: QuizQuestion): { options: string[]; correctIndex: number } {
+  const correctAnswer = question.options[question.correctIndex];
+  const shuffled = shuffleArray(question.options);
+  return {
+    options: shuffled,
+    correctIndex: shuffled.indexOf(correctAnswer),
+  };
+}
+
 export default function QuizGame({ questions, onComplete, onQuit }: QuizGameProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
   const [score, setScore] = useState(0);
   const [answers, setAnswers] = useState<AnswerRecord[]>([]);
   const [showFeedback, setShowFeedback] = useState(false);
-  const autoAdvanceTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
-
   const currentQuestion = questions[currentIndex];
+  // 随机打乱选项：每次题目切换时重新洗牌
+  const [shuffled, setShuffled] = useState(() => shuffleOptions(currentQuestion));
+  const autoAdvanceTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  // 题目切换时重新打乱选项
+  useEffect(() => {
+    setShuffled(shuffleOptions(currentQuestion));
+  }, [currentIndex]);
+
   const isLastQuestion = currentIndex === questions.length - 1;
 
   const handleNext = useCallback(() => {
@@ -69,7 +95,7 @@ export default function QuizGame({ questions, onComplete, onQuit }: QuizGameProp
     if (showFeedback) return;
     setSelectedIndex(index);
     setShowFeedback(true);
-    const correct = index === currentQuestion.correctIndex;
+    const correct = index === shuffled.correctIndex;
     if (correct) {
       setScore((prev) => prev + 1);
     }
@@ -208,9 +234,9 @@ export default function QuizGame({ questions, onComplete, onQuit }: QuizGameProp
 
         {/* Options */}
         <div className="space-y-3">
-          {currentQuestion.options.map((option, index) => {
+          {shuffled.options.map((option, index) => {
             const isSelected = selectedIndex === index;
-            const isCorrect = index === currentQuestion.correctIndex;
+            const isCorrect = index === shuffled.correctIndex;
             let buttonClass =
               "flex w-full items-center gap-3 rounded-xl border border-ink/10 bg-xuan/50 px-3 py-3 text-left transition-all duration-200 hover:border-cinnabar/30 hover:bg-xuan sm:px-4 sm:py-3.5";
 
@@ -268,15 +294,15 @@ export default function QuizGame({ questions, onComplete, onQuit }: QuizGameProp
         {showFeedback && (
           <div
             className={`mt-4 animate-fade-in rounded-xl p-4 ${
-              selectedIndex === currentQuestion.correctIndex
+              selectedIndex === shuffled.correctIndex
                 ? "bg-green-50/80"
                 : "bg-amber-50/80"
             }`}
           >
             <p className={`mb-1 font-calligraphy text-lg ${
-              selectedIndex === currentQuestion.correctIndex ? "text-green-700" : "text-amber-700"
+              selectedIndex === shuffled.correctIndex ? "text-green-700" : "text-amber-700"
             }`}>
-              {selectedIndex === currentQuestion.correctIndex ? "正确！" : "答错了"}
+              {selectedIndex === shuffled.correctIndex ? "正确！" : "答错了"}
             </p>
             <p className="font-serif text-sm leading-relaxed text-light-ink">
               {currentQuestion.explanation}

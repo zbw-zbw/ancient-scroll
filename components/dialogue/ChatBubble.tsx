@@ -127,8 +127,6 @@ function ChatBubbleImpl({
           {/* Bubble */}
           <div
             className={`relative px-4 py-3 font-serif text-sm leading-relaxed md:px-5 md:py-3.5 ${
-              !isStreaming ? "animate-fade-in" : ""
-            } ${
               isUser
                 ? // 用户消息：右上角小三角指向自然（rounded-tr-sm 营造指向感）
                   "rounded-2xl rounded-tr-sm text-white"

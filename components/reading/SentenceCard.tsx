@@ -46,7 +46,6 @@ export default function SentenceCard({
   active = false,
 }: SentenceCardProps) {
   const ref = useRef<HTMLDivElement>(null);
-  const [visible, setVisible] = useState(false);
   const [isVertical, setIsVertical] = useState(false);
   const [localShowTranslation, setLocalShowTranslation] = useState(showTranslation);
 
@@ -55,22 +54,6 @@ export default function SentenceCard({
     setLocalShowTranslation(showTranslation);
   }, [showTranslation]);
 
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setVisible(true);
-          observer.disconnect();
-        }
-      },
-      { threshold: 0.15, rootMargin: "0px 0px -40px 0px" }
-    );
-    observer.observe(el);
-    return () => observer.disconnect();
-  }, []);
-
   const handleCharClick = (charData: DifficultChar, rect: DOMRect) => {
     onCharClick(sentence.id, charData, rect);
   };
@@ -78,9 +61,9 @@ export default function SentenceCard({
   return (
     <article
       ref={ref}
-      className={`relative rounded-xl border border-ink/8 bg-surface/60 p-5 transition-all duration-700 md:p-6 ${
-        visible ? "translate-y-0 opacity-100" : "translate-y-6 opacity-0"
-      } ${active ? "border-cinnabar/20 bg-cinnabar/[0.03]" : ""}`}
+      className={`relative rounded-xl border border-ink/8 bg-surface/60 p-5 md:p-6 ${
+        active ? "border-cinnabar/20 bg-cinnabar/[0.03]" : ""
+      }`}
     >
       {/* Header row: index circle + vertical toggle */}
       <div className="mb-4 flex items-center justify-between">

@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import PageHeader from "@/components/PageHeader";
 import {
   getRandomQuestions,
   totalQuizQuestions,
@@ -158,18 +159,13 @@ export default function QuizClient() {
 
   // ===== Entry State =====
   return (
-    <div className="mx-auto max-w-3xl px-6 pt-24 pb-12 md:pt-28 md:pb-16">
-      {/* Title */}
-      <div className="animate-fade-in text-center">
-        <h1 className="font-calligraphy text-4xl text-ink sm:text-5xl md:text-6xl">
-          国学问答
-        </h1>
-        <p className="mt-3 font-serif text-base text-muted">
-          测试你的古籍知识
-        </p>
-        <div className="mx-auto mt-4 h-px w-20 bg-gradient-to-r from-transparent via-cinnabar/40 to-transparent" />
-      </div>
-
+    <main className="min-h-dvh bg-xuan">
+      <PageHeader
+        title="国学问答"
+        subtitle="测试你的古籍知识"
+        compact
+      />
+      <div className="mx-auto max-w-3xl px-6 pb-12 md:pb-16">
       {/* Stats Banner */}
       {stats && stats.totalAttempts > 0 && (
         <div className="animate-fade-in mt-8 flex items-center justify-center gap-4 sm:gap-8">
@@ -281,6 +277,7 @@ export default function QuizClient() {
           </ul>
         </div>
       </div>
-    </div>
+      </div>
+    </main>
   );
 }

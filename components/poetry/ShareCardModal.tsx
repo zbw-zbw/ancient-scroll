@@ -407,7 +407,7 @@ export default function ShareCardModal({
         </div>
 
         {/* Action buttons - high contrast on dark overlay */}
-        <div className="flex items-center gap-3">
+        <div className="mt-6 flex items-center gap-3">
           <button
             onClick={handleSaveImage}
             disabled={saving}

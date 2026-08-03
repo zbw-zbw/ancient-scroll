@@ -104,6 +104,7 @@ export default function ChatInterface({
  const final = streamingRef.current;
  streamingRef.current = "";
  setStreamingContent("");
+ setShowSuggestions(true);
  if (final.trim()) {
  setMessages((prev) => [
  ...prev,
@@ -119,6 +120,7 @@ export default function ChatInterface({
  console.error("Streaming error:", error);
  streamingRef.current = "";
  setStreamingContent("");
+ setShowSuggestions(true);
  toast("网络不佳，请稍后再试", "error");
  setMessages((prev) => [
  ...prev,

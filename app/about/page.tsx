@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import Footer from "@/components/Footer";
+import PageHeader from "@/components/PageHeader";
 import { chapters } from "@/data/shanhaijing";
 import { beasts } from "@/data/beasts";
 import { poems } from "@/data/poems";
@@ -107,8 +108,14 @@ const timeline = [
 export default function AboutPage() {
   return (
     <main className="min-h-dvh bg-xuan">
-      {/* Section 1: 使命宣言 */}
-      <section className="relative overflow-hidden px-6 pt-32 pb-20 md:pt-40 md:pb-28">
+      <PageHeader
+        title='让千年文字"活"起来'
+        subtitle="用 AI 技术重新诠释古籍，让经典走进每个人的生活"
+        compact
+      />
+
+      {/* 使命宣言 */}
+      <section className="relative overflow-hidden px-6 pt-16 pb-20 md:pt-20 md:pb-28">
         {/* Decorative background */}
         <div
           className="pointer-events-none absolute inset-0 opacity-[0.04]"
@@ -119,14 +126,7 @@ export default function AboutPage() {
           aria-hidden="true"
         />
         <div className="relative mx-auto max-w-3xl text-center">
-          <h1 className="font-calligraphy text-4xl text-ink md:text-5xl">
-            让千年文字&ldquo;活&rdquo;起来
-          </h1>
-          <p className="mt-4 font-serif text-lg text-cinnabar md:text-xl">
-            古籍焕新 — AI 驱动的古籍交互阅读平台
-          </p>
-          <div className="mx-auto mt-6 h-px w-32 bg-gradient-to-r from-transparent via-cinnabar/40 to-transparent" />
-          <p className="mx-auto mt-8 max-w-2xl font-serif text-base leading-relaxed text-light-ink md:text-lg">
+          <p className="mx-auto max-w-2xl font-serif text-base leading-relaxed text-light-ink md:text-lg">
             中国有超过 20 万种古籍存世，但绝大多数人一辈子都不会翻开其中任何一本。不是不想读，而是读不懂、没画面、没兴趣。古籍焕新希望用 AI 技术，把古籍阅读从&lsquo;查字典式被动学习&rsquo;变成&lsquo;探索式主动体验&rsquo;，让每一个普通人都能感受到古文之美。
           </p>
         </div>
