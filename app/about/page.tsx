@@ -99,7 +99,7 @@ const timeline = [
   { status: "done", text: `${characters.length}位历史人物 AI 对话` },
   { status: "done", text: "多音色语音朗读 + 诗词朗诵 + 山海经听书模式" },
   { status: "done", text: "知识问答闯关（诗词填空、异兽辨识、看图识兽）" },
-  { status: "planned", text: "扩充至《山海经》全18篇，覆盖全部异兽" },
+  { status: "done", text: "扩充至《山海经》全18篇，覆盖全部异兽" },
   { status: "planned", text: "增加《诗经》《楚辞》等更多古籍" },
   { status: "planned", text: "教师端课堂互动模式（学生分组竞答、实时投屏）" },
 ];

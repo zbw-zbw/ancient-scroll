@@ -13,13 +13,17 @@ import CharacterTooltip from "@/components/reading/CharacterTooltip";
 import type { FontSize } from "@/components/reading/ReadingControls";
 import { markChapterRead, setLastReadChapter, getLastReadChapter } from "@/lib/progress";
 
-// Define the canonical chapter order for the sidebar (14 chapters)
+// Define the canonical chapter order for the sidebar (18 chapters — full 山海经)
 const chapterOrder = [
   "nanshan",
   "xishan",
   "beishan",
   "dongshan",
   "zhongshan",
+  "haineinan",
+  "haineixi",
+  "haineibei",
+  "haineidong",
   "hainei",
   "haiwainan",
   "haiwaixi",

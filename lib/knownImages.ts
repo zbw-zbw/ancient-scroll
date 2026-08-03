@@ -14,6 +14,8 @@ const existingBeasts = new Set([
   "feilian", "zhuhuai", "minniao", "feiwei", "kuafu", "xingtian",
   "yingzhao", "tianwu", "dijiang", "mingshe", "dangkang", "luyu",
   "shuhu", "baize", "zhuyan",
+  // .jpg 格式的异兽图片（磁盘上存在但之前未注册）
+  "fenghuang", "luwu", "nuba", "qiongqi", "xiwangmu",
 ]);
 
 const existingCharacters = new Set([

@@ -3120,4 +3120,455 @@ export const chapters: Chapter[] = [
       },
     ],
   },
+  {
+    id: "haineinan",
+    name: "海内南经",
+    subtitle: "南方海内的异邦奇兽",
+    introduction:
+      "《海内南经》记载海内由东南角向西的邦国、山川与异兽。其中有人面鱼身的氐人国、食象的巴蛇、知人名的狌狌、苍黑一角的兕，以及窫窳、犀牛、旄马等奇异之物，展现南方海内的奇幻风貌。",
+    sentences: [
+      {
+        id: "haineinan-1",
+        original: "氐人国在建木西，其为人人面而鱼身，无足。",
+        translation:
+          "氐人国在建木的西边，这个国的人长着人的面孔、鱼的身子，没有脚。",
+        difficultChars: [
+          { char: "氐", pinyin: "dī", meaning: "古族名，此为国名" },
+          { char: "建木", pinyin: "jiàn mù", meaning: "神话中的天梯之树" },
+          { char: "无足", pinyin: "wú zú", meaning: "没有脚" },
+        ],
+        relatedBeastId: "diren",
+      },
+      {
+        id: "haineinan-2",
+        original: "匈奴、开题之国、列人之国并在西北。",
+        translation:
+          "匈奴国、开题国、列人国都在西北方。",
+        difficultChars: [
+          { char: "匈奴", pinyin: "xiōng nú", meaning: "古北方民族名" },
+          { char: "开题", pinyin: "kāi tí", meaning: "古国名" },
+          { char: "列人", pinyin: "liè rén", meaning: "古国名" },
+        ],
+      },
+      {
+        id: "haineinan-3",
+        original: "桂林八树在番隅东。",
+        translation:
+          "桂林八树在番隅的东边。",
+        difficultChars: [
+          { char: "桂林", pinyin: "guì lín", meaning: "此指八棵桂树成林" },
+          { char: "番隅", pinyin: "pān yú", meaning: "地名，即番禺" },
+        ],
+      },
+      {
+        id: "haineinan-4",
+        original: "兕在舜葬东，湘水南，其状如牛，苍黑，一角。",
+        translation:
+          "兕在帝舜葬地的东面、湘水的南面，它的形状像牛，毛色青黑，长着一只角。",
+        difficultChars: [
+          { char: "兕", pinyin: "sì", meaning: "古代犀牛一类的猛兽" },
+          { char: "苍黑", pinyin: "cāng hēi", meaning: "青黑色" },
+          { char: "一角", pinyin: "yī jiǎo", meaning: "长一只角" },
+        ],
+        relatedBeastId: "si",
+      },
+      {
+        id: "haineinan-5",
+        original: "窫窳龙首，居弱水中，在狌狌知人名之西，其状如龙首，食人。",
+        translation:
+          "窫窳长着龙一样的头，居住在弱水中，在能知人名的狌狌所居之地的西面，它的形状像龙首，会吃人。",
+        difficultChars: [
+          { char: "窫窳", pinyin: "yà yǔ", meaning: "传说中的食人怪兽" },
+          { char: "弱水", pinyin: "ruò shuǐ", meaning: "传说中力弱、鸿毛不浮的水" },
+          { char: "龙首", pinyin: "lóng shǒu", meaning: "龙的头" },
+        ],
+      },
+      {
+        id: "haineinan-6",
+        original: "巴蛇食象，三岁而出其骨，君子服之，无心腹之疾。",
+        translation:
+          "巴蛇吞食大象，三年后才吐出象骨，君子服食这象骨，就不会患心腹之疾。",
+        difficultChars: [
+          { char: "巴蛇", pinyin: "bā shé", meaning: "传说中能吞象的巨蛇" },
+          { char: "三岁", pinyin: "sān suì", meaning: "三年" },
+          { char: "服", pinyin: "fú", meaning: "服食" },
+        ],
+        relatedBeastId: "bashe",
+      },
+      {
+        id: "haineinan-7",
+        original: "旄马，其状如马，四节有毛。在巴蛇西北，高山南。",
+        translation:
+          "旄马，它的形状像马，四条腿的关节处都长着毛。它在巴蛇所在之地的西北、高山的南面。",
+        difficultChars: [
+          { char: "旄马", pinyin: "máo mǎ", meaning: "传说中的异马" },
+          { char: "四节", pinyin: "sì jié", meaning: "四肢的关节" },
+          { char: "毛", pinyin: "máo", meaning: "此指长毛" },
+        ],
+        relatedBeastId: "maoma",
+      },
+      {
+        id: "haineinan-8",
+        original: "狌狌知人名，其为兽如豕而人面，在舜葬西。",
+        translation:
+          "狌狌能知道人的名字，它作为野兽形状像猪却长着人的面孔，在帝舜葬地的西面。",
+        difficultChars: [
+          { char: "狌狌", pinyin: "shēng shēng", meaning: "即猩猩" },
+          { char: "豕", pinyin: "shǐ", meaning: "猪" },
+          { char: "人面", pinyin: "rén miàn", meaning: "人的面孔" },
+        ],
+      },
+      {
+        id: "haineinan-9",
+        original: "狌狌西北有犀牛，其状如牛而黑。",
+        translation:
+          "在狌狌所居之地的西北有犀牛，它的形状像牛，毛色发黑。",
+        difficultChars: [
+          { char: "犀牛", pinyin: "xī niú", meaning: "犀类猛兽" },
+          { char: "状如牛", pinyin: "zhuàng rú niú", meaning: "形状像牛" },
+          { char: "黑", pinyin: "hēi", meaning: "毛色发黑" },
+        ],
+      },
+      {
+        id: "haineinan-10",
+        original: "夏后启之臣曰孟涂，是司神于巴。",
+        translation:
+          "夏后启的臣子名叫孟涂，在巴地做主管神明狱讼的人。",
+        difficultChars: [
+          { char: "夏后启", pinyin: "xià hòu qǐ", meaning: "夏王启，禹之子" },
+          { char: "孟涂", pinyin: "mèng tú", meaning: "人名，启之臣" },
+          { char: "司神", pinyin: "sī shén", meaning: "主管神明之事" },
+        ],
+      },
+    ],
+  },
+  {
+    id: "haineixi",
+    name: "海内西经",
+    subtitle: "西方海内的昆仑仙山",
+    introduction:
+      "《海内西经》以昆仑山为中心，记述西方海内的神话传说。危与贰负杀窫窳受罚、开明兽守昆仑之门、群巫操不死之药、珠树文玉玗琪与不死树等仙家奇珍皆汇于此，是山海经中最具仙话色彩的篇章。",
+    sentences: [
+      {
+        id: "haineixi-1",
+        original: "贰负之臣曰危，危与贰负杀窫窳。",
+        translation:
+          "贰负的臣子名叫危，危和贰负一同杀死了窫窳。",
+        difficultChars: [
+          { char: "贰负", pinyin: "èr fù", meaning: "传说中的天神名" },
+          { char: "危", pinyin: "wēi", meaning: "人名，贰负之臣" },
+          { char: "窫窳", pinyin: "yà yǔ", meaning: "传说中的怪兽" },
+        ],
+        relatedBeastId: "wei",
+      },
+      {
+        id: "haineixi-2",
+        original: "帝乃梏之疏属之山，桎其右足，反缚两手与发，系之山上木。在开题西北。",
+        translation:
+          "天帝于是把他拘禁在疏属之山，用刑具锁住他的右脚，反绑他的双手并和头发系在一起，绑在山上的树上。这地方在开题国的西北。",
+        difficultChars: [
+          { char: "梏", pinyin: "gù", meaning: "木制刑具，拘禁" },
+          { char: "疏属", pinyin: "shū shǔ", meaning: "山名" },
+          { char: "桎", pinyin: "zhì", meaning: "脚镣" },
+          { char: "反缚", pinyin: "fǎn fù", meaning: "反绑" },
+        ],
+      },
+      {
+        id: "haineixi-3",
+        original: "开明兽身大类虎而九首，皆人面，东向立昆仑上。",
+        translation:
+          "开明兽的身躯像大虎，长着九个脑袋，每个脑袋都是人的面孔，面朝东方立在昆仑山上。",
+        difficultChars: [
+          { char: "开明兽", pinyin: "kāi míng shòu", meaning: "守昆仑的神兽" },
+          { char: "大类", pinyin: "dà lèi", meaning: "大致类似" },
+          { char: "九首", pinyin: "jiǔ shǒu", meaning: "九个头" },
+        ],
+        relatedBeastId: "kaimingshou",
+      },
+      {
+        id: "haineixi-4",
+        original: "开明南有树鸟，六首；蛟、蝮、蛇、蜼、豹、鸟秩树，于表池树木，诵鸟、鶽、视肉。",
+        translation:
+          "开明兽的南面有树鸟，长着六个头；还有蛟、蝮、蛇、蜼、豹等兽以及鸟秩树，在表池周围种植树木，又有诵鸟、鶽和视肉。",
+        difficultChars: [
+          { char: "树鸟", pinyin: "shù niǎo", meaning: "栖于树上的神鸟" },
+          { char: "蜼", pinyin: "yòu", meaning: "一种长尾猿" },
+          { char: "鶽", pinyin: "sǔn", meaning: "鹞鹰一类的小鸟" },
+          { char: "视肉", pinyin: "shì ròu", meaning: "传说中聚肉，食之不尽" },
+        ],
+        relatedBeastId: "shuniao",
+      },
+      {
+        id: "haineixi-5",
+        original: "服常树，其上有三头人，伺琅玕树。",
+        translation:
+          "服常树，树上有长着三个头的人，在那里看守琅玕树。",
+        difficultChars: [
+          { char: "服常树", pinyin: "fú cháng shù", meaning: "神树名" },
+          { char: "伺", pinyin: "sì", meaning: "守候、看守" },
+          { char: "琅玕", pinyin: "láng gān", meaning: "似珠玉的美石" },
+        ],
+        relatedBeastId: "fuchangniao",
+      },
+      {
+        id: "haineixi-6",
+        original: "开明北有不死树。",
+        translation:
+          "开明兽的北面长着不死树，传说人服食它可以长生不死。",
+        difficultChars: [
+          { char: "不死树", pinyin: "bù sǐ shù", meaning: "传说中食之长生的神树" },
+          { char: "开明", pinyin: "kāi míng", meaning: "昆仑守门神兽" },
+        ],
+      },
+      {
+        id: "haineixi-7",
+        original: "开明东有巫彭、巫抵、巫阳、巫履、巫凡、巫相，夹窫窳之尸，皆操不死之药以距之。",
+        translation:
+          "开明兽的东面有巫彭、巫抵、巫阳、巫履、巫凡、巫相等群巫，夹持着窫窳的尸体，都拿着不死之药来抗拒死神、救治窫窳。",
+        difficultChars: [
+          { char: "巫彭", pinyin: "wū péng", meaning: "神巫名" },
+          { char: "夹", pinyin: "jiā", meaning: "从两旁扶持" },
+          { char: "操", pinyin: "cāo", meaning: "拿、持" },
+          { char: "距", pinyin: "jù", meaning: "通\"拒\"，抗拒" },
+        ],
+      },
+      {
+        id: "haineixi-8",
+        original: "海内昆仑之虚，在西北，帝之下都。昆仑之虚，方八百里，高万仞。",
+        translation:
+          "海内的昆仑之虚，在西北方，是天帝在下界的都城。昆仑之虚方圆八百里，高达万仞。",
+        difficultChars: [
+          { char: "昆仑之虚", pinyin: "kūn lún zhī xū", meaning: "即昆仑山，虚同\"墟\"" },
+          { char: "下都", pinyin: "xià dū", meaning: "天帝在下界的都城" },
+          { char: "仞", pinyin: "rèn", meaning: "古代长度单位，八尺为一仞" },
+        ],
+      },
+      {
+        id: "haineixi-9",
+        original: "流沙出钟山，西行又南行昆仑之虚，西南入海，黑水之山。",
+        translation:
+          "流沙发源于钟山，向西流又向南流经昆仑之虚，向西南流入大海，注入黑水之山。",
+        difficultChars: [
+          { char: "流沙", pinyin: "liú shā", meaning: "沙漠流沙之地" },
+          { char: "钟山", pinyin: "zhōng shān", meaning: "山名" },
+          { char: "黑水", pinyin: "hēi shuǐ", meaning: "水名" },
+        ],
+      },
+      {
+        id: "haineixi-10",
+        original: "开明北有珠树、文玉树、玗琪树。",
+        translation:
+          "开明兽的北面长着珠树、文玉树和玗琪树，分别结珍珠、生五彩美玉和红色玉石。",
+        difficultChars: [
+          { char: "珠树", pinyin: "zhū shù", meaning: "结珍珠的神树" },
+          { char: "文玉树", pinyin: "wén yù shù", meaning: "生五彩美玉的树" },
+          { char: "玗琪", pinyin: "yú qí", meaning: "美玉名" },
+        ],
+      },
+    ],
+  },
+  {
+    id: "haineibei",
+    name: "海内北经",
+    subtitle: "北方海内的神怪异域",
+    introduction:
+      "《海内北经》记述北方海内的神怪异域。蛇巫之山有人操柸而立、大蟹陵鱼出没海中、据比之尸折颈披发、蓬莱仙山在海中、冰夷乘龙于极渊，处处是怪异神灵与海外仙山的奇异景象。",
+    sentences: [
+      {
+        id: "haineibei-1",
+        original: "蛇巫之山，上有人操柸而东向立。一曰龟山。",
+        translation:
+          "蛇巫之山，山上有人拿着杯子面朝东站立。一说此山叫龟山。",
+        difficultChars: [
+          { char: "蛇巫", pinyin: "shé wū", meaning: "山名" },
+          { char: "操", pinyin: "cāo", meaning: "拿、持" },
+          { char: "柸", pinyin: "bēi", meaning: "同\"杯\"" },
+          { char: "一曰", pinyin: "yī yuē", meaning: "一说" },
+        ],
+        relatedBeastId: "shewu",
+      },
+      {
+        id: "haineibei-2",
+        original: "大蟹在海中。",
+        translation:
+          "巨大的蟹生活在海中。",
+        difficultChars: [
+          { char: "大蟹", pinyin: "dà xiè", meaning: "海中巨蟹" },
+          { char: "海中", pinyin: "hǎi zhōng", meaning: "大海之中" },
+        ],
+        relatedBeastId: "daxie",
+      },
+      {
+        id: "haineibei-3",
+        original: "陵鱼人面，手足，鱼身，在海中。",
+        translation:
+          "陵鱼长着人的面孔，有手有脚，身子却是鱼身，生活在海中。",
+        difficultChars: [
+          { char: "陵鱼", pinyin: "líng yú", meaning: "即人鱼" },
+          { char: "人面", pinyin: "rén miàn", meaning: "人的面孔" },
+          { char: "鱼身", pinyin: "yú shēn", meaning: "鱼的身子" },
+        ],
+        relatedBeastId: "lingyu",
+      },
+      {
+        id: "haineibei-4",
+        original: "据比之尸，其为人折颈披发，无一手。",
+        translation:
+          "据比之尸，他作为人被折断了脖子、披散着头发，少了一只手。",
+        difficultChars: [
+          { char: "据比", pinyin: "jù bǐ", meaning: "神名" },
+          { char: "尸", pinyin: "shī", meaning: "神主、神像" },
+          { char: "折颈", pinyin: "zhé jǐng", meaning: "折断脖子" },
+          { char: "披发", pinyin: "pī fà", meaning: "散开头发" },
+        ],
+        relatedBeastId: "jubishi",
+      },
+      {
+        id: "haineibei-5",
+        original: "蓬莱山在海中。",
+        translation:
+          "蓬莱山矗立在大海之中。",
+        difficultChars: [
+          { char: "蓬莱", pinyin: "péng lái", meaning: "传说中的仙山名" },
+          { char: "海中", pinyin: "hǎi zhōng", meaning: "大海之中" },
+        ],
+        relatedBeastId: "penglai",
+      },
+      {
+        id: "haineibei-6",
+        original: "海内西北陬以东者。",
+        translation:
+          "海内由西北角向东的各邦国山川依次如下。",
+        difficultChars: [
+          { char: "陬", pinyin: "zōu", meaning: "角、隅" },
+          { char: "海内", pinyin: "hǎi nèi", meaning: "海之内" },
+          { char: "以东", pinyin: "yǐ dōng", meaning: "向东" },
+        ],
+      },
+      {
+        id: "haineibei-7",
+        original: "雁门山，雁出其间。在氐国西。",
+        translation:
+          "雁门山，大雁从山间飞出。它在氐人国的西面。",
+        difficultChars: [
+          { char: "雁门", pinyin: "yàn mén", meaning: "山名" },
+          { char: "其间", pinyin: "qí jiān", meaning: "山间" },
+          { char: "氐国", pinyin: "dī guó", meaning: "即氐人国" },
+        ],
+      },
+      {
+        id: "haineibei-8",
+        original: "从极之渊，深三百仞，维冰夷恒都焉。冰夷人面，乘两龙。",
+        translation:
+          "从极之渊深三百仞，是冰夷长期居住的地方。冰夷长着人的面孔，乘着两条龙。",
+        difficultChars: [
+          { char: "从极之渊", pinyin: "cóng jí zhī yuān", meaning: "深渊名" },
+          { char: "仞", pinyin: "rèn", meaning: "古代长度单位" },
+          { char: "冰夷", pinyin: "bīng yí", meaning: "即河伯，水神" },
+          { char: "恒都", pinyin: "héng dū", meaning: "长期居住" },
+        ],
+      },
+    ],
+  },
+  {
+    id: "haineidong",
+    name: "海内东经",
+    subtitle: "东方海内的雷泽仙岛",
+    introduction:
+      "《海内东经》记述东方海内的地理与水系。雷泽中有龙身人头的雷神、鉅燕雄踞东北、盖国与倭国远在海东，又有都州、琅邪台等海中之地，勾勒出东海之外的奇域与雷神信仰。",
+    sentences: [
+      {
+        id: "haineidong-1",
+        original: "雷泽中有雷神，龙身而人头，鼓其腹。在吴西。",
+        translation:
+          "雷泽之中有雷神，长着龙的身子、人的头，鼓动他的肚子就会响起雷声。他在吴地的西面。",
+        difficultChars: [
+          { char: "雷泽", pinyin: "léi zé", meaning: "泽名" },
+          { char: "雷神", pinyin: "léi shén", meaning: "掌管打雷的神" },
+          { char: "鼓", pinyin: "gǔ", meaning: "鼓动" },
+          { char: "吴西", pinyin: "wú xī", meaning: "吴地之西" },
+        ],
+        relatedBeastId: "leishen",
+      },
+      {
+        id: "haineidong-2",
+        original: "王子夜之尸，两手、两股、胸、首、齿皆断异处。",
+        translation:
+          "王子夜的尸体，他的两手、两腿、胸膛、头颅、牙齿都断落在不同地方。",
+        difficultChars: [
+          { char: "王子夜", pinyin: "wáng zǐ yè", meaning: "人名" },
+          { char: "尸", pinyin: "shī", meaning: "尸体" },
+          { char: "股", pinyin: "gǔ", meaning: "大腿" },
+          { char: "异处", pinyin: "yì chù", meaning: "不同地方" },
+        ],
+        relatedBeastId: "wangziyeshi",
+      },
+      {
+        id: "haineidong-3",
+        original: "鉅燕在东北陬。",
+        translation:
+          "鉅燕国在东北角。",
+        difficultChars: [
+          { char: "鉅燕", pinyin: "jù yān", meaning: "古国名，鉅同\"巨\"" },
+          { char: "陬", pinyin: "zōu", meaning: "角、隅" },
+        ],
+        relatedBeastId: "juyan",
+      },
+      {
+        id: "haineidong-4",
+        original: "盖国在鉅燕南，倭北。倭属燕。",
+        translation:
+          "盖国在鉅燕国的南面、倭国的北面。倭国隶属于燕。",
+        difficultChars: [
+          { char: "盖国", pinyin: "gài guó", meaning: "古国名" },
+          { char: "倭", pinyin: "wō", meaning: "古国名，指日本一带" },
+          { char: "属", pinyin: "shǔ", meaning: "隶属" },
+        ],
+      },
+      {
+        id: "haineidong-5",
+        original: "都州在海中。一曰郁州。",
+        translation:
+          "都州在海中。一说叫郁州。",
+        difficultChars: [
+          { char: "都州", pinyin: "dū zhōu", meaning: "地名" },
+          { char: "郁州", pinyin: "yù zhōu", meaning: "都州的异名" },
+          { char: "一曰", pinyin: "yī yuē", meaning: "一说" },
+        ],
+      },
+      {
+        id: "haineidong-6",
+        original: "琅邪台在渤海间，琅邪之东。",
+        translation:
+          "琅邪台在渤海之中、琅邪山的东面。",
+        difficultChars: [
+          { char: "琅邪", pinyin: "láng yá", meaning: "地名" },
+          { char: "渤海", pinyin: "bó hǎi", meaning: "海名" },
+          { char: "台", pinyin: "tái", meaning: "高台" },
+        ],
+      },
+      {
+        id: "haineidong-7",
+        original: "海内东北陬以南者。",
+        translation:
+          "海内由东北角向南的各邦国山川河流依次如下。",
+        difficultChars: [
+          { char: "陬", pinyin: "zōu", meaning: "角、隅" },
+          { char: "海内", pinyin: "hǎi nèi", meaning: "海之内" },
+          { char: "以南", pinyin: "yǐ nán", meaning: "向南" },
+        ],
+      },
+      {
+        id: "haineidong-8",
+        original: "岷三江：首大江出汶山，北江出曼山，南江出高山。",
+        translation:
+          "岷地的三条江：第一条大江发源于汶山，北江发源于曼山，南江发源于高山。",
+        difficultChars: [
+          { char: "岷", pinyin: "mín", meaning: "岷地" },
+          { char: "汶山", pinyin: "wèn shān", meaning: "山名，即岷山" },
+          { char: "曼山", pinyin: "màn shān", meaning: "山名" },
+        ],
+      },
+    ],
+  },
 ];

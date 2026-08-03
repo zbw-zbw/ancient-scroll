@@ -1132,6 +1132,246 @@ export const beasts: Beast[] = [
     description:
       "蛊雕是一种形似雕鹫却长着角的凶猛食人异兽。它栖息于鹿吴山的泽更水中，叫声如婴儿啼哭，极具迷惑性——诱人靠近后将其捕食。雕首生角的独特外形与水中潜伏的习性，使其成为南山经中最令人畏惧的水陆两栖猛禽。",
   },
+  {
+    id: "diren",
+    name: "氐人",
+    chapter: "海内南经",
+    category: "god",
+    originalText:
+      "氐人国在建木西，其为人人面而鱼身，无足。",
+    translation:
+      "氐人国在建木的西边，那里的人长着人的面孔和鱼的身子，没有脚。",
+    traits: ["人面鱼身", "无足", "建木之西"],
+    gradient: ["#0891b2", "#06b6d4"],
+    imagePath: "/images/beasts/diren.webp",
+    description:
+      "氐人是居于建木之西的半人半鱼神族，人面鱼身而无足，常年栖于水中。其形象介于人神之间，与陵鱼、赤鱬等同为人鱼类异兽，却因无足的独特体态而自成一格，是海内南经中最具代表性的水居神族之一。",
+  },
+  {
+    id: "si",
+    name: "兕",
+    chapter: "海内南经",
+    category: "beast",
+    originalText:
+      "兕在舜葬东，湘水南。其状如苍牛。其耳广，其角如笠。",
+    translation:
+      "兕生活在舜帝葬地的东边，湘水的南岸。它的形状像青灰色的牛。它的耳朵很宽，角像斗笠一样。",
+    traits: ["苍牛状", "角如斗笠", "舜葬之东"],
+    gradient: ["#44403c", "#78716c"],
+    imagePath: "/images/beasts/si.webp",
+    description:
+      "兕是一种形似苍牛的瑞兽，耳阔角圆如斗笠，栖息于舜葬以东、湘水之南。古人视其独角为珍异之物，厚重而圆润，是山海经中最具辨识度的牛形异兽之一，后世亦常以兕角为酒器，彰显其珍。",
+  },
+  {
+    id: "bashe",
+    name: "巴蛇",
+    chapter: "海内南经",
+    category: "serpent",
+    originalText:
+      "巴蛇食象，三岁而出其骨，君子服之，无心腹之疾。其为蛇青黄赤。一曰黑蛇青首。",
+    translation:
+      "巴蛇能吞食大象，三年后才吐出象骨，君子吃了它的肉，就不会得心腹的疾病。巴蛇是青黄赤三色相间。另一种说法是它是黑蛇、青色的头。",
+    traits: ["吞象巨蛇", "三年出骨", "青黄赤色"],
+    gradient: ["#166534", "#15803d"],
+    imagePath: "/images/beasts/bashe.webp",
+    description:
+      "巴蛇是能吞食大象的巨型神蛇，三年方吐出象骨，其肉可使人免于心腹之疾。身披青黄赤三色花纹，一说为黑身青首，体型之巨冠绝山海经。巴蛇吞象之典由此而生，成为贪欲难餍的千古譬喻。",
+  },
+  {
+    id: "maoma",
+    name: "旄马",
+    chapter: "海内南经",
+    category: "beast",
+    originalText:
+      "旄马，其状如马，四节有毛。在巴蛇西北，高山南。",
+    translation:
+      "旄马，形状像马，四条腿的关节处都长着长毛。它生活在巴蛇所在地的西北方，高山的南面。",
+    traits: ["状如马", "四节有毛", "巴蛇西北"],
+    gradient: ["#92400e", "#b45309"],
+    imagePath: "/images/beasts/maoma.webp",
+    description:
+      "旄马形似常马，四足关节处披有长毛，栖息于巴蛇西北、高山之南。其毛色浓密而独特，是海内南经中少见的良驹类异兽。四节生毛的特征使其与凡马判然有别，颇有神骏之姿。",
+  },
+  {
+    id: "kaimingshou",
+    name: "开明兽",
+    chapter: "海内西经",
+    category: "beast",
+    originalText:
+      "开明兽身大类虎而九首，皆人面，东向立昆仑上。",
+    translation:
+      "开明兽的身子很大，像老虎，长着九个脑袋，都是人的面孔，面朝东方站立在昆仑山上。",
+    traits: ["虎身九首", "皆人面", "守昆仑"],
+    gradient: ["#7c2d12", "#9a3412"],
+    imagePath: "/images/beasts/kaimingshou.webp",
+    description:
+      "开明兽是镇守昆仑山的神兽，虎身九首皆作人面，东向而立于昆仑之巅。九首人面的奇诡外形与守护圣山的职责相得益彰，使其成为海内西经中昆仑神话体系的核心守卫，威仪赫赫不可侵犯。",
+  },
+  {
+    id: "wei",
+    name: "危",
+    chapter: "海内西经",
+    category: "god",
+    originalText:
+      "贰负之臣曰危，危与贰负杀窫窳。帝乃梏之疏属之山，桎其右足，反缚两手与发，系之山上木。",
+    translation:
+      "贰负的臣子名叫危，危和贰负一起杀了窫窳。天帝于是把他枷锁在疏属山上，用刑具锁住他的右脚，把他的双手和头发反绑在一起，系在山上的树上。",
+    traits: ["贰负之臣", "杀窫窳", "帝之囚徒"],
+    gradient: ["#581c87", "#6b21a8"],
+    imagePath: "/images/beasts/wei.webp",
+    description:
+      "危是贰负之臣，因与贰负合谋杀害窫窳而被天帝降罚，囚于疏属之山。右足受桎梏、双手与发反缚于山上之木，是山海经中最为惨烈的神罚场景之一，亦见天帝赏罚之严明与神律之森然。",
+  },
+  {
+    id: "fuchangniao",
+    name: "服常鸟",
+    chapter: "海内西经",
+    category: "bird",
+    originalText:
+      "服常树，其上有三头人，司琅玕树。",
+    translation:
+      "服常树上，有三颗脑袋的人，掌管着琅玕树。",
+    traits: ["三头人", "司琅玕树", "服常树上"],
+    gradient: ["#0e7490", "#0891b2"],
+    imagePath: "/images/beasts/fuchangniao.webp",
+    description:
+      "服常树上栖息着三头之神，专职司掌琅玕神树。琅玕乃昆仑仙境所产的美玉之树，三头人昼夜守护其侧，使其成为海内西经中昆仑园林体系里别具一格的守树神灵，与开明兽共构圣山秩序。",
+  },
+  {
+    id: "shuniao",
+    name: "树鸟",
+    chapter: "海内西经",
+    category: "bird",
+    originalText:
+      "开明南有树鸟，六首蛟龙，蜼豹狼鸟，秩秩乗黄。",
+    translation:
+      "开明兽的南面有树鸟，还有六首的蛟龙、蜼、豹、狼、鸟，以及秩秩、乘黄等异兽。",
+    traits: ["六首", "开明南", "守护神树"],
+    gradient: ["#854d0e", "#a16207"],
+    imagePath: "/images/beasts/shuniao.webp",
+    description:
+      "树鸟栖息于开明兽之南，与六首蛟龙、蜼豹狼鸟及乘黄等神兽并列而居。这片开明南境群兽汇聚、神物毕集，树鸟居其列首，是海内西经中昆仑南麓神兽群落的重要一员，俨然仙山守卫之禽。",
+  },
+  {
+    id: "shewu",
+    name: "蛇巫",
+    chapter: "海内北经",
+    category: "serpent",
+    originalText:
+      "蛇巫之山，上有人操柸而东向立。一曰龟山。",
+    translation:
+      "蛇巫山上，有人手持杯柸面朝东方站立。另一种说法认为这座山叫龟山。",
+    traits: ["蛇巫山", "操柸而立", "龟山"],
+    gradient: ["#134e4a", "#115e59"],
+    imagePath: "/images/beasts/shewu.webp",
+    description:
+      "蛇巫之山因蛇巫而得名，山巅有人操柸东向而立，一说此山即为龟山。操柸而立的神秘身影与山名之歧说交织，使其成为海内北经中最具神秘色彩的山岳神祇之一，引人无限遐思。",
+  },
+  {
+    id: "daxie",
+    name: "大蟹",
+    chapter: "海内北经",
+    category: "fish",
+    originalText:
+      "大蟹在其涂。",
+    translation:
+      "大蟹生活在那片泥涂之中。",
+    traits: ["巨型蟹", "在海涂中", "北海奇物"],
+    gradient: ["#1e3a8a", "#1d4ed8"],
+    imagePath: "/images/beasts/daxie.webp",
+    description:
+      "大蟹是栖于北海泥涂之中的巨型蟹类，体型远逾常蟹。其单独立条于海内北经，仅以一大字点睛，是北海奇物中最简约却又最引人遐想的海中巨兽，足见先民对北海深处的敬畏与想象。",
+  },
+  {
+    id: "lingyu",
+    name: "陵鱼",
+    chapter: "海内北经",
+    category: "fish",
+    originalText:
+      "陵鱼人面，手足，鱼身，在海中。",
+    translation:
+      "陵鱼长着人的面孔，有手有脚，鱼的身体，生活在海里。",
+    traits: ["人面鱼身", "有手足", "海中人鱼"],
+    gradient: ["#0c4a6e", "#0369a1"],
+    imagePath: "/images/beasts/lingyu.webp",
+    description:
+      "陵鱼是人面鱼身却长有手足的海中人鱼，兼具人之面目与鱼之躯体。与氐人、赤鱬等人鱼异兽不同，陵鱼手足俱全，能于海中自由游弋，是海内北经中最典型的人鱼类神物，亦是人鱼传说的远源之一。",
+  },
+  {
+    id: "jubishi",
+    name: "据比尸",
+    chapter: "海内北经",
+    category: "god",
+    originalText:
+      "据比之尸，其为人折颈披发，无一手。",
+    translation:
+      "据比的尸体，作为人来说，脖子折断了，头发披散着，没有一只手。",
+    traits: ["折颈披发", "无一手", "神尸"],
+    gradient: ["#3f3f46", "#52525b"],
+    imagePath: "/images/beasts/jubishi.webp",
+    description:
+      "据比之尸是折颈披发、缺一手的神尸，属于山海经中尸类神祇的典型代表。其残破的身躯暗示着一段惨烈的神话往事，与窫窳、王子夜尸等共同构成海内北经中独特的神尸谱系，折射出先民对死亡与神灵的幽微想象。",
+  },
+  {
+    id: "penglai",
+    name: "蓬莱",
+    chapter: "海内北经",
+    category: "god",
+    originalText:
+      "蓬莱山在海中。",
+    translation:
+      "蓬莱山在大海之中。",
+    traits: ["海中仙山", "仙人居所", "不死之境"],
+    gradient: ["#365314", "#4d7c0f"],
+    imagePath: "/images/beasts/penglai.webp",
+    description:
+      "蓬莱山矗立于海内北经的碧波之中，是传说中仙人所居的不死仙山。山中藏有不死之药与长生秘境，后世秦始皇、汉武帝求仙访药之所皆滥觞于此，是海内北经中最负盛名的海上仙境，亦是华夏仙话的源头。",
+  },
+  {
+    id: "leishen",
+    name: "雷神",
+    chapter: "海内东经",
+    category: "god",
+    originalText:
+      "雷泽中有雷神，龙身而人头，鼓其腹。在吴西。",
+    translation:
+      "雷泽里面有雷神，长着龙的身体和人的头，敲击自己的腹部发出雷声。他在吴地的西面。",
+    traits: ["龙身人头", "鼓腹为雷", "雷泽之神"],
+    gradient: ["#713f12", "#a16207"],
+    imagePath: "/images/beasts/leishen.webp",
+    description:
+      "雷神是居于雷泽的司雷之神，龙身人头，以鼓腹为雷。其居处在吴地之西的雷泽，每逢震雷便被认为是雷神击腹所致，是海内东经中最具威慑力的自然神祇，亦是后世雷神崇拜与雷公形象的远古源头。",
+  },
+  {
+    id: "wangziyeshi",
+    name: "王子夜尸",
+    chapter: "海内东经",
+    category: "god",
+    originalText:
+      "王子夜尸，两手、两股、两胸、两首，皆断，异处乃合为一身。",
+    translation:
+      "王子夜的尸体，两只手、两条腿、两个胸口、两个头，都断开了，分散各处后又合拢拼成了一具身体。",
+    traits: ["身首异处", "断而复合", "神尸"],
+    gradient: ["#831843", "#9f1239"],
+    imagePath: "/images/beasts/wangziyeshi.webp",
+    description:
+      "王子夜尸是身首异处、断而复合的诡异神尸，两手两股两胸两首皆断，异处分散却又合为一身。这种断体复合的奇诡形态，与据比尸、窫窳等共同构成山海经中独特的神尸谱系，折射出先民对死亡与重生的幽微想象。",
+  },
+  {
+    id: "juyan",
+    name: "鉅燕",
+    chapter: "海内东经",
+    category: "bird",
+    originalText:
+      "鉅燕在东北角。",
+    translation:
+      "鉅燕生活在东北角。",
+    traits: ["巨型燕", "东北角", "海内东经"],
+    gradient: ["#1e40af", "#2563eb"],
+    imagePath: "/images/beasts/juyan.webp",
+    description:
+      "鉅燕是栖于海内东北角的巨型燕子，以一大字标示其体型之庞大。虽原文仅寥寥数字，却为后世玄鸟生商、燕图腾崇拜等神话提供了远源，是海内东经中最具图腾意味的禽类神物，意蕴深远。",
+  },
 ];
 
 export const categoryLabels: Record<BeastCategory, string> = {
