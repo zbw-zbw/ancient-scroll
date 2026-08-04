@@ -6,7 +6,7 @@ import { IconBot, IconCopy } from "@/components/icons";
 import StreamingCursor from "./StreamingCursor";
 import { useToast } from "@/components/Toast";
 import { characterImageExists } from "@/lib/knownImages";
-import { speak, stop, isSupported } from "@/lib/tts";
+import { stop } from "@/lib/tts";
 import { speakAI, stopAI, getVoiceForCharacter } from "@/lib/ai-tts";
 
 interface ChatBubbleProps {
@@ -74,32 +74,12 @@ function ChatBubbleImpl({
       await speakAI(content, {
         voice,
         onEnd: () => setSpeaking(false),
-        onError: () => {
-          // AI TTS 失败，fallback 到浏览器朗读
-          if (isSupported()) {
-            speak(content, {
-              onEnd: () => setSpeaking(false),
-              onError: () => setSpeaking(false),
-            });
-          } else {
-            toast("浏览器不支持语音朗读", "error");
-            setSpeaking(false);
-          }
-        },
+        onError: () => setSpeaking(false),
       });
     } catch {
-      // AI TTS 异常，fallback 到浏览器朗读
-      if (isSupported()) {
-        speak(content, {
-          onEnd: () => setSpeaking(false),
-          onError: () => setSpeaking(false),
-        });
-      } else {
-        toast("浏览器不支持语音朗读", "error");
-        setSpeaking(false);
-      }
+      setSpeaking(false);
     }
-  }, [content, characterId, speaking, toast]);
+  }, [content, characterId, speaking]);
 
   // 是否显示底部操作按钮（仅 AI 已完成的消息且内容非空时）
   const showActions =

@@ -5,7 +5,7 @@ import type { Chapter, DifficultChar } from "@/data/shanhaijing";
 import ReadingControls, { type FontSize } from "./ReadingControls";
 import SentenceCard from "./SentenceCard";
 import { IconPaw } from "@/components/icons";
-import { speak, stop, isSupported } from "@/lib/tts";
+import { stop } from "@/lib/tts";
 import { speakAI, stopAI } from "@/lib/ai-tts";
 
 interface ReadingPanelProps {
@@ -116,22 +116,12 @@ export default function ReadingPanel({
       setListenIndex((prev) => prev + 1);
     };
 
-    // 优先使用 AI TTS（云健浑厚男声，节奏稍慢），失败时 fallback 到浏览器朗读
+    // AI TTS 内部已有降级逻辑，onError 时直接跳到下一句
     speakAI(text, {
       voice: "yunjian",
       rate: -10,
       onEnd: handleAdvance,
-      onError: () => {
-        // AI TTS 失败，fallback 到浏览器 Web Speech API
-        if (isSupported()) {
-          speak(text, {
-            onEnd: handleAdvance,
-            onError: handleAdvance,
-          });
-        } else {
-          handleAdvance();
-        }
-      },
+      onError: () => handleAdvance(),
     });
 
     return () => {

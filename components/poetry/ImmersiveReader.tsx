@@ -8,7 +8,7 @@ import EndingSlide from "./EndingSlide";
 import ProgressDots from "./ProgressDots";
 import { IconArrowLeft } from "@/components/icons";
 import { useNavbarVisibility } from "@/components/NavbarVisibilityContext";
-import { speak, stop as stopTTS, isSupported as ttsSupported } from "@/lib/tts";
+import { stop as stopTTS } from "@/lib/tts";
 import { speakAI, stopAI } from "@/lib/ai-tts";
 
 interface ImmersiveReaderProps {
@@ -187,22 +187,12 @@ export default function ImmersiveReader({ poem, onBack }: ImmersiveReaderProps) 
       advanceTimerRef.current = timer;
     };
 
-    // 优先使用 AI TTS（晓晓女声，节奏稍慢），失败时 fallback 到浏览器朗读
+    // AI TTS 内部已有降级逻辑，onError 时直接跳到下一句
     speakAI(text, {
       voice: "xiaoxiao",
       rate: -15,
       onEnd: handleEnd,
-      onError: () => {
-        // AI TTS 失败，fallback 到浏览器 Web Speech API
-        if (ttsSupported()) {
-          speak(text, {
-            onEnd: handleEnd,
-            onError: handleError,
-          });
-        } else {
-          handleError();
-        }
-      },
+      onError: () => handleError(),
     });
 
     return () => {

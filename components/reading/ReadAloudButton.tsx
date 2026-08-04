@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
-import { speak, stop, isSupported } from "@/lib/tts";
+import { stop } from "@/lib/tts";
 import { speakAI, stopAI } from "@/lib/ai-tts";
 
 interface ReadAloudButtonProps {
@@ -34,33 +34,15 @@ export default function ReadAloudButton({ text }: ReadAloudButtonProps) {
       return;
     }
 
-    // 优先使用 AI TTS，失败时 fallback 到浏览器 Web Speech API
+    // AI TTS 内部已有降级逻辑，onError 时只需重置 UI 状态
     setSpeaking(true);
     try {
       await speakAI(text, {
         onEnd: () => setSpeaking(false),
-        onError: () => {
-          // AI TTS 失败，fallback 到浏览器朗读
-          if (isSupported()) {
-            speak(text, {
-              onEnd: () => setSpeaking(false),
-              onError: () => setSpeaking(false),
-            });
-          } else {
-            setSpeaking(false);
-          }
-        },
+        onError: () => setSpeaking(false),
       });
     } catch {
-      // AI TTS 异常，fallback 到浏览器朗读
-      if (isSupported()) {
-        speak(text, {
-          onEnd: () => setSpeaking(false),
-          onError: () => setSpeaking(false),
-        });
-      } else {
-        setSpeaking(false);
-      }
+      setSpeaking(false);
     }
   }, [text, speaking]);
 

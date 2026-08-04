@@ -5,11 +5,7 @@ import PageHeader from "@/components/PageHeader";
 import { useToast } from "@/components/Toast";
 import { downloadBackup, importData, clearAllData, getDataStats } from "@/lib/dataManager";
 import { getReadingPrefs, saveReadingPrefs, type ReadingPrefs } from "@/lib/progress";
-import {
-  speak,
-  stop,
-  isSupported,
-} from "@/lib/tts";
+import { stop } from "@/lib/tts";
 import {
   AI_VOICES,
   type AIVoice,
@@ -97,30 +93,10 @@ export default function SettingsPage() {
         voice: voiceId as AIVoice,
         rate: aiRate,
         onEnd: () => setPreviewingVoice((prev) => (prev === voiceId ? null : prev)),
-        onError: () => {
-          // AI TTS 失败，fallback 到浏览器朗读
-          if (isSupported()) {
-            speak("春眠不觉晓，处处闻啼鸟。", {
-              rate: 0.85,
-              onEnd: () => setPreviewingVoice((prev) => (prev === voiceId ? null : prev)),
-              onError: () => setPreviewingVoice((prev) => (prev === voiceId ? null : prev)),
-            });
-          } else {
-            setPreviewingVoice((prev) => (prev === voiceId ? null : prev));
-          }
-        },
+        onError: () => setPreviewingVoice((prev) => (prev === voiceId ? null : prev)),
       });
     } catch {
-      // AI TTS 异常，fallback 到浏览器朗读
-      if (isSupported()) {
-        speak("春眠不觉晓，处处闻啼鸟。", {
-          rate: 0.85,
-          onEnd: () => setPreviewingVoice((prev) => (prev === voiceId ? null : prev)),
-          onError: () => setPreviewingVoice((prev) => (prev === voiceId ? null : prev)),
-        });
-      } else {
-        setPreviewingVoice(null);
-      }
+      setPreviewingVoice((prev) => (prev === voiceId ? null : prev));
     }
   }, [aiRate, previewingVoice]);
 
@@ -263,7 +239,7 @@ export default function SettingsPage() {
                 <p className="font-serif text-sm text-ink flex items-center gap-1.5">
                   <span aria-hidden="true">🎙️</span> AI 朗读音色
                 </p>
-                <p className="font-serif text-xs text-muted">微软 Edge TTS 智能语音，点击试听预览</p>
+                <p className="font-serif text-xs text-muted">火山引擎智能语音，点击试听预览</p>
               </div>
               <div className="rounded-xl border border-ink/10 bg-xuan/30 overflow-hidden">
                 {AI_VOICES.map((voice) => {

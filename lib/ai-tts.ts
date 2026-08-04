@@ -1,13 +1,14 @@
+"use client";
+
 /**
- * AI TTS (Edge TTS) 客户端工具
- *
- * 直接在浏览器中通过 WebSocket 调用微软 Edge TTS 引擎合成语音，
- * 不经过服务端中转（避免 Vercel 服务器 IP 被微软封锁）。
- * 当 Edge TTS 连接失败时，自动降级到浏览器原生 Web Speech API。
+ * AI 语音模块 —— 前端调用 /api/tts
+ * 后端使用火山引擎语音合成，音质远超浏览器 Web Speech API。
+ * 失败时静默降级到浏览器原生 TTS。
  */
 
-import { synthesize } from "@/lib/edge-tts";
-import { speak as speakFallback } from "@/lib/tts";
+import { speak, stop as stopBrowser, isSupported } from "@/lib/tts";
+
+// ====== 音色定义 ======
 
 export type AIVoice =
   | "xiaoxiao"
@@ -27,35 +28,21 @@ export interface AIVoiceInfo {
 export const AI_VOICES: AIVoiceInfo[] = [
   { id: "xiaoxiao", name: "晓晓", gender: "female", description: "温暖亲切，适合诗词朗诵" },
   { id: "xiaoyi", name: "晓伊", gender: "female", description: "活泼明快，适合知识讲解" },
-  { id: "xiaomeng", name: "晓梦", gender: "female", description: "柔和轻盈，适合睡前故事" },
-  { id: "yunxi", name: "云希", gender: "male", description: "年轻温和，适合古文朗读" },
-  { id: "yunyang", name: "云扬", gender: "male", description: "成熟沉稳，适合历史人物" },
+  { id: "xiaomeng", name: "晓梦", gender: "female", description: "柔和舒缓，适合睡前故事" },
+  { id: "yunxi", name: "云希", gender: "male", description: "年轻阳光，适合古文朗读" },
+  { id: "yunyang", name: "云扬", gender: "male", description: "成熟稳重，适合历史人物" },
   { id: "yunjian", name: "云健", gender: "male", description: "浑厚有力，适合山海经原文" },
 ];
 
-// AI 音色 ID 到 Edge TTS 音色名称的映射
-const VOICE_MAP: Record<AIVoice, string> = {
-  xiaoxiao: "zh-CN-XiaoxiaoNeural",
-  xiaoyi: "zh-CN-XiaoyiNeural",
-  xiaomeng: "zh-CN-XiaomengNeural",
-  yunxi: "zh-CN-YunxiNeural",
-  yunyang: "zh-CN-YunyangNeural",
-  yunjian: "zh-CN-YunjianNeural",
-};
+// ====== 偏好存储 ======
 
 const VOICE_KEY = "ancient-scroll:ai-voice";
 const RATE_KEY = "ancient-scroll:ai-rate";
 
-// 音频播放管理
-let currentAudio: HTMLAudioElement | null = null;
-let currentObjectUrl: string | null = null;
-
 export function getPreferredAIVoice(): AIVoice {
   try {
     const saved = localStorage.getItem(VOICE_KEY);
-    if (saved && AI_VOICES.find((v) => v.id === saved)) {
-      return saved as AIVoice;
-    }
+    if (saved && AI_VOICES.some((v) => v.id === saved)) return saved as AIVoice;
   } catch {}
   return "xiaoxiao";
 }
@@ -69,9 +56,12 @@ export function savePreferredAIVoice(voice: AIVoice): void {
 export function getAIRate(): number {
   try {
     const saved = localStorage.getItem(RATE_KEY);
-    if (saved) return parseInt(saved, 10);
+    if (saved) {
+      const n = parseInt(saved, 10);
+      if (Number.isFinite(n)) return n;
+    }
   } catch {}
-  return 0; // 默认正常语速
+  return 0;
 }
 
 export function saveAIRate(rate: number): void {
@@ -80,45 +70,85 @@ export function saveAIRate(rate: number): void {
   } catch {}
 }
 
-/**
- * 根据角色性别自动选择音色
- */
 export function getVoiceForCharacter(characterId?: string): AIVoice {
-  const femaleIds = ["wuzetian", "liqingzhao", "mulan"];
-  if (characterId && femaleIds.includes(characterId)) {
-    return "xiaoxiao";
+  const femaleChars = ["wuzetian", "liqingzhao", "mulan"];
+  if (characterId && femaleChars.includes(characterId)) return "xiaoxiao";
+  return "yunyang";
+}
+
+// ====== 播放控制 ======
+
+let currentAudio: HTMLAudioElement | null = null;
+let currentObjectUrl: string | null = null;
+let currentAbortController: AbortController | null = null;
+let safetyTimeoutId: ReturnType<typeof setTimeout> | null = null;
+
+function cleanup() {
+  if (safetyTimeoutId) {
+    clearTimeout(safetyTimeoutId);
+    safetyTimeoutId = null;
   }
-  return "yunyang"; // 男性角色用成熟男声
+  if (currentAbortController) {
+    currentAbortController.abort();
+    currentAbortController = null;
+  }
+  if (currentAudio) {
+    currentAudio.pause();
+    currentAudio.src = "";
+    currentAudio = null;
+  }
+  if (currentObjectUrl) {
+    URL.revokeObjectURL(currentObjectUrl);
+    currentObjectUrl = null;
+  }
+}
+
+export interface SpeakAIOptions {
+  voice?: AIVoice;
+  rate?: number;
+  onEnd?: () => void;
+  onError?: (message?: string) => void;
 }
 
 /**
- * 调用浏览器端 Edge TTS 合成并播放语音。
- * 如果 Edge TTS 失败，自动降级到浏览器原生 Web Speech API。
+ * 调用火山引擎 TTS 朗读文本。
+ * 失败时自动降级到浏览器 Web Speech API。
  */
 export async function speakAI(
   text: string,
-  options?: {
-    voice?: AIVoice;
-    rate?: number;
-    onEnd?: () => void;
-    onError?: () => void;
-  }
+  options?: SpeakAIOptions
 ): Promise<void> {
-  // 先停止当前播放
   stopAI();
 
   const voice = options?.voice || getPreferredAIVoice();
   const rate = options?.rate ?? getAIRate();
 
-  const voiceName = VOICE_MAP[voice] || VOICE_MAP.xiaoxiao;
-  const rateStr = rate >= 0 ? `+${rate}%` : `${rate}%`;
+  // 安全超时：30秒后强制结束（防止状态卡死）
+  safetyTimeoutId = setTimeout(() => {
+    console.warn("TTS 安全超时，强制停止");
+    cleanup();
+    options?.onEnd?.();
+  }, 30000);
 
   try {
-    // 直接在浏览器端合成（不走服务端）
-    const blob = await synthesize(text.slice(0, 500), {
-      voice: voiceName,
-      rate: rateStr,
+    currentAbortController = new AbortController();
+
+    const response = await fetch("/api/tts", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ text: text.slice(0, 500), voice, rate }),
+      signal: currentAbortController.signal,
     });
+
+    if (!response.ok) {
+      throw new Error(`HTTP ${response.status}`);
+    }
+
+    const blob = await response.blob();
+
+    if (blob.size === 0) {
+      throw new Error("空音频响应");
+    }
 
     const url = URL.createObjectURL(blob);
     currentObjectUrl = url;
@@ -130,69 +160,72 @@ export async function speakAI(
       cleanup();
       options?.onEnd?.();
     };
+
     audio.onerror = () => {
       cleanup();
-      // 播放失败时降级到浏览器 TTS
+      // 降级到浏览器 TTS
       fallbackToWebSpeech(text, options);
     };
 
     await audio.play();
-  } catch (error) {
-    // Edge TTS 连接失败，静默降级到浏览器原生语音
-    console.warn("Edge TTS 失败，降级到浏览器语音:", error);
+  } catch (error: unknown) {
+    // 如果是主动取消，不触发回调
+    if (error instanceof Error && error.name === "AbortError") return;
+
     cleanup();
+    console.warn("火山引擎 TTS 失败，降级到浏览器语音:", error);
     fallbackToWebSpeech(text, options);
   }
 }
 
 /**
- * 降级到浏览器原生 Web Speech API
+ * 降级到浏览器 Web Speech API
  */
-function fallbackToWebSpeech(
-  text: string,
-  options?: {
-    voice?: AIVoice;
-    rate?: number;
-    onEnd?: () => void;
-    onError?: () => void;
+function fallbackToWebSpeech(text: string, options?: SpeakAIOptions): void {
+  if (!isSupported()) {
+    options?.onError?.("浏览器不支持语音朗读");
+    return;
   }
-): void {
-  try {
-    speakFallback(text, {
-      onEnd: options?.onEnd,
-      onError: options?.onError,
-    });
-  } catch {
-    options?.onError?.();
+
+  // 设置降级超时（Web Speech API 有时不触发 onend）
+  const fallbackTimeout = setTimeout(() => {
+    stopBrowser();
+    options?.onEnd?.();
+  }, Math.max(8000, text.length * 300));
+
+  const utterance = speak(text, {
+    rate: 0.85,
+    onEnd: () => {
+      clearTimeout(fallbackTimeout);
+      options?.onEnd?.();
+    },
+    onError: () => {
+      clearTimeout(fallbackTimeout);
+      options?.onError?.("语音朗读失败");
+    },
+  });
+
+  // speak() 返回 null 说明不支持
+  if (!utterance) {
+    clearTimeout(fallbackTimeout);
+    options?.onError?.("浏览器不支持语音朗读");
   }
 }
 
 /**
- * 停止当前 AI TTS 播放
+ * 停止朗读
  */
 export function stopAI(): void {
-  if (currentAudio) {
-    currentAudio.pause();
-    currentAudio.currentTime = 0;
-    currentAudio = null;
-  }
-  if (currentObjectUrl) {
-    URL.revokeObjectURL(currentObjectUrl);
-    currentObjectUrl = null;
-  }
+  cleanup();
+  stopBrowser();
 }
 
 /**
- * 是否正在播放
+ * 是否正在朗读
  */
 export function isPlayingAI(): boolean {
-  return currentAudio !== null && !currentAudio.paused;
-}
-
-function cleanup(): void {
-  currentAudio = null;
-  if (currentObjectUrl) {
-    URL.revokeObjectURL(currentObjectUrl);
-    currentObjectUrl = null;
+  if (currentAudio && !currentAudio.paused && !currentAudio.ended) {
+    return true;
   }
+  return false;
 }
