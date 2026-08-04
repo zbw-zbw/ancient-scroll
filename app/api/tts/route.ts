@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { tts } from "edge-tts";
+import { tts } from "@/lib/edge-tts";
 
 // 可用的中文音色列表
 const VOICES = {
