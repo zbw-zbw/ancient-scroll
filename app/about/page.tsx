@@ -89,7 +89,7 @@ const methods = [
 
 const techStack = [
   { label: "AI 对话", value: "DeepSeek API 驱动 15 位历史人物个性化对话，支持流式输出" },
-  { label: "AI 插画", value: "AI 生成 80+ 张水墨风格插画（异兽、人物、诗词配图）" },
+  { label: "AI 插画", value: "AI 生成 130+ 张水墨风格插画（异兽、人物、诗词配图）" },
   { label: "语音朗读", value: "Web Speech API 多音色朗读，支持诗词朗诵与山海经听书" },
   { label: "技术框架", value: "Next.js + TypeScript + Tailwind CSS，Vercel 全球部署" },
 ];

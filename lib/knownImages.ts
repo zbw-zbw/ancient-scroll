@@ -16,6 +16,16 @@ const existingBeasts = new Set([
   "shuhu", "baize", "zhuyan",
   // .jpg 格式的异兽图片（磁盘上存在但之前未注册）
   "fenghuang", "luwu", "nuba", "qiongqi", "xiwangmu",
+  // 新增异兽图片
+  "huashe", "gudiao",
+  // 第三批：补全所有缺失异兽插图（水墨风格 .jpg）
+  "zhuanyu", "yu", "hujiao", "quru", "tulou", "jiao", "manman", "mafu",
+  "huanshu", "yayu", "feishu", "linghu", "xiangshe", "suanyu", "paoxiao",
+  "zishu", "zhenyu", "hanyu", "heyu", "fei", "xiegou", "jianmu", "bingyi",
+  "yan", "xuncao", "wuluo", "haoyu", "wenlin",
+  "diren", "si", "bashe", "maoma", "kaimingshou", "wei", "fuchangniao",
+  "shuniao", "shewu", "daxie", "lingyu", "jubishi", "penglai", "leishen",
+  "wangziyeshi", "juyan",
 ]);
 
 const existingCharacters = new Set([
