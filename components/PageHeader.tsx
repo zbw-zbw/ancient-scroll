@@ -11,8 +11,8 @@ export default function PageHeader({ title, subtitle, compact }: PageHeaderProps
     <section
       className={`relative flex w-full items-center justify-center overflow-hidden bg-xuan ${
         compact
-          ? "min-h-[160px] pt-16 md:min-h-[200px]"
-          : "min-h-[220px] pt-16 md:min-h-[280px]"
+          ? "min-h-[200px] pt-24 md:min-h-[240px]"
+          : "min-h-[260px] pt-24 md:min-h-[320px]"
       }`}
     >
       {/* 复用首页山水背景，低透明度 */}

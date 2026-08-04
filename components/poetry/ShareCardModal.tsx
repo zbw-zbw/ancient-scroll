@@ -2,7 +2,6 @@
 
 import { useState, useEffect, useRef, useCallback } from "react";
 import { createPortal } from "react-dom";
-import Image from "next/image";
 import type { Poem } from "@/data/poems";
 import { IconDownload, IconCopy } from "@/components/icons";
 import { useToast } from "@/components/Toast";
@@ -205,12 +204,18 @@ export default function ShareCardModal({
               {/* Top area: scene image with dark overlay */}
               <div className="relative" style={{ height: 380 }}>
                 {poem.coverImage && poemImageExists(poem.coverImage) && (
-                  <Image
+                  <img
                     src={poem.coverImage}
                     alt=""
-                    fill
-                    className="object-cover"
-                    unoptimized
+                    style={{
+                      position: "absolute",
+                      top: 0,
+                      left: 0,
+                      width: "100%",
+                      height: "100%",
+                      objectFit: "cover",
+                    }}
+                    crossOrigin="anonymous"
                   />
                 )}
                 {/* Dark overlay on top image */}
@@ -369,13 +374,17 @@ export default function ShareCardModal({
                         fontSize: 14,
                         color: "#8a1f2a",
                         textAlign: "center",
-                        lineHeight: 1.4,
+                        lineHeight: 1.2,
                         letterSpacing: 2,
+                        display: "flex",
+                        flexDirection: "column",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        paddingTop: 2,
                       }}
                     >
-                      古籍
-                      <br />
-                      焕新
+                      <span>古籍</span>
+                      <span>焕新</span>
                     </span>
                   </div>
 

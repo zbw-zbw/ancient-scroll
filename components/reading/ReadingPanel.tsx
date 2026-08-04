@@ -69,9 +69,12 @@ export default function ReadingPanel({
     setListenMode("idle");
     setListenIndex(-1);
     setActiveSentenceId(null);
-    // Use rAF to ensure DOM has updated with new chapter content before scrolling
+    // Double rAF: first frame renders new content, second frame ensures layout is settled
     requestAnimationFrame(() => {
-      scrollRef.current?.scrollTo({ top: 0, behavior: "auto" });
+      requestAnimationFrame(() => {
+        scrollRef.current?.scrollTo({ top: 0, behavior: "auto" });
+        window.scrollTo({ top: 0, behavior: "auto" });
+      });
     });
   }, [chapter.id]);
 

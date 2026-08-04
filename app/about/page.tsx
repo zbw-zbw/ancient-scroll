@@ -263,8 +263,8 @@ export default function AboutPage() {
                   <span
                     className={`absolute left-3 top-2 flex h-3 w-3 items-center justify-center rounded-full md:left-auto ${
                       i % 2 === 0
-                        ? "md:-right-1.5 md:translate-x-full"
-                        : "md:-left-1.5"
+                        ? "md:right-0 md:translate-x-1/2"
+                        : "md:left-0 md:-translate-x-1/2"
                     } ${
                       item.status === "done"
                         ? "bg-cinnabar ring-4 ring-cinnabar/10"
@@ -298,23 +298,13 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* Bottom: Seal + copyright */}
+      {/* Bottom: copyright */}
       <section className="px-6 py-16">
         <div className="mx-auto max-w-3xl text-center">
-          {/* Seal stamp */}
-          <div
-            className="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-lg border-2 border-cinnabar"
-            style={{ transform: "rotate(-5deg)" }}
-            aria-hidden="true"
-          >
-            <span className="font-calligraphy text-3xl text-cinnabar">
-              古
-            </span>
-          </div>
-          <p className="font-serif text-xs text-muted">
+          <p className="mb-2 font-serif text-xs text-muted">
             © {new Date().getFullYear()} 古籍焕新 · AI 驱动的古籍交互阅读平台
           </p>
-          <p className="mt-1 font-serif text-xs text-muted">
+          <p className="font-serif text-xs text-muted">
             让千年文字&ldquo;活&rdquo;起来
           </p>
         </div>

@@ -2,7 +2,6 @@
 
 import { useState, useEffect, useRef, useCallback } from "react";
 import { createPortal } from "react-dom";
-import Image from "next/image";
 import type { Beast } from "@/data/beasts";
 import { IconDownload, IconCopy, IconPaw } from "@/components/icons";
 import { useToast } from "@/components/Toast";
@@ -218,12 +217,18 @@ export default function BeastShareModal({
               {/* Top area: beast image with dark overlay */}
               <div className="relative" style={{ height: 230 }}>
                 {!imgError && beastImageExists(beast.imagePath) ? (
-                  <Image
+                  <img
                     src={beast.imagePath}
                     alt={beast.name}
-                    fill
-                    className="object-cover"
-                    unoptimized
+                    style={{
+                      position: "absolute",
+                      top: 0,
+                      left: 0,
+                      width: "100%",
+                      height: "100%",
+                      objectFit: "cover",
+                    }}
+                    crossOrigin="anonymous"
                     onError={() => setImgError(true)}
                   />
                 ) : (
@@ -416,11 +421,15 @@ export default function BeastShareModal({
                         color: "#8a1f2a",
                         textAlign: "center",
                         lineHeight: 1.2,
+                        display: "flex",
+                        flexDirection: "column",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        paddingTop: 2,
                       }}
                     >
-                      古籍
-                      <br />
-                      焕新
+                      <span>古籍</span>
+                      <span>焕新</span>
                     </span>
                   </div>
 

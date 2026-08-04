@@ -43,7 +43,7 @@ export default function ImmersiveReader({ poem, onBack }: ImmersiveReaderProps) 
     programScrollRef.current = true;
     programScrollTimerRef.current = window.setTimeout(() => {
       programScrollRef.current = false;
-    }, 700);
+    }, 1200);
   }, [clearProgramScrollTimer]);
 
   // Intersection Observer to detect active slide
@@ -363,17 +363,17 @@ export default function ImmersiveReader({ poem, onBack }: ImmersiveReaderProps) 
       {/* Back button with safe area support */}
       <button
         onClick={handleBack}
-        className="fixed left-[max(1rem,env(safe-area-inset-left))] top-[max(1rem,env(safe-area-inset-top))] z-50 flex cursor-pointer items-center gap-1 rounded-full bg-black/30 px-4 py-2 font-serif text-sm text-white backdrop-blur-sm transition-colors hover:bg-black/50 active:scale-95"
+        className="fixed left-[max(0.75rem,env(safe-area-inset-left))] top-[max(0.75rem,env(safe-area-inset-top))] z-50 flex h-9 w-9 md:h-10 md:w-auto cursor-pointer items-center justify-center gap-1 rounded-full bg-black/30 px-0 md:px-4 md:py-2 font-serif text-sm text-white backdrop-blur-sm transition-colors hover:bg-black/50 active:scale-95"
       >
         <IconArrowLeft className="h-4 w-4" />
-        返回
+        <span className="hidden md:inline">返回</span>
       </button>
 
       {/* 自动朗诵控制按钮 — 结尾页不显示（没有诗句可朗诵） */}
       {ttsSupported() && currentSlide < totalSlides - 1 && (
         <button
           onClick={handleToggleAutoRecite}
-          className={`fixed right-[max(1rem,env(safe-area-inset-right))] top-[max(1rem,env(safe-area-inset-top))] z-50 flex cursor-pointer items-center gap-1.5 rounded-full px-4 py-2 font-serif text-sm backdrop-blur-sm transition-all active:scale-95 ${
+          className={`fixed right-[max(0.75rem,env(safe-area-inset-right))] top-[max(0.75rem,env(safe-area-inset-top))] z-50 flex h-9 w-9 md:h-auto md:w-auto cursor-pointer items-center justify-center md:justify-start md:gap-1.5 rounded-full px-0 md:px-4 md:py-2 font-serif text-sm backdrop-blur-sm transition-all active:scale-95 ${
             autoRecite
               ? paused
                 ? "bg-cinnabar/80 text-white"
@@ -430,7 +430,7 @@ export default function ImmersiveReader({ poem, onBack }: ImmersiveReaderProps) 
             {autoRecite ? (paused ? "继续" : "暂停") : "朗诵"}
           </span>
           {autoRecite && !paused && (
-            <span className="ml-0.5 flex items-center gap-0.5">
+            <span className="ml-0.5 hidden items-center gap-0.5 sm:flex">
               <span
                 className="h-1 w-1 rounded-full bg-white animate-pulse"
                 style={{ animationDelay: "0ms" }}

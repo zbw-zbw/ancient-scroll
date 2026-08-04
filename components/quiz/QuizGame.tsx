@@ -87,10 +87,6 @@ export default function QuizGame({ questions, onComplete, onQuit }: QuizGameProp
     }
   }, [isLastQuestion, onComplete, score, answers]);
 
-  // Ref to always access the latest handleNext (avoids stale closure in auto-advance timer)
-  const handleNextRef = useRef(handleNext);
-  handleNextRef.current = handleNext;
-
   const handleSelect = (index: number) => {
     if (showFeedback) return;
     setSelectedIndex(index);
@@ -105,11 +101,6 @@ export default function QuizGame({ questions, onComplete, onQuit }: QuizGameProp
       correct,
     };
     setAnswers((prev) => [...prev, record]);
-
-    // Auto-advance after 2 seconds — use ref to avoid stale closure
-    autoAdvanceTimer.current = setTimeout(() => {
-      handleNextRef.current();
-    }, 2000);
   };
 
   const handleSkip = () => {
