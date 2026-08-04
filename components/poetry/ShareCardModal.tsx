@@ -207,6 +207,10 @@ export default function ShareCardModal({
                   <img
                     src={poem.coverImage}
                     alt=""
+                    crossOrigin="anonymous"
+                    onError={(e) => {
+                      e.currentTarget.style.display = "none";
+                    }}
                     style={{
                       position: "absolute",
                       top: 0,
@@ -214,8 +218,8 @@ export default function ShareCardModal({
                       width: "100%",
                       height: "100%",
                       objectFit: "cover",
+                      objectPosition: "center",
                     }}
-                    crossOrigin="anonymous"
                   />
                 )}
                 {/* Dark overlay on top image */}
@@ -285,7 +289,7 @@ export default function ShareCardModal({
                   squeezing glyphs in writing-mode: vertical-rl. */}
               <div
                 className="flex flex-row-reverse items-center justify-center px-16"
-                style={{ height: 460 }}
+                style={{ height: 420 }}
               >
                 <div className="flex flex-row-reverse gap-10">
                   {poem.lines.map((line, i) => {
@@ -325,7 +329,7 @@ export default function ShareCardModal({
               <div
                 className="absolute bottom-0 left-0 right-0"
                 style={{
-                  height: 120,
+                  height: 160,
                   background: "linear-gradient(180deg, transparent 0%, rgba(250,247,240,0.9) 40%)",
                 }}
               >
@@ -351,7 +355,7 @@ export default function ShareCardModal({
                 />
 
                 <div
-                  className="absolute bottom-6 left-0 right-0 flex items-center justify-between px-20"
+                  className="absolute bottom-16 left-0 right-0 flex items-center justify-between px-20"
                 >
                   {/* Seal stamp */}
                   <div
@@ -374,13 +378,12 @@ export default function ShareCardModal({
                         fontSize: 14,
                         color: "#8a1f2a",
                         textAlign: "center",
-                        lineHeight: 1.2,
+                        lineHeight: 1,
                         letterSpacing: 2,
                         display: "flex",
                         flexDirection: "column",
                         alignItems: "center",
                         justifyContent: "center",
-                        paddingTop: 2,
                       }}
                     >
                       <span>古籍</span>

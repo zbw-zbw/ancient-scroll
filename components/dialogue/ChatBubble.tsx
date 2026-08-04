@@ -6,7 +6,8 @@ import { IconBot, IconCopy } from "@/components/icons";
 import StreamingCursor from "./StreamingCursor";
 import { useToast } from "@/components/Toast";
 import { characterImageExists } from "@/lib/knownImages";
-import { speak, stop, isSupported, getVoiceForCharacter } from "@/lib/tts";
+import { speak, stop, isSupported } from "@/lib/tts";
+import { speakAI, stopAI, getVoiceForCharacter } from "@/lib/ai-tts";
 
 interface ChatBubbleProps {
   role: "user" | "assistant";
@@ -40,6 +41,7 @@ function ChatBubbleImpl({
   // Stop speech synthesis when leaving the page
   useEffect(() => {
     return () => {
+      stopAI();
       stop();
     };
   }, []);
@@ -54,28 +56,49 @@ function ChatBubbleImpl({
     }
   }, [content, toast]);
 
-  // 朗读消息：使用统一 TTS 工具，按角色性别选择音色
-  const handleSpeak = useCallback(() => {
-    if (!isSupported()) {
-      toast("浏览器不支持语音朗读", "error");
-      return;
-    }
-
+  // 朗读消息：优先使用 AI TTS，按角色性别选择音色，失败时 fallback 到浏览器朗读
+  const handleSpeak = useCallback(async () => {
     // 正在朗读时点击则停止
     if (speaking) {
+      stopAI();
       stop();
       setSpeaking(false);
       return;
     }
 
-    // 根据角色性别选择音色
+    // 根据角色性别选择 AI 音色
     const voice = getVoiceForCharacter(characterId);
-    speak(content, {
-      voice: voice || undefined,
-      onEnd: () => setSpeaking(false),
-      onError: () => setSpeaking(false),
-    });
     setSpeaking(true);
+
+    try {
+      await speakAI(content, {
+        voice,
+        onEnd: () => setSpeaking(false),
+        onError: () => {
+          // AI TTS 失败，fallback 到浏览器朗读
+          if (isSupported()) {
+            speak(content, {
+              onEnd: () => setSpeaking(false),
+              onError: () => setSpeaking(false),
+            });
+          } else {
+            toast("浏览器不支持语音朗读", "error");
+            setSpeaking(false);
+          }
+        },
+      });
+    } catch {
+      // AI TTS 异常，fallback 到浏览器朗读
+      if (isSupported()) {
+        speak(content, {
+          onEnd: () => setSpeaking(false),
+          onError: () => setSpeaking(false),
+        });
+      } else {
+        toast("浏览器不支持语音朗读", "error");
+        setSpeaking(false);
+      }
+    }
   }, [content, characterId, speaking, toast]);
 
   // 是否显示底部操作按钮（仅 AI 已完成的消息且内容非空时）

@@ -1,7 +1,8 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
-import { speak, stop, isSupported, getPreferredVoice, getSpeechRate } from "@/lib/tts";
+import { speak, stop, isSupported } from "@/lib/tts";
+import { speakAI, stopAI } from "@/lib/ai-tts";
 
 interface ReadAloudButtonProps {
   text: string;
@@ -16,41 +17,51 @@ export default function ReadAloudButton({ text }: ReadAloudButtonProps) {
     setMounted(true);
   }, []);
 
-  // 预加载语音列表（触发 voiceschanged 事件）
-  useEffect(() => {
-    if (!isSupported()) return;
-    // 触发语音加载
-    getPreferredVoice();
-    const handler = () => getPreferredVoice();
-    window.speechSynthesis.addEventListener("voiceschanged", handler);
-    return () => {
-      window.speechSynthesis.removeEventListener("voiceschanged", handler);
-    };
-  }, []);
-
   // Stop speech on unmount
   useEffect(() => {
     return () => {
+      stopAI();
       stop();
     };
   }, []);
 
-  const handleClick = useCallback(() => {
-    if (!isSupported()) return;
-
+  const handleClick = useCallback(async () => {
     // 如果正在朗读，点击则停止
     if (speaking) {
+      stopAI();
       stop();
       setSpeaking(false);
       return;
     }
 
-    // 使用统一 TTS 工具朗读
-    speak(text, {
-      onEnd: () => setSpeaking(false),
-      onError: () => setSpeaking(false),
-    });
+    // 优先使用 AI TTS，失败时 fallback 到浏览器 Web Speech API
     setSpeaking(true);
+    try {
+      await speakAI(text, {
+        onEnd: () => setSpeaking(false),
+        onError: () => {
+          // AI TTS 失败，fallback 到浏览器朗读
+          if (isSupported()) {
+            speak(text, {
+              onEnd: () => setSpeaking(false),
+              onError: () => setSpeaking(false),
+            });
+          } else {
+            setSpeaking(false);
+          }
+        },
+      });
+    } catch {
+      // AI TTS 异常，fallback 到浏览器朗读
+      if (isSupported()) {
+        speak(text, {
+          onEnd: () => setSpeaking(false),
+          onError: () => setSpeaking(false),
+        });
+      } else {
+        setSpeaking(false);
+      }
+    }
   }, [text, speaking]);
 
   // Render placeholder until mounted (prevents hydration mismatch)
@@ -60,10 +71,6 @@ export default function ReadAloudButton({ text }: ReadAloudButtonProps) {
         朗读
       </span>
     );
-  }
-
-  if (!isSupported()) {
-    return null;
   }
 
   return (

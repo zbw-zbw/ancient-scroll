@@ -220,6 +220,8 @@ export default function BeastShareModal({
                   <img
                     src={beast.imagePath}
                     alt={beast.name}
+                    crossOrigin="anonymous"
+                    onError={() => setImgError(true)}
                     style={{
                       position: "absolute",
                       top: 0,
@@ -227,9 +229,8 @@ export default function BeastShareModal({
                       width: "100%",
                       height: "100%",
                       objectFit: "cover",
+                      objectPosition: "center",
                     }}
-                    crossOrigin="anonymous"
-                    onError={() => setImgError(true)}
                   />
                 ) : (
                   <div
@@ -372,7 +373,7 @@ export default function BeastShareModal({
               <div
                 className="absolute bottom-0 left-0 right-0"
                 style={{
-                  height: 110,
+                  height: 140,
                   background:
                     "linear-gradient(180deg, transparent 0%, rgba(250,247,240,0.9) 40%)",
                 }}
@@ -398,7 +399,7 @@ export default function BeastShareModal({
                   }}
                 />
 
-                <div className="absolute bottom-5 left-0 right-0 flex items-center justify-between px-10">
+                <div className="absolute bottom-16 left-0 right-0 flex items-center justify-between px-10">
                   {/* Seal stamp */}
                   <div
                     style={{
@@ -420,12 +421,11 @@ export default function BeastShareModal({
                         fontSize: 13,
                         color: "#8a1f2a",
                         textAlign: "center",
-                        lineHeight: 1.2,
+                        lineHeight: 1,
                         display: "flex",
                         flexDirection: "column",
                         alignItems: "center",
                         justifyContent: "center",
-                        paddingTop: 2,
                       }}
                     >
                       <span>古籍</span>

@@ -6,14 +6,20 @@ import { useToast } from "@/components/Toast";
 import { downloadBackup, importData, clearAllData, getDataStats } from "@/lib/dataManager";
 import { getReadingPrefs, saveReadingPrefs, type ReadingPrefs } from "@/lib/progress";
 import {
-  getZhVoices,
-  getSpeechRate,
-  saveSpeechRate,
-  savePreferredVoice,
   speak,
   stop,
   isSupported,
 } from "@/lib/tts";
+import {
+  AI_VOICES,
+  type AIVoice,
+  getPreferredAIVoice,
+  savePreferredAIVoice,
+  getAIRate,
+  saveAIRate,
+  speakAI,
+  stopAI,
+} from "@/lib/ai-tts";
 
 export default function SettingsPage() {
   const { toast } = useToast();
@@ -24,9 +30,8 @@ export default function SettingsPage() {
     fontSize: "md",
     showTranslation: true,
   });
-  const [speechRate, setSpeechRate] = useState(0.85);
-  const [voices, setVoices] = useState<SpeechSynthesisVoice[]>([]);
-  const [selectedVoice, setSelectedVoice] = useState<string>("");
+  const [aiRate, setAiRate] = useState(0);
+  const [selectedAIVoice, setSelectedAIVoice] = useState<AIVoice>("xiaoxiao");
   const [previewingVoice, setPreviewingVoice] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const clearTimerRef = useRef<ReturnType<typeof setTimeout>>(undefined);
@@ -35,31 +40,9 @@ export default function SettingsPage() {
     setStats(getDataStats());
     const savedPrefs = getReadingPrefs();
     setPrefs(savedPrefs);
-    // Load speech rate from lib/tts (handles both new and old localStorage keys)
-    setSpeechRate(getSpeechRate());
-
-    // 加载中文音色列表
-    if (!isSupported()) return;
-    const loadVoices = () => {
-      const zhVoices = getZhVoices();
-      setVoices(zhVoices);
-      // 从 localStorage 恢复之前的选择
-      try {
-        const saved = localStorage.getItem("ancient-scroll:voice");
-        if (saved && zhVoices.find((v) => v.name === saved)) {
-          setSelectedVoice(saved);
-        } else if (zhVoices.length > 0 && !selectedVoice) {
-          // 如果没有保存的选择但有可用音色，默认选中第一个
-          setSelectedVoice(zhVoices[0].name);
-        }
-      } catch {}
-    };
-    loadVoices();
-    window.speechSynthesis.addEventListener("voiceschanged", loadVoices);
-    return () => {
-      window.speechSynthesis.removeEventListener("voiceschanged", loadVoices);
-    };
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // 加载 AI 音色偏好和语速
+    setSelectedAIVoice(getPreferredAIVoice());
+    setAiRate(getAIRate());
   }, []);
 
   const handleExport = useCallback(() => {
@@ -95,35 +78,62 @@ export default function SettingsPage() {
     }
   }, [toast]);
 
-  // 试听指定音色
-  const handlePreviewVoice = useCallback((voiceName: string) => {
-    if (!isSupported() || voices.length === 0) return;
+  // 试听指定 AI 音色（失败时 fallback 到浏览器 Web Speech API）
+  const handlePreviewVoice = useCallback(async (voiceId: string) => {
     // 如果正在试听这个音色，点击则停止
-    if (previewingVoice === voiceName) {
+    if (previewingVoice === voiceId) {
+      stopAI();
       stop();
       setPreviewingVoice(null);
       return;
     }
     // 停止之前的试听
+    stopAI();
     stop();
-    const voice = voices.find((v) => v.name === voiceName);
-    speak("春眠不觉晓，处处闻啼鸟。", {
-      voice: voice || undefined,
-      onEnd: () => setPreviewingVoice((prev) => (prev === voiceName ? null : prev)),
-      onError: () => setPreviewingVoice((prev) => (prev === voiceName ? null : prev)),
-    });
-    setPreviewingVoice(voiceName);
-  }, [voices, previewingVoice]);
+    setPreviewingVoice(voiceId);
 
-  // 选择音色并保存：切换音色时停止试听
-  const handleVoiceChange = useCallback(
-    (voiceName: string) => {
+    try {
+      await speakAI("春眠不觉晓，处处闻啼鸟。", {
+        voice: voiceId as AIVoice,
+        rate: aiRate,
+        onEnd: () => setPreviewingVoice((prev) => (prev === voiceId ? null : prev)),
+        onError: () => {
+          // AI TTS 失败，fallback 到浏览器朗读
+          if (isSupported()) {
+            speak("春眠不觉晓，处处闻啼鸟。", {
+              rate: 0.85,
+              onEnd: () => setPreviewingVoice((prev) => (prev === voiceId ? null : prev)),
+              onError: () => setPreviewingVoice((prev) => (prev === voiceId ? null : prev)),
+            });
+          } else {
+            setPreviewingVoice((prev) => (prev === voiceId ? null : prev));
+          }
+        },
+      });
+    } catch {
+      // AI TTS 异常，fallback 到浏览器朗读
+      if (isSupported()) {
+        speak("春眠不觉晓，处处闻啼鸟。", {
+          rate: 0.85,
+          onEnd: () => setPreviewingVoice((prev) => (prev === voiceId ? null : prev)),
+          onError: () => setPreviewingVoice((prev) => (prev === voiceId ? null : prev)),
+        });
+      } else {
+        setPreviewingVoice(null);
+      }
+    }
+  }, [aiRate, previewingVoice]);
+
+  // 选择 AI 音色并保存：切换音色时停止试听
+  const handleAIVoiceChange = useCallback(
+    (voiceId: AIVoice) => {
       if (previewingVoice) {
+        stopAI();
         stop();
         setPreviewingVoice(null);
       }
-      setSelectedVoice(voiceName);
-      savePreferredVoice(voiceName);
+      setSelectedAIVoice(voiceId);
+      savePreferredAIVoice(voiceId);
       toast("音色已保存", "success");
     },
     [toast, previewingVoice],
@@ -132,6 +142,7 @@ export default function SettingsPage() {
   // 页面卸载时停止朗读
   useEffect(() => {
     return () => {
+      stopAI();
       stop();
     };
   }, []);
@@ -152,10 +163,10 @@ export default function SettingsPage() {
   }, [clearStep, toast]);
 
   return (
-    <main className="min-h-dvh bg-xuan px-4 pb-12 md:px-6 md:pb-16">
+    <main className="min-h-dvh bg-xuan pb-12 md:pb-16">
       <PageHeader title="设置" subtitle="数据管理与偏好设置" compact />
 
-      <div className="mx-auto max-w-[700px] pt-8 md:pt-12 space-y-8">
+      <div className="mx-auto max-w-[700px] px-4 pt-8 md:px-6 md:pt-12 space-y-8">
         {/* Preferences Section */}
         <section className="rounded-2xl bg-surface/60 p-6 md:p-8">
           <h2 className="font-calligraphy text-xl text-ink mb-1">阅读偏好</h2>
@@ -215,110 +226,114 @@ export default function SettingsPage() {
               </button>
             </div>
 
-            {/* Speech Rate */}
+            {/* AI Speech Rate */}
             <div>
               <div className="flex items-center justify-between mb-3">
                 <div>
-                  <p className="font-serif text-sm text-ink">朗读语速</p>
-                  <p className="font-serif text-xs text-muted">古文朗读的语速</p>
+                  <p className="font-serif text-sm text-ink">AI 朗读语速</p>
+                  <p className="font-serif text-xs text-muted">百分比偏移，负值变慢，正值变快</p>
                 </div>
                 <span className="font-serif text-xs text-cinnabar">
-                  {speechRate < 0.8 ? "慢速" : speechRate <= 0.9 ? "正常" : "快速"}
+                  {aiRate === 0 ? "正常" : aiRate > 0 ? `快${aiRate}%` : `慢${Math.abs(aiRate)}%`}
                 </span>
               </div>
               <input
                 type="range"
-                min="0.5"
-                max="1.2"
-                step="0.05"
-                value={speechRate}
+                min="-50"
+                max="50"
+                step="5"
+                value={aiRate}
                 onChange={(e) => {
-                  const rate = parseFloat(e.target.value);
-                  setSpeechRate(rate);
-                  saveSpeechRate(rate);
+                  const rate = parseInt(e.target.value, 10);
+                  setAiRate(rate);
+                  saveAIRate(rate);
                 }}
                 className="w-full h-1.5 rounded-full bg-ink/10 appearance-none cursor-pointer accent-cinnabar"
               />
               <div className="mt-1 flex justify-between font-serif text-xs text-muted">
                 <span>慢</span>
+                <span>正常</span>
                 <span>快</span>
               </div>
             </div>
 
-            {/* Voice Selection — 每个音色选项后附带试听按钮 */}
+            {/* AI Voice Selection — 每个音色选项后附带试听按钮 */}
             <div>
               <div className="mb-3">
-                <p className="font-serif text-sm text-ink">朗读音色</p>
-                <p className="font-serif text-xs text-muted">点击试听预览，选择喜欢的音色</p>
+                <p className="font-serif text-sm text-ink flex items-center gap-1.5">
+                  <span aria-hidden="true">🎙️</span> AI 朗读音色
+                </p>
+                <p className="font-serif text-xs text-muted">微软 Edge TTS 智能语音，点击试听预览</p>
               </div>
-              {isSupported() ? (
-                voices.length > 0 ? (
-                  <div className="max-h-60 overflow-y-auto rounded-xl border border-ink/10 bg-xuan/30">
-                    {voices.map((voice) => {
-                      const isSelected = voice.name === selectedVoice;
-                      const isPreviewing = voice.name === previewingVoice;
-                      return (
-                        <div
-                          key={voice.name}
-                          onClick={() => handleVoiceChange(voice.name)}
-                          className={`flex items-center gap-2 px-4 py-2.5 border-b border-ink/5 last:border-b-0 cursor-pointer transition-colors ${
-                            isSelected ? "bg-cinnabar/8" : "hover:bg-ink/5"
-                          }`}
-                        >
-                          <span className={`flex-1 truncate font-serif text-sm ${isSelected ? "text-cinnabar" : "text-ink"}`}>
+              <div className="rounded-xl border border-ink/10 bg-xuan/30 overflow-hidden">
+                {AI_VOICES.map((voice) => {
+                  const isSelected = voice.id === selectedAIVoice;
+                  const isPreviewing = voice.id === previewingVoice;
+                  return (
+                    <div
+                      key={voice.id}
+                      onClick={() => handleAIVoiceChange(voice.id)}
+                      className={`flex items-center gap-2 px-4 py-3 border-b border-ink/5 last:border-b-0 cursor-pointer transition-colors ${
+                        isSelected ? "bg-cinnabar/8" : "hover:bg-ink/5"
+                      }`}
+                    >
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center gap-2">
+                          <span className={`font-serif text-sm font-semibold ${isSelected ? "text-cinnabar" : "text-ink"}`}>
                             {voice.name}
-                            <span className="text-xs text-muted ml-1">{voice.lang}</span>
                           </span>
-                          {/* 试听按钮 */}
-                          <button
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              handlePreviewVoice(voice.name);
-                            }}
-                            className={`inline-flex items-center gap-1 rounded-full px-2.5 py-1 min-h-[32px] font-serif text-xs transition-none flex-shrink-0 ${
-                              isPreviewing
-                                ? "bg-cinnabar/10 text-cinnabar"
-                                : "bg-ink/5 text-light-ink hover:bg-ink/10"
-                            }`}
-                          >
-                            {isPreviewing ? (
-                              <>
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-3 w-3 animate-pulse">
-                                  <rect x="6" y="5" width="4" height="14" rx="1" />
-                                  <rect x="14" y="5" width="4" height="14" rx="1" />
-                                </svg>
-                                停止
-                              </>
-                            ) : (
-                              <>
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-3 w-3">
-                                  <path d="M11 5 6 9H2v6h4l5 4V5z" />
-                                  <path d="M15.54 8.46a5 5 0 0 1 0 7.07" />
-                                </svg>
-                                试听
-                              </>
-                            )}
-                          </button>
-                          {/* 选中标记 */}
+                          <span className={`inline-flex items-center rounded-full px-1.5 py-0.5 font-serif text-[10px] ${
+                            voice.gender === "female"
+                              ? "bg-pink-100 text-pink-700"
+                              : "bg-blue-100 text-blue-700"
+                          }`}>
+                            {voice.gender === "female" ? "女声" : "男声"}
+                          </span>
                           {isSelected && (
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className="h-3.5 w-3.5 text-cinnabar flex-shrink-0">
                               <polyline points="20 6 9 17 4 12" />
                             </svg>
                           )}
                         </div>
-                      );
-                    })}
-                  </div>
-                ) : (
-                  <p className="font-serif text-xs text-muted rounded-xl bg-xuan/50 px-4 py-3">
-                    当前设备没有中文语音，系统将使用默认语音朗读
-                  </p>
-                )
-              ) : (
-                <p className="font-serif text-xs text-muted rounded-xl bg-xuan/50 px-4 py-3">
-                  当前浏览器不支持语音朗读功能
-                </p>
-              )}
+                        <p className="font-serif text-xs text-muted mt-0.5 truncate">{voice.description}</p>
+                      </div>
+                      {/* 试听按钮 */}
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handlePreviewVoice(voice.id);
+                        }}
+                        className={`inline-flex items-center gap-1 rounded-full px-2.5 py-1 min-h-[32px] font-serif text-xs transition-none flex-shrink-0 ${
+                          isPreviewing
+                            ? "bg-cinnabar/10 text-cinnabar"
+                            : "bg-ink/5 text-light-ink hover:bg-ink/10"
+                        }`}
+                      >
+                        {isPreviewing ? (
+                          <>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-3 w-3 animate-pulse">
+                              <rect x="6" y="5" width="4" height="14" rx="1" />
+                              <rect x="14" y="5" width="4" height="14" rx="1" />
+                            </svg>
+                            停止
+                          </>
+                        ) : (
+                          <>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-3 w-3">
+                              <path d="M11 5 6 9H2v6h4l5 4V5z" />
+                              <path d="M15.54 8.46a5 5 0 0 1 0 7.07" />
+                            </svg>
+                            试听
+                          </>
+                        )}
+                      </button>
+                    </div>
+                  );
+                })}
+              </div>
+              <p className="mt-2 font-serif text-xs text-muted">
+                💡 网络不可用时自动切换为浏览器内置语音
+              </p>
             </div>
           </div>
         </section>

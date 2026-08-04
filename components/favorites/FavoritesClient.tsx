@@ -63,10 +63,9 @@ export default function FavoritesClient() {
   );
 
   return (
-    <div className="min-h-dvh bg-xuan px-4 pb-16 md:px-6">
+    <div className="min-h-dvh bg-xuan pb-16">
       <PageHeader title="我的收藏" subtitle="珍藏的诗词与异兽，随时回味" compact />
-
-      <div className="mx-auto max-w-[1100px] pt-8 md:pt-12">
+      <div className="mx-auto max-w-[1100px] px-4 pt-8 md:px-6 md:pt-12">
         {/* Tabs */}
         <div className="mb-8 flex items-center gap-2" role="tablist" aria-label="收藏分类">
           <button

@@ -151,13 +151,13 @@ export default function BestiaryClient() {
     : "";
 
   return (
-    <main className="min-h-dvh bg-xuan px-4 pb-12 md:px-6 md:pb-16">
+    <main className="min-h-dvh bg-xuan pb-12 md:pb-16">
       <PageHeader
         title="异兽图鉴"
         subtitle="收藏山海奇兽，解锁文化成就"
         compact
       />
-      <div className="mx-auto max-w-[1100px] pt-8 md:pt-12">
+      <div className="mx-auto max-w-[1100px] px-4 pt-8 md:px-6 md:pt-12">
         <div className="mb-8 flex flex-col gap-4 md:mb-10 md:flex-row md:items-end md:justify-between">
           <CollectionProgress collectedIds={collectedIds} />
         </div>

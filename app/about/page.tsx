@@ -90,7 +90,7 @@ const methods = [
 const techStack = [
   { label: "AI 对话", value: "DeepSeek API 驱动 15 位历史人物个性化对话，支持流式输出" },
   { label: "AI 插画", value: "AI 生成 130+ 张水墨风格插画（异兽、人物、诗词配图）" },
-  { label: "语音朗读", value: "Web Speech API 多音色朗读，支持诗词朗诵与山海经听书" },
+  { label: "AI 语音", value: "微软 Edge TTS 6种中文音色智能朗读，支持诗词朗诵与山海经听书" },
   { label: "技术框架", value: "Next.js + TypeScript + Tailwind CSS，Vercel 全球部署" },
 ];
 
@@ -255,16 +255,16 @@ export default function AboutPage() {
                   key={i}
                   className={`relative pl-12 md:w-1/2 md:pl-0 ${
                     i % 2 === 0
-                      ? "md:ml-0 md:pr-12 md:text-right"
+                      ? "md:mr-auto md:pr-12 md:text-right"
                       : "md:ml-auto md:pl-12"
                   }`}
                 >
                   {/* Timeline dot */}
                   <span
-                    className={`absolute left-3 top-2 flex h-3 w-3 items-center justify-center rounded-full md:left-auto ${
+                    className={`absolute top-2 flex h-3 w-3 items-center justify-center rounded-full ${
                       i % 2 === 0
-                        ? "md:right-0 md:translate-x-1/2"
-                        : "md:left-0 md:-translate-x-1/2"
+                        ? "left-3 md:left-auto md:right-0"
+                        : "left-3 md:left-0"
                     } ${
                       item.status === "done"
                         ? "bg-cinnabar ring-4 ring-cinnabar/10"
@@ -295,18 +295,6 @@ export default function AboutPage() {
               ))}
             </ul>
           </div>
-        </div>
-      </section>
-
-      {/* Bottom: copyright */}
-      <section className="px-6 py-16">
-        <div className="mx-auto max-w-3xl text-center">
-          <p className="mb-2 font-serif text-xs text-muted">
-            © {new Date().getFullYear()} 古籍焕新 · AI 驱动的古籍交互阅读平台
-          </p>
-          <p className="font-serif text-xs text-muted">
-            让千年文字&ldquo;活&rdquo;起来
-          </p>
         </div>
       </section>
 

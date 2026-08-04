@@ -17,49 +17,6 @@ const personalItems = [
   { label: "设置", href: "/settings" },
 ];
 
-function BackToTop() {
-  const [visible, setVisible] = useState(false);
-
-  useEffect(() => {
-    let ticking = false;
-    const handleScroll = () => {
-      if (ticking) return;
-      ticking = true;
-      requestAnimationFrame(() => {
-        setVisible(window.scrollY > 300);
-        ticking = false;
-      });
-    };
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
-  return (
-    <button
-      type="button"
-      aria-label="回到顶部"
-      onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-      className={`fixed bottom-6 right-6 z-40 flex h-11 w-11 items-center justify-center rounded-full bg-surface/80 backdrop-blur-sm shadow-md border border-ink/10 text-light-ink hover:text-cinnabar hover:border-cinnabar/30 transition-all duration-300 active:scale-95 md:bottom-8 md:right-8 md:h-11 md:w-11 ${
-        visible
-          ? "translate-y-0 opacity-100 pointer-events-auto"
-          : "translate-y-12 opacity-0 pointer-events-none"
-      }`}
-    >
-      <svg
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        className="h-5 w-5"
-      >
-        <path d="m18 15-6-6-6 6" />
-      </svg>
-    </button>
-  );
-}
-
 export default function Footer() {
   const [isMac, setIsMac] = useState(false);
 
@@ -69,7 +26,6 @@ export default function Footer() {
 
   return (
     <>
-      <BackToTop />
       <footer className="relative w-full py-16 md:py-24">
         {/* Decorative top line */}
         <div className="mx-auto max-w-[1100px] px-6">
@@ -165,11 +121,6 @@ export default function Footer() {
             </div>
           </div>
 
-          {/* Bottom bar */}
-          <div className="mt-12 flex flex-col items-center justify-between gap-3 font-serif text-xs text-muted md:flex-row">
-            <span>{new Date().getFullYear()} · {String(new Date().getMonth() + 1).padStart(2, "0")}</span>
-            <span>让千年文字"活"起来</span>
-          </div>
         </div>
       </footer>
     </>

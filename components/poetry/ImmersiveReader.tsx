@@ -9,6 +9,7 @@ import ProgressDots from "./ProgressDots";
 import { IconArrowLeft } from "@/components/icons";
 import { useNavbarVisibility } from "@/components/NavbarVisibilityContext";
 import { speak, stop as stopTTS, isSupported as ttsSupported } from "@/lib/tts";
+import { speakAI, stopAI } from "@/lib/ai-tts";
 
 interface ImmersiveReaderProps {
   poem: Poem;
@@ -102,6 +103,7 @@ export default function ImmersiveReader({ poem, onBack }: ImmersiveReaderProps) 
     return () => {
       setNavbarVisible(true);
       clearProgramScrollTimer();
+      stopAI();
       stopTTS();
     };
   }, [setNavbarVisible, clearProgramScrollTimer]);
@@ -139,7 +141,6 @@ export default function ImmersiveReader({ poem, onBack }: ImmersiveReaderProps) 
   // 自动朗诵核心逻辑：当 currentSlide 变化且自动朗诵开启时，朗读当前诗句
   useEffect(() => {
     if (!autoReciteRef.current || pausedRef.current) return;
-    if (!ttsSupported()) return;
 
     // 封面页和结尾页不朗读
     if (currentSlide === 0) {
@@ -154,6 +155,7 @@ export default function ImmersiveReader({ poem, onBack }: ImmersiveReaderProps) 
 
     if (currentSlide === totalSlides - 1) {
       // 结尾页：停止朗诵
+      stopAI();
       stopTTS();
       setAutoRecite(false);
       autoReciteRef.current = false;
@@ -163,32 +165,49 @@ export default function ImmersiveReader({ poem, onBack }: ImmersiveReaderProps) 
     const text = getSlideText(currentSlide);
     if (!text) return;
 
-    // 朗读当前诗句，完后等待 1 秒翻到下一句
-    speak(text, {
-      onEnd: () => {
+    // 朗读结束后的回调：等待 1 秒翻到下一句
+    const handleEnd = () => {
+      if (!autoReciteRef.current || pausedRef.current) return;
+      const timer = setTimeout(() => {
         if (!autoReciteRef.current || pausedRef.current) return;
-        const timer = setTimeout(() => {
-          if (!autoReciteRef.current || pausedRef.current) return;
-          const next = Math.min(currentSlide + 1, totalSlides - 1);
-          if (next !== currentSlide) goToSlide(next);
-        }, 1000);
-        // Store timer for cleanup
-        advanceTimerRef.current = timer;
-      },
+        const next = Math.min(currentSlide + 1, totalSlides - 1);
+        if (next !== currentSlide) goToSlide(next);
+      }, 1000);
+      advanceTimerRef.current = timer;
+    };
+
+    // 朗读出错后的回调：等待 1.5 秒翻到下一句
+    const handleError = () => {
+      if (!autoReciteRef.current || pausedRef.current) return;
+      const timer = setTimeout(() => {
+        if (!autoReciteRef.current || pausedRef.current) return;
+        const next = Math.min(currentSlide + 1, totalSlides - 1);
+        if (next !== currentSlide) goToSlide(next);
+      }, 1500);
+      advanceTimerRef.current = timer;
+    };
+
+    // 优先使用 AI TTS（晓晓女声，节奏稍慢），失败时 fallback 到浏览器朗读
+    speakAI(text, {
+      voice: "xiaoxiao",
+      rate: -15,
+      onEnd: handleEnd,
       onError: () => {
-        // 出错时也继续翻页
-        if (!autoReciteRef.current || pausedRef.current) return;
-        const timer = setTimeout(() => {
-          if (!autoReciteRef.current || pausedRef.current) return;
-          const next = Math.min(currentSlide + 1, totalSlides - 1);
-          if (next !== currentSlide) goToSlide(next);
-        }, 1500);
-        advanceTimerRef.current = timer;
+        // AI TTS 失败，fallback 到浏览器 Web Speech API
+        if (ttsSupported()) {
+          speak(text, {
+            onEnd: handleEnd,
+            onError: handleError,
+          });
+        } else {
+          handleError();
+        }
       },
     });
 
     return () => {
       // 清理：当 slide 变化或组件卸载时停止当前朗读
+      stopAI();
       stopTTS();
     };
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -208,11 +227,10 @@ export default function ImmersiveReader({ poem, onBack }: ImmersiveReaderProps) 
 
   // 切换自动朗诵
   const handleToggleAutoRecite = useCallback(() => {
-    if (!ttsSupported()) return;
-
     if (autoRecite) {
       // 正在朗诵中：暂停
       if (!paused) {
+        stopAI();
         stopTTS();
         setPaused(true);
         pausedRef.current = true;
@@ -240,6 +258,7 @@ export default function ImmersiveReader({ poem, onBack }: ImmersiveReaderProps) 
   // 手动导航时关闭自动朗诵
   const handleDotClick = useCallback((index: number) => {
     if (autoReciteRef.current) {
+      stopAI();
       stopTTS();
       setAutoRecite(false);
       autoReciteRef.current = false;
@@ -269,6 +288,7 @@ export default function ImmersiveReader({ poem, onBack }: ImmersiveReaderProps) 
       if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy) * 1.5) {
         // 滑动手势导航时关闭自动朗诵
         if (autoReciteRef.current) {
+          stopAI();
           stopTTS();
           setAutoRecite(false);
           autoReciteRef.current = false;
@@ -285,6 +305,7 @@ export default function ImmersiveReader({ poem, onBack }: ImmersiveReaderProps) 
   );
 
   const handleBack = useCallback(() => {
+    stopAI();
     stopTTS();
     setNavbarVisible(true);
     onBack();
@@ -300,6 +321,7 @@ export default function ImmersiveReader({ poem, onBack }: ImmersiveReaderProps) 
         e.preventDefault();
         // 手动导航时关闭自动朗诵
         if (autoReciteRef.current) {
+          stopAI();
           stopTTS();
           setAutoRecite(false);
           autoReciteRef.current = false;
@@ -311,6 +333,7 @@ export default function ImmersiveReader({ poem, onBack }: ImmersiveReaderProps) 
       } else if (e.key === "ArrowUp" || e.key === "ArrowLeft") {
         e.preventDefault();
         if (autoReciteRef.current) {
+          stopAI();
           stopTTS();
           setAutoRecite(false);
           autoReciteRef.current = false;
@@ -334,6 +357,7 @@ export default function ImmersiveReader({ poem, onBack }: ImmersiveReaderProps) 
   }, [currentSlide, totalSlides, handleDotClick, handleBack, handleToggleAutoRecite]);
 
   const handleRestart = () => {
+    stopAI();
     stopTTS();
     const container = containerRef.current;
     if (!container) return;
@@ -363,17 +387,17 @@ export default function ImmersiveReader({ poem, onBack }: ImmersiveReaderProps) 
       {/* Back button with safe area support */}
       <button
         onClick={handleBack}
-        className="fixed left-[max(0.75rem,env(safe-area-inset-left))] top-[max(0.75rem,env(safe-area-inset-top))] z-50 flex h-9 w-9 md:h-10 md:w-auto cursor-pointer items-center justify-center gap-1 rounded-full bg-black/30 px-0 md:px-4 md:py-2 font-serif text-sm text-white backdrop-blur-sm transition-colors hover:bg-black/50 active:scale-95"
+        className="fixed left-[max(0.75rem,env(safe-area-inset-left))] top-[max(0.75rem,env(safe-area-inset-top))] z-50 flex cursor-pointer items-center justify-center gap-1 rounded-full bg-black/30 px-3 py-1.5 font-serif text-[11px] text-white backdrop-blur-sm transition-colors hover:bg-black/50 active:scale-95 md:gap-1.5 md:px-4 md:py-2 md:text-sm"
       >
-        <IconArrowLeft className="h-4 w-4" />
-        <span className="hidden md:inline">返回</span>
+        <IconArrowLeft className="h-3.5 w-3.5 md:h-4 md:w-4" />
+        <span>返回</span>
       </button>
 
       {/* 自动朗诵控制按钮 — 结尾页不显示（没有诗句可朗诵） */}
-      {ttsSupported() && currentSlide < totalSlides - 1 && (
+      {currentSlide < totalSlides - 1 && (
         <button
           onClick={handleToggleAutoRecite}
-          className={`fixed right-[max(0.75rem,env(safe-area-inset-right))] top-[max(0.75rem,env(safe-area-inset-top))] z-50 flex h-9 w-9 md:h-auto md:w-auto cursor-pointer items-center justify-center md:justify-start md:gap-1.5 rounded-full px-0 md:px-4 md:py-2 font-serif text-sm backdrop-blur-sm transition-all active:scale-95 ${
+          className={`fixed right-[max(0.75rem,env(safe-area-inset-right))] top-[max(0.75rem,env(safe-area-inset-top))] z-50 flex cursor-pointer items-center justify-center gap-1 rounded-full px-3 py-1.5 font-serif text-[11px] backdrop-blur-sm transition-all active:scale-95 md:gap-1.5 md:px-4 md:py-2 md:text-sm ${
             autoRecite
               ? paused
                 ? "bg-cinnabar/80 text-white"
@@ -394,7 +418,7 @@ export default function ImmersiveReader({ poem, onBack }: ImmersiveReaderProps) 
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 24 24"
               fill="currentColor"
-              className="h-4 w-4"
+              className="h-3.5 w-3.5 md:h-4 md:w-4"
             >
               <rect x="6" y="5" width="4" height="14" rx="1" />
               <rect x="14" y="5" width="4" height="14" rx="1" />
@@ -405,7 +429,7 @@ export default function ImmersiveReader({ poem, onBack }: ImmersiveReaderProps) 
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 24 24"
               fill="currentColor"
-              className="h-4 w-4"
+              className="h-3.5 w-3.5 md:h-4 md:w-4"
             >
               <path d="M8 5v14l11-7z" />
             </svg>
@@ -419,18 +443,18 @@ export default function ImmersiveReader({ poem, onBack }: ImmersiveReaderProps) 
               strokeWidth="2"
               strokeLinecap="round"
               strokeLinejoin="round"
-              className="h-4 w-4"
+              className="h-3.5 w-3.5 md:h-4 md:w-4"
             >
               <path d="M11 5 6 9H2v6h4l5 4V5z" />
               <path d="M15.54 8.46a5 5 0 0 1 0 7.07" />
               <path d="M19.07 4.93a10 10 0 0 1 0 14.14" />
             </svg>
           )}
-          <span className="hidden sm:inline">
+          <span>
             {autoRecite ? (paused ? "继续" : "暂停") : "朗诵"}
           </span>
           {autoRecite && !paused && (
-            <span className="ml-0.5 hidden items-center gap-0.5 sm:flex">
+            <span className="ml-0.5 hidden items-center gap-0.5 md:flex">
               <span
                 className="h-1 w-1 rounded-full bg-white animate-pulse"
                 style={{ animationDelay: "0ms" }}

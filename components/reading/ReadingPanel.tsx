@@ -6,6 +6,7 @@ import ReadingControls, { type FontSize } from "./ReadingControls";
 import SentenceCard from "./SentenceCard";
 import { IconPaw } from "@/components/icons";
 import { speak, stop, isSupported } from "@/lib/tts";
+import { speakAI, stopAI } from "@/lib/ai-tts";
 
 interface ReadingPanelProps {
   chapter: Chapter;
@@ -60,11 +61,15 @@ export default function ReadingPanel({
 
   // 组件卸载时停止朗读
   useEffect(() => {
-    return () => stop();
+    return () => {
+      stopAI();
+      stop();
+    };
   }, []);
 
   // Scroll to top when chapter changes (instant, not smooth, for clear context switch)
   useEffect(() => {
+    stopAI();
     stop();
     setListenMode("idle");
     setListenIndex(-1);
@@ -81,11 +86,6 @@ export default function ReadingPanel({
   // ===== 听书核心逻辑：当 listenMode=playing 时逐句朗读 =====
   useEffect(() => {
     if (listenMode !== "playing") return;
-    if (!isSupported()) {
-      setListenMode("idle");
-      setListenIndex(-1);
-      return;
-    }
     // 读完所有句子 → 停止
     if (listenIndex < 0 || listenIndex >= chapter.sentences.length) {
       setListenMode("idle");
@@ -110,19 +110,32 @@ export default function ReadingPanel({
       }
     }
 
-    speak(text, {
-      onEnd: () => {
-        if (listenModeRef.current !== "playing") return;
-        setListenIndex((prev) => prev + 1);
-      },
+    // 读完一句后的回调：朗读下一句
+    const handleAdvance = () => {
+      if (listenModeRef.current !== "playing") return;
+      setListenIndex((prev) => prev + 1);
+    };
+
+    // 优先使用 AI TTS（云健浑厚男声，节奏稍慢），失败时 fallback 到浏览器朗读
+    speakAI(text, {
+      voice: "yunjian",
+      rate: -10,
+      onEnd: handleAdvance,
       onError: () => {
-        if (listenModeRef.current !== "playing") return;
-        // 出错时也继续下一句，避免卡住
-        setListenIndex((prev) => prev + 1);
+        // AI TTS 失败，fallback 到浏览器 Web Speech API
+        if (isSupported()) {
+          speak(text, {
+            onEnd: handleAdvance,
+            onError: handleAdvance,
+          });
+        } else {
+          handleAdvance();
+        }
       },
     });
 
     return () => {
+      stopAI();
       stop();
     };
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -138,6 +151,7 @@ export default function ReadingPanel({
       setListenIndex(startIdx >= 0 ? startIdx : 0);
       setListenMode("playing");
     } else if (listenMode === "playing") {
+      stopAI();
       stop();
       setListenMode("paused");
     } else {

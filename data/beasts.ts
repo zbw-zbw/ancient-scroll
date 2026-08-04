@@ -622,7 +622,7 @@ export const beasts: Beast[] = [
       "再往东五百里，有座鸡山，山上盛产黄金，山下盛产丹雘。黑水从这座山发源，向南流入大海。水中有一种鱄鱼，形状像鲫鱼却长着猪毛，叫声像猪叫，它一出现天下就会大旱。",
     traits: ["鱼身彘毛", "声如豚", "旱灾预兆"],
     gradient: ["#d97706", "#fbbf24"],
-    imagePath: "/images/beasts/zhuanyu.jpg",
+    imagePath: "/images/beasts/zhuanyu.webp",
     description:
       "鱄鱼是一种形似鲫鱼却长着猪毛的异鱼，叫声如猪哼。它出现在哪里，哪里便赤地千里、大旱成灾，是先民将旱灾与水族异象联系在一起的典型表达。",
   },
@@ -637,7 +637,7 @@ export const beasts: Beast[] = [
       "再往东五百里，有座丹穴山，山上盛产金属矿物和美玉。丹水从这座山发源，向南流入渤海。山中有一种鸟，形状像鸡，身上有五彩花纹，名叫凤凰。它头上的花纹是德字，翅膀上的花纹是义字，背上的花纹是礼字，胸部的花纹是仁字，腹部的花纹是信字。这种鸟饮食自然，自己唱歌自己跳舞，它一出现天下就会安宁。",
     traits: ["五采文", "德义礼仁信", "天下安宁"],
     gradient: ["#dc2626", "#f59e0b"],
-    imagePath: "/images/beasts/fenghuang.jpg",
+    imagePath: "/images/beasts/fenghuang.webp",
     description:
       "凤凰是百鸟之王，山海经中记载它形似鸡而身披五彩花纹，头上花纹为德，翅膀为义，背部为礼，胸部为仁，腹部为信，五德兼备。它饮食自然、自歌自舞，出现则天下安宁，是中华文化中最崇高的祥瑞象征。",
   },
@@ -652,7 +652,7 @@ export const beasts: Beast[] = [
       "再往东四百里，有座令丘山，山上不长草木，到处是野火。山的南面有个山谷，名叫中谷，东北风从这里吹出。山中有一种鸟，形状像猫头鹰，长着人的脸和四只眼睛，还有耳朵，名叫颙，它的叫声就像在呼唤自己的名字，它一出现天下就会大旱。",
     traits: ["人面四目", "枭形", "旱灾预兆"],
     gradient: ["#b45309", "#fbbf24"],
-    imagePath: "/images/beasts/yu.jpg",
+    imagePath: "/images/beasts/yu.webp",
     description:
       "颙是一种形似猫头鹰却长着人面和四只眼睛的怪鸟，栖息于令丘山的火谷之中。它一出现便预示天下大旱，四目人面的形象诡异而可怖，是先民对旱灾恐惧的具象化表达。",
   },
@@ -667,7 +667,7 @@ export const beasts: Beast[] = [
       "浪水从祷过山发源，向南流入大海。水中有一种虎蛟，长着鱼的身体和蛇的尾巴，叫声像鸳鸯，吃了它的肉可以不患肿病，还可以治愈痔疮。",
     traits: ["鱼身蛇尾", "声如鸳鸯", "治痔"],
     gradient: ["#0891b2", "#0e7490"],
-    imagePath: "/images/beasts/hujiao.jpg",
+    imagePath: "/images/beasts/hujiao.webp",
     description:
       "虎蛟是一种生于浪水之中的奇异水族，长着鱼的身体和蛇的尾巴，叫声婉转如鸳鸯。它的肉可治肿病和痔疮，兼具凶猛外表与治愈之力，体现了山海经中以异治异的朴素智慧。",
   },
@@ -682,7 +682,7 @@ export const beasts: Beast[] = [
       "山中有一种鸟，形状像鵁鸟却长着白色的头，有三只脚，人的脸，名叫瞿如，它的叫声就像在呼唤自己的名字。",
     traits: ["白首三足", "人面", "鸣自号"],
     gradient: ["#6366f1", "#a5b4fc"],
-    imagePath: "/images/beasts/quru.jpg",
+    imagePath: "/images/beasts/quru.webp",
     description:
       "瞿如是一种三足人面的怪鸟，白色的头颅格外醒目。它的叫声如同在呼唤自己的名字，在南山经的奇禽中以其独特的三足形态与人面特征而令人印象深刻。",
   },
@@ -697,7 +697,7 @@ export const beasts: Beast[] = [
       "山中有一种兽，形状像羊却长着四只角，名叫土蝼，会吃人。山中有一种鸟，形状像蜂，大小如鸳鸯，名叫钦原，它螫鸟兽则鸟兽死，螫树木则树木枯。",
     traits: ["羊形四角", "食人"],
     gradient: ["#78350f", "#a16207"],
-    imagePath: "/images/beasts/tulou.jpg",
+    imagePath: "/images/beasts/tulou.webp",
     description:
       "土蝼外形似羊却长着四只角，看似温顺实则凶猛，会吃人。它栖息于昆仑山西麓，与同地的毒鸟钦原并列为山中两大凶物，羊的外表下藏着致命的危险。",
   },
@@ -712,7 +712,7 @@ export const beasts: Beast[] = [
       "再往西三百五十里，有座玉山，是西王母居住的地方。西王母的形状像人，长着豹子的尾巴和老虎的牙齿，善于长啸，蓬松的头发上戴着玉胜，她掌管天上的瘟疫和五刑。",
     traits: ["豹尾虎齿", "蓬发戴胜", "司天之厉"],
     gradient: ["#7c3aed", "#c084fc"],
-    imagePath: "/images/beasts/xiwangmu.jpg",
+    imagePath: "/images/beasts/xiwangmu.webp",
     description:
       "西王母是山海经中最原始的女神形象，豹尾虎齿、蓬发戴胜，掌管天上的瘟疫和五刑。这一形象与后世慈祥的王母娘娘截然不同，保留着上古女神狞厉而威猛的原初面貌。",
   },
@@ -727,7 +727,7 @@ export const beasts: Beast[] = [
       "山中有一种兽，形状像狗却长着豹子的花纹，角像牛角，名叫狡，叫声像狗叫，它一出现那个国家就会大丰收。山中有一种鸟，形状像野鸡却是红色的，名叫胜遇，以鱼为食，叫声像鹿鸣，它一出现那个国家就会发大水。",
     traits: ["犬形豹文", "角如牛", "丰收之兆"],
     gradient: ["#ca8a04", "#eab308"],
-    imagePath: "/images/beasts/jiao.jpg",
+    imagePath: "/images/beasts/jiao.webp",
     description:
       "狡是一种形似狗却长着豹纹和牛角的异兽，叫声如犬吠。与多数预兆灾祸的异兽不同，它的出现预示着天下大丰收，是山海经中罕见的祥瑞之兽。",
   },
@@ -742,7 +742,7 @@ export const beasts: Beast[] = [
       "再往西二百六十里，有座邽山。山上有一种兽，形状像牛，长着刺猬一样的毛，名叫穷奇，叫声像嚎叫的狗，会吃人。濛水从这座山发源，向南流入洋水，水中有很多黄色的贝。",
     traits: ["牛形猬毛", "声如獆狗", "食人"],
     gradient: ["#1e293b", "#475569"],
-    imagePath: "/images/beasts/qiongqi.jpg",
+    imagePath: "/images/beasts/qiongqi.webp",
     description:
       "穷奇是上古四大凶兽之一，外形似牛而浑身猬毛，叫声如嚎狗，会吃人。后世传说中它能听懂人言，专门惩善扬恶，成为背信弃义的象征，在山海经中则是纯粹的食人猛兽。",
   },
@@ -757,7 +757,7 @@ export const beasts: Beast[] = [
       "山中有一种鸟，形状像野鸭，却只有一只脚和猪一样的尾巴，名叫蛮蛮，它一出现天下就会发大水。",
     traits: ["凫形一足", "彘尾", "水灾预兆"],
     gradient: ["#0284c7", "#7dd3fc"],
-    imagePath: "/images/beasts/manman.jpg",
+    imagePath: "/images/beasts/manman.webp",
     description:
       "蛮蛮形似野鸭却只有一足，还拖着猪一样的尾巴。它一出现天下便会洪水成灾，是水患的凶兆。后世有说法认为蛮蛮即比翼鸟，但在此处它分明是带来洪灾的不祥之鸟。",
   },
@@ -772,7 +772,7 @@ export const beasts: Beast[] = [
       "再往西三百五十里，有座昆仑丘，这里其实是天帝在下界的都城。陆吾掌管此地，他的神形是老虎的身体和九条尾巴，人的面孔和老虎的爪子。这位神灵掌管天上的九部以及天帝园圃的时节。",
     traits: ["虎身九尾", "人面虎爪", "司天之九部"],
     gradient: ["#d97706", "#7c3aed"],
-    imagePath: "/images/beasts/luwu.jpg",
+    imagePath: "/images/beasts/luwu.webp",
     description:
       "陆吾是天帝下都昆仑丘的守护神，虎身九尾、人面虎爪，掌管天上九部及天帝园圃的时节。它的形象威猛庄严，是昆仑神话体系中最重要的守卫者，地位堪比西方神话中的守护巨兽。",
   },
@@ -787,7 +787,7 @@ export const beasts: Beast[] = [
       "再往北三百二十里，有座蔓渠山，山上盛产金属矿物和美玉，山下多竹箭。伊水从这座山发源，向东流入洛水。山中有一种兽，名叫马腹，形状像人面虎身，叫声像婴儿啼哭，会吃人。",
     traits: ["人面虎身", "声如婴儿", "食人"],
     gradient: ["#991b1b", "#dc2626"],
-    imagePath: "/images/beasts/mafu.jpg",
+    imagePath: "/images/beasts/mafu.webp",
     description:
       "马腹是一种人面虎身的食人猛兽，叫声如婴儿啼哭，栖息于蔓渠山中。它以婴儿般的哭声迷惑旅人，再伺机捕食，是北山经中令行旅者闻风丧胆的凶兽。",
   },
@@ -802,7 +802,7 @@ export const beasts: Beast[] = [
       "再往北三百里，有座带山，山上盛产玉石，山下多青碧色的美石。山中有一种兽，形状像马，长着一只角，角上有错纹，名叫䑏疏，可以用来辟防火灾。",
     traits: ["马形一角", "角有错纹", "辟火"],
     gradient: ["#6b7280", "#9ca3af"],
-    imagePath: "/images/beasts/huanshu.jpg",
+    imagePath: "/images/beasts/huanshu.webp",
     description:
       "䑏疏外形似马，额生一角且角上有错纹，最大的神通是能辟除火灾。在先民对山火的深深恐惧中，䑏疏被视为天然的防火神兽，其一角之形也成为辟火护佑的象征。",
   },
@@ -815,7 +815,7 @@ export const beasts: Beast[] = [
     translation: "有一种名叫窫窳的异兽，长着龙的头，会吃人。",
     traits: ["龙首", "食人"],
     gradient: ["#166534", "#15803d"],
-    imagePath: "/images/beasts/yayu.jpg",
+    imagePath: "/images/beasts/yayu.webp",
     description:
       "窫窳是一种龙首食人的凶兽，传说曾遭天神贰负及其臣子危所杀。它在山海经中多次出现，形象各异——或如牛四角，或龙首食人，是上古神话中令人畏惧的食人异兽之一。",
   },
@@ -830,7 +830,7 @@ export const beasts: Beast[] = [
       "再向东北二百里，有座天池山，山上不长草木，遍布带花纹的石头。山中有一种兽，形状像兔子却长着老鼠的头，用背飞行，名叫飞鼠。",
     traits: ["兔形鼠首", "以背飞"],
     gradient: ["#78716c", "#a8a29e"],
-    imagePath: "/images/beasts/feishu.jpg",
+    imagePath: "/images/beasts/feishu.webp",
     description:
       "飞鼠形似兔子却长着老鼠的头，最奇特之处在于能以背部飞翔。这种用背飞行的姿态在众多异兽中独树一帜，折射出先民对自然界鼯鼠类动物滑翔能力的原始观察与想象。",
   },
@@ -845,7 +845,7 @@ export const beasts: Beast[] = [
       "再往北二百里，有座泰头山，山上盛产金属矿物和美玉，山下多竹箭。山中有一种兽，形状像牛却拖着长尾巴，四脚长着长毛，名叫领胡，叫声就像在呼唤自己的名字，它一出现那个国家就会大败。",
     traits: ["牛形长尾", "四足毫", "败兆"],
     gradient: ["#92400e", "#d97706"],
-    imagePath: "/images/beasts/linghu.jpg",
+    imagePath: "/images/beasts/linghu.webp",
     description:
       "领胡外形似牛却拖着长尾，四足生有长毛，叫声如同呼唤自己的名字。它是不祥之兽——一旦现身，所在之国便会兵败如山，是战败覆灭的凶兆。",
   },
@@ -860,7 +860,7 @@ export const beasts: Beast[] = [
       "再往北三百二十里，有座阳山，山上盛产玉石，山下盛产金铜。山中有一种鸟，形状像雌野鸡，身上有五彩花纹，雌雄同体，名叫象蛇，叫声就像在呼唤自己的名字。",
     traits: ["雌雉形", "五彩文", "雌雄同体"],
     gradient: ["#c026d3", "#e879f9"],
-    imagePath: "/images/beasts/xiangshe.jpg",
+    imagePath: "/images/beasts/xiangshe.webp",
     description:
       "象蛇形似雌野鸡却身披五彩花纹，最奇特之处在于雌雄同体、自为牝牡。这种双性同体的特性在山海经中极为罕见，使象蛇成为先民对生命繁衍与性别奥秘的独特想象。",
   },
@@ -875,7 +875,7 @@ export const beasts: Beast[] = [
       "再往北一百里，有座景山，山上盛产玉石，山下多青碧色的美石。山中有一种鸟，形状像蛇却长着四只翅膀、三只脚，名叫酸与，叫声就像在呼唤自己的名字，它一出现那个城邑就会有恐慌之事。",
     traits: ["蛇形四翼三足", "恐慌预兆"],
     gradient: ["#0d9488", "#5eead4"],
-    imagePath: "/images/beasts/suanyu.jpg",
+    imagePath: "/images/beasts/suanyu.webp",
     description:
       "酸与形似蛇却长着四只翅膀和三只脚，外形怪诞至极。它一出现便预示城邑中将发生恐慌之事，是先民将不可名状的恐惧寄托于怪异生灵之上的典型表达。",
   },
@@ -890,7 +890,7 @@ export const beasts: Beast[] = [
       "再往北三百五十里，有座钩吾山，山上盛产玉石，山下盛产铜。山中有一种兽，形状是羊的身体和人的面孔，眼睛长在腋下，长着老虎的牙齿和人的爪子，叫声像婴儿啼哭，名叫狍鸮，会吃人。",
     traits: ["羊身人面", "目在腋下", "虎齿人爪", "食人"],
     gradient: ["#7c2d12", "#dc2626"],
-    imagePath: "/images/beasts/paoxiao.jpg",
+    imagePath: "/images/beasts/paoxiao.webp",
     description:
       "狍鸮是北山经中最骇人的食人猛兽之一，羊身人面、虎齿人爪，眼睛竟长在腋下。它以婴儿般的啼哭声诱人靠近，再以虎齿人爪撕咬吞噬，许多学者认为狍鸮即饕餮的原型之一。",
   },
@@ -904,7 +904,7 @@ export const beasts: Beast[] = [
       "山中有一种鸟，形状像鸡却长着老鼠一样的毛，名叫䖪鼠，它一出现那个城邑就会大旱。",
     traits: ["鸡形鼠毛", "旱灾预兆"],
     gradient: ["#b45309", "#fbbf24"],
-    imagePath: "/images/beasts/zishu.jpg",
+    imagePath: "/images/beasts/zishu.webp",
     description:
       "䖪鼠形似鸡却覆盖着老鼠般的粗毛，外表滑稽却是不祥之兆。它一出现当地便大旱成灾，鸡与鼠两种截然不同的特征集于一身，是先民将旱灾与怪异生灵联系的又一例证。",
   },
@@ -919,7 +919,7 @@ export const beasts: Beast[] = [
       "𣲵水从这座山发源，向北流入湖水。水中有很多箴鱼，形状像儵鱼，嘴像针一样尖，吃了可以不生瘟疫。",
     traits: ["状如儵", "喙如箴", "无疫疾"],
     gradient: ["#0284c7", "#38bdf8"],
-    imagePath: "/images/beasts/zhenyu.jpg",
+    imagePath: "/images/beasts/zhenyu.webp",
     description:
       "箴鱼形状似儵鱼，嘴细长如针，因而得名。吃了它的肉可以不生瘟疫，在缺医少药的上古时代，这种针嘴小鱼被视为抵御疫病的天然良药。",
   },
@@ -934,7 +934,7 @@ export const beasts: Beast[] = [
       "再往东二百里，有座子桐山，子桐水从这座山发源，向西流入余如水。水中有很多䱤鱼，形状像鱼却长着鸟的翅膀，出入水中时闪闪发光，叫声像鸳鸯，它一出现天下就会大旱。",
     traits: ["鱼身鸟翼", "出入有光", "旱灾预兆"],
     gradient: ["#d97706", "#fbbf24"],
-    imagePath: "/images/beasts/hanyu.jpg",
+    imagePath: "/images/beasts/hanyu.webp",
     description:
       "䱤鱼长着鱼身和鸟翼，出入水面时通体发光，叫声如鸳鸯。它一出现天下便大旱，兼具瑰丽与不祥的双重特质，是先民对旱魃之苦与水中异象交织的想象。",
   },
@@ -949,7 +949,7 @@ export const beasts: Beast[] = [
       "再往东北二百里，有座剡山，盛产金属矿物和美玉。山中有一种兽，形状像猪却长着人的面孔，黄色的身子红色的尾巴，名叫合窳，叫声像婴儿啼哭，这种兽会吃人，也吃虫和蛇，它一出现天下就会发大水。",
     traits: ["彘形人面", "声如婴儿", "食人食虫蛇", "水灾预兆"],
     gradient: ["#1e3a8a", "#3b82f6"],
-    imagePath: "/images/beasts/heyu.jpg",
+    imagePath: "/images/beasts/heyu.webp",
     description:
       "合窳形似猪却长着人的面孔，黄身赤尾，叫声如婴儿啼哭。它既食人也食虫蛇，所到之处洪水成灾，是水患与食人双重威胁的化身，其人面猪身的形象诡异而骇人。",
   },
@@ -964,7 +964,7 @@ export const beasts: Beast[] = [
       "再往东二百里，有座太山，山上盛产金属矿物、美玉和桢木。山中有一种兽，形状像牛却长着白色的头，一只眼睛和蛇一样的尾巴，名叫蜚，它经过水则水干涸，经过草则草枯死，它一出现天下就会大瘟疫。",
     traits: ["牛形白首", "一目蛇尾", "行水则竭", "疫灾预兆"],
     gradient: ["#166534", "#dc2626"],
-    imagePath: "/images/beasts/fei.jpg",
+    imagePath: "/images/beasts/fei.webp",
     description:
       "蜚是东山经中最恐怖的疫灾之兽，牛身白首、一目蛇尾。它经过的水会干涸、经过的草会枯死，所到之处瘟疫横行，是大自然毁灭力量的具象化身，后世常以蜚为瘟疫的代名词。",
   },
@@ -979,7 +979,7 @@ export const beasts: Beast[] = [
       "再往南三百里，有座姑逢山，山上不长草木，盛产金属矿物和美玉。山中有一种鸟，形状像老鹰却长着人的眼睛，名叫絜钩，它一出现那个国家就会发生大战。",
     traits: ["鸢形人目", "战乱预兆"],
     gradient: ["#7c2d12", "#b45309"],
-    imagePath: "/images/beasts/xiegou.jpg",
+    imagePath: "/images/beasts/xiegou.webp",
     description:
       "絜钩形似老鹰却长着人的眼睛，目光中透着战争的肃杀。它一出现便预示国家将遭兵燹之祸，人目鸢形的组合既有鹰隼的凌厉又有人心的诡谲，是战乱将至的不祥之兆。",
   },
@@ -994,7 +994,7 @@ export const beasts: Beast[] = [
       "有一种树，形状像牛，拉它有树皮，像帽缨和黄蛇，叶子像罗网，果实像栾树果，树干像蓲树，它的名字叫建木。",
     traits: ["状如牛", "百仞无枝", "沟通天地"],
     gradient: ["#15803d", "#84cc16"],
-    imagePath: "/images/beasts/jianmu.jpg",
+    imagePath: "/images/beasts/jianmu.webp",
     description:
       "建木是传说中沟通天地的神树，高达百仞却无旁枝，形状奇特如牛。它是天神往来天界与人间的天梯，在先民的宇宙观中，建木是连接天地、贯通神人的枢纽，地位至为崇高。",
   },
@@ -1009,7 +1009,7 @@ export const beasts: Beast[] = [
       "从极渊深三百仞，是冰夷常驻的地方。冰夷长着人的面孔，乘着两条龙。",
     traits: ["人面", "乘两龙", "河伯"],
     gradient: ["#0ea5e9", "#22d3ee"],
-    imagePath: "/images/beasts/bingyi.jpg",
+    imagePath: "/images/beasts/bingyi.webp",
     description:
       "冰夷即河伯，是上古神话中的黄河之神，人面而乘两龙，常驻于深三百仞的从极渊中。他掌管天下水脉，是先民对黄河这一中华母亲河敬畏与崇拜的拟人化表达。",
   },
@@ -1023,7 +1023,7 @@ export const beasts: Beast[] = [
       "山中有一种鸟，形状像鴢鸟却长着白色的眼睛和红色的脚，名叫𫛩，吃了它的肉可以不生疽病。",
     traits: ["鴢形", "白目赤足", "治疽"],
     gradient: ["#0891b2", "#67e8f9"],
-    imagePath: "/images/beasts/yan.jpg",
+    imagePath: "/images/beasts/yan.webp",
     description:
       "𫛩是一种形似鴢鸟的水禽，白眼赤足，吃了它的肉可以不生疽病。在山海经众多以食治疾的异鸟中，𫛩虽不起眼，却以其独特的外貌和疗疾之能，为先民提供了一味天然的药材。",
   },
@@ -1038,7 +1038,7 @@ export const beasts: Beast[] = [
       "山上有一种草，形状像葌草，茎是方形的，开黄色的花结红色的果实，根部像藁本，名叫荀草，吃了可以使人面色美丽。",
     traits: ["方茎", "黄华赤实", "美人色"],
     gradient: ["#e11d48", "#f472b6"],
-    imagePath: "/images/beasts/xuncao.jpg",
+    imagePath: "/images/beasts/xuncao.webp",
     description:
       "荀草是一种神奇灵草，方茎黄华赤实，根部如藁本，吃了可以使人面色红润美丽。在先民对容颜之美的追求中，荀草被视为天然的美容灵药，体现了上古时代草木皆药的生活智慧。",
   },
@@ -1053,7 +1053,7 @@ export const beasts: Beast[] = [
       "武罗神掌管此山，他的形状是人的面孔和豹子般的花纹，腰很细，牙齿洁白，耳朵上穿着鐻作为耳饰，叫声像玉石相击的声音。这座山适宜女子居住。",
     traits: ["人面豹文", "小腰白齿", "穿耳以鐻"],
     gradient: ["#7c3aed", "#a78bfa"],
-    imagePath: "/images/beasts/wuluo.jpg",
+    imagePath: "/images/beasts/wuluo.webp",
     description:
       "武罗是中山经中的山神，人面豹文、细腰白齿，耳穿金玉之鐻，叫声如鸣玉般清脆。与其他狰狞可怖的山神不同，武罗的形象雍容华美，其神山宜于女子居住，是山海经中罕见的温婉神灵。",
   },
@@ -1068,7 +1068,7 @@ export const beasts: Beast[] = [
       "渠猪水从这座山发源，向南流入黄河。水中有很多豪鱼，形状像鲟鱼，红色的嘴和尾巴，还有红色的鳍，可以用来治疗白癣。",
     traits: ["状如鲔", "赤喙赤尾", "治白癣"],
     gradient: ["#0e7490", "#22d3ee"],
-    imagePath: "/images/beasts/haoyu.jpg",
+    imagePath: "/images/beasts/haoyu.webp",
     description:
       "豪鱼形状似鲟鱼，红嘴红尾红鳍，游弋于渠猪水中。它的肉可以治疗白癣，在远古时代皮肤病盛行的环境中，豪鱼被视为珍贵的天然药鱼，以红艳的色彩和疗疾之能著称。",
   },
@@ -1083,7 +1083,7 @@ export const beasts: Beast[] = [
       "再往东三十里，有座敏山，山上盛产金属矿物和美玉，山下有一种树，名叫蓟柏，叶子像楮树叶却开红色的花。山中有一种兽，形状像猪，黄色的身子白色的头和尾巴，名叫闻獜，它一出现天下就会刮大风。",
     traits: ["彘形", "黄身白首尾", "大风预兆"],
     gradient: ["#64748b", "#94a3b8"],
-    imagePath: "/images/beasts/wenlin.jpg",
+    imagePath: "/images/beasts/wenlin.webp",
     description:
       "闻獜形似猪，黄身白首白尾，色彩分明。它一出现天下便会狂风大作，是风灾的预兆。猪形而三色分明的奇特外貌，使闻獜在众多预兆风灾的异兽中独具辨识度。",
   },
@@ -1098,7 +1098,7 @@ export const beasts: Beast[] = [
       "有个人穿着青色衣服，名叫黄帝女魃。蚩尤兴兵讨伐黄帝，黄帝便命令应龙在冀州之野攻击他。应龙蓄水，蚩尤请来风伯雨师，降下狂风暴雨。黄帝便派天女魃下凡，雨停了，于是杀死了蚩尤。魃再也不能回到天上，她所住的地方就不会下雨。",
     traits: ["青衣", "天女", "旱神"],
     gradient: ["#b45309", "#fbbf24"],
-    imagePath: "/images/beasts/nuba.jpg",
+    imagePath: "/images/beasts/nuba.webp",
     description:
       "女魃是黄帝派下凡间的天女，身着青衣，能止风雨。她助黄帝击杀蚩尤后因神力耗尽无法重返天界，所居之地赤地千里、滴雨不下，由此成为旱灾的化身——后世祈雨时驱逐的旱魃，其源头正是这位悲剧性的天女。",
   },
@@ -1113,7 +1113,7 @@ export const beasts: Beast[] = [
       "山中有一种兽，长着人的面孔、豺狼的身子，有鸟的翅膀却能像蛇一样爬行，叫声像人的呵斥声，它一出现那个地方就会发生大水灾。",
     traits: ["人面豺身", "鸟翼蛇行", "大水预兆"],
     gradient: ["#0d9488", "#14b8a6"],
-    imagePath: "/images/beasts/huashe.jpg",
+    imagePath: "/images/beasts/huashe.webp",
     description:
       "化蛇是中山经中最奇异的混合体异兽之一。它集合了人的面孔、豺狼的躯体、鸟的翅膀和蛇的行迹于一身，四种截然不同的形态特征融为一体。它的叫声如同人的呵斥声，一旦出现便预示着大水将至，是水灾的凶兆之兽。",
   },
@@ -1128,7 +1128,7 @@ export const beasts: Beast[] = [
       "鹿吴山上没有草木，盛产金属矿物和玉石。泽更水从这座山发源，向南流入滂水。水中有一种兽，名叫蛊雕，形状像雕却长着角，叫声像婴儿的啼哭声，会吃人。",
     traits: ["雕形有角", "声如婴儿", "食人"],
     gradient: ["#7c2d12", "#c2410c"],
-    imagePath: "/images/beasts/gudiao.jpg",
+    imagePath: "/images/beasts/gudiao.webp",
     description:
       "蛊雕是一种形似雕鹫却长着角的凶猛食人异兽。它栖息于鹿吴山的泽更水中，叫声如婴儿啼哭，极具迷惑性——诱人靠近后将其捕食。雕首生角的独特外形与水中潜伏的习性，使其成为南山经中最令人畏惧的水陆两栖猛禽。",
   },
@@ -1143,7 +1143,7 @@ export const beasts: Beast[] = [
       "氐人国在建木的西边，那里的人长着人的面孔和鱼的身子，没有脚。",
     traits: ["人面鱼身", "无足", "建木之西"],
     gradient: ["#0891b2", "#06b6d4"],
-    imagePath: "/images/beasts/diren.jpg",
+    imagePath: "/images/beasts/diren.webp",
     description:
       "氐人是居于建木之西的半人半鱼神族，人面鱼身而无足，常年栖于水中。其形象介于人神之间，与陵鱼、赤鱬等同为人鱼类异兽，却因无足的独特体态而自成一格，是海内南经中最具代表性的水居神族之一。",
   },
@@ -1158,7 +1158,7 @@ export const beasts: Beast[] = [
       "兕生活在舜帝葬地的东边，湘水的南岸。它的形状像青灰色的牛。它的耳朵很宽，角像斗笠一样。",
     traits: ["苍牛状", "角如斗笠", "舜葬之东"],
     gradient: ["#44403c", "#78716c"],
-    imagePath: "/images/beasts/si.jpg",
+    imagePath: "/images/beasts/si.webp",
     description:
       "兕是一种形似苍牛的瑞兽，耳阔角圆如斗笠，栖息于舜葬以东、湘水之南。古人视其独角为珍异之物，厚重而圆润，是山海经中最具辨识度的牛形异兽之一，后世亦常以兕角为酒器，彰显其珍。",
   },
@@ -1173,7 +1173,7 @@ export const beasts: Beast[] = [
       "巴蛇能吞食大象，三年后才吐出象骨，君子吃了它的肉，就不会得心腹的疾病。巴蛇是青黄赤三色相间。另一种说法是它是黑蛇、青色的头。",
     traits: ["吞象巨蛇", "三年出骨", "青黄赤色"],
     gradient: ["#166534", "#15803d"],
-    imagePath: "/images/beasts/bashe.jpg",
+    imagePath: "/images/beasts/bashe.webp",
     description:
       "巴蛇是能吞食大象的巨型神蛇，三年方吐出象骨，其肉可使人免于心腹之疾。身披青黄赤三色花纹，一说为黑身青首，体型之巨冠绝山海经。巴蛇吞象之典由此而生，成为贪欲难餍的千古譬喻。",
   },
@@ -1188,7 +1188,7 @@ export const beasts: Beast[] = [
       "旄马，形状像马，四条腿的关节处都长着长毛。它生活在巴蛇所在地的西北方，高山的南面。",
     traits: ["状如马", "四节有毛", "巴蛇西北"],
     gradient: ["#92400e", "#b45309"],
-    imagePath: "/images/beasts/maoma.jpg",
+    imagePath: "/images/beasts/maoma.webp",
     description:
       "旄马形似常马，四足关节处披有长毛，栖息于巴蛇西北、高山之南。其毛色浓密而独特，是海内南经中少见的良驹类异兽。四节生毛的特征使其与凡马判然有别，颇有神骏之姿。",
   },
@@ -1203,7 +1203,7 @@ export const beasts: Beast[] = [
       "开明兽的身子很大，像老虎，长着九个脑袋，都是人的面孔，面朝东方站立在昆仑山上。",
     traits: ["虎身九首", "皆人面", "守昆仑"],
     gradient: ["#7c2d12", "#9a3412"],
-    imagePath: "/images/beasts/kaimingshou.jpg",
+    imagePath: "/images/beasts/kaimingshou.webp",
     description:
       "开明兽是镇守昆仑山的神兽，虎身九首皆作人面，东向而立于昆仑之巅。九首人面的奇诡外形与守护圣山的职责相得益彰，使其成为海内西经中昆仑神话体系的核心守卫，威仪赫赫不可侵犯。",
   },
@@ -1218,7 +1218,7 @@ export const beasts: Beast[] = [
       "贰负的臣子名叫危，危和贰负一起杀了窫窳。天帝于是把他枷锁在疏属山上，用刑具锁住他的右脚，把他的双手和头发反绑在一起，系在山上的树上。",
     traits: ["贰负之臣", "杀窫窳", "帝之囚徒"],
     gradient: ["#581c87", "#6b21a8"],
-    imagePath: "/images/beasts/wei.jpg",
+    imagePath: "/images/beasts/wei.webp",
     description:
       "危是贰负之臣，因与贰负合谋杀害窫窳而被天帝降罚，囚于疏属之山。右足受桎梏、双手与发反缚于山上之木，是山海经中最为惨烈的神罚场景之一，亦见天帝赏罚之严明与神律之森然。",
   },
@@ -1233,7 +1233,7 @@ export const beasts: Beast[] = [
       "服常树上，有三颗脑袋的人，掌管着琅玕树。",
     traits: ["三头人", "司琅玕树", "服常树上"],
     gradient: ["#0e7490", "#0891b2"],
-    imagePath: "/images/beasts/fuchangniao.jpg",
+    imagePath: "/images/beasts/fuchangniao.webp",
     description:
       "服常树上栖息着三头之神，专职司掌琅玕神树。琅玕乃昆仑仙境所产的美玉之树，三头人昼夜守护其侧，使其成为海内西经中昆仑园林体系里别具一格的守树神灵，与开明兽共构圣山秩序。",
   },
@@ -1248,7 +1248,7 @@ export const beasts: Beast[] = [
       "开明兽的南面有树鸟，还有六首的蛟龙、蜼、豹、狼、鸟，以及秩秩、乘黄等异兽。",
     traits: ["六首", "开明南", "守护神树"],
     gradient: ["#854d0e", "#a16207"],
-    imagePath: "/images/beasts/shuniao.jpg",
+    imagePath: "/images/beasts/shuniao.webp",
     description:
       "树鸟栖息于开明兽之南，与六首蛟龙、蜼豹狼鸟及乘黄等神兽并列而居。这片开明南境群兽汇聚、神物毕集，树鸟居其列首，是海内西经中昆仑南麓神兽群落的重要一员，俨然仙山守卫之禽。",
   },
@@ -1263,7 +1263,7 @@ export const beasts: Beast[] = [
       "蛇巫山上，有人手持杯柸面朝东方站立。另一种说法认为这座山叫龟山。",
     traits: ["蛇巫山", "操柸而立", "龟山"],
     gradient: ["#134e4a", "#115e59"],
-    imagePath: "/images/beasts/shewu.jpg",
+    imagePath: "/images/beasts/shewu.webp",
     description:
       "蛇巫之山因蛇巫而得名，山巅有人操柸东向而立，一说此山即为龟山。操柸而立的神秘身影与山名之歧说交织，使其成为海内北经中最具神秘色彩的山岳神祇之一，引人无限遐思。",
   },
@@ -1278,7 +1278,7 @@ export const beasts: Beast[] = [
       "大蟹生活在那片泥涂之中。",
     traits: ["巨型蟹", "在海涂中", "北海奇物"],
     gradient: ["#1e3a8a", "#1d4ed8"],
-    imagePath: "/images/beasts/daxie.jpg",
+    imagePath: "/images/beasts/daxie.webp",
     description:
       "大蟹是栖于北海泥涂之中的巨型蟹类，体型远逾常蟹。其单独立条于海内北经，仅以一大字点睛，是北海奇物中最简约却又最引人遐想的海中巨兽，足见先民对北海深处的敬畏与想象。",
   },
@@ -1293,7 +1293,7 @@ export const beasts: Beast[] = [
       "陵鱼长着人的面孔，有手有脚，鱼的身体，生活在海里。",
     traits: ["人面鱼身", "有手足", "海中人鱼"],
     gradient: ["#0c4a6e", "#0369a1"],
-    imagePath: "/images/beasts/lingyu.jpg",
+    imagePath: "/images/beasts/lingyu.webp",
     description:
       "陵鱼是人面鱼身却长有手足的海中人鱼，兼具人之面目与鱼之躯体。与氐人、赤鱬等人鱼异兽不同，陵鱼手足俱全，能于海中自由游弋，是海内北经中最典型的人鱼类神物，亦是人鱼传说的远源之一。",
   },
@@ -1308,7 +1308,7 @@ export const beasts: Beast[] = [
       "据比的尸体，作为人来说，脖子折断了，头发披散着，没有一只手。",
     traits: ["折颈披发", "无一手", "神尸"],
     gradient: ["#3f3f46", "#52525b"],
-    imagePath: "/images/beasts/jubishi.jpg",
+    imagePath: "/images/beasts/jubishi.webp",
     description:
       "据比之尸是折颈披发、缺一手的神尸，属于山海经中尸类神祇的典型代表。其残破的身躯暗示着一段惨烈的神话往事，与窫窳、王子夜尸等共同构成海内北经中独特的神尸谱系，折射出先民对死亡与神灵的幽微想象。",
   },
@@ -1323,7 +1323,7 @@ export const beasts: Beast[] = [
       "蓬莱山在大海之中。",
     traits: ["海中仙山", "仙人居所", "不死之境"],
     gradient: ["#365314", "#4d7c0f"],
-    imagePath: "/images/beasts/penglai.jpg",
+    imagePath: "/images/beasts/penglai.webp",
     description:
       "蓬莱山矗立于海内北经的碧波之中，是传说中仙人所居的不死仙山。山中藏有不死之药与长生秘境，后世秦始皇、汉武帝求仙访药之所皆滥觞于此，是海内北经中最负盛名的海上仙境，亦是华夏仙话的源头。",
   },
@@ -1338,7 +1338,7 @@ export const beasts: Beast[] = [
       "雷泽里面有雷神，长着龙的身体和人的头，敲击自己的腹部发出雷声。他在吴地的西面。",
     traits: ["龙身人头", "鼓腹为雷", "雷泽之神"],
     gradient: ["#713f12", "#a16207"],
-    imagePath: "/images/beasts/leishen.jpg",
+    imagePath: "/images/beasts/leishen.webp",
     description:
       "雷神是居于雷泽的司雷之神，龙身人头，以鼓腹为雷。其居处在吴地之西的雷泽，每逢震雷便被认为是雷神击腹所致，是海内东经中最具威慑力的自然神祇，亦是后世雷神崇拜与雷公形象的远古源头。",
   },
@@ -1353,7 +1353,7 @@ export const beasts: Beast[] = [
       "王子夜的尸体，两只手、两条腿、两个胸口、两个头，都断开了，分散各处后又合拢拼成了一具身体。",
     traits: ["身首异处", "断而复合", "神尸"],
     gradient: ["#831843", "#9f1239"],
-    imagePath: "/images/beasts/wangziyeshi.jpg",
+    imagePath: "/images/beasts/wangziyeshi.webp",
     description:
       "王子夜尸是身首异处、断而复合的诡异神尸，两手两股两胸两首皆断，异处分散却又合为一身。这种断体复合的奇诡形态，与据比尸、窫窳等共同构成山海经中独特的神尸谱系，折射出先民对死亡与重生的幽微想象。",
   },
@@ -1368,7 +1368,7 @@ export const beasts: Beast[] = [
       "鉅燕生活在东北角。",
     traits: ["巨型燕", "东北角", "海内东经"],
     gradient: ["#1e40af", "#2563eb"],
-    imagePath: "/images/beasts/juyan.jpg",
+    imagePath: "/images/beasts/juyan.webp",
     description:
       "鉅燕是栖于海内东北角的巨型燕子，以一大字标示其体型之庞大。虽原文仅寥寥数字，却为后世玄鸟生商、燕图腾崇拜等神话提供了远源，是海内东经中最具图腾意味的禽类神物，意蕴深远。",
   },
