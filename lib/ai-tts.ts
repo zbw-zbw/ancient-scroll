@@ -1,10 +1,13 @@
 /**
  * AI TTS (Edge TTS) 客户端工具
  *
- * 通过服务端 API 路由 /api/tts 调用微软 Edge TTS 引擎合成语音，
- * 在前端管理音频播放。当网络不可用或 API 调用失败时，
- * 调用方可 fallback 到浏览器原生 Web Speech API（lib/tts.ts）。
+ * 直接在浏览器中通过 WebSocket 调用微软 Edge TTS 引擎合成语音，
+ * 不经过服务端中转（避免 Vercel 服务器 IP 被微软封锁）。
+ * 当 Edge TTS 连接失败时，自动降级到浏览器原生 Web Speech API。
  */
+
+import { synthesize } from "@/lib/edge-tts";
+import { speak as speakFallback } from "@/lib/tts";
 
 export type AIVoice =
   | "xiaoxiao"
@@ -30,13 +33,22 @@ export const AI_VOICES: AIVoiceInfo[] = [
   { id: "yunjian", name: "云健", gender: "male", description: "浑厚有力，适合山海经原文" },
 ];
 
+// AI 音色 ID 到 Edge TTS 音色名称的映射
+const VOICE_MAP: Record<AIVoice, string> = {
+  xiaoxiao: "zh-CN-XiaoxiaoNeural",
+  xiaoyi: "zh-CN-XiaoyiNeural",
+  xiaomeng: "zh-CN-XiaomengNeural",
+  yunxi: "zh-CN-YunxiNeural",
+  yunyang: "zh-CN-YunyangNeural",
+  yunjian: "zh-CN-YunjianNeural",
+};
+
 const VOICE_KEY = "ancient-scroll:ai-voice";
 const RATE_KEY = "ancient-scroll:ai-rate";
 
 // 音频播放管理
 let currentAudio: HTMLAudioElement | null = null;
 let currentObjectUrl: string | null = null;
-let currentAbortController: AbortController | null = null;
 
 export function getPreferredAIVoice(): AIVoice {
   try {
@@ -80,10 +92,8 @@ export function getVoiceForCharacter(characterId?: string): AIVoice {
 }
 
 /**
- * 调用 AI TTS 接口合成并播放语音
- *
- * 返回一个 Promise，在音频开始播放时 resolve，在播放结束时通过 onEnd 回调通知。
- * 如果合成或播放失败，通过 onError 回调通知，调用方可 fallback 到 Web Speech API。
+ * 调用浏览器端 Edge TTS 合成并播放语音。
+ * 如果 Edge TTS 失败，自动降级到浏览器原生 Web Speech API。
  */
 export async function speakAI(
   text: string,
@@ -100,22 +110,16 @@ export async function speakAI(
   const voice = options?.voice || getPreferredAIVoice();
   const rate = options?.rate ?? getAIRate();
 
-  // 创建 AbortController 以便中途取消
-  currentAbortController = new AbortController();
+  const voiceName = VOICE_MAP[voice] || VOICE_MAP.xiaoxiao;
+  const rateStr = rate >= 0 ? `+${rate}%` : `${rate}%`;
 
   try {
-    const response = await fetch("/api/tts", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ text, voice, rate }),
-      signal: currentAbortController.signal,
+    // 直接在浏览器端合成（不走服务端）
+    const blob = await synthesize(text.slice(0, 500), {
+      voice: voiceName,
+      rate: rateStr,
     });
 
-    if (!response.ok) {
-      throw new Error(`TTS API error: ${response.status}`);
-    }
-
-    const blob = await response.blob();
     const url = URL.createObjectURL(blob);
     currentObjectUrl = url;
 
@@ -128,16 +132,37 @@ export async function speakAI(
     };
     audio.onerror = () => {
       cleanup();
-      options?.onError?.();
+      // 播放失败时降级到浏览器 TTS
+      fallbackToWebSpeech(text, options);
     };
 
     await audio.play();
   } catch (error) {
-    // AbortError 是正常的中途取消，不算错误
-    if (error instanceof DOMException && error.name === "AbortError") {
-      return;
-    }
+    // Edge TTS 连接失败，静默降级到浏览器原生语音
+    console.warn("Edge TTS 失败，降级到浏览器语音:", error);
     cleanup();
+    fallbackToWebSpeech(text, options);
+  }
+}
+
+/**
+ * 降级到浏览器原生 Web Speech API
+ */
+function fallbackToWebSpeech(
+  text: string,
+  options?: {
+    voice?: AIVoice;
+    rate?: number;
+    onEnd?: () => void;
+    onError?: () => void;
+  }
+): void {
+  try {
+    speakFallback(text, {
+      onEnd: options?.onEnd,
+      onError: options?.onError,
+    });
+  } catch {
     options?.onError?.();
   }
 }
@@ -146,10 +171,6 @@ export async function speakAI(
  * 停止当前 AI TTS 播放
  */
 export function stopAI(): void {
-  if (currentAbortController) {
-    currentAbortController.abort();
-    currentAbortController = null;
-  }
   if (currentAudio) {
     currentAudio.pause();
     currentAudio.currentTime = 0;
