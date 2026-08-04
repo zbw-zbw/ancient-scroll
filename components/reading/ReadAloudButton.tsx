@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { stop } from "@/lib/tts";
 import { speakAI, stopAI } from "@/lib/ai-tts";
+import { useToast } from "@/components/Toast";
 
 interface ReadAloudButtonProps {
   text: string;
@@ -11,6 +12,7 @@ interface ReadAloudButtonProps {
 export default function ReadAloudButton({ text }: ReadAloudButtonProps) {
   const [speaking, setSpeaking] = useState(false);
   const [mounted, setMounted] = useState(false);
+  const { toast } = useToast();
 
   // Mount guard to prevent hydration mismatch
   useEffect(() => {
@@ -39,12 +41,16 @@ export default function ReadAloudButton({ text }: ReadAloudButtonProps) {
     try {
       await speakAI(text, {
         onEnd: () => setSpeaking(false),
-        onError: () => setSpeaking(false),
+        onError: () => {
+          setSpeaking(false);
+          toast("语音朗读失败", "error");
+        },
       });
     } catch {
       setSpeaking(false);
+      toast("语音朗读失败", "error");
     }
-  }, [text, speaking]);
+  }, [text, speaking, toast]);
 
   // Render placeholder until mounted (prevents hydration mismatch)
   if (!mounted) {

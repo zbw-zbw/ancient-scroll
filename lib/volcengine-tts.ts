@@ -44,7 +44,7 @@ export async function synthesize(
   const payload = {
     app: {
       appid: appId,
-      token: "access_token",
+      token: token,
       cluster: cluster,
     },
     user: {

@@ -93,12 +93,16 @@ export default function SettingsPage() {
         voice: voiceId as AIVoice,
         rate: aiRate,
         onEnd: () => setPreviewingVoice((prev) => (prev === voiceId ? null : prev)),
-        onError: () => setPreviewingVoice((prev) => (prev === voiceId ? null : prev)),
+        onError: (msg) => {
+          setPreviewingVoice((prev) => (prev === voiceId ? null : prev));
+          toast(msg || "语音试听失败，请检查网络连接", "error");
+        },
       });
     } catch {
       setPreviewingVoice((prev) => (prev === voiceId ? null : prev));
+      toast("语音试听失败，请检查网络连接", "error");
     }
-  }, [aiRate, previewingVoice]);
+  }, [aiRate, previewingVoice, toast]);
 
   // 选择 AI 音色并保存：切换音色时停止试听
   const handleAIVoiceChange = useCallback(

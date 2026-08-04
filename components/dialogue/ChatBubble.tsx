@@ -74,12 +74,16 @@ function ChatBubbleImpl({
       await speakAI(content, {
         voice,
         onEnd: () => setSpeaking(false),
-        onError: () => setSpeaking(false),
+        onError: () => {
+          setSpeaking(false);
+          toast("语音朗读失败", "error");
+        },
       });
     } catch {
       setSpeaking(false);
+      toast("语音朗读失败", "error");
     }
-  }, [content, characterId, speaking]);
+  }, [content, characterId, speaking, toast]);
 
   // 是否显示底部操作按钮（仅 AI 已完成的消息且内容非空时）
   const showActions =
