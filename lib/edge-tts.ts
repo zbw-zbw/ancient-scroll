@@ -85,12 +85,23 @@ export function tts(text: string, options: TtsOptions = {}): Promise<Buffer> {
       },
     });
 
+    // 超时保护：Vercel serverless 环境下防止 WebSocket 挂起
+    const timeout = setTimeout(() => {
+      try { ws.close(); } catch {}
+      reject(new Error("Edge TTS 请求超时"));
+    }, 20000);
+
     const audioData: Buffer[] = [];
+
+    const cleanup = () => {
+      clearTimeout(timeout);
+    };
 
     ws.on("message", (rawData: Buffer | string, isBinary: boolean) => {
       if (!isBinary) {
         const data = rawData.toString("utf8");
         if (data.includes("turn.end")) {
+          cleanup();
           resolve(Buffer.concat(audioData));
           ws.close();
         }
@@ -102,7 +113,10 @@ export function tts(text: string, options: TtsOptions = {}): Promise<Buffer> {
       audioData.push(content);
     });
 
-    ws.on("error", reject);
+    ws.on("error", (err) => {
+      cleanup();
+      reject(err);
+    });
 
     const speechConfig = JSON.stringify({
       context: {

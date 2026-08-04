@@ -1,6 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
 import { tts } from "@/lib/edge-tts";
 
+// ws 库需要 Node.js 运行时（非 Edge runtime）
+export const runtime = "nodejs";
+// Vercel serverless 函数超时设置（秒）
+export const maxDuration = 30;
+
 // 可用的中文音色列表
 const VOICES = {
   // 女声
@@ -23,8 +28,8 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "缺少 text 参数" }, { status: 400 });
     }
 
-    // 限制文本长度（避免滥用）
-    const trimmedText = text.slice(0, 2000);
+    // 限制文本长度（避免滥用，同时减少超时风险）
+    const trimmedText = text.slice(0, 500);
 
     // 确定音色
     const voiceName = VOICES[voice as VoiceKey] || VOICES.xiaoxiao;
@@ -45,6 +50,10 @@ export async function POST(request: NextRequest) {
     });
   } catch (error) {
     console.error("TTS synthesis error:", error);
-    return NextResponse.json({ error: "语音合成失败" }, { status: 500 });
+    const message = error instanceof Error ? error.message : "语音合成失败";
+    return NextResponse.json(
+      { error: "语音合成失败", detail: message },
+      { status: 500 }
+    );
   }
 }
