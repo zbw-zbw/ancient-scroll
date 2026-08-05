@@ -3,7 +3,11 @@ import FavoritesClient from "@/components/favorites/FavoritesClient";
 
 export const metadata: Metadata = {
   title: "我的收藏",
-  description: "你收藏的诗词与异兽",
+  description: "收藏的古籍段落与异兽",
+  openGraph: {
+    title: "我的收藏",
+    description: "收藏的古籍段落与异兽",
+  },
 };
 
 export default function FavoritesPage() {

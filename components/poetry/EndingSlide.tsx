@@ -156,41 +156,41 @@ export default function EndingSlide({
         <div className="flex flex-wrap items-center justify-center gap-2 md:gap-3">
           <button
             onClick={onRestart}
-            className="inline-flex items-center gap-1 rounded-full bg-cinnabar/5 px-3 py-1 font-serif text-[10px] text-cinnabar transition-colors hover:bg-cinnabar/10 md:px-6 md:py-2.5 md:text-sm"
+            className="inline-flex items-center gap-1 rounded-full bg-cinnabar/5 px-4 py-1.5 font-serif text-xs text-cinnabar transition-colors hover:bg-cinnabar/10 md:px-6 md:py-2.5 md:text-sm"
           >
-            <IconRefresh className="h-3 w-3 md:h-3.5 md:w-3.5" /> 再读一遍
+            <IconRefresh className="h-3.5 w-3.5 md:h-3.5 md:w-3.5" /> 再读一遍
           </button>
           <CopyButton
             text={fullPoemText}
             label="复制全诗"
             successMessage="全诗已复制到剪贴板"
-            className="rounded-full bg-surface/60 px-3 py-1 text-[10px] text-light-ink hover:bg-surface md:px-6 md:py-2.5 md:text-sm"
+            className="rounded-full bg-surface/60 px-4 py-1.5 text-xs text-light-ink hover:bg-surface md:px-6 md:py-2.5 md:text-sm"
           />
           <button
             onClick={onBack}
-            className="inline-flex items-center gap-1 rounded-full bg-surface/60 px-3 py-1 font-serif text-[10px] text-light-ink transition-colors hover:bg-surface md:px-6 md:py-2.5 md:text-sm"
+            className="inline-flex items-center gap-1 rounded-full bg-surface/60 px-4 py-1.5 font-serif text-xs text-light-ink transition-colors hover:bg-surface md:px-6 md:py-2.5 md:text-sm"
           >
-            选择其他诗 <IconArrowRight className="h-3 w-3 md:h-3.5 md:w-3.5" />
+            选择其他诗 <IconArrowRight className="h-3.5 w-3.5 md:h-3.5 md:w-3.5" />
           </button>
           <button
             onClick={() => setShowShare(true)}
-            className="inline-flex items-center gap-1 rounded-full bg-gold/5 px-3 py-1 font-serif text-[10px] text-gold transition-colors hover:bg-gold/10 md:px-6 md:py-2.5 md:text-sm"
+            className="inline-flex items-center gap-1 rounded-full bg-gold/5 px-4 py-1.5 font-serif text-xs text-gold transition-colors hover:bg-gold/10 md:px-6 md:py-2.5 md:text-sm"
           >
-            <IconShare className="h-3 w-3 md:h-3.5 md:w-3.5" /> 分享这首诗
+            <IconShare className="h-3.5 w-3.5 md:h-3.5 md:w-3.5" /> 分享这首诗
           </button>
           {poetToChar[poem.author] ? (
             <Link
               href={`/dialogue?character=${poetToChar[poem.author]}&ask=${encodeURIComponent(`我刚读了《${poem.title}》，想聊聊这首诗`)}`}
-              className="inline-flex items-center gap-1 rounded-full bg-indigo/5 px-3 py-1 font-serif text-[10px] text-indigo transition-colors hover:bg-indigo/10 md:px-6 md:py-2.5 md:text-sm"
+              className="inline-flex items-center gap-1 rounded-full bg-indigo/5 px-4 py-1.5 font-serif text-xs text-indigo transition-colors hover:bg-indigo/10 md:px-6 md:py-2.5 md:text-sm"
             >
-              <IconChat className="h-3 w-3 md:h-3.5 md:w-3.5" /> 和{poem.author}聊聊这首诗
+              <IconChat className="h-3.5 w-3.5 md:h-3.5 md:w-3.5" /> 和{poem.author}聊聊这首诗
             </Link>
           ) : (
             <Link
               href="/dialogue"
-              className="inline-flex items-center gap-1 rounded-full bg-indigo/5 px-3 py-1 font-serif text-[10px] text-indigo transition-colors hover:bg-indigo/10 md:px-6 md:py-2.5 md:text-sm"
+              className="inline-flex items-center gap-1 rounded-full bg-indigo/5 px-4 py-1.5 font-serif text-xs text-indigo transition-colors hover:bg-indigo/10 md:px-6 md:py-2.5 md:text-sm"
             >
-              <IconChat className="h-3 w-3 md:h-3.5 md:w-3.5" /> 和古人聊聊
+              <IconChat className="h-3.5 w-3.5 md:h-3.5 md:w-3.5" /> 和古人聊聊
             </Link>
           )}
         </div>

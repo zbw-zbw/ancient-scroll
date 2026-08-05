@@ -3,9 +3,12 @@ import { Suspense } from "react";
 import DialogueClient from "@/components/dialogue/DialogueClient";
 
 export const metadata: Metadata = {
-  title: "古今对话",
-  description:
-    "穿越时空，与孔子、李白、苏轼、杜甫等15位历史人物展开跨越千年的AI对话。",
+  title: "穿越对话",
+  description: "与历史人物AI对话，穿越时空的思想碰撞",
+  openGraph: {
+    title: "穿越对话",
+    description: "与历史人物AI对话，穿越时空的思想碰撞",
+  },
 };
 
 export default function DialoguePage() {

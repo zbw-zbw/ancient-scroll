@@ -1,9 +1,17 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
-import { stop } from "@/lib/tts";
-import { speakAI, stopAI } from "@/lib/ai-tts";
+import { useCallback, useEffect, useState, useRef } from "react";
 import { useToast } from "@/components/Toast";
+
+// 缓存动态加载的 TTS 模块，避免重复 import
+let ttsModuleRef: Promise<typeof import("@/lib/ai-tts")> | null = null;
+
+function loadTTS() {
+  if (!ttsModuleRef) {
+    ttsModuleRef = import("@/lib/ai-tts");
+  }
+  return ttsModuleRef;
+}
 
 interface ReadAloudButtonProps {
   text: string;
@@ -13,41 +21,58 @@ export default function ReadAloudButton({ text }: ReadAloudButtonProps) {
   const [speaking, setSpeaking] = useState(false);
   const [mounted, setMounted] = useState(false);
   const { toast } = useToast();
+  const speakingRef = useRef(false);
 
   // Mount guard to prevent hydration mismatch
   useEffect(() => {
     setMounted(true);
   }, []);
 
-  // Stop speech on unmount
+  // Stop speech on unmount (dynamic import to avoid bundling TTS in first paint)
   useEffect(() => {
     return () => {
-      stopAI();
-      stop();
+      if (speakingRef.current) {
+        loadTTS().then(({ stopAI }) => stopAI());
+      }
+      // 浏览器原生 TTS 可直接调用，无需动态导入
+      if (typeof window !== "undefined" && window.speechSynthesis) {
+        window.speechSynthesis.cancel();
+      }
     };
   }, []);
 
   const handleClick = useCallback(async () => {
     // 如果正在朗读，点击则停止
     if (speaking) {
+      const { stopAI } = await loadTTS();
       stopAI();
-      stop();
+      if (typeof window !== "undefined" && window.speechSynthesis) {
+        window.speechSynthesis.cancel();
+      }
       setSpeaking(false);
+      speakingRef.current = false;
       return;
     }
 
     // AI TTS 内部已有降级逻辑，onError 时只需重置 UI 状态
     setSpeaking(true);
+    speakingRef.current = true;
     try {
+      const { speakAI } = await loadTTS();
       await speakAI(text, {
-        onEnd: () => setSpeaking(false),
+        onEnd: () => {
+          setSpeaking(false);
+          speakingRef.current = false;
+        },
         onError: () => {
           setSpeaking(false);
+          speakingRef.current = false;
           toast("语音朗读失败", "error");
         },
       });
     } catch {
       setSpeaking(false);
+      speakingRef.current = false;
       toast("语音朗读失败", "error");
     }
   }, [text, speaking, toast]);

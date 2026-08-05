@@ -4,8 +4,11 @@ import QuizClient from "@/components/quiz/QuizClient";
 
 export const metadata: Metadata = {
   title: "知识问答",
-  description:
-    "国学问答闯关模式，4种题型40道题，涵盖诗词填空、异兽辨识、名人名句、看图识兽，测试你的古籍知识。",
+  description: "古籍知识趣味问答，测测古文功底",
+  openGraph: {
+    title: "知识问答",
+    description: "古籍知识趣味问答，测测古文功底",
+  },
 };
 
 export default function QuizPage() {

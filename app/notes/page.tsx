@@ -3,7 +3,11 @@ import NotesClient from "@/components/notes/NotesClient";
 
 export const metadata: Metadata = {
   title: "我的笔记",
-  description: "浏览和管理你在阅读山海经时记录的字词笔记",
+  description: "阅读笔记与心得",
+  openGraph: {
+    title: "我的笔记",
+    description: "阅读笔记与心得",
+  },
 };
 
 export default function NotesPage() {
