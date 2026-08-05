@@ -131,15 +131,15 @@ export default function NotesClient() {
   return (
     <main className="min-h-dvh bg-xuan pb-16">
       <PageHeader title="我的笔记" subtitle="山海经字词笔记，温故而知新" compact />
-      <div className="mx-auto max-w-[1000px] px-4 pt-8 md:px-6 md:pt-12">
+      <div className="mx-auto max-w-[1100px] px-4 pt-8 md:px-6 md:pt-12">
         {/* Toolbar */}
         {notes.length > 0 && (
           <div className="mb-8 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-            <div className="flex flex-wrap items-center gap-2" role="group" aria-label="章节筛选">
+            <div className="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-hide sm:flex-wrap sm:overflow-visible sm:pb-0" role="group" aria-label="章节筛选">
               <button
                 onClick={() => setFilter("all")}
                 aria-pressed={filter === "all"}
-                className={`rounded-full px-4 py-1.5 font-serif text-xs transition-colors ${
+                className={`flex-shrink-0 rounded-full px-4 py-1.5 min-h-[32px] font-serif text-xs transition-colors ${
                   filter === "all"
                     ? "bg-cinnabar/10 text-cinnabar"
                     : "text-muted hover:bg-ink/5 hover:text-light-ink"
@@ -154,7 +154,7 @@ export default function NotesClient() {
                     key={c.id}
                     onClick={() => setFilter(c.id)}
                     aria-pressed={filter === c.id}
-                    className={`rounded-full px-4 py-1.5 font-serif text-xs transition-colors ${
+                    className={`flex-shrink-0 rounded-full px-4 py-1.5 min-h-[32px] font-serif text-xs transition-colors ${
                       filter === c.id
                         ? "bg-cinnabar/10 text-cinnabar"
                         : "text-muted hover:bg-ink/5 hover:text-light-ink"

@@ -976,6 +976,14 @@ html:has([data-messages-container]) .global-scroll-progress {
   display: none !important;
 }
 
+/* ===== Scroll progress bar track — CSS variable based, dark-mode safe ===== */
+.global-scroll-progress {
+  background-color: color-mix(in srgb, var(--ink) 6%, transparent);
+}
+.global-scroll-progress > div {
+  background: linear-gradient(90deg, var(--cinnabar), var(--gold));
+}
+
 /* ===== Prevent horizontal overflow on mobile ===== */
 /* Only set overflow-x on body, NOT on html — setting it on html
    creates a BFC scroll container on iOS Safari that blocks

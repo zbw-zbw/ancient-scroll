@@ -39,8 +39,8 @@ export default function ChapterSidebar({
 
   return (
     <>
-      {/* Desktop sidebar - fixed so it stays visible while ReadingPanel scrolls */}
-      <aside className="hidden md:fixed md:left-0 md:top-16 md:h-[calc(100dvh-4rem)] md:w-[200px] lg:w-[240px] md:flex md:flex-col md:overflow-hidden md:bg-xuan-dark">
+      {/* Desktop sidebar - sticky within flex layout */}
+      <aside className="hidden md:flex md:w-[200px] lg:w-[240px] md:flex-shrink-0 md:flex-col md:sticky md:top-16 md:self-start md:h-[calc(100dvh-4rem)] md:overflow-hidden md:bg-xuan-dark md:border-r md:border-ink/5">
         <div className="flex flex-1 flex-col overflow-y-auto px-4 py-6">
           <h2 className="mb-5 font-calligraphy text-2xl text-ink">篇章目录</h2>
           <nav className="flex flex-col gap-1">
@@ -102,7 +102,7 @@ export default function ChapterSidebar({
       </aside>
 
       {/* Mobile horizontal scroll tabs */}
-      <div className="md:hidden sticky top-16 z-30 bg-xuan-dark">
+      <div className="md:hidden w-full sticky top-16 z-30 flex-shrink-0 bg-xuan-dark">
         <div className="mx-auto max-w-[1100px] relative">
           <div
             ref={mobileTabsRef}

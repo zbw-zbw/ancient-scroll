@@ -212,12 +212,12 @@ export default function ReadingPanel({
   const readingTime = Math.max(1, Math.ceil(chapter.sentences.length * 2));
 
   return (
-    <main className="flex flex-1 flex-col min-h-0">
+    <main className="flex flex-1 flex-col min-h-0 min-w-0">
       <div
         ref={scrollRef}
         className="flex-1 overflow-y-auto px-4 py-6 md:px-8 md:py-8"
       >
-        <div className="mx-auto max-w-[780px]">
+        <div className="mx-auto w-full max-w-[780px] xl:max-w-[820px]">
           {/* Header */}
           <header className="mb-6 flex flex-col gap-2 pb-5 md:mb-8 md:flex-row md:items-end md:justify-between">
             <div className="min-w-0">
