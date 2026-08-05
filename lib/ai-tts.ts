@@ -27,7 +27,7 @@ export interface AIVoiceInfo {
 
 export const AI_VOICES: AIVoiceInfo[] = [
   { id: "xiaoxiao", name: "晓晓", gender: "female", description: "温暖亲切，适合诗词朗诵" },
-  { id: "xiaoyi", name: "晓伊", gender: "female", description: "活泼明快，适合知识讲解" },
+  { id: "xiaoyi", name: "灿灿", gender: "female", description: "活泼明快，适合知识讲解" },
   { id: "xiaomeng", name: "晓梦", gender: "female", description: "柔和舒缓，适合睡前故事" },
   { id: "yunxi", name: "云希", gender: "male", description: "年轻阳光，适合古文朗读" },
   { id: "yunyang", name: "云扬", gender: "male", description: "成熟稳重，适合历史人物" },

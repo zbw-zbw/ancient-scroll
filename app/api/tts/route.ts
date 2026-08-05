@@ -7,13 +7,13 @@ export const maxDuration = 30;
 // 音色映射：前端传入的音色 ID → 火山引擎 voice_type
 const VOICE_MAP: Record<string, string> = {
   // 女声
-  xiaoxiao: "zh_female_shuangkuai_moon_bigtts", // 爽快女声 — 温暖亲切
-  xiaoyi: "zh_female_qingxin_moon_bigtts", // 清新女声 — 活泼
-  xiaomeng: "zh_female_wenrou_moon_bigtts", // 温柔女声 — 柔和
+  xiaoxiao: "BV001_streaming", // 通用女声 — 温暖亲切
+  xiaoyi: "BV700_streaming", // 灿灿 — 活泼明快
+  xiaomeng: "BV033_streaming", // 温柔女声 — 柔和舒缓
   // 男声
-  yunxi: "zh_male_qingnian_mars_bigtts", // 青年男声 — 年轻
-  yunyang: "zh_male_chunhou_mars_bigtts", // 醇厚男声 — 成熟
-  yunjian: "zh_male_jingqiangkanye_emo_mars_bigtts", // 京腔侃爷 — 浑厚
+  yunxi: "BV002_streaming", // 通用男声 — 年轻阳光
+  yunyang: "BV102_streaming", // 儒雅男声 — 成熟稳重
+  yunjian: "BV701_streaming", // 擎苍 — 浑厚有力
 };
 
 type VoiceKey = keyof typeof VOICE_MAP;

@@ -32,7 +32,7 @@ export async function synthesize(
   }
 
   const {
-    voiceType = "zh_female_shuangkuai_moon_bigtts",
+    voiceType = "BV001_streaming",
     speedRatio = 1.0,
     volumeRatio = 1.0,
     pitchRatio = 1.0,
