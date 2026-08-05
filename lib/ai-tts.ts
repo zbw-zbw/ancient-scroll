@@ -83,6 +83,10 @@ let currentObjectUrl: string | null = null;
 let currentAbortController: AbortController | null = null;
 let safetyTimeoutId: ReturnType<typeof setTimeout> | null = null;
 
+// 全局引用：当前播放会话的 onEnd 回调。
+// 新的 speakAI 调用会先触发上一个会话的 onEnd，确保旧按钮 UI 正确重置。
+let currentOnEnd: (() => void) | null = null;
+
 function cleanup() {
   if (safetyTimeoutId) {
     clearTimeout(safetyTimeoutId);
@@ -104,6 +108,8 @@ function cleanup() {
     URL.revokeObjectURL(currentObjectUrl);
     currentObjectUrl = null;
   }
+  // 清除回调引用（不调用，仅清除）
+  currentOnEnd = null;
 }
 
 export interface SpeakAIOptions {
@@ -121,10 +127,20 @@ export async function speakAI(
   text: string,
   options?: SpeakAIOptions
 ): Promise<void> {
+  // 如果上一个会话仍在播放，先触发其 onEnd 回调，确保旧按钮 UI 重置
+  if (currentOnEnd) {
+    const prevOnEnd = currentOnEnd;
+    currentOnEnd = null;
+    prevOnEnd();
+  }
+
   stopAI();
 
   const voice = options?.voice || getPreferredAIVoice();
   const rate = options?.rate ?? getAIRate();
+
+  // 记录本次会话的 onEnd，供下一次 speakAI 调用中断时触发
+  currentOnEnd = options?.onEnd ?? null;
 
   // 安全超时：30秒后强制结束（防止状态卡死）
   safetyTimeoutId = setTimeout(() => {
@@ -173,7 +189,8 @@ export async function speakAI(
       if (ended) return;
       ended = true;
       cleanup();
-      // 降级到浏览器 TTS
+      // 降级期间仍保留 onEnd 引用，以便被新的 speakAI 中断
+      currentOnEnd = options?.onEnd ?? null;
       fallbackToWebSpeech(text, options);
     };
 
@@ -184,6 +201,8 @@ export async function speakAI(
 
     cleanup();
     console.warn("火山引擎 TTS 失败，降级到浏览器语音:", error);
+    // 降级期间仍保留 onEnd 引用，以便被新的 speakAI 中断
+    currentOnEnd = options?.onEnd ?? null;
     fallbackToWebSpeech(text, options);
   }
 }
@@ -207,10 +226,12 @@ function fallbackToWebSpeech(text: string, options?: SpeakAIOptions): void {
     rate: 0.85,
     onEnd: () => {
       clearTimeout(fallbackTimeout);
+      currentOnEnd = null;
       options?.onEnd?.();
     },
     onError: () => {
       clearTimeout(fallbackTimeout);
+      currentOnEnd = null;
       options?.onError?.("语音朗读失败");
     },
   });
