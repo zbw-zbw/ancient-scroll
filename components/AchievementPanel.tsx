@@ -81,6 +81,27 @@ export default function AchievementPanel() {
   const searchParams = useSearchParams();
   const highlightId = searchParams?.get("highlight") ?? null;
   const highlightRef = useRef<HTMLDivElement>(null);
+  const tabsRef = useRef<HTMLDivElement>(null);
+
+  // Auto-scroll clicked tab into view, revealing the next tab too
+  const handleFilterChange = (cat: Achievement["category"] | "all") => {
+    setFilter(cat);
+    requestAnimationFrame(() => {
+      const container = tabsRef.current;
+      if (!container) return;
+      const tab = container.querySelector(`[data-tab-key="${cat}"]`) as HTMLElement | null;
+      if (!tab) return;
+      const tabLeft = tab.offsetLeft;
+      const tabRight = tabLeft + tab.offsetWidth;
+      const viewLeft = container.scrollLeft;
+      const viewRight = viewLeft + container.clientWidth;
+      if (tabLeft < viewLeft) {
+        container.scrollTo({ left: Math.max(0, tabLeft - 16), behavior: "smooth" });
+      } else if (tabRight > viewRight) {
+        container.scrollTo({ left: tabRight - container.clientWidth + 16, behavior: "smooth" });
+      }
+    });
+  };
 
   useEffect(() => {
     setMounted(true);
@@ -150,9 +171,10 @@ export default function AchievementPanel() {
         </div>
 
         {/* Category filter — horizontal scroll on overflow */}
-        <div className="mt-8 flex justify-start gap-2 overflow-x-auto pb-2 scrollbar-hide md:justify-center md:flex-wrap md:overflow-visible">
+        <div ref={tabsRef} className="scroll-fade-edges mt-8 flex justify-start gap-2 overflow-x-auto pb-2 scrollbar-hide md:justify-center md:flex-wrap md:overflow-visible">
           <button
-            onClick={() => setFilter("all")}
+            onClick={() => handleFilterChange("all")}
+            data-tab-key="all"
             className={`flex-shrink-0 rounded-full px-4 py-1.5 min-h-[32px] font-serif text-xs transition-all capsule-btn ${
               filter === "all"
                 ? "bg-cinnabar/10 text-cinnabar"
@@ -164,7 +186,8 @@ export default function AchievementPanel() {
           {categories.map((cat) => (
             <button
               key={cat}
-              onClick={() => setFilter(cat)}
+              onClick={() => handleFilterChange(cat)}
+              data-tab-key={cat}
               className={`flex-shrink-0 rounded-full px-4 py-1.5 min-h-[32px] font-serif text-xs transition-all capsule-btn ${
                 filter === cat
                   ? "bg-cinnabar/10 text-cinnabar"

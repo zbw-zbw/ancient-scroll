@@ -194,14 +194,14 @@ export default function SettingsPage() {
                   saveReadingPrefs(newPrefs);
                   toast(newPrefs.showTranslation ? "已开启默认译文" : "已关闭默认译文", "success");
                 }}
-                className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
+                className={`relative inline-flex h-6 w-11 shrink-0 items-center rounded-full transition-colors ${
                   prefs.showTranslation ? "bg-cinnabar" : "bg-ink/20"
                 }`}
                 role="switch"
                 aria-checked={prefs.showTranslation}
               >
-                <span className={`inline-block h-4 w-4 rounded-full bg-white shadow-sm transition-transform ${
-                  prefs.showTranslation ? "translate-x-6" : "translate-x-1"
+                <span className={`pointer-events-none inline-block h-5 w-5 rounded-full bg-white shadow-sm transition-transform ${
+                  prefs.showTranslation ? "translate-x-5" : "translate-x-0.5"
                 }`} />
               </button>
             </div>
@@ -258,8 +258,7 @@ export default function SettingsPage() {
                   return (
                     <div
                       key={voice.id}
-                      onClick={() => handleAIVoiceChange(voice.id)}
-                      className={`relative rounded-xl p-3 cursor-pointer transition-all border ${
+                      className={`relative rounded-xl p-3 transition-all border ${
                         isSelected
                           ? "border-cinnabar/40 bg-cinnabar/5 shadow-sm"
                           : "border-ink/8 bg-xuan/20 hover:border-ink/15 hover:bg-xuan/40"
@@ -289,35 +288,60 @@ export default function SettingsPage() {
                         </p>
                       </div>
 
-                      {/* 试听按钮 */}
-                      <button
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          handlePreviewVoice(voice.id);
-                        }}
-                        className={`w-full flex items-center justify-center gap-1 rounded-lg py-1.5 font-serif text-xs transition-colors ${
-                          isPreviewing
-                            ? "bg-cinnabar/10 text-cinnabar"
-                            : "bg-ink/5 text-light-ink hover:bg-ink/8"
-                        }`}
-                      >
-                        {isPreviewing ? (
-                          <>
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-3 w-3 animate-pulse">
-                              <rect x="6" y="5" width="4" height="14" rx="1" />
-                              <rect x="14" y="5" width="4" height="14" rx="1" />
-                            </svg>
-                            停止
-                          </>
-                        ) : (
-                          <>
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-3 w-3">
-                              <polygon points="5 3 19 12 5 21 5 3" />
-                            </svg>
-                            试听
-                          </>
-                        )}
-                      </button>
+                      {/* 底部双按钮：试听 + 使用 */}
+                      <div className="flex items-center gap-1.5">
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handlePreviewVoice(voice.id);
+                          }}
+                          className={`flex flex-1 items-center justify-center gap-1 rounded-lg py-1.5 font-serif text-xs transition-colors ${
+                            isPreviewing
+                              ? "bg-cinnabar/10 text-cinnabar"
+                              : "bg-ink/5 text-light-ink hover:bg-ink/8"
+                          }`}
+                        >
+                          {isPreviewing ? (
+                            <>
+                              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-3 w-3 animate-pulse">
+                                <rect x="6" y="5" width="4" height="14" rx="1" />
+                                <rect x="14" y="5" width="4" height="14" rx="1" />
+                              </svg>
+                              停止
+                            </>
+                          ) : (
+                            <>
+                              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-3 w-3">
+                                <polygon points="5 3 19 12 5 21 5 3" />
+                              </svg>
+                              试听
+                            </>
+                          )}
+                        </button>
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleAIVoiceChange(voice.id);
+                          }}
+                          disabled={isSelected}
+                          className={`flex flex-1 items-center justify-center gap-1 rounded-lg py-1.5 font-serif text-xs transition-colors ${
+                            isSelected
+                              ? "bg-cinnabar/10 text-cinnabar cursor-default"
+                              : "bg-cinnabar/5 text-cinnabar hover:bg-cinnabar/10"
+                          }`}
+                        >
+                          {isSelected ? (
+                            <>
+                              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className="h-3 w-3">
+                                <polyline points="20 6 9 17 4 12" />
+                              </svg>
+                              当前
+                            </>
+                          ) : (
+                            "使用"
+                          )}
+                        </button>
+                      </div>
                     </div>
                   );
                 })}

@@ -193,7 +193,7 @@ export default function ReadingClient() {
  subtitle="原文与译文对照，逐句品读山海经"
  compact
  />
- <div className="relative mx-auto flex w-full max-w-[1100px] flex-1 min-h-0 min-w-0 flex-col md:flex-row">
+ <div className="relative flex w-full flex-1 min-h-0 min-w-0 flex-col md:flex-row">
         <ChapterSidebar
  chapters={sortedChapters}
  selectedId={selectedChapterId}
@@ -204,6 +204,7 @@ export default function ReadingClient() {
  }}
  />
 
+ <div className="mx-auto w-full max-w-[1100px] flex-1 min-h-0 min-w-0">
  <ReadingPanel
  chapter={chapter}
  fontSize={fontSize}
@@ -220,6 +221,7 @@ export default function ReadingClient() {
  highlightSentenceId={highlightSentenceId}
  highlightBeastName={highlightBeastName}
  />
+ </div>
  </div>
 
  {activeTooltip && (

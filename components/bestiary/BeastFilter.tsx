@@ -1,18 +1,19 @@
 "use client";
 
+import { useRef, useCallback } from "react";
 import {
  type BeastCategory,
  categoryLabels,
  categoryCounts,
 } from "@/data/beasts";
 import {
- IconSparkles,
- IconPaw,
- IconBird,
- IconFish,
- IconSnake,
- IconGod,
- IconSearch,
+  IconSparkles,
+  IconPaw,
+  IconBird,
+  IconFish,
+  IconSnake,
+  IconGod,
+  IconSearch,
 } from "@/components/icons";
 
 const categoryIcons: Record<string, React.ReactNode> = {
@@ -34,15 +35,37 @@ interface BeastFilterProps {
 const options: (BeastCategory | "all")[] = ["all", "beast", "bird", "fish", "serpent", "god"];
 
 export default function BeastFilter({
- active,
- onChange,
- search,
- onSearch,
+  active,
+  onChange,
+  search,
+  onSearch,
 }: BeastFilterProps) {
+  const tabsRef = useRef<HTMLDivElement>(null);
+
+  const handleChange = useCallback((category: BeastCategory | "all") => {
+    onChange(category);
+    // Auto-scroll clicked tab into view, revealing the next tab too
+    requestAnimationFrame(() => {
+      const container = tabsRef.current;
+      if (!container) return;
+      const tab = container.querySelector(`[data-tab-key="${category}"]`) as HTMLElement | null;
+      if (!tab) return;
+      const tabLeft = tab.offsetLeft;
+      const tabRight = tabLeft + tab.offsetWidth;
+      const viewLeft = container.scrollLeft;
+      const viewRight = viewLeft + container.clientWidth;
+      if (tabLeft < viewLeft) {
+        container.scrollTo({ left: Math.max(0, tabLeft - 16), behavior: "smooth" });
+      } else if (tabRight > viewRight) {
+        container.scrollTo({ left: tabRight - container.clientWidth + 16, behavior: "smooth" });
+      }
+    });
+  }, [onChange]);
+
  return (
  <div className="sticky top-16 z-30 -mx-4 bg-xuan px-4 py-3 md:-mx-6 md:px-6">
  <div className="mx-auto flex max-w-[1100px] flex-col gap-3 md:flex-row md:items-center md:justify-between">
- <div className="flex flex-nowrap gap-2 overflow-x-auto scrollbar-hide" role="group" aria-label="异兽分类筛选">
+ <div ref={tabsRef} className="flex flex-nowrap gap-2 overflow-x-auto scrollbar-hide" role="group" aria-label="异兽分类筛选">
  {options.map((key) => {
  const label = key === "all" ? "全部" : categoryLabels[key as BeastCategory];
  const icon = categoryIcons[key];
@@ -52,7 +75,8 @@ export default function BeastFilter({
  return (
  <button
  key={key}
- onClick={() => onChange(key)}
+ onClick={() => handleChange(key)}
+ data-tab-key={key}
  aria-pressed={isActive}
  className={`capsule-btn inline-flex flex-shrink-0 items-center gap-1.5 rounded-full border px-3.5 py-1.5 min-h-[36px] font-serif text-sm ${
  isActive

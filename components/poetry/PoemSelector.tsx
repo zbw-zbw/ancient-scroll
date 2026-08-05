@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, useRef, useCallback } from "react";
 import { poems, type Poem } from "@/data/poems";
 import { getProgress } from "@/lib/progress";
 import PageHeader from "@/components/PageHeader";
@@ -30,6 +30,27 @@ export default function PoemSelector({ onSelect }: PoemSelectorProps) {
   const [completedPoems, setCompletedPoems] = useState<string[]>([]);
   const [activeCategory, setActiveCategory] =
     useState<CategoryFilter>("全部");
+  const tabsRef = useRef<HTMLDivElement>(null);
+
+  const handleCategoryChange = useCallback((category: string) => {
+    setActiveCategory(category);
+    // Auto-scroll clicked tab into view, revealing the next tab too
+    requestAnimationFrame(() => {
+      const container = tabsRef.current;
+      if (!container) return;
+      const tab = container.querySelector(`[data-tab-key="${category}"]`) as HTMLElement | null;
+      if (!tab) return;
+      const tabLeft = tab.offsetLeft;
+      const tabRight = tabLeft + tab.offsetWidth;
+      const viewLeft = container.scrollLeft;
+      const viewRight = viewLeft + container.clientWidth;
+      if (tabLeft < viewLeft) {
+        container.scrollTo({ left: Math.max(0, tabLeft - 16), behavior: "smooth" });
+      } else if (tabRight > viewRight) {
+        container.scrollTo({ left: tabRight - container.clientWidth + 16, behavior: "smooth" });
+      }
+    });
+  }, []);
 
   // 客户端加载已读诗词进度
   useEffect(() => {
@@ -62,7 +83,8 @@ export default function PoemSelector({ onSelect }: PoemSelectorProps) {
         {/* 分类筛选条（胶囊标签，样式与异兽图鉴一致） */}
         <div className="mb-8 md:mb-10">
           <div
-            className="flex flex-nowrap gap-2 overflow-x-auto scrollbar-hide"
+            ref={tabsRef}
+            className="scroll-fade-edges flex flex-nowrap gap-2 overflow-x-auto scrollbar-hide"
             role="group"
             aria-label="诗词分类筛选"
           >
@@ -73,7 +95,8 @@ export default function PoemSelector({ onSelect }: PoemSelectorProps) {
                 <button
                   key={category}
                   type="button"
-                  onClick={() => setActiveCategory(category)}
+                  onClick={() => handleCategoryChange(category)}
+                  data-tab-key={category}
                   aria-pressed={isActive}
                   className={`capsule-btn inline-flex flex-shrink-0 items-center gap-1.5 rounded-full border px-3.5 py-1.5 min-h-[36px] font-serif text-sm transition-all ${
                     isActive

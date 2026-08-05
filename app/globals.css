@@ -949,15 +949,17 @@ a[class~="py-2.5"],
 }
 
 /* ===== Mobile touch target enforcement (36x36px minimum) ===== */
+/* Excludes role="switch" (toggle switches have their own fixed dimensions)
+   and buttons inside voice/segmented controls that use explicit h-/w- classes */
 @media (hover: none) and (pointer: coarse) {
   /* Ensure all interactive elements meet minimum touch target size */
-  button,
+  button:not([role="switch"]),
   a,
   [role="button"] {
     min-height: 36px;
   }
   /* Icon-only buttons need both dimensions */
-  button[aria-label],
+  button[aria-label]:not([role="switch"]),
   a[aria-label] {
     min-width: 36px;
     min-height: 36px;

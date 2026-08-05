@@ -40,6 +40,31 @@ export default function NotesClient() {
   const undoTimerRef = useRef<ReturnType<typeof setTimeout>>(undefined);
   const { toast } = useToast();
 
+  // Refs for auto-scrolling tabs into view
+  const tabsContainerRef = useRef<HTMLDivElement>(null);
+
+  const handleFilterChange = useCallback((id: string) => {
+    setFilter(id);
+    // Auto-scroll the clicked tab into view, also reveal the next tab
+    requestAnimationFrame(() => {
+      const container = tabsContainerRef.current;
+      if (!container) return;
+      const tab = container.querySelector(`[data-tab-id="${id}"]`) as HTMLElement | null;
+      if (!tab) return;
+      const tabLeft = tab.offsetLeft;
+      const tabRight = tabLeft + tab.offsetWidth;
+      const viewLeft = container.scrollLeft;
+      const viewRight = viewLeft + container.clientWidth;
+      if (tabLeft < viewLeft) {
+        // Tab hidden on left — scroll to show it with padding
+        container.scrollTo({ left: Math.max(0, tabLeft - 16), behavior: "smooth" });
+      } else if (tabRight > viewRight) {
+        // Tab hidden on right — scroll to show it + reveal next tab
+        container.scrollTo({ left: tabRight - container.clientWidth + 16, behavior: "smooth" });
+      }
+    });
+  }, []);
+
   const loadNotes = useCallback(() => {
     setNotes(getAllNotes().sort((a, b) => b.createdAt - a.createdAt));
   }, []);
@@ -134,10 +159,16 @@ export default function NotesClient() {
       <div className="mx-auto max-w-[1100px] px-4 pt-8 md:px-6 md:pt-12">
         {/* Toolbar */}
         {notes.length > 0 && (
-          <div className="mb-8 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-            <div className="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-hide sm:flex-wrap sm:overflow-visible sm:pb-0" role="group" aria-label="章节筛选">
+          <div className="mb-8 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+            <div
+              ref={tabsContainerRef}
+              className="scroll-fade-edges flex min-w-0 flex-1 items-center gap-2 overflow-x-auto pb-1 scrollbar-hide md:flex-none"
+              role="group"
+              aria-label="章节筛选"
+            >
               <button
-                onClick={() => setFilter("all")}
+                onClick={() => handleFilterChange("all")}
+                data-tab-id="all"
                 aria-pressed={filter === "all"}
                 className={`flex-shrink-0 rounded-full px-4 py-1.5 min-h-[32px] font-serif text-xs transition-colors ${
                   filter === "all"
@@ -152,7 +183,8 @@ export default function NotesClient() {
                 return (
                   <button
                     key={c.id}
-                    onClick={() => setFilter(c.id)}
+                    onClick={() => handleFilterChange(c.id)}
+                    data-tab-id={c.id}
                     aria-pressed={filter === c.id}
                     className={`flex-shrink-0 rounded-full px-4 py-1.5 min-h-[32px] font-serif text-xs transition-colors ${
                       filter === c.id
@@ -166,7 +198,7 @@ export default function NotesClient() {
               })}
             </div>
 
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 flex-shrink-0">
               <div className="relative">
                 <svg
                   viewBox="0 0 24 24"
