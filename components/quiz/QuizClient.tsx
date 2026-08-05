@@ -10,9 +10,10 @@ import {
   type QuizQuestion,
   type QuizType,
 } from "@/data/quiz";
-import { getQuizStats, saveQuizResult, type QuizStats } from "@/lib/progress";
+import { getQuizStats, saveQuizResult, saveQuizHistory, type QuizStats, type QuizHistoryRecord } from "@/lib/progress";
 import QuizGame, { type AnswerRecord } from "./QuizGame";
 import QuizResult from "./QuizResult";
+import QuizHistory from "./QuizHistory";
 
 type GameState = "entry" | "playing" | "result";
 
@@ -112,8 +113,32 @@ export default function QuizClient() {
     setFinalScore(score);
     setFinalAnswers(answers);
     setGameState("result");
-    // Save to localStorage and update stats
+
+    // 保存汇总统计
     saveQuizResult(score, questions.length);
+
+    // 保存本次答题详细记录
+    const historyRecord: QuizHistoryRecord = {
+      id: `quiz-${Date.now()}`,
+      date: new Date().toISOString(),
+      mode: questions[0]?.type === "poem-fill" ? "诗词专项"
+          : questions[0]?.type === "beast-identify" || questions[0]?.type === "beast-image" ? "山海经专项"
+          : "快速挑战",
+      score,
+      total: questions.length,
+      answers: answers.map(a => ({
+        questionId: a.question.id,
+        questionText: a.question.question,
+        questionType: a.question.type,
+        selectedIndex: a.selectedIndex,
+        correctIndex: a.question.correctIndex,
+        correct: a.correct,
+        options: a.question.options,
+        explanation: a.question.explanation,
+      })),
+    };
+    saveQuizHistory(historyRecord);
+
     // Refresh displayed stats
     setStats(getQuizStats());
     // Scroll to top for results
@@ -278,6 +303,9 @@ export default function QuizClient() {
         </div>
       </div>
       </div>
+
+      {/* Quiz History */}
+      <QuizHistory />
     </main>
   );
 }

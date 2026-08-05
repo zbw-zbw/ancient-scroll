@@ -1,7 +1,8 @@
 "use client";
 
 import { useEffect, useState, useRef } from "react";
-import { getCompletionRate } from "@/lib/progress";
+import { getCompletionRate, getProgress, getQuizStats, getFavorites } from "@/lib/progress";
+import { getCollectedBeasts } from "@/lib/collection";
 import { chapters } from "@/data/shanhaijing";
 import { beasts } from "@/data/beasts";
 import { poems } from "@/data/poems";
@@ -43,8 +44,34 @@ export default function DataStats() {
   const [inView, setInView] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
 
+  const [personalStats, setPersonalStats] = useState({
+    readChapters: 0,
+    completedPoems: 0,
+    dialogueCharacters: 0,
+    collectedBeasts: 0,
+    quizCorrectRate: 0,
+    totalFavorites: 0,
+  });
+
   useEffect(() => {
-    const update = () => setRate(getCompletionRate());
+    const update = () => {
+      setRate(getCompletionRate());
+      const progress = getProgress();
+      const quizStats = getQuizStats();
+      const collected = getCollectedBeasts();
+      const favorites = getFavorites();
+
+      setPersonalStats({
+        readChapters: new Set(progress.readChapters).size,
+        completedPoems: new Set(progress.completedPoems).size,
+        dialogueCharacters: new Set(progress.dialogueCharacters).size,
+        collectedBeasts: collected.length,
+        quizCorrectRate: quizStats.totalAttempts > 0
+          ? Math.round((quizStats.totalCorrect / (quizStats.totalAttempts * 10)) * 100)
+          : 0,
+        totalFavorites: (favorites.favoritePoems?.length || 0) + (favorites.favoriteBeasts?.length || 0),
+      });
+    };
     update();
     window.addEventListener("ancient-scroll:progress-changed", update);
     window.addEventListener("storage", update);
@@ -101,6 +128,31 @@ export default function DataStats() {
           </div>
           <p className="mt-1 font-serif text-xs text-ink/60">{rate}%</p>
         </div>
+
+        {/* 个人学习数据 */}
+        {rate > 0 && (
+          <div className="mb-8 grid grid-cols-3 gap-4 sm:grid-cols-6">
+            {[
+              { value: personalStats.readChapters, total: chapters.length, label: "已读篇章", unit: "篇" },
+              { value: personalStats.collectedBeasts, total: beasts.length, label: "已集异兽", unit: "只" },
+              { value: personalStats.completedPoems, total: poems.length, label: "已赏诗词", unit: "首" },
+              { value: personalStats.dialogueCharacters, total: characters.length, label: "已对话", unit: "位" },
+              { value: personalStats.totalFavorites, total: null as number | null, label: "收藏", unit: "条" },
+              { value: personalStats.quizCorrectRate, total: null as number | null, label: "答题正确率", unit: "%" },
+            ].map((item, i) => (
+              <div key={i} className="rounded-xl border border-ink/5 bg-surface/60 p-3 text-center">
+                <div className="flex items-baseline justify-center gap-0.5">
+                  <span className="font-calligraphy text-xl text-cinnabar">{item.value}</span>
+                  {item.total !== null && (
+                    <span className="font-serif text-xs text-muted">/{item.total}</span>
+                  )}
+                  <span className="font-serif text-xs text-muted">{item.unit}</span>
+                </div>
+                <p className="mt-0.5 font-serif text-[10px] text-muted">{item.label}</p>
+              </div>
+            ))}
+          </div>
+        )}
 
         {/* Ancient books highlight banner */}
         <div className="mb-6 text-center">

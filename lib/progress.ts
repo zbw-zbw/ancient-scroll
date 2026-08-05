@@ -241,20 +241,66 @@ export function getQuizStats(): QuizStats {
   }, defaultQuizStats);
 }
 
-/** 保存一次答题结果，更新统计数据并通知成就系统 */
-export function saveQuizResult(score: number, correctCount: number) {
+/**
+ * 保存一次答题结果，更新统计数据并通知成就系统
+ * @param correctCount 本次答对题数
+ * @param totalCount   本次总题数
+ */
+export function saveQuizResult(correctCount: number, totalCount: number) {
   if (typeof window === "undefined") return;
   const current = getQuizStats();
   const updated: QuizStats = {
     totalAttempts: current.totalAttempts + 1,
     totalCorrect: current.totalCorrect + correctCount,
-    bestScore: Math.max(current.bestScore, score),
+    bestScore: Math.max(current.bestScore, correctCount),
     lastPlayedAt: new Date().toISOString(),
   };
   try {
     localStorage.setItem(QUIZ_STATS_KEY, JSON.stringify(updated));
   } catch {}
   notifyProgressChange();
+}
+
+// --- Quiz History ---
+
+const QUIZ_HISTORY_KEY = "ancient-scroll-quiz-history";
+
+export interface QuizHistoryRecord {
+  id: string;
+  date: string;
+  mode: string;
+  score: number;
+  total: number;
+  answers: {
+    questionId: string;
+    questionText: string;
+    questionType: string;
+    selectedIndex: number;
+    correctIndex: number;
+    correct: boolean;
+    options: string[];
+    explanation: string;
+  }[];
+}
+
+export function getQuizHistory(): QuizHistoryRecord[] {
+  if (typeof window === "undefined") return [];
+  return safeParse(() => {
+    const raw = localStorage.getItem(QUIZ_HISTORY_KEY);
+    if (!raw) return [];
+    return JSON.parse(raw) as QuizHistoryRecord[];
+  }, []);
+}
+
+export function saveQuizHistory(record: QuizHistoryRecord): void {
+  if (typeof window === "undefined") return;
+  const history = getQuizHistory();
+  // 最多保留最近 50 条记录
+  history.unshift(record);
+  if (history.length > 50) history.length = 50;
+  try {
+    localStorage.setItem(QUIZ_HISTORY_KEY, JSON.stringify(history));
+  } catch {}
 }
 
 // --- Reading Preferences ---
