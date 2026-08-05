@@ -129,7 +129,7 @@ export default function NotesClient() {
   void tick;
 
   return (
-    <div className="min-h-dvh bg-xuan pb-16">
+    <main className="min-h-dvh bg-xuan pb-16">
       <PageHeader title="我的笔记" subtitle="山海经字词笔记，温故而知新" compact />
       <div className="mx-auto max-w-[1000px] px-4 pt-8 md:px-6 md:pt-12">
         {/* Toolbar */}
@@ -284,7 +284,7 @@ export default function NotesClient() {
           </div>
         )}
       </div>
-    </div>
+    </main>
   );
 }
 

@@ -52,7 +52,7 @@ export default function PoemSelector({ onSelect }: PoemSelectorProps) {
   }, []);
 
   return (
-    <div className="min-h-dvh bg-xuan pb-16">
+    <main className="min-h-dvh bg-xuan pb-16">
       <PageHeader
         title="诗境漫游"
         subtitle="一字一句，走进古诗的意境"
@@ -118,6 +118,6 @@ export default function PoemSelector({ onSelect }: PoemSelectorProps) {
         onClose={() => setSharePoem(null)}
         poem={sharePoem}
       />
-    </div>
+    </main>
   );
 }

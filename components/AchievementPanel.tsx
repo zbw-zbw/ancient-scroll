@@ -98,7 +98,7 @@ export default function AchievementPanel() {
 
   if (!mounted) {
     return (
-      <section className="px-4 pt-24 pb-16 md:px-6 md:pt-32 md:pb-24">
+      <main className="min-h-dvh bg-xuan px-4 pt-24 pb-16 md:px-6 md:pt-32 md:pb-24">
         <div className="mx-auto max-w-[1100px]">
           <div className="text-center">
             <div className="mx-auto h-9 w-32 animate-pulse rounded-lg bg-ink/10" />
@@ -118,7 +118,7 @@ export default function AchievementPanel() {
             ))}
           </div>
         </div>
-      </section>
+      </main>
     );
   }
 
@@ -131,7 +131,7 @@ export default function AchievementPanel() {
   const categories = Array.from(new Set(achievements.map((a) => a.category)));
 
   return (
-    <section className="pb-16 md:pb-24">
+    <main className="min-h-dvh bg-xuan pb-16 md:pb-24">
       <PageHeader title="成就之路" subtitle="每一步探索，都是一段旅程" compact />
       <div className="mx-auto max-w-[1100px] px-4 md:px-6">
         <div className="mt-6 flex justify-center">
@@ -271,6 +271,6 @@ export default function AchievementPanel() {
           })}
         </div>
       </div>
-    </section>
+    </main>
   );
 }
