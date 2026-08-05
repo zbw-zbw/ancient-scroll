@@ -237,15 +237,21 @@ export default function SettingsPage() {
               </div>
             </div>
 
-            {/* AI Voice Selection — 每个音色选项后附带试听按钮 */}
+            {/* AI Voice Selection */}
             <div>
-              <div className="mb-3">
+              <div className="mb-4">
                 <p className="font-serif text-sm text-ink flex items-center gap-1.5">
-                  <span aria-hidden="true">🎙️</span> AI 朗读音色
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4 text-cinnabar">
+                    <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z" />
+                    <path d="M19 10v2a7 7 0 0 1-14 0v-2" />
+                    <line x1="12" x2="12" y1="19" y2="22" />
+                  </svg>
+                  AI 朗读音色
                 </p>
-                <p className="font-serif text-xs text-muted">火山引擎智能语音，点击试听预览</p>
+                <p className="font-serif text-xs text-muted mt-0.5">火山引擎智能语音，点击卡片选择，点击试听预览效果</p>
               </div>
-              <div className="rounded-xl border border-ink/10 bg-xuan/30 overflow-hidden">
+
+              <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
                 {AI_VOICES.map((voice) => {
                   const isSelected = voice.id === selectedAIVoice;
                   const isPreviewing = voice.id === previewingVoice;
@@ -253,45 +259,51 @@ export default function SettingsPage() {
                     <div
                       key={voice.id}
                       onClick={() => handleAIVoiceChange(voice.id)}
-                      className={`flex items-center gap-2 px-4 py-3 border-b border-ink/5 last:border-b-0 cursor-pointer transition-colors ${
-                        isSelected ? "bg-cinnabar/8" : "hover:bg-ink/5"
+                      className={`relative rounded-xl p-3 cursor-pointer transition-all border ${
+                        isSelected
+                          ? "border-cinnabar/40 bg-cinnabar/5 shadow-sm"
+                          : "border-ink/8 bg-xuan/20 hover:border-ink/15 hover:bg-xuan/40"
                       }`}
                     >
-                      <div className="flex-1 min-w-0">
-                        <div className="flex items-center gap-2">
-                          <span className={`font-serif text-sm font-semibold ${isSelected ? "text-cinnabar" : "text-ink"}`}>
+                      {/* 选中标记 */}
+                      {isSelected && (
+                        <div className="absolute top-2 right-2">
+                          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className="h-3.5 w-3.5 text-cinnabar">
+                            <polyline points="20 6 9 17 4 12" />
+                          </svg>
+                        </div>
+                      )}
+
+                      {/* 音色信息 */}
+                      <div className="mb-2">
+                        <div className="flex items-center gap-1.5">
+                          <span className={`font-calligraphy text-base ${isSelected ? "text-cinnabar" : "text-ink"}`}>
                             {voice.name}
                           </span>
-                          <span className={`inline-flex items-center rounded-full px-1.5 py-0.5 font-serif text-[10px] ${
-                            voice.gender === "female"
-                              ? "bg-pink-100 text-pink-700"
-                              : "bg-blue-100 text-blue-700"
-                          }`}>
-                            {voice.gender === "female" ? "女声" : "男声"}
-                          </span>
-                          {isSelected && (
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className="h-3.5 w-3.5 text-cinnabar flex-shrink-0">
-                              <polyline points="20 6 9 17 4 12" />
-                            </svg>
-                          )}
+                          <span className={`inline-block w-1.5 h-1.5 rounded-full ${
+                            voice.gender === "female" ? "bg-pink-400" : "bg-blue-400"
+                          }`} />
                         </div>
-                        <p className="font-serif text-xs text-muted mt-0.5 truncate">{voice.description}</p>
+                        <p className="font-serif text-[11px] text-muted mt-1 leading-tight line-clamp-2">
+                          {voice.description}
+                        </p>
                       </div>
+
                       {/* 试听按钮 */}
                       <button
                         onClick={(e) => {
                           e.stopPropagation();
                           handlePreviewVoice(voice.id);
                         }}
-                        className={`inline-flex items-center gap-1 rounded-full px-2.5 py-1 min-h-[32px] font-serif text-xs transition-none flex-shrink-0 ${
+                        className={`w-full flex items-center justify-center gap-1 rounded-lg py-1.5 font-serif text-xs transition-colors ${
                           isPreviewing
                             ? "bg-cinnabar/10 text-cinnabar"
-                            : "bg-ink/5 text-light-ink hover:bg-ink/10"
+                            : "bg-ink/5 text-light-ink hover:bg-ink/8"
                         }`}
                       >
                         {isPreviewing ? (
                           <>
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-3 w-3 animate-pulse">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-3 w-3 animate-pulse">
                               <rect x="6" y="5" width="4" height="14" rx="1" />
                               <rect x="14" y="5" width="4" height="14" rx="1" />
                             </svg>
@@ -299,9 +311,8 @@ export default function SettingsPage() {
                           </>
                         ) : (
                           <>
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-3 w-3">
-                              <path d="M11 5 6 9H2v6h4l5 4V5z" />
-                              <path d="M15.54 8.46a5 5 0 0 1 0 7.07" />
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-3 w-3">
+                              <polygon points="5 3 19 12 5 21 5 3" />
                             </svg>
                             试听
                           </>
@@ -311,8 +322,14 @@ export default function SettingsPage() {
                   );
                 })}
               </div>
-              <p className="mt-2 font-serif text-xs text-muted">
-                💡 网络不可用时自动切换为浏览器内置语音
+
+              <p className="mt-3 font-serif text-xs text-muted flex items-start gap-1.5">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-3.5 w-3.5 mt-0.5 flex-shrink-0">
+                  <circle cx="12" cy="12" r="10" />
+                  <line x1="12" x2="12" y1="16" y2="12" />
+                  <line x1="12" x2="12.01" y1="8" y2="8" />
+                </svg>
+                网络不可用时自动切换为浏览器内置语音
               </p>
             </div>
           </div>

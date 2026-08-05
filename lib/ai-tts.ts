@@ -93,6 +93,9 @@ function cleanup() {
     currentAbortController = null;
   }
   if (currentAudio) {
+    // 先移除事件监听，再清 src，避免触发 onerror 导致重复播放
+    currentAudio.onended = null;
+    currentAudio.onerror = null;
     currentAudio.pause();
     currentAudio.src = "";
     currentAudio = null;
@@ -156,12 +159,19 @@ export async function speakAI(
     const audio = new Audio(url);
     currentAudio = audio;
 
+    // 防止 cleanup 设置 src="" 时触发 onerror 导致重复播放
+    let ended = false;
+
     audio.onended = () => {
+      if (ended) return;
+      ended = true;
       cleanup();
       options?.onEnd?.();
     };
 
     audio.onerror = () => {
+      if (ended) return;
+      ended = true;
       cleanup();
       // 降级到浏览器 TTS
       fallbackToWebSpeech(text, options);
