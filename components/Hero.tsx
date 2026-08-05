@@ -78,7 +78,7 @@ export default function Hero() {
             // Scroll to the second screen (first content module below hero)
             window.scrollTo({ top: window.innerHeight, behavior: "smooth" });
           }}
-          className="mx-auto inline-flex items-center gap-2 rounded-full bg-cinnabar px-6 py-3 font-serif text-sm text-white shadow-md transition-all hover:bg-cinnabar/90 hover:shadow-lg active:scale-95 animate-hero-reveal md:mx-0"
+          className="mx-auto inline-flex items-center gap-2 rounded-full bg-cinnabar px-6 py-3 min-h-[44px] font-serif text-sm text-white shadow-md transition-all hover:bg-cinnabar/90 hover:shadow-lg active:scale-95 animate-hero-reveal md:mx-0"
           style={{ animationDelay: "1s" }}
         >
           开启旅程

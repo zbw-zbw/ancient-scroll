@@ -166,22 +166,22 @@ function ChatBubbleImpl({
             {isStreaming && !isThinking && <StreamingCursor />}
           </div>
 
-          {/* 底部小操作按钮（.msg-actions 类，hover 时显现） */}
+          {/* 底部小操作按钮：始终可见，贴近气泡 */}
           {showActions && (
-            <div className="msg-actions mt-1.5 flex items-center gap-1 pl-1">
+            <div className="mt-1.5 flex items-center gap-1.5 pl-1">
               {/* 复制按钮 */}
               <button
                 onClick={handleCopy}
-                className="rounded-md p-1 text-muted transition-colors hover:text-cinnabar"
+                className="rounded-md p-1.5 text-muted transition-colors hover:text-cinnabar"
                 aria-label="复制消息"
                 title="复制"
               >
-                <IconCopy className="h-3.5 w-3.5" />
+                <IconCopy className="h-4 w-4" />
               </button>
               {/* 朗读按钮：正在朗读时显示脉冲动画 */}
               <button
                 onClick={handleSpeak}
-                className={`rounded-md p-1 transition-colors ${
+                className={`rounded-md p-1.5 transition-colors ${
                   speaking
                     ? "text-cinnabar"
                     : "text-muted hover:text-cinnabar"
@@ -198,7 +198,7 @@ function ChatBubbleImpl({
                     strokeWidth="2"
                     strokeLinecap="round"
                     strokeLinejoin="round"
-                    className="h-3.5 w-3.5 animate-pulse"
+                    className="h-4 w-4 animate-pulse"
                     aria-hidden="true"
                   >
                     <path d="m11 5-6 14" />
@@ -215,7 +215,7 @@ function ChatBubbleImpl({
                     strokeWidth="2"
                     strokeLinecap="round"
                     strokeLinejoin="round"
-                    className="h-3.5 w-3.5"
+                    className="h-4 w-4"
                     aria-hidden="true"
                   >
                     <path d="M11 5 6 9H2v6h4l5 4V5z" />
@@ -228,7 +228,7 @@ function ChatBubbleImpl({
               {showRegenerate && onRegenerate && (
                 <button
                   onClick={onRegenerate}
-                  className="rounded-md p-1 text-muted transition-colors hover:text-cinnabar"
+                  className="rounded-md p-1.5 text-muted transition-colors hover:text-cinnabar"
                   aria-label="重新生成回复"
                   title="重新生成"
                 >
@@ -240,7 +240,7 @@ function ChatBubbleImpl({
                     strokeWidth="2"
                     strokeLinecap="round"
                     strokeLinejoin="round"
-                    className="h-3.5 w-3.5"
+                    className="h-4 w-4"
                     aria-hidden="true"
                   >
                     <path d="M21 12a9 9 0 1 1-9-9c2.52 0 4.93 1 6.74 2.74L21 8" />

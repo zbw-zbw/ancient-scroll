@@ -77,7 +77,7 @@ export default function EndingSlide({
         }`}
       >
         {/* 诗名 */}
-        <h2 className="mb-1 font-calligraphy text-2xl text-ink md:mb-2 md:text-5xl">
+        <h2 className="mb-1 font-calligraphy text-3xl text-ink md:mb-2 md:text-5xl">
           {poem.title}
         </h2>
         <p className="mb-2 font-serif text-sm text-muted md:mb-8 md:text-base">
@@ -85,33 +85,33 @@ export default function EndingSlide({
         </p>
 
         {/* 完整诗文 - 竖排卷轴样式：从右到左展开，模拟卷轴 */}
-        <div className="mb-3 flex justify-center md:mb-10">
+        <div className="mb-4 flex flex-1 items-center justify-center md:mb-10">
           <div
-            className="rounded-lg border-2 border-xuan-dark/30 bg-surface/30 p-1.5 shadow-sm md:border-4 md:p-6"
+            className="rounded-lg border-2 border-xuan-dark/30 bg-surface/30 p-2 shadow-sm md:border-4 md:p-6"
             style={{
               boxShadow:
                 "inset 0 0 12px rgba(180, 150, 100, 0.08), 0 2px 8px rgba(0, 0, 0, 0.04)",
             }}
           >
             {/* flex-row-reverse：让第一句在最右，符合古文从右到左的阅读顺序 */}
-            <div className="flex flex-row-reverse justify-center gap-2 overflow-x-auto md:gap-6">
+            <div className="flex flex-row-reverse justify-center gap-3 overflow-x-auto md:gap-6">
               {poem.lines.map((line, i) => (
-                <div key={i} className="flex flex-col items-center gap-1 md:gap-3">
-                  {/* 诗句竖排：使用 .text-vertical 类，字号用 clamp 实现 375px 响应式 */}
+                <div key={i} className="flex flex-col items-center gap-1.5 md:gap-3">
+                  {/* 诗句竖排：字号在移动端更大，确保诗句成为视觉主角 */}
                   <p
                     className="text-vertical font-calligraphy text-ink"
                     style={{
-                      fontSize: "clamp(0.75rem, 2.8vw, 1.875rem)",
+                      fontSize: "clamp(1.125rem, 5vw, 2.25rem)",
                       lineHeight: "1.7",
                     }}
                   >
                     {line.text}
                   </p>
-                  {/* 注释竖排（小字）：同样使用 clamp 实现 375px 响应式 */}
+                  {/* 注释竖排（小字） */}
                   <p
                     className="text-vertical font-serif text-muted"
                     style={{
-                      fontSize: "clamp(0.55rem, 1.2vw, 0.875rem)",
+                      fontSize: "clamp(0.75rem, 2.2vw, 1rem)",
                       lineHeight: "1.5",
                     }}
                   >
@@ -123,13 +123,13 @@ export default function EndingSlide({
           </div>
         </div>
 
-        {/* 底部红色印章「诗境漫游」：使用 bg-seal-bg + text-seal-red + font-calligraphy */}
+        {/* 底部红色印章「诗境漫游」 */}
         <div className="mb-2 flex justify-center md:mb-8">
           <div
-            className="flex h-10 w-10 rotate-[-3deg] items-center justify-center rounded-sm border-2 border-seal-red/40 bg-seal-bg shadow-sm md:h-16 md:w-16"
+            className="flex h-9 w-9 rotate-[-3deg] items-center justify-center rounded-sm border-2 border-seal-red/40 bg-seal-bg shadow-sm md:h-16 md:w-16"
             aria-label="诗境漫游印章"
           >
-            <span className="text-center font-calligraphy text-xs leading-tight text-seal-red md:text-sm">
+            <span className="text-center font-calligraphy text-[10px] leading-tight text-seal-red md:text-sm">
               诗境
               <br />
               漫游
@@ -138,7 +138,7 @@ export default function EndingSlide({
         </div>
 
         {/* 诗词赏析一句话 */}
-        <p className="mb-2 font-handwrite text-xs italic text-light-ink md:mb-6 md:text-lg">
+        <p className="mb-2 font-handwrite text-sm italic text-light-ink md:mb-6 md:text-lg">
           — 愿你读完这首诗，心中自有山河 —
         </p>
 
@@ -152,45 +152,45 @@ export default function EndingSlide({
           </div>
         )}
 
-        {/* 按钮组 */}
-        <div className="flex flex-wrap items-center justify-center gap-2 md:gap-3">
+        {/* 按钮组：移动端更紧凑，避免抢夺诗句视觉 */}
+        <div className="flex flex-wrap items-center justify-center gap-1.5 md:gap-3">
           <button
             onClick={onRestart}
-            className="inline-flex items-center gap-1 rounded-full bg-cinnabar/5 px-4 py-1.5 font-serif text-xs text-cinnabar transition-colors hover:bg-cinnabar/10 md:px-6 md:py-2.5 md:text-sm"
+            className="inline-flex items-center gap-1 rounded-full bg-cinnabar/5 px-3 py-1.5 min-h-[36px] font-serif text-xs text-cinnabar transition-colors hover:bg-cinnabar/10 md:px-5 md:py-2 md:text-sm"
           >
-            <IconRefresh className="h-3.5 w-3.5 md:h-3.5 md:w-3.5" /> 再读一遍
+            <IconRefresh className="h-3.5 w-3.5 md:h-4 md:w-4" /> 再读一遍
           </button>
           <CopyButton
             text={fullPoemText}
             label="复制全诗"
             successMessage="全诗已复制到剪贴板"
-            className="rounded-full bg-surface/60 px-4 py-1.5 text-xs text-light-ink hover:bg-surface md:px-6 md:py-2.5 md:text-sm"
+            className="rounded-full bg-surface/60 px-3 py-1.5 min-h-[36px] text-xs text-light-ink hover:bg-surface md:px-5 md:py-2 md:text-sm"
           />
           <button
             onClick={onBack}
-            className="inline-flex items-center gap-1 rounded-full bg-surface/60 px-4 py-1.5 font-serif text-xs text-light-ink transition-colors hover:bg-surface md:px-6 md:py-2.5 md:text-sm"
+            className="inline-flex items-center gap-1 rounded-full bg-surface/60 px-3 py-1.5 min-h-[36px] font-serif text-xs text-light-ink transition-colors hover:bg-surface md:px-5 md:py-2 md:text-sm"
           >
-            选择其他诗 <IconArrowRight className="h-3.5 w-3.5 md:h-3.5 md:w-3.5" />
+            选择其他诗 <IconArrowRight className="h-3.5 w-3.5 md:h-4 md:w-4" />
           </button>
           <button
             onClick={() => setShowShare(true)}
-            className="inline-flex items-center gap-1 rounded-full bg-gold/5 px-4 py-1.5 font-serif text-xs text-gold transition-colors hover:bg-gold/10 md:px-6 md:py-2.5 md:text-sm"
+            className="inline-flex items-center gap-1 rounded-full bg-gold/5 px-3 py-1.5 min-h-[36px] font-serif text-xs text-gold transition-colors hover:bg-gold/10 md:px-5 md:py-2 md:text-sm"
           >
-            <IconShare className="h-3.5 w-3.5 md:h-3.5 md:w-3.5" /> 分享这首诗
+            <IconShare className="h-3.5 w-3.5 md:h-4 md:w-4" /> 分享这首诗
           </button>
           {poetToChar[poem.author] ? (
             <Link
               href={`/dialogue?character=${poetToChar[poem.author]}&ask=${encodeURIComponent(`我刚读了《${poem.title}》，想聊聊这首诗`)}`}
-              className="inline-flex items-center gap-1 rounded-full bg-indigo/5 px-4 py-1.5 font-serif text-xs text-indigo transition-colors hover:bg-indigo/10 md:px-6 md:py-2.5 md:text-sm"
+              className="inline-flex items-center gap-1 rounded-full bg-indigo/5 px-3 py-1.5 min-h-[36px] font-serif text-xs text-indigo transition-colors hover:bg-indigo/10 md:px-5 md:py-2 md:text-sm"
             >
-              <IconChat className="h-3.5 w-3.5 md:h-3.5 md:w-3.5" /> 和{poem.author}聊聊这首诗
+              <IconChat className="h-3.5 w-3.5 md:h-4 md:w-4" /> 和{poem.author}聊聊这首诗
             </Link>
           ) : (
             <Link
               href="/dialogue"
-              className="inline-flex items-center gap-1 rounded-full bg-indigo/5 px-4 py-1.5 font-serif text-xs text-indigo transition-colors hover:bg-indigo/10 md:px-6 md:py-2.5 md:text-sm"
+              className="inline-flex items-center gap-1 rounded-full bg-indigo/5 px-3 py-1.5 min-h-[36px] font-serif text-xs text-indigo transition-colors hover:bg-indigo/10 md:px-5 md:py-2 md:text-sm"
             >
-              <IconChat className="h-3.5 w-3.5 md:h-3.5 md:w-3.5" /> 和古人聊聊
+              <IconChat className="h-3.5 w-3.5 md:h-4 md:w-4" /> 和古人聊聊
             </Link>
           )}
         </div>

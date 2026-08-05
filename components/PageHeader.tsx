@@ -41,8 +41,8 @@ export default function PageHeader({ title, subtitle, compact }: PageHeaderProps
         )}
       </div>
 
-      {/* 小印章 — 统一位置：贴近页面右边缘 */}
-      <div className="absolute bottom-4 right-4 z-10 flex h-14 w-14 rotate-[-3deg] items-center justify-center rounded-sm bg-seal-bg shadow-sm md:bottom-6 md:right-6 md:h-16 md:w-16 lg:right-8">
+      {/* 小印章 — 统一位置：贴近页面右边缘；移动端屏幕窄，避免遮挡标题/副标题 */}
+      <div className="absolute bottom-4 right-4 z-10 hidden h-14 w-14 rotate-[-3deg] items-center justify-center rounded-sm bg-seal-bg shadow-sm md:flex md:bottom-6 md:right-6 md:h-16 md:w-16 lg:right-8">
         <span className="text-center font-calligraphy text-[10px] leading-tight text-seal-red md:text-xs">
           古籍
           <br />

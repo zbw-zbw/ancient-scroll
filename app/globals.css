@@ -726,17 +726,6 @@ footer {
   animation: reveal-from-right 0.7s ease-out forwards;
 }
 
-/* ===== Message action buttons fade-in on hover ===== */
-.msg-actions {
-  opacity: 0;
-  transition: opacity 0.2s ease;
-}
-
-.group:hover .msg-actions,
-.group:focus-within .msg-actions {
-  opacity: 1;
-}
-
 /* ===== Beast highlight pulse animation (from bestiary → reading) ===== */
 @keyframes beast-highlight-pulse {
   0%, 100% {
@@ -930,19 +919,48 @@ footer {
   display: none;
 }
 
-/* ===== Mobile touch target enforcement (44x44px minimum) ===== */
+/* ===== Global button padding refinement =====
+   将常见按钮内边距统一收紧约 20%–30%，缓解臃肿感；
+   仅作用于 button / a / [role="button"]，避免误伤普通徽章。 */
+button[class~="px-6"],
+a[class~="px-6"],
+[role="button"][class~="px-6"] {
+  padding-inline: 1.25rem !important;
+}
+button[class~="px-5"],
+a[class~="px-5"],
+[role="button"][class~="px-5"] {
+  padding-inline: 1rem !important;
+}
+button[class~="px-4"],
+a[class~="px-4"],
+[role="button"][class~="px-4"] {
+  padding-inline: 0.75rem !important;
+}
+button[class~="py-3"],
+a[class~="py-3"],
+[role="button"][class~="py-3"] {
+  padding-block: 0.625rem !important;
+}
+button[class~="py-2.5"],
+a[class~="py-2.5"],
+[role="button"][class~="py-2.5"] {
+  padding-block: 0.5rem !important;
+}
+
+/* ===== Mobile touch target enforcement (36x36px minimum) ===== */
 @media (hover: none) and (pointer: coarse) {
   /* Ensure all interactive elements meet minimum touch target size */
   button,
   a,
   [role="button"] {
-    min-height: 44px;
+    min-height: 36px;
   }
   /* Icon-only buttons need both dimensions */
   button[aria-label],
   a[aria-label] {
-    min-width: 44px;
-    min-height: 44px;
+    min-width: 36px;
+    min-height: 36px;
   }
 }
 
@@ -958,14 +976,6 @@ footer {
   /* Ensure hover-only functional content is visible on touch devices */
   .group-hover\:opacity-100 {
     opacity: 1 !important;
-  }
-
-  /* Message action buttons: always visible on touch */
-  .msg-actions {
-    opacity: 0.5;
-  }
-  .group:active .msg-actions {
-    opacity: 1;
   }
 }
 

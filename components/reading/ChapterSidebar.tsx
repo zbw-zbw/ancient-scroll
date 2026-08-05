@@ -18,20 +18,38 @@ export default function ChapterSidebar({
   onSelect,
 }: ChapterSidebarProps) {
   const mobileTabsRef = useRef<HTMLDivElement>(null);
+  const mobileTabsContainerRef = useRef<HTMLDivElement>(null);
   const selectedTabRef = useRef<HTMLButtonElement>(null);
   const [readChapters, setReadChapters] = useState<string[]>([]);
+  const [mobileTabsStuck, setMobileTabsStuck] = useState(false);
 
   useEffect(() => {
     setReadChapters(getProgress().readChapters);
   }, [selectedId]);
 
+  // Detect when mobile tab bar becomes sticky, so we can add a background only then
+  useEffect(() => {
+    const el = mobileTabsRef.current;
+    if (!el) return;
+    const handleScroll = () => {
+      const rect = el.getBoundingClientRect();
+      // sticky top offset = 4rem = 64px; allow small rounding tolerance
+      setMobileTabsStuck(rect.top <= 65);
+    };
+    handleScroll();
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    window.addEventListener("resize", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("resize", handleScroll);
+    };
+  }, []);
+
   // Auto-scroll mobile tabs to selected chapter
   useEffect(() => {
-    if (selectedTabRef.current && mobileTabsRef.current) {
-      const container = mobileTabsRef.current;
+    if (selectedTabRef.current && mobileTabsContainerRef.current) {
+      const container = mobileTabsContainerRef.current;
       const tab = selectedTabRef.current;
-      const containerRect = container.getBoundingClientRect();
-      const tabRect = tab.getBoundingClientRect();
       const scrollLeft = tab.offsetLeft - container.clientWidth / 2 + tab.clientWidth / 2;
       container.scrollTo({ left: scrollLeft, behavior: "smooth" });
     }
@@ -102,10 +120,17 @@ export default function ChapterSidebar({
       </aside>
 
       {/* Mobile horizontal scroll tabs */}
-      <div className="md:hidden w-full sticky top-16 z-30 flex-shrink-0 bg-xuan-dark">
+      <div
+        ref={mobileTabsRef}
+        className={`md:hidden w-full sticky top-16 z-30 flex-shrink-0 transition-colors duration-300 ${
+          mobileTabsStuck
+            ? "bg-xuan-dark/95 backdrop-blur-sm border-b border-ink/5"
+            : "bg-transparent"
+        }`}
+      >
         <div className="mx-auto max-w-[1100px] relative">
           <div
-            ref={mobileTabsRef}
+            ref={mobileTabsContainerRef}
             // 使用 .scroll-fade-edges 类实现两侧渐隐遮罩（mask-image 方案）
             className="scroll-fade-edges flex items-center gap-2.5 overflow-x-auto py-4 px-4 scrollbar-hide"
           >
@@ -117,7 +142,7 @@ export default function ChapterSidebar({
                   key={chapter.id}
                   ref={isSelected ? selectedTabRef : null}
                   onClick={() => onSelect(chapter.id)}
-                  className={`flex flex-shrink-0 items-center justify-center gap-1.5 rounded-full px-4 py-2 leading-none transition-all active:scale-95 ${
+                  className={`flex flex-shrink-0 items-center justify-center gap-1.5 rounded-full px-4 py-2 min-h-[36px] leading-none transition-all active:scale-95 ${
                     isSelected
                       ? "bg-cinnabar text-white"
                       : "bg-surface/50 text-light-ink hover:bg-surface"

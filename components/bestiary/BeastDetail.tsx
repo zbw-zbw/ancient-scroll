@@ -11,7 +11,6 @@ import {
   IconBookOpen,
   IconHeart,
   IconHeartOutline,
-  IconSparkles,
   IconPaw,
   IconBird,
   IconFish,
@@ -45,16 +44,13 @@ export default function BeastDetail({
   onShare,
 }: BeastDetailProps) {
   const [mounted, setMounted] = useState(false);
-  // AI 解读区域默认折叠
-  const [aiExpanded, setAiExpanded] = useState(false);
   const [imgError, setImgError] = useState(false);
   const imgAvailable = beast ? beastImageExists(beast.imagePath) : false;
   const modalRef = useRef<HTMLDivElement>(null);
   const previousFocusRef = useRef<HTMLElement | null>(null);
 
-  // 切换异兽时重置 AI 解读折叠状态和图片错误状态
+  // 切换异兽时重置图片错误状态
   useEffect(() => {
-    setAiExpanded(false);
     setImgError(false);
   }, [beast?.id]);
 
@@ -260,30 +256,14 @@ export default function BeastDetail({
             </p>
           </div>
 
-          {/* AI 解读区域 - 可折叠，默认折叠 */}
+          {/* AI 重新解读 */}
           <div className="mb-6">
-            <button
-              onClick={() => setAiExpanded((v) => !v)}
-              aria-expanded={aiExpanded}
-              aria-controls="ai-describe-panel"
-              className="inline-flex items-center gap-2 rounded-full bg-cinnabar/5 px-4 py-2.5 min-h-[44px] font-serif text-sm text-cinnabar transition-colors hover:bg-cinnabar/10 active:scale-95"
-            >
-              <IconSparkles className="h-3.5 w-3.5" />
-              AI 解读
-              <span className="font-serif text-xs text-muted">
-                {aiExpanded ? "收起" : "展开"}
-              </span>
-            </button>
-            {aiExpanded && (
-              <div id="ai-describe-panel" className="mt-3">
-                <AiDescribeButton
-                  name={beast.name}
-                  originalText={beast.originalText}
-                  currentDescription={currentDescription}
-                  onDescription={onDescription}
-                />
-              </div>
-            )}
+            <AiDescribeButton
+              name={beast.name}
+              originalText={beast.originalText}
+              currentDescription={currentDescription}
+              onDescription={onDescription}
+            />
           </div>
 
           {/* Share button - uses onShare prop to delegate to BestiaryClient */}
