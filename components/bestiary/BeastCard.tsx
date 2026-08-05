@@ -43,7 +43,7 @@ function BeastCardImpl({
       tabIndex={0}
       onClick={handleCardClick}
       onKeyDown={handleKeyDown}
-      className="card group flex min-w-0 cursor-pointer flex-col relative"
+      className="card card-hover group flex min-w-0 cursor-pointer flex-col relative"
       style={{ animationDelay: `${index * 0.1}s` }}
       aria-label={`查看${beast.name}详情`}
     >

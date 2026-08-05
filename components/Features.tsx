@@ -165,7 +165,7 @@ export default function Features() {
                 </Link>
               </div>
 
-              <div className={isOdd ? "md:order-2" : "md:order-1"}>
+              <div className={`card-hover ${isOdd ? "md:order-2" : "md:order-1"}`}>
                 {feature.mockup}
               </div>
             </div>

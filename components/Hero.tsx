@@ -52,7 +52,7 @@ export default function Hero() {
       {/* Foreground content */}
       <div className="relative z-10 flex h-full flex-col justify-center px-6 md:items-start md:px-12 lg:px-20">
         <h1
-          className="mb-6 text-center font-calligraphy tracking-wider md:text-left"
+          className="ink-spread mb-6 text-center font-calligraphy md:text-left"
           style={{ fontSize: "clamp(3rem, 12vw, 7rem)" }}
         >
           {title.split("").map((char, i) => (

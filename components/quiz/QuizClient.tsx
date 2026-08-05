@@ -302,10 +302,9 @@ export default function QuizClient() {
           </ul>
         </div>
       </div>
-      </div>
-
       {/* Quiz History */}
       <QuizHistory />
+      </div>
     </main>
   );
 }

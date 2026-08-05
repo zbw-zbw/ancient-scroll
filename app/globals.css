@@ -614,7 +614,7 @@ footer {
 @keyframes pageEnter {
   from {
     opacity: 0;
-    transform: translateY(12px);
+    transform: translateY(8px);
   }
   to {
     opacity: 1;
@@ -623,7 +623,55 @@ footer {
 }
 
 .page-enter {
-  animation: pageEnter 0.3s ease-out;
+  animation: pageEnter 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* ===== Card hover lift effect ===== */
+.card-hover {
+  transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1),
+              box-shadow 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@media (hover: hover) {
+  .card-hover:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+  }
+  .card-hover:active {
+    transform: translateY(0);
+  }
+}
+
+/* ===== Hero title ink-spread entrance ===== */
+@keyframes ink-spread {
+  0% {
+    opacity: 0;
+    filter: blur(8px);
+    letter-spacing: 0.3em;
+  }
+  60% {
+    opacity: 0.8;
+    filter: blur(2px);
+    letter-spacing: 0.1em;
+  }
+  100% {
+    opacity: 1;
+    filter: blur(0);
+    letter-spacing: normal;
+  }
+}
+
+.ink-spread {
+  animation: ink-spread 1.2s cubic-bezier(0.22, 1, 0.36, 1) 0.3s both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ink-spread {
+    animation: none !important;
+    opacity: 1 !important;
+    filter: none !important;
+    letter-spacing: normal !important;
+  }
 }
 
 /* ===== Skeleton shimmer ===== */

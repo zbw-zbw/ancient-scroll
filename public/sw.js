@@ -1,12 +1,25 @@
-const CACHE_NAME = 'gujihx-v1';
+const CACHE_NAME = 'gujihx-v2';
 
-// 需要缓存的静态资源
+// AI 交互类 API — 必须实时网络，不可缓存
+const NETWORK_ONLY_API = [
+  '/api/chat',
+  '/api/translate',
+  '/api/annotate',
+  '/api/tts',
+];
+
+// 需要预缓存的核心页面
 const STATIC_ASSETS = [
   '/',
   '/reading',
   '/bestiary',
   '/poetry',
+  '/dialogue',
   '/quiz',
+  '/favorites',
+  '/notes',
+  '/achievements',
+  '/settings',
   '/about',
 ];
 
@@ -37,13 +50,36 @@ self.addEventListener('fetch', (event) => {
   const { request } = event;
   const url = new URL(request.url);
 
-  // API 请求：网络优先（古今对话需要实时网络）
-  if (url.pathname.startsWith('/api/')) {
+  // 仅处理 GET 请求
+  if (request.method !== 'GET') return;
+
+  // AI 交互类 API：network-only，离线返回 503
+  if (NETWORK_ONLY_API.some((path) => url.pathname.startsWith(path))) {
     event.respondWith(
       fetch(request).catch(() => {
         return new Response(JSON.stringify({ error: '当前无网络连接，请稍后重试' }), {
           headers: { 'Content-Type': 'application/json' },
           status: 503,
+        });
+      })
+    );
+    return;
+  }
+
+  // 其他 API 请求：stale-while-revalidate（有缓存先用缓存，后台更新）
+  if (url.pathname.startsWith('/api/')) {
+    event.respondWith(
+      caches.open(CACHE_NAME).then((cache) => {
+        return cache.match(request).then((cached) => {
+          const fetchPromise = fetch(request)
+            .then((response) => {
+              if (response.ok) {
+                cache.put(request, response.clone());
+              }
+              return response;
+            })
+            .catch(() => cached);
+          return cached || fetchPromise;
         });
       })
     );
@@ -67,7 +103,7 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
-  // 页面和其他资源：网络优先，失败则用缓存
+  // 页面和其他资源：network-first，失败则用缓存
   event.respondWith(
     fetch(request)
       .then((response) => {

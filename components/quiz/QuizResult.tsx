@@ -4,6 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import type { QuizQuestion } from "@/data/quiz";
 import { IconArrowRight, IconRefresh } from "@/components/icons";
+import QuizShareModal from "./QuizShareModal";
 
 interface AnswerRecord {
   question: QuizQuestion;
@@ -97,19 +98,10 @@ export default function QuizResult({
   const rating = getRating(score, total);
   const wrongAnswers = answers.filter((a) => !a.correct);
   const [expandedId, setExpandedId] = useState<string | null>(null);
+  const [shareOpen, setShareOpen] = useState(false);
 
-  const handleShare = async () => {
-    const text = `我在「国学问答」中答对了 ${score}/${total} 题，获得「${rating.title}」称号！来挑战吧！`;
-    if (navigator.share) {
-      try {
-        await navigator.share({ title: "国学问答成绩", text });
-      } catch {}
-    } else {
-      try {
-        await navigator.clipboard.writeText(text);
-        alert("成绩已复制到剪贴板！");
-      } catch {}
-    }
+  const handleShare = () => {
+    setShareOpen(true);
   };
 
   return (
@@ -238,6 +230,16 @@ export default function QuizResult({
           </Link>
         </div>
       )}
+
+      {/* Share Modal */}
+      <QuizShareModal
+        open={shareOpen}
+        onClose={() => setShareOpen(false)}
+        score={score}
+        total={total}
+        ratingTitle={rating.title}
+        ratingColor={rating.color}
+      />
     </div>
   );
 }

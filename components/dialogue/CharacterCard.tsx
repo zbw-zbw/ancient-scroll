@@ -30,7 +30,7 @@ export default function CharacterCard({
   return (
     <button
       onClick={() => onSelect(character)}
-      className="card group relative overflow-hidden p-6 text-left"
+      className="card card-hover group relative overflow-hidden p-6 text-left"
     >
       {/* 右下角中国传统纹样装饰（回纹/云纹，用 repeating-linear-gradient 模拟） */}
       <div
