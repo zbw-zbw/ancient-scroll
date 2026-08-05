@@ -193,7 +193,7 @@ export default function ReadingClient() {
  subtitle="原文与译文对照，逐句品读山海经"
  compact
  />
- <div className="relative flex flex-1 min-h-0 flex-col md:flex-row md:pl-[200px] lg:pl-[240px]">
+ <div className="relative mx-auto flex w-full max-w-[1100px] flex-1 min-h-0 flex-col md:flex-row md:pl-[200px] lg:pl-[240px]">
         <ChapterSidebar
  chapters={sortedChapters}
  selectedId={selectedChapterId}

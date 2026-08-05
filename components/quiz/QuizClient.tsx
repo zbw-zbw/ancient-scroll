@@ -190,7 +190,7 @@ export default function QuizClient() {
         subtitle="测试你的古籍知识"
         compact
       />
-      <div className="mx-auto max-w-3xl px-6 pb-12 md:pb-16">
+      <div className="mx-auto max-w-[1100px] px-6 pb-12 md:pb-16">
       {/* Stats Banner */}
       {stats && stats.totalAttempts > 0 && (
         <div className="animate-fade-in mt-8 flex items-center justify-center gap-4 sm:gap-8">

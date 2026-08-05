@@ -149,11 +149,11 @@ export default function AchievementPanel() {
           </div>
         </div>
 
-        {/* Category filter */}
-        <div className="mt-8 flex flex-wrap justify-center gap-2">
+        {/* Category filter — horizontal scroll on overflow */}
+        <div className="mt-8 flex justify-start gap-2 overflow-x-auto pb-2 scrollbar-hide md:justify-center md:flex-wrap md:overflow-visible">
           <button
             onClick={() => setFilter("all")}
-            className={`rounded-full px-4 py-1.5 min-h-[32px] font-serif text-xs transition-all capsule-btn ${
+            className={`flex-shrink-0 rounded-full px-4 py-1.5 min-h-[32px] font-serif text-xs transition-all capsule-btn ${
               filter === "all"
                 ? "bg-cinnabar/10 text-cinnabar"
                 : "text-muted hover:bg-ink/5 hover:text-light-ink"
@@ -165,7 +165,7 @@ export default function AchievementPanel() {
             <button
               key={cat}
               onClick={() => setFilter(cat)}
-              className={`rounded-full px-4 py-1.5 min-h-[32px] font-serif text-xs transition-all capsule-btn ${
+              className={`flex-shrink-0 rounded-full px-4 py-1.5 min-h-[32px] font-serif text-xs transition-all capsule-btn ${
                 filter === cat
                   ? "bg-cinnabar/10 text-cinnabar"
                   : "text-muted hover:bg-ink/5 hover:text-light-ink"

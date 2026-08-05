@@ -125,8 +125,8 @@ export default function AboutPage() {
           }}
           aria-hidden="true"
         />
-        <div className="relative mx-auto max-w-3xl text-center">
-          <p className="mx-auto max-w-2xl font-serif text-base leading-relaxed text-light-ink md:text-lg">
+        <div className="relative mx-auto max-w-[1100px] text-center">
+          <p className="mx-auto max-w-3xl font-serif text-base leading-relaxed text-light-ink md:text-lg">
             中国有超过 20 万种古籍存世，但绝大多数人一辈子都不会翻开其中任何一本。不是不想读，而是读不懂、没画面、没兴趣。古籍焕新希望用 AI 技术，把古籍阅读从&lsquo;查字典式被动学习&rsquo;变成&lsquo;探索式主动体验&rsquo;，让每一个普通人都能感受到古文之美。
           </p>
         </div>
