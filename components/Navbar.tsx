@@ -223,7 +223,7 @@ export default function Navbar() {
               className={`inline-flex items-center justify-center w-9 h-9 rounded-full transition-colors ${
                 pathname === "/notes"
                   ? "bg-cinnabar/10 text-cinnabar"
-                  : "text-light-ink hover:text-cinnabar hover:bg-cinnabar/10"
+                  : "text-light-ink hover:text-cinnabar hover:bg-ink/5"
               }`}
             >
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4">
@@ -241,7 +241,7 @@ export default function Navbar() {
               className={`inline-flex items-center justify-center w-9 h-9 rounded-full transition-colors ${
                 pathname === "/favorites"
                   ? "bg-cinnabar/10 text-cinnabar"
-                  : "text-light-ink hover:text-cinnabar hover:bg-cinnabar/10"
+                  : "text-light-ink hover:text-cinnabar hover:bg-ink/5"
               }`}
             >
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4">
@@ -256,7 +256,7 @@ export default function Navbar() {
               className={`inline-flex items-center justify-center w-9 h-9 rounded-full transition-colors ${
                 pathname === "/achievements"
                   ? "bg-cinnabar/10 text-cinnabar"
-                  : "text-light-ink hover:text-cinnabar hover:bg-cinnabar/10"
+                  : "text-light-ink hover:text-cinnabar hover:bg-ink/5"
               }`}
             >
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4">
@@ -276,7 +276,7 @@ export default function Navbar() {
               className={`inline-flex items-center justify-center w-9 h-9 rounded-full transition-colors ${
                 pathname === "/settings"
                   ? "bg-cinnabar/10 text-cinnabar"
-                  : "text-light-ink hover:text-cinnabar hover:bg-cinnabar/10"
+                  : "text-light-ink hover:text-cinnabar hover:bg-ink/5"
               }`}
             >
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4">
@@ -290,7 +290,7 @@ export default function Navbar() {
               aria-label="切换深色模式"
               title="切换深色模式"
               aria-pressed={isDark}
-              className="inline-flex items-center justify-center w-9 h-9 rounded-full text-light-ink hover:text-cinnabar hover:bg-cinnabar/10 transition-colors active:scale-[0.97]"
+              className="inline-flex items-center justify-center w-9 h-9 rounded-full text-light-ink hover:text-cinnabar hover:bg-ink/5 transition-colors active:scale-[0.97]"
               onClick={toggleTheme}
             >
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="theme-icon-sun h-4 w-4">
@@ -317,7 +317,7 @@ export default function Navbar() {
               aria-label="切换深色模式"
               title="切换深色模式"
               aria-pressed={isDark}
-              className="inline-flex items-center justify-center w-11 h-11 rounded-full text-light-ink hover:text-cinnabar hover:bg-cinnabar/10 transition-colors active:scale-[0.97]"
+              className="inline-flex items-center justify-center w-11 h-11 rounded-full text-light-ink hover:text-cinnabar hover:bg-ink/5 transition-colors active:scale-[0.97]"
               onClick={toggleTheme}
             >
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="theme-icon-sun h-5 w-5">

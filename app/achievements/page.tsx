@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import AchievementPanel from "@/components/AchievementPanel";
+import Footer from "@/components/Footer";
 
 export const metadata: Metadata = {
   title: "成就徽章",
@@ -14,6 +15,7 @@ export default function AchievementsPage() {
   return (
     <>
       <AchievementPanel />
+      <Footer />
     </>
   );
 }

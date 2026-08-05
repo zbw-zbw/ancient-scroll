@@ -170,10 +170,10 @@ export default function NotesClient() {
                 onClick={() => handleFilterChange("all")}
                 data-tab-id="all"
                 aria-pressed={filter === "all"}
-                className={`flex-shrink-0 rounded-full px-4 py-1.5 min-h-[32px] font-serif text-xs transition-colors ${
+                className={`capsule-btn flex-shrink-0 rounded-full border px-3.5 py-1.5 min-h-[36px] font-serif text-sm transition-colors ${
                   filter === "all"
-                    ? "bg-cinnabar/10 text-cinnabar"
-                    : "text-muted hover:bg-ink/5 hover:text-light-ink"
+                    ? "border-cinnabar bg-cinnabar/10 text-cinnabar"
+                    : "border-ink/15 bg-transparent text-ink hover:bg-ink/5"
                 }`}
               >
                 全部 ({notes.length})
@@ -186,10 +186,10 @@ export default function NotesClient() {
                     onClick={() => handleFilterChange(c.id)}
                     data-tab-id={c.id}
                     aria-pressed={filter === c.id}
-                    className={`flex-shrink-0 rounded-full px-4 py-1.5 min-h-[32px] font-serif text-xs transition-colors ${
+                    className={`capsule-btn flex-shrink-0 rounded-full border px-3.5 py-1.5 min-h-[36px] font-serif text-sm transition-colors ${
                       filter === c.id
-                        ? "bg-cinnabar/10 text-cinnabar"
-                        : "text-muted hover:bg-ink/5 hover:text-light-ink"
+                        ? "border-cinnabar bg-cinnabar/10 text-cinnabar"
+                        : "border-ink/15 bg-transparent text-ink hover:bg-ink/5"
                     }`}
                   >
                     {c.name} ({count})

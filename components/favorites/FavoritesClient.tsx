@@ -73,10 +73,10 @@ export default function FavoritesClient() {
             role="tab"
             aria-selected={tab === "poems"}
             aria-pressed={tab === "poems"}
-            className={`inline-flex items-center gap-1.5 rounded-full px-5 py-2 font-serif text-sm transition-colors ${
+            className={`capsule-btn inline-flex items-center gap-1.5 rounded-full border px-3.5 py-1.5 min-h-[36px] font-serif text-sm transition-colors ${
               tab === "poems"
-                ? "bg-cinnabar/10 text-cinnabar"
-                : "text-muted hover:bg-ink/5 hover:text-light-ink"
+                ? "border-cinnabar bg-cinnabar/10 text-cinnabar"
+                : "border-ink/15 bg-transparent text-ink hover:bg-ink/5"
             }`}
           >
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4">
@@ -91,10 +91,10 @@ export default function FavoritesClient() {
             role="tab"
             aria-selected={tab === "beasts"}
             aria-pressed={tab === "beasts"}
-            className={`inline-flex items-center gap-1.5 rounded-full px-5 py-2 font-serif text-sm transition-colors ${
+            className={`capsule-btn inline-flex items-center gap-1.5 rounded-full border px-3.5 py-1.5 min-h-[36px] font-serif text-sm transition-colors ${
               tab === "beasts"
-                ? "bg-cinnabar/10 text-cinnabar"
-                : "text-muted hover:bg-ink/5 hover:text-light-ink"
+                ? "border-cinnabar bg-cinnabar/10 text-cinnabar"
+                : "border-ink/15 bg-transparent text-ink hover:bg-ink/5"
             }`}
           >
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4">

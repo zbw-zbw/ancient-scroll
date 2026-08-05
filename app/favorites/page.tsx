@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import FavoritesClient from "@/components/favorites/FavoritesClient";
+import Footer from "@/components/Footer";
 
 export const metadata: Metadata = {
   title: "我的收藏",
@@ -11,5 +12,10 @@ export const metadata: Metadata = {
 };
 
 export default function FavoritesPage() {
-  return <FavoritesClient />;
+  return (
+    <>
+      <FavoritesClient />
+      <Footer />
+    </>
+  );
 }

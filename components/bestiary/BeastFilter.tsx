@@ -79,17 +79,17 @@ export default function BeastFilter({
  data-tab-key={key}
  aria-pressed={isActive}
  className={`capsule-btn inline-flex flex-shrink-0 items-center gap-1.5 rounded-full border px-3.5 py-1.5 min-h-[36px] font-serif text-sm ${
- isActive
- ? "border-cinnabar bg-cinnabar text-white"
- : "border-ink/15 bg-transparent text-ink hover:bg-ink/5"
- }`}
+				isActive
+					? "border-cinnabar bg-cinnabar/10 text-cinnabar"
+					: "border-ink/15 bg-transparent text-ink hover:bg-ink/5"
+			}`}
  >
  {icon}
  <span>{label}</span>
  <span
  className={`ml-0.5 rounded-full px-1.5 py-0 text-[10px] transition-colors ${
- isActive ? "bg-white/20 text-white" : "bg-ink/5 text-muted"
- }`}
+					isActive ? "bg-cinnabar/15 text-cinnabar" : "bg-ink/5 text-muted"
+				}`}
  >
  {count}
  </span>

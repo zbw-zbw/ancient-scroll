@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
 import BestiaryClient from "@/components/bestiary/BestiaryClient";
+import Footer from "@/components/Footer";
 
 export const metadata: Metadata = {
   title: "异兽图鉴",
@@ -13,8 +14,11 @@ export const metadata: Metadata = {
 
 export default function BestiaryPage() {
   return (
-    <Suspense fallback={null}>
-      <BestiaryClient />
-    </Suspense>
+    <>
+      <Suspense fallback={null}>
+        <BestiaryClient />
+      </Suspense>
+      <Footer />
+    </>
   );
 }

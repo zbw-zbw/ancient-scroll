@@ -175,10 +175,10 @@ export default function AchievementPanel() {
           <button
             onClick={() => handleFilterChange("all")}
             data-tab-key="all"
-            className={`flex-shrink-0 rounded-full px-4 py-1.5 min-h-[32px] font-serif text-xs transition-all capsule-btn ${
+            className={`capsule-btn flex-shrink-0 rounded-full border px-3.5 py-1.5 min-h-[36px] font-serif text-sm transition-all ${
               filter === "all"
-                ? "bg-cinnabar/10 text-cinnabar"
-                : "text-muted hover:bg-ink/5 hover:text-light-ink"
+                ? "border-cinnabar bg-cinnabar/10 text-cinnabar"
+                : "border-ink/15 bg-transparent text-ink hover:bg-ink/5"
             }`}
           >
             全部
@@ -188,10 +188,10 @@ export default function AchievementPanel() {
               key={cat}
               onClick={() => handleFilterChange(cat)}
               data-tab-key={cat}
-              className={`flex-shrink-0 rounded-full px-4 py-1.5 min-h-[32px] font-serif text-xs transition-all capsule-btn ${
+              className={`capsule-btn flex-shrink-0 rounded-full border px-3.5 py-1.5 min-h-[36px] font-serif text-sm transition-all ${
                 filter === cat
-                  ? "bg-cinnabar/10 text-cinnabar"
-                  : "text-muted hover:bg-ink/5 hover:text-light-ink"
+                  ? "border-cinnabar bg-cinnabar/10 text-cinnabar"
+                  : "border-ink/15 bg-transparent text-ink hover:bg-ink/5"
               }`}
             >
               {categoryLabels[cat]}

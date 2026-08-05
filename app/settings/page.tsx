@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback, useRef } from "react";
 import PageHeader from "@/components/PageHeader";
+import Footer from "@/components/Footer";
 import { useToast } from "@/components/Toast";
 import { downloadBackup, importData, clearAllData, getDataStats } from "@/lib/dataManager";
 import { getReadingPrefs, saveReadingPrefs, type ReadingPrefs } from "@/lib/progress";
@@ -194,14 +195,14 @@ export default function SettingsPage() {
                   saveReadingPrefs(newPrefs);
                   toast(newPrefs.showTranslation ? "已开启默认译文" : "已关闭默认译文", "success");
                 }}
-                className={`relative inline-flex h-6 w-11 shrink-0 items-center rounded-full transition-colors ${
+                className={`relative inline-flex h-5 w-9 md:h-6 md:w-11 shrink-0 items-center rounded-full transition-colors ${
                   prefs.showTranslation ? "bg-cinnabar" : "bg-ink/20"
                 }`}
                 role="switch"
                 aria-checked={prefs.showTranslation}
               >
-                <span className={`pointer-events-none inline-block h-5 w-5 rounded-full bg-white shadow-sm transition-transform ${
-                  prefs.showTranslation ? "translate-x-5" : "translate-x-0.5"
+                <span className={`pointer-events-none inline-block h-3.5 w-3.5 md:h-5 md:w-5 rounded-full bg-white shadow-sm transition-transform ${
+                  prefs.showTranslation ? "translate-x-4 md:translate-x-5" : "translate-x-0.5"
                 }`} />
               </button>
             </div>
@@ -503,6 +504,7 @@ export default function SettingsPage() {
           </div>
         </section>
       </div>
+      <Footer />
     </main>
   );
 }

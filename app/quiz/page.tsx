@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
 import QuizClient from "@/components/quiz/QuizClient";
+import Footer from "@/components/Footer";
 
 export const metadata: Metadata = {
   title: "知识问答",
@@ -13,8 +14,11 @@ export const metadata: Metadata = {
 
 export default function QuizPage() {
   return (
-    <Suspense fallback={null}>
-      <QuizClient />
-    </Suspense>
+    <>
+      <Suspense fallback={null}>
+        <QuizClient />
+      </Suspense>
+      <Footer />
+    </>
   );
 }

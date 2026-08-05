@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import NotesClient from "@/components/notes/NotesClient";
+import Footer from "@/components/Footer";
 
 export const metadata: Metadata = {
   title: "我的笔记",
@@ -11,5 +12,10 @@ export const metadata: Metadata = {
 };
 
 export default function NotesPage() {
-  return <NotesClient />;
+  return (
+    <>
+      <NotesClient />
+      <Footer />
+    </>
+  );
 }
