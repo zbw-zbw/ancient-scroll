@@ -910,6 +910,14 @@ footer {
   transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+/* ===== Details/summary: hide default disclosure triangle ===== */
+summary::-webkit-details-marker {
+  display: none;
+}
+summary {
+  list-style: none;
+}
+
 /* ===== Scrollbar hide also for dark mode html ===== */
 .dark html,
 .dark * {

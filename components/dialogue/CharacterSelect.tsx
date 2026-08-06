@@ -4,6 +4,7 @@ import { useMemo, useState, useRef, useCallback } from "react";
 import { characters, HistoricalCharacter } from "../../data/characters";
 import PageHeader from "@/components/PageHeader";
 import CharacterCard from "./CharacterCard";
+import Footer from "@/components/Footer";
 
 interface CharacterSelectProps {
   onSelect: (character: HistoricalCharacter) => void;
@@ -194,6 +195,7 @@ export default function CharacterSelect({ onSelect }: CharacterSelectProps) {
           </div>
         )}
       </div>
+      <Footer />
     </>
   );
 }

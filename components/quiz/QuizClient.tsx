@@ -190,121 +190,106 @@ export default function QuizClient() {
         subtitle="测试你的古籍知识"
         compact
       />
-      <div className="mx-auto max-w-[1100px] px-6 pb-12 md:pb-16">
-      {/* Stats Banner */}
-      {stats && stats.totalAttempts > 0 && (
-        <div className="animate-fade-in mt-6 flex items-center justify-center gap-6 sm:gap-10">
-          <div className="text-center">
-            <p className="font-calligraphy text-xl text-cinnabar sm:text-2xl">{stats.bestScore}</p>
-            <p className="font-serif text-[10px] text-muted">最高分</p>
-          </div>
-          <div className="h-6 w-px bg-ink/10 sm:h-8" />
-          <div className="text-center">
-            <p className="font-calligraphy text-xl text-indigo sm:text-2xl">{stats.totalAttempts}</p>
-            <p className="font-serif text-[10px] text-muted">答题次数</p>
-          </div>
-          <div className="h-6 w-px bg-ink/10 sm:h-8" />
-          <div className="text-center">
-            <p className="font-calligraphy text-xl text-gold sm:text-2xl">{stats.totalCorrect}</p>
-            <p className="font-serif text-[10px] text-muted">累计答对</p>
-          </div>
-        </div>
-      )}
-
-      {/* Mode Cards */}
-      <div className="mt-10 grid grid-cols-1 gap-4 md:grid-cols-3">
-        {modes.map((mode, index) => (
-          <button
-            key={mode.id}
-            onClick={() => startQuiz(mode)}
-            className={`animate-fade-in group relative overflow-hidden rounded-2xl border border-ink/8 bg-gradient-to-br ${mode.accent} p-5 text-left transition-all duration-300 hover:border-cinnabar/20 hover:shadow-lg active:scale-[0.98] sm:p-6`}
-            style={{ animationDelay: `${index * 0.1}s`, animationFillMode: "both" }}
-          >
-            {/* Decorative watermark */}
-            <span className="pointer-events-none absolute -bottom-4 -right-2 font-calligraphy text-6xl leading-none opacity-5 select-none text-ink">
-              {mode.subtitle === "Random" ? "挑" : mode.subtitle === "Poetry" ? "诗" : "兽"}
-            </span>
-
-            <div className="mb-3 text-cinnabar transition-transform group-hover:scale-110">
-              {mode.icon}
+      <div className="mx-auto max-w-[1100px] px-4 pb-12 md:px-6 md:pb-16">
+        {/* Stats Cards - compact horizontal row */}
+        {stats && stats.totalAttempts > 0 && (
+          <div className="animate-fade-in mt-6 grid grid-cols-3 gap-3">
+            <div className="rounded-xl border border-ink/8 bg-surface/60 p-3 text-center md:p-4">
+              <p className="font-calligraphy text-2xl text-cinnabar md:text-3xl">{stats.bestScore}</p>
+              <p className="mt-0.5 font-serif text-[10px] text-muted md:text-xs">最高分</p>
             </div>
-            <h3 className="font-calligraphy text-2xl text-ink">{mode.title}</h3>
-            <p className="mt-1 font-serif text-xs text-muted">{mode.subtitle}</p>
-            <p className="mt-3 font-serif text-sm leading-relaxed text-light-ink">
-              {mode.desc}
-            </p>
-            <div className="mt-4 inline-flex items-center gap-1 font-serif text-xs text-cinnabar opacity-0 transition-opacity group-hover:opacity-100">
-              开始答题
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-3 w-3">
-                <path d="M5 12h14" />
-                <path d="m12 5 7 7-7 7" />
-              </svg>
+            <div className="rounded-xl border border-ink/8 bg-surface/60 p-3 text-center md:p-4">
+              <p className="font-calligraphy text-2xl text-indigo md:text-3xl">{stats.totalAttempts}</p>
+              <p className="mt-0.5 font-serif text-[10px] text-muted md:text-xs">答题次数</p>
             </div>
-          </button>
-        ))}
-      </div>
+            <div className="rounded-xl border border-ink/8 bg-surface/60 p-3 text-center md:p-4">
+              <p className="font-calligraphy text-2xl text-gold md:text-3xl">{stats.totalCorrect}</p>
+              <p className="mt-0.5 font-serif text-[10px] text-muted md:text-xs">累计答对</p>
+            </div>
+          </div>
+        )}
 
-      {/* Quiz Info */}
-      <div className="animate-fade-in mt-10 rounded-xl bg-surface p-5 text-center">
-        <p className="font-serif text-sm text-light-ink">
-          题库共 <span className="font-calligraphy text-lg text-cinnabar">{totalQuizQuestions}</span> 道题，
-          涵盖诗词填空、异兽辨识、名人名句、看图识兽四大题型
-        </p>
-        <div className="mt-3 flex flex-wrap items-center justify-center gap-2">
-          <span className="rounded-full bg-indigo/8 px-3 py-1 font-serif text-xs text-indigo">诗词填空 35题</span>
-          <span className="rounded-full bg-cinnabar/8 px-3 py-1 font-serif text-xs text-cinnabar">异兽辨识 30题</span>
-          <span className="rounded-full bg-gold/8 px-3 py-1 font-serif text-xs text-gold">名人名句 30题</span>
-          <span className="rounded-full bg-seal-red/8 px-3 py-1 font-serif text-xs text-seal-red">看图识兽 5题</span>
+        {/* Mode Cards */}
+        <div className="mt-8 grid grid-cols-1 gap-4 md:mt-10 md:grid-cols-3">
+          {modes.map((mode, index) => (
+            <button
+              key={mode.id}
+              onClick={() => startQuiz(mode)}
+              className={`animate-fade-in group relative overflow-hidden rounded-2xl border border-ink/8 bg-gradient-to-br ${mode.accent} p-5 text-left transition-all duration-300 hover:border-cinnabar/20 hover:shadow-lg active:scale-[0.98] sm:p-6`}
+              style={{ animationDelay: `${index * 0.1}s`, animationFillMode: "both" }}
+            >
+              {/* Decorative watermark */}
+              <span className="pointer-events-none absolute -bottom-4 -right-2 font-calligraphy text-6xl leading-none opacity-5 select-none text-ink">
+                {mode.subtitle === "Random" ? "挑" : mode.subtitle === "Poetry" ? "诗" : "兽"}
+              </span>
+
+              <div className="mb-3 text-cinnabar transition-transform group-hover:scale-110">
+                {mode.icon}
+              </div>
+              <h3 className="font-calligraphy text-2xl text-ink">{mode.title}</h3>
+              <p className="mt-1 font-serif text-xs text-muted">{mode.subtitle}</p>
+              <p className="mt-3 font-serif text-sm leading-relaxed text-light-ink">
+                {mode.desc}
+              </p>
+              <div className="mt-4 inline-flex items-center gap-1 font-serif text-xs text-cinnabar opacity-0 transition-opacity group-hover:opacity-100">
+                开始答题
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-3 w-3">
+                  <path d="M5 12h14" />
+                  <path d="m12 5 7 7-7 7" />
+                </svg>
+              </div>
+            </button>
+          ))}
         </div>
-      </div>
 
-      {/* Rules & Titles */}
-      <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2">
-        <div className="rounded-xl border border-ink/8 bg-surface/50 p-5">
-          <div className="mb-3 flex items-center gap-2">
-            <span className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-cinnabar/10 text-cinnabar">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4">
+        {/* Question bank tags - compact inline */}
+        <div className="animate-fade-in mt-6 flex flex-wrap items-center justify-center gap-2">
+          <span className="font-serif text-xs text-muted">题库 {totalQuizQuestions} 题：</span>
+          <span className="rounded-full bg-indigo/8 px-2.5 py-0.5 font-serif text-[11px] text-indigo">诗词 35</span>
+          <span className="rounded-full bg-cinnabar/8 px-2.5 py-0.5 font-serif text-[11px] text-cinnabar">异兽 30</span>
+          <span className="rounded-full bg-gold/8 px-2.5 py-0.5 font-serif text-[11px] text-gold">名人 30</span>
+          <span className="rounded-full bg-seal-red/8 px-2.5 py-0.5 font-serif text-[11px] text-seal-red">看图 5</span>
+        </div>
+
+        {/* Quiz History */}
+        <QuizHistory />
+
+        {/* Rules footnote - compact */}
+        <details className="mt-8 rounded-xl border border-ink/8 bg-surface/30">
+          <summary className="cursor-pointer list-none px-4 py-3 font-serif text-xs text-muted transition-colors hover:text-light-ink">
+            <span className="inline-flex items-center gap-1.5">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-3.5 w-3.5">
                 <circle cx="12" cy="12" r="10" />
                 <path d="M12 16v-4" />
                 <path d="M12 8h.01" />
               </svg>
+              答题规则与称号体系
             </span>
-            <h4 className="font-calligraphy text-lg text-ink">答题规则</h4>
+          </summary>
+          <div className="border-t border-ink/5 px-4 py-3">
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+              <div>
+                <h5 className="mb-2 font-calligraphy text-sm text-ink">答题规则</h5>
+                <ul className="space-y-1 font-serif text-[11px] leading-relaxed text-light-ink">
+                  <li>每题四个选项，点击即作答</li>
+                  <li>答题后显示正确答案与解析</li>
+                  <li>答对得一分，答错不扣分</li>
+                  <li>快捷键：1-4 选答案，Enter 下一题</li>
+                </ul>
+              </div>
+              <div>
+                <h5 className="mb-2 font-calligraphy text-sm text-ink">称号体系</h5>
+                <ul className="space-y-1 font-serif text-[11px] leading-relaxed text-light-ink">
+                  <li>全对 — 国学大师</li>
+                  <li>80%+ — 博学多才</li>
+                  <li>60%+ — 学有所成</li>
+                  <li>40%+ — 初窥门径</li>
+                  <li>40%- — 再接再厉</li>
+                </ul>
+              </div>
+            </div>
           </div>
-          <ul className="space-y-2 font-serif text-xs leading-relaxed text-light-ink">
-            <li>每题有四个选项，点击即可作答</li>
-            <li>答题后显示正确答案与详细解析</li>
-            <li>答对一题得一分，答错不扣分</li>
-            <li>可跳过当前题目，计入未答</li>
-            <li>支持键盘快捷键：1-4 选答案，Enter 下一题</li>
-          </ul>
-        </div>
-        <div className="rounded-xl border border-ink/8 bg-surface/50 p-5">
-          <div className="mb-3 flex items-center gap-2">
-            <span className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-gold/10 text-gold">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4">
-                <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6" />
-                <path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18" />
-                <path d="M4 22h16" />
-                <path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22" />
-                <path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22" />
-                <path d="M18 2H6v7a6 6 0 0 0 12 0V2Z" />
-              </svg>
-            </span>
-            <h4 className="font-calligraphy text-lg text-ink">称号体系</h4>
-          </div>
-          <ul className="space-y-2 font-serif text-xs leading-relaxed text-light-ink">
-            <li>全部答对 — 国学大师</li>
-            <li>正确率 80% 以上 — 博学多才</li>
-            <li>正确率 60% 以上 — 学有所成</li>
-            <li>正确率 40% 以上 — 初窥门径</li>
-            <li>正确率不足 40% — 再接再厉</li>
-          </ul>
-        </div>
-      </div>
-
-      {/* Quiz History */}
-      <QuizHistory />
+        </details>
       </div>
     </main>
   );

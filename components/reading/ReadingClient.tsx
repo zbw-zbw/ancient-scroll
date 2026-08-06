@@ -10,6 +10,7 @@ import PageHeader from "@/components/PageHeader";
 import ChapterSidebar from "@/components/reading/ChapterSidebar";
 import ReadingPanel from "@/components/reading/ReadingPanel";
 import CharacterTooltip from "@/components/reading/CharacterTooltip";
+import Footer from "@/components/Footer";
 import type { FontSize } from "@/components/reading/ReadingControls";
 import { markChapterRead, setLastReadChapter, getLastReadChapter } from "@/lib/progress";
 
@@ -222,6 +223,7 @@ export default function ReadingClient() {
  highlightBeastName={highlightBeastName}
  />
  </div>
+ <Footer />
  </div>
 
  {activeTooltip && (

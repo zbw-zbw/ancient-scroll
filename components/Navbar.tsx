@@ -220,10 +220,10 @@ export default function Navbar() {
               href="/notes"
               aria-label="我的笔记"
               title="我的笔记"
-              className={`inline-flex items-center justify-center w-9 h-9 rounded-full transition-colors ${
+              className={`inline-flex items-center justify-center w-8 h-8 rounded-full transition-colors ${
                 pathname === "/notes"
                   ? "bg-cinnabar/10 text-cinnabar"
-                  : "text-light-ink hover:text-cinnabar hover:bg-ink/5"
+                  : "text-light-ink hover:text-cinnabar hover:bg-ink/[0.04]"
               }`}
             >
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4">
@@ -238,10 +238,10 @@ export default function Navbar() {
               href="/favorites"
               aria-label="我的收藏"
               title="我的收藏"
-              className={`inline-flex items-center justify-center w-9 h-9 rounded-full transition-colors ${
+              className={`inline-flex items-center justify-center w-8 h-8 rounded-full transition-colors ${
                 pathname === "/favorites"
                   ? "bg-cinnabar/10 text-cinnabar"
-                  : "text-light-ink hover:text-cinnabar hover:bg-ink/5"
+                  : "text-light-ink hover:text-cinnabar hover:bg-ink/[0.04]"
               }`}
             >
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4">
@@ -253,10 +253,10 @@ export default function Navbar() {
               href="/achievements"
               aria-label="成就之路"
               title="成就之路"
-              className={`inline-flex items-center justify-center w-9 h-9 rounded-full transition-colors ${
+              className={`inline-flex items-center justify-center w-8 h-8 rounded-full transition-colors ${
                 pathname === "/achievements"
                   ? "bg-cinnabar/10 text-cinnabar"
-                  : "text-light-ink hover:text-cinnabar hover:bg-ink/5"
+                  : "text-light-ink hover:text-cinnabar hover:bg-ink/[0.04]"
               }`}
             >
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4">
@@ -273,10 +273,10 @@ export default function Navbar() {
               href="/settings"
               aria-label="设置"
               title="设置"
-              className={`inline-flex items-center justify-center w-9 h-9 rounded-full transition-colors ${
+              className={`inline-flex items-center justify-center w-8 h-8 rounded-full transition-colors ${
                 pathname === "/settings"
                   ? "bg-cinnabar/10 text-cinnabar"
-                  : "text-light-ink hover:text-cinnabar hover:bg-ink/5"
+                  : "text-light-ink hover:text-cinnabar hover:bg-ink/[0.04]"
               }`}
             >
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4">
@@ -290,7 +290,7 @@ export default function Navbar() {
               aria-label="切换深色模式"
               title="切换深色模式"
               aria-pressed={isDark}
-              className="inline-flex items-center justify-center w-9 h-9 rounded-full text-light-ink hover:text-cinnabar hover:bg-ink/5 transition-colors active:scale-[0.97]"
+              className="inline-flex items-center justify-center w-8 h-8 rounded-full text-light-ink hover:text-cinnabar hover:bg-ink/[0.04] transition-colors active:scale-[0.97]"
               onClick={toggleTheme}
             >
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="theme-icon-sun h-4 w-4">
@@ -317,7 +317,7 @@ export default function Navbar() {
               aria-label="切换深色模式"
               title="切换深色模式"
               aria-pressed={isDark}
-              className="inline-flex items-center justify-center w-11 h-11 rounded-full text-light-ink hover:text-cinnabar hover:bg-ink/5 transition-colors active:scale-[0.97]"
+              className="inline-flex items-center justify-center w-10 h-10 rounded-full text-light-ink hover:text-cinnabar hover:bg-ink/[0.04] transition-colors active:scale-[0.97]"
               onClick={toggleTheme}
             >
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="theme-icon-sun h-5 w-5">
@@ -339,7 +339,7 @@ export default function Navbar() {
               type="button"
               aria-label="搜索"
               title="搜索"
-              className="inline-flex items-center justify-center w-11 h-11 rounded-full text-light-ink hover:text-cinnabar hover:bg-cinnabar/10 transition-colors active:scale-[0.97]"
+              className="inline-flex items-center justify-center w-10 h-10 rounded-full text-light-ink hover:text-cinnabar hover:bg-cinnabar/8 transition-colors active:scale-[0.97]"
               onClick={() => setSearchOpen(true)}
             >
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5">
@@ -353,7 +353,7 @@ export default function Navbar() {
               aria-label={menuOpen ? "关闭菜单" : "打开菜单"}
               aria-expanded={menuOpen}
               aria-controls="mobile-menu"
-              className="group inline-flex flex-col justify-center items-center gap-1.5 w-11 h-11 rounded-full hover:bg-cinnabar/10 transition-colors active:scale-[0.97]"
+              className="group inline-flex flex-col justify-center items-center gap-1.5 w-10 h-10 rounded-full hover:bg-cinnabar/8 transition-colors active:scale-[0.97]"
               onClick={() => setMenuOpen((v) => !v)}
             >
               <span

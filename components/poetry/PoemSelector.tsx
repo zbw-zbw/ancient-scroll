@@ -6,6 +6,7 @@ import { getProgress } from "@/lib/progress";
 import PageHeader from "@/components/PageHeader";
 import PoemCard from "./PoemCard";
 import ShareCardModal from "./ShareCardModal";
+import Footer from "@/components/Footer";
 
 interface PoemSelectorProps {
   onSelect: (poem: Poem) => void;
@@ -191,6 +192,7 @@ export default function PoemSelector({ onSelect }: PoemSelectorProps) {
         onClose={() => setSharePoem(null)}
         poem={sharePoem}
       />
+      <Footer />
     </main>
   );
 }
