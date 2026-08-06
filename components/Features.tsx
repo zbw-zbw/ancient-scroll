@@ -113,6 +113,7 @@ const features = [
     title: "智能双语阅读",
     desc: "逐句翻译古文，点击任意字词获得深度解读",
     href: "/reading",
+    highlight: "18篇 267句",
     mockup: <ReadingMockup />,
   },
   {
@@ -120,6 +121,7 @@ const features = [
     title: "异兽图鉴",
     desc: "国风水墨神兽插画，收集你的专属图鉴",
     href: "/bestiary",
+    highlight: "97只 AI水墨画",
     mockup: <BestiaryMockupClient />,
   },
   {
@@ -127,6 +129,7 @@ const features = [
     title: "诗境漫游",
     desc: "一首诗，一段沉浸式视觉旅程",
     href: "/poetry",
+    highlight: "24首 沉浸朗诵",
     mockup: <PoetryMockup />,
   },
   {
@@ -134,6 +137,7 @@ const features = [
     title: "古今对话",
     desc: "穿越时空，与孔子李白畅聊古今",
     href: "/dialogue",
+    highlight: "15位 历史人物",
     mockup: <DialogueMockup />,
   },
 ];
@@ -150,7 +154,14 @@ export default function Features() {
               className={`fade-in grid grid-cols-1 items-center gap-10 md:grid-cols-2`}
             >
               <div className={`group space-y-4 ${isOdd ? "md:order-1" : "md:order-2"}`}>
-                <FeatureTag number={feature.number} />
+                <div className="flex items-center gap-3">
+                  <FeatureTag number={feature.number} />
+                  {feature.highlight && (
+                    <span className="rounded-full bg-cinnabar/8 px-2.5 py-0.5 font-serif text-[11px] text-cinnabar/80 md:text-xs">
+                      {feature.highlight}
+                    </span>
+                  )}
+                </div>
                 <h3 className="font-calligraphy text-3xl md:text-4xl text-ink">
                   {feature.title}
                 </h3>

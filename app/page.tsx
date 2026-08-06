@@ -8,6 +8,8 @@ import AchievementSummary from "@/components/AchievementSummary";
 import QuizEntryCard from "@/components/QuizEntryCard";
 import Footer from "@/components/Footer";
 import QuickNav from "@/components/QuickNav";
+import QuickExperience from "@/components/QuickExperience";
+import WelcomeToast from "@/components/WelcomeToast";
 
 export default function Home() {
   return (
@@ -15,6 +17,8 @@ export default function Home() {
       <main className="relative w-full bg-xuan">
         <Hero />
         <QuickNav />
+        {/* 精选体验 — 新用户快速入口，3 个最具冲击力的功能直达 */}
+        <QuickExperience />
         {/* 功能介绍 — 新用户首要关注，展示平台核心能力 */}
         <div id="features">
           <Features />
@@ -45,6 +49,8 @@ export default function Home() {
         </div>
         <Footer />
       </main>
+      {/* 首次访问欢迎引导 — 固定定位的轻量 banner */}
+      <WelcomeToast />
     </>
   );
 }
