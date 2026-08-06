@@ -129,7 +129,7 @@ export default function ChapterSidebar({
             : "bg-transparent"
         }`}
       >
-        <div className="mx-auto max-w-[1100px] relative">
+        <div className="relative">
           <div
             ref={mobileTabsContainerRef}
             className={`scroll-fade-edges flex items-center gap-2.5 overflow-x-auto py-4 px-4 scrollbar-hide ${isScrollable ? "is-scrollable" : ""}`}
