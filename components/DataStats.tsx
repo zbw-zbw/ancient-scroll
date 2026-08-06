@@ -165,7 +165,7 @@ export default function DataStats() {
           </p>
         </div>
 
-        <div className="relative overflow-hidden rounded-2xl bg-[#1a1a2e] px-6 py-12 md:px-12 md:py-16 dark:bg-[#1a1a2e]">
+        <div className="relative overflow-hidden rounded-2xl bg-[#1a1a2e] px-6 py-12 md:px-12 md:py-16 dark:bg-[#1e1e35] dark:ring-1 dark:ring-white/10">
           <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 sm:gap-6 md:grid-cols-6 md:gap-8">
             {stats.map((stat, index) => (
               <div key={index} className="text-center">

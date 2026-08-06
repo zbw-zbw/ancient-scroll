@@ -31,9 +31,9 @@ const difficultyLabels: Record<string, string> = {
 };
 
 const difficultyColors: Record<string, string> = {
-  easy: "text-green-600 bg-green-50",
-  medium: "text-amber-600 bg-amber-50",
-  hard: "text-red-500 bg-red-50",
+  easy: "text-green-700 bg-green-600/10 dark:text-green-400 dark:bg-green-500/15",
+  medium: "text-amber-700 bg-amber-600/10 dark:text-amber-400 dark:bg-amber-500/15",
+  hard: "text-red-600 bg-red-600/10 dark:text-red-400 dark:bg-red-500/15",
 };
 
 /** Fisher-Yates 洗牌 */
@@ -234,10 +234,10 @@ export default function QuizGame({ questions, onComplete, onQuit }: QuizGameProp
             if (showFeedback) {
               if (isCorrect) {
                 buttonClass =
-                  "flex w-full items-center gap-3 rounded-xl border-2 border-green-500 bg-green-50 px-3 py-3 text-left transition-all duration-200 sm:px-4 sm:py-3.5";
+                  "flex w-full items-center gap-3 rounded-xl border-2 border-green-600 bg-green-600/10 px-3 py-3 text-left transition-all duration-200 dark:border-green-400 dark:bg-green-500/15 sm:px-4 sm:py-3.5";
               } else if (isSelected) {
                 buttonClass =
-                  "flex w-full items-center gap-3 rounded-xl border-2 border-red-400 bg-red-50 px-3 py-3 text-left transition-all duration-200 sm:px-4 sm:py-3.5";
+                  "flex w-full items-center gap-3 rounded-xl border-2 border-red-500 bg-red-600/10 px-3 py-3 text-left transition-all duration-200 dark:border-red-400 dark:bg-red-500/15 sm:px-4 sm:py-3.5";
               } else {
                 buttonClass =
                   "flex w-full items-center gap-3 rounded-xl border border-ink/5 bg-xuan/30 px-3 py-3 text-left transition-all duration-200 opacity-50 sm:px-4 sm:py-3.5";
@@ -286,12 +286,12 @@ export default function QuizGame({ questions, onComplete, onQuit }: QuizGameProp
           <div
             className={`mt-4 animate-fade-in rounded-xl p-4 ${
               selectedIndex === shuffled.correctIndex
-                ? "bg-green-50/80"
-                : "bg-amber-50/80"
+                ? "bg-green-600/10 dark:bg-green-500/15"
+                : "bg-amber-600/10 dark:bg-amber-500/15"
             }`}
           >
             <p className={`mb-1 font-calligraphy text-lg ${
-              selectedIndex === shuffled.correctIndex ? "text-green-700" : "text-amber-700"
+              selectedIndex === shuffled.correctIndex ? "text-green-700 dark:text-green-400" : "text-amber-700 dark:text-amber-400"
             }`}>
               {selectedIndex === shuffled.correctIndex ? "正确！" : "答错了"}
             </p>

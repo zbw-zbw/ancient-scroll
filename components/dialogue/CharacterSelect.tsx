@@ -8,6 +8,7 @@ import SectionProgress from "@/components/SectionProgress";
 import { useHorizontalOverflow } from "@/lib/useHorizontalOverflow";
 import CharacterCard from "./CharacterCard";
 import Footer from "@/components/Footer";
+import EmptyState from "@/components/EmptyState";
 
 interface CharacterSelectProps {
   onSelect: (character: HistoricalCharacter) => void;
@@ -201,9 +202,10 @@ export default function CharacterSelect({ onSelect }: CharacterSelectProps) {
 
         {/* Character grid */}
         {filteredCharacters.length === 0 ? (
-          <div className="py-20 text-center">
-            <p className="font-serif text-sm text-muted">未找到匹配的人物，试试其他关键词</p>
-          </div>
+          <EmptyState
+            title="未找到匹配的人物"
+            description="试试其他关键词"
+          />
         ) : (
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {filteredCharacters.map((character) => (

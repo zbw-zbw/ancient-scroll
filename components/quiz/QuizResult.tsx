@@ -194,11 +194,11 @@ export default function QuizResult({
                     <div className="border-t border-ink/5 px-4 py-3">
                       <div className="space-y-2">
                         <p className="font-serif text-xs">
-                          <span className="text-red-500">你的答案：</span>
+                          <span className="text-red-600 dark:text-red-400">你的答案：</span>
                           <span className="text-ink line-through">{q.options[record.selectedIndex]}</span>
                         </p>
                         <p className="font-serif text-xs">
-                          <span className="text-green-600">正确答案：</span>
+                          <span className="text-green-700 dark:text-green-400">正确答案：</span>
                           <span className="text-ink font-medium">{q.options[q.correctIndex]}</span>
                         </p>
                         <div className="mt-2 rounded-lg bg-seal-bg/50 p-3">

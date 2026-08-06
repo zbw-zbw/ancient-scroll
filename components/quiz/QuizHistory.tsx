@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { getQuizHistory, type QuizHistoryRecord } from "@/lib/progress";
+import EmptyState from "@/components/EmptyState";
 
 const MAX_VISIBLE = 10;
 
@@ -14,7 +15,7 @@ const typeLabels: Record<string, string> = {
 
 function getAccuracyStyle(ratio: number): { text: string; bg: string } {
   if (ratio >= 0.8) {
-    return { text: "text-green-600", bg: "bg-green-600/10" };
+    return { text: "text-green-700 dark:text-green-400", bg: "bg-green-600/10 dark:bg-green-500/15" };
   }
   if (ratio >= 0.6) {
     return { text: "text-gold", bg: "bg-gold/10" };
@@ -41,9 +42,10 @@ export default function QuizHistory() {
 
   if (history.length === 0) {
     return (
-      <div className="mt-8 text-center">
-        <p className="font-serif text-sm text-muted">暂无答题记录，去挑战一局吧</p>
-      </div>
+      <EmptyState
+        title="暂无答题记录"
+        description="去挑战一局吧"
+      />
     );
   }
 
@@ -116,14 +118,14 @@ export default function QuizHistory() {
                   {record.answers.map((a, idx) => (
                     <div
                       key={idx}
-                      className={`rounded-lg p-3 ${a.correct ? "bg-green-50" : "bg-red-50/50"}`}
+                      className={`rounded-lg p-3 ${a.correct ? "bg-green-600/10 dark:bg-green-500/15" : "bg-red-600/10 dark:bg-red-500/15"}`}
                     >
                       <div className="flex items-start gap-2">
                         <span
                           className={`mt-0.5 flex-shrink-0 rounded-full px-1.5 py-0.5 text-[10px] ${
                             a.correct
-                              ? "bg-green-100 text-green-700"
-                              : "bg-red-100 text-red-600"
+                              ? "bg-green-600/15 text-green-700 dark:bg-green-500/20 dark:text-green-400"
+                              : "bg-red-600/15 text-red-700 dark:bg-red-500/20 dark:text-red-400"
                           }`}
                         >
                           {idx + 1}
@@ -135,7 +137,7 @@ export default function QuizHistory() {
                             </span>
                             <span
                               className={`font-serif text-[10px] ${
-                                a.correct ? "text-green-600" : "text-red-500"
+                                a.correct ? "text-green-700 dark:text-green-400" : "text-red-600 dark:text-red-400"
                               }`}
                             >
                               {a.correct ? "正确" : "错误"}
@@ -146,10 +148,10 @@ export default function QuizHistory() {
                           </p>
                           {!a.correct && (
                             <div className="mt-1.5 space-y-0.5">
-                              <p className="font-serif text-[11px] text-red-500">
+                              <p className="font-serif text-[11px] text-red-600 dark:text-red-400">
                                 你的答案：<span className="line-through">{a.options[a.selectedIndex]}</span>
                               </p>
-                              <p className="font-serif text-[11px] text-green-600">
+                              <p className="font-serif text-[11px] text-green-700 dark:text-green-400">
                                 正确答案：{a.options[a.correctIndex]}
                               </p>
                             </div>

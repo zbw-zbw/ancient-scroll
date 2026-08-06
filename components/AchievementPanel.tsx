@@ -6,6 +6,7 @@ import { getAchievements, type Achievement } from "@/lib/achievements";
 import PageHeader from "@/components/PageHeader";
 import SectionProgress from "@/components/SectionProgress";
 import { useHorizontalOverflow } from "@/lib/useHorizontalOverflow";
+import { useTheme } from "@/lib/useTheme";
 import {
   IconBook,
   IconScroll,
@@ -84,6 +85,7 @@ export default function AchievementPanel() {
   const highlightId = searchParams?.get("highlight") ?? null;
   const highlightRef = useRef<HTMLDivElement>(null);
   const { ref: tabsRef, isScrollable } = useHorizontalOverflow<HTMLDivElement>();
+  const { isDark } = useTheme();
 
   // Auto-scroll clicked tab into view
   const handleFilterChange = (cat: Achievement["category"] | "all") => {
@@ -212,7 +214,7 @@ export default function AchievementPanel() {
                 } ${isHighlighted ? "ring-2 ring-cinnabar ring-offset-2 ring-offset-xuan animate-pulse" : ""}`}
                 style={
                   ach.unlocked
-                    ? { boxShadow: `0 0 0 1px ${color}10, 0 2px 8px rgba(0,0,0,0.03)` }
+                    ? { boxShadow: `0 0 0 1px ${color}10, 0 2px 8px ${isDark ? "rgba(0,0,0,0.2)" : "rgba(0,0,0,0.03)"}` }
                     : undefined
                 }
               >
@@ -235,7 +237,7 @@ export default function AchievementPanel() {
                     className={`flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-xl transition-transform duration-300 group-hover:scale-110 group-active:scale-110 ${
                       ach.unlocked ? "" : "grayscale opacity-50"
                     }`}
-                    style={{ background: ach.unlocked ? `${color}15` : "rgba(0,0,0,0.04)" }}
+                    style={{ background: ach.unlocked ? `${color}${isDark ? "25" : "15"}` : isDark ? "rgba(255,255,255,0.05)" : "rgba(0,0,0,0.04)" }}
                   >
                     {ach.unlocked ? (
                       renderAchievementIcon(ach.icon, "h-6 w-6")
@@ -264,7 +266,7 @@ export default function AchievementPanel() {
                       </div>
                     )}
                     {ach.unlocked && (
-                      <div className="mt-1.5 inline-flex items-center gap-1 rounded-full px-2 py-0.5 font-serif text-[10px] text-cinnabar" style={{ background: `${color}10` }}>
+                      <div className="mt-1.5 inline-flex items-center gap-1 rounded-full px-2 py-0.5 font-serif text-[10px] text-cinnabar" style={{ background: `${color}${isDark ? "20" : "10"}` }}>
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className="h-3 w-3">
                           <polyline points="20 6 9 17 4 12" />
                         </svg>

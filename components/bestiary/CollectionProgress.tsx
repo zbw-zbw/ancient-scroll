@@ -1,13 +1,14 @@
 "use client";
 
 import { beasts, categoryLabels, type BeastCategory } from "../../data/beasts";
+import { useTheme } from "@/lib/useTheme";
 
-const categoryColors: Record<BeastCategory, string> = {
-  beast: "#c84032",
-  bird: "#2c3e6b",
-  fish: "#2E8B57",
-  serpent: "#b8860b",
-  god: "#8b5cf6",
+const categoryColors: Record<BeastCategory, { light: string; dark: string }> = {
+  beast: { light: "#c84032", dark: "#e85d50" },
+  bird: { light: "#2c3e6b", dark: "#6b8fd4" },
+  fish: { light: "#2E8B57", dark: "#5cb88a" },
+  serpent: { light: "#b8860b", dark: "#d4a82e" },
+  god: { light: "#8b5cf6", dark: "#a78bfa" },
 };
 
 interface CollectionProgressProps {
@@ -15,6 +16,7 @@ interface CollectionProgressProps {
 }
 
 export default function CollectionProgress({ collectedIds }: CollectionProgressProps) {
+  const { isDark } = useTheme();
   const count = collectedIds.length;
   const total = beasts.length;
 
@@ -22,7 +24,7 @@ export default function CollectionProgress({ collectedIds }: CollectionProgressP
     (cat) => ({
       name: cat,
       label: categoryLabels[cat],
-      color: categoryColors[cat],
+      color: isDark ? categoryColors[cat].dark : categoryColors[cat].light,
       count: beasts.filter((b) => b.category === cat && collectedIds.includes(b.id)).length,
       total: beasts.filter((b) => b.category === cat).length,
     })

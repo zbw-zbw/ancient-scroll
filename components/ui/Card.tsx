@@ -12,7 +12,7 @@ const Card = forwardRef<HTMLDivElement, CardProps>(
     return (
       <div
         ref={ref}
-        className={`overflow-hidden rounded-xl border border-rule/30 bg-surface/60 transition-all duration-300 ${
+        className={`overflow-hidden rounded-2xl border border-rule/30 bg-surface/60 transition-all duration-300 ${
           noHover
             ? ""
             : "hover:-translate-y-1 hover:shadow-lg hover:border-rule/60 active:-translate-y-0.5"
