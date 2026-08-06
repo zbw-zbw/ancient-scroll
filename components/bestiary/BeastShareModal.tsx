@@ -360,7 +360,7 @@ export default function BeastShareModal({
 
               {/* Bottom section: attribution + branding */}
               <div
-                className="absolute bottom-0 left-0 right-0 flex items-center justify-between px-10"
+                className="absolute bottom-0 left-0 right-0 flex items-center justify-center px-8"
                 style={{
                   height: 100,
                   background:
@@ -388,64 +388,68 @@ export default function BeastShareModal({
                   }}
                 />
 
-                {/* Seal stamp */}
-                <div
-                  style={{
-                    width: 48,
-                    height: 48,
-                    borderRadius: 4,
-                    border: "2px solid rgba(138,31,42,0.6)",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    transform: "rotate(-3deg)",
-                    backgroundColor: "rgba(138,31,42,0.08)",
-                  }}
-                >
-                  <span
+                {/* Seal stamp + brand text — centered as a group */}
+                <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+                  {/* Seal stamp */}
+                  <div
                     style={{
-                      fontFamily:
-                        'var(--font-ma-shan-zheng), "Ma Shan Zheng", cursive',
-                      fontSize: 13,
-                      color: "#8a1f2a",
-                      textAlign: "center",
-                      lineHeight: 1,
+                      width: 48,
+                      height: 48,
+                      borderRadius: 4,
+                      border: "2px solid rgba(138,31,42,0.6)",
                       display: "flex",
-                      flexDirection: "column",
                       alignItems: "center",
                       justifyContent: "center",
+                      transform: "rotate(-3deg)",
+                      backgroundColor: "rgba(138,31,42,0.08)",
+                      flexShrink: 0,
                     }}
                   >
-                    <span>古籍</span>
-                    <span>焕新</span>
-                  </span>
-                </div>
+                    <span
+                      style={{
+                        fontFamily:
+                          'var(--font-ma-shan-zheng), "Ma Shan Zheng", cursive',
+                        fontSize: 13,
+                        color: "#8a1f2a",
+                        textAlign: "center",
+                        lineHeight: 1,
+                        display: "flex",
+                        flexDirection: "column",
+                        alignItems: "center",
+                        justifyContent: "center",
+                      }}
+                    >
+                      <span>古籍</span>
+                      <span>焕新</span>
+                    </span>
+                  </div>
 
-                {/* Watermark + source */}
-                <div className="flex flex-col items-end">
-                  <span
-                    style={{
-                      fontFamily:
-                        'var(--font-noto-serif-sc), "Noto Serif SC", serif',
-                      fontSize: 11,
-                      color: "#8a8070",
-                      letterSpacing: 3,
-                    }}
-                  >
-                    古籍焕新 · 山海经异兽图鉴
-                  </span>
-                  <span
-                    style={{
-                      fontFamily:
-                        'var(--font-noto-serif-sc), "Noto Serif SC", serif',
-                      fontSize: 10,
-                      color: "#a8a090",
-                      marginTop: 4,
-                      letterSpacing: 2,
-                    }}
-                  >
-                    —— {beast.chapter}
-                  </span>
+                  {/* Brand text */}
+                  <div style={{ display: "flex", flexDirection: "column" }}>
+                    <span
+                      style={{
+                        fontFamily:
+                          'var(--font-noto-serif-sc), "Noto Serif SC", serif',
+                        fontSize: 12,
+                        color: "#8a8070",
+                        letterSpacing: 3,
+                      }}
+                    >
+                      古籍焕新 · 山海经异兽图鉴
+                    </span>
+                    <span
+                      style={{
+                        fontFamily:
+                          'var(--font-noto-serif-sc), "Noto Serif SC", serif',
+                        fontSize: 10,
+                        color: "#a8a090",
+                        marginTop: 4,
+                        letterSpacing: 2,
+                      }}
+                    >
+                      —— {beast.chapter}
+                    </span>
+                  </div>
                 </div>
               </div>
 

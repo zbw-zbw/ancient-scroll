@@ -8,6 +8,7 @@ import { beasts } from "@/data/beasts";
 import { poems } from "@/data/poems";
 import { characters } from "@/data/characters";
 import { totalQuizQuestions } from "@/data/quiz";
+import { AI_VOICES } from "@/lib/ai-tts";
 
 // Count-up animation hook: animates from 0 to target when element enters viewport
 function useCountUp(target: number, duration: number = 1000, start: boolean) {
@@ -96,22 +97,24 @@ export default function DataStats() {
     return () => observer.disconnect();
   }, []);
 
-  // Animated counts
-  const chapterCount = useCountUp(chapters.length, 1000, inView);
-  const beastCount = useCountUp(beasts.length, 1000, inView);
-  const poemCount = useCountUp(poems.length, 1000, inView);
-  const characterCount = useCountUp(characters.length, 1000, inView);
-  const quizCount = useCountUp(totalQuizQuestions, 1000, inView);
-
-  // 从数据文件派生真实句子总数，避免文案与实际数据不一致（安全报告 L-1）
+  // 从数据文件派生真实句子总数，避免文案与实际数据不一致
   const totalSentences = chapters.reduce((n, c) => n + c.sentences.length, 0);
 
-  const stats = [
-    { value: String(chapterCount), unit: "篇", label: "山海经篇章", note: `${totalSentences}句原文逐句翻译` },
-    { value: String(beastCount), unit: "只", label: "异兽图鉴", note: "5大分类，水墨风格插画" },
+  // Animated counts
+  const sentenceCount = useCountUp(totalSentences, 1200, inView);
+  const beastCount = useCountUp(beasts.length, 1000, inView);
+  const characterCount = useCountUp(characters.length, 1000, inView);
+  const poemCount = useCountUp(poems.length, 1000, inView);
+  const quizCount = useCountUp(totalQuizQuestions, 1000, inView);
+  const voiceCount = useCountUp(AI_VOICES.length, 800, inView);
+
+  const stats: { value: string; unit: string; label: string; note: string; suffix?: string }[] = [
+    { value: String(sentenceCount), unit: "句", label: "山海经原文", note: "逐句翻译，对照阅读" },
+    { value: String(beastCount), unit: "只", label: "上古异兽", note: "5大分类，水墨风格插画" },
+    { value: String(characterCount), unit: "位", label: "历史人物", note: "横跨春秋至明代" },
     { value: String(poemCount), unit: "首", label: "经典诗词", note: "7大主题，沉浸式体验" },
-    { value: String(characterCount), unit: "位", label: "古今人物", note: "横跨春秋至明代" },
-    { value: String(quizCount), unit: "题", label: "知识问答", note: "4大题型，闯关挑战" },
+    { value: String(quizCount), suffix: "+", unit: "题", label: "知识题目", note: "4大题型，闯关挑战" },
+    { value: String(voiceCount), unit: "种", label: "朗读音色", note: "AI语音，沉浸聆听" },
   ];
 
   return (
@@ -163,13 +166,16 @@ export default function DataStats() {
         </div>
 
         <div className="relative overflow-hidden rounded-2xl bg-[#1a1a2e] px-6 py-12 md:px-12 md:py-16 dark:bg-[#1a1a2e]">
-          <div className="grid grid-cols-2 gap-6 md:grid-cols-5 md:gap-8">
+          <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 sm:gap-6 md:grid-cols-6 md:gap-8">
             {stats.map((stat, index) => (
               <div key={index} className="text-center">
                 <div className="mb-2 flex items-baseline justify-center gap-1">
                   <span className="font-calligraphy text-4xl text-gold md:text-5xl">
                     {stat.value}
                   </span>
+                  {stat.suffix && (
+                    <span className="font-calligraphy text-2xl text-gold md:text-3xl">{stat.suffix}</span>
+                  )}
                   {stat.unit && (
                     <span className="font-serif text-sm text-gold/80">{stat.unit}</span>
                   )}

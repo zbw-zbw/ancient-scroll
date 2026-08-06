@@ -315,7 +315,7 @@ export default function ShareCardModal({
 
               {/* Bottom section: attribution + branding */}
               <div
-                className="absolute bottom-0 left-0 right-0 flex items-center justify-between px-20"
+                className="absolute bottom-0 left-0 right-0 flex items-center justify-center px-8"
                 style={{
                   height: 120,
                   background: "linear-gradient(180deg, transparent 0%, rgba(250,247,240,0.95) 30%)",
@@ -342,52 +342,69 @@ export default function ShareCardModal({
                   }}
                 />
 
-                {/* Seal stamp */}
-                <div
-                  style={{
-                    width: 64,
-                    height: 64,
-                    borderRadius: 4,
-                    border: "2px solid rgba(138,31,42,0.6)",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    transform: "rotate(-3deg)",
-                    backgroundColor: "rgba(138,31,42,0.08)",
-                  }}
-                >
-                  <span
+                {/* Seal stamp + brand text — centered as a group */}
+                <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+                  {/* Seal stamp */}
+                  <div
                     style={{
-                      fontFamily:
-                        'var(--font-ma-shan-zheng), "Ma Shan Zheng", cursive',
-                      fontSize: 14,
-                      color: "#8a1f2a",
-                      textAlign: "center",
-                      lineHeight: 1,
-                      letterSpacing: 2,
+                      width: 48,
+                      height: 48,
+                      borderRadius: 4,
+                      border: "2px solid rgba(138,31,42,0.6)",
                       display: "flex",
-                      flexDirection: "column",
                       alignItems: "center",
                       justifyContent: "center",
+                      transform: "rotate(-3deg)",
+                      backgroundColor: "rgba(138,31,42,0.08)",
+                      flexShrink: 0,
                     }}
                   >
-                    <span>古籍</span>
-                    <span>焕新</span>
-                  </span>
-                </div>
+                    <span
+                      style={{
+                        fontFamily:
+                          'var(--font-ma-shan-zheng), "Ma Shan Zheng", cursive',
+                        fontSize: 13,
+                        color: "#8a1f2a",
+                        textAlign: "center",
+                        lineHeight: 1,
+                        display: "flex",
+                        flexDirection: "column",
+                        alignItems: "center",
+                        justifyContent: "center",
+                      }}
+                    >
+                      <span>古籍</span>
+                      <span>焕新</span>
+                    </span>
+                  </div>
 
-                {/* Watermark */}
-                <span
-                  style={{
-                    fontFamily:
-                      'var(--font-noto-serif-sc), "Noto Serif SC", serif',
-                    fontSize: 13,
-                    color: "#8a8070",
-                    letterSpacing: 6,
-                  }}
-                >
-                  古籍焕新
-                </span>
+                  {/* Brand text */}
+                  <div style={{ display: "flex", flexDirection: "column" }}>
+                    <span
+                      style={{
+                        fontFamily:
+                          'var(--font-ma-shan-zheng), "Ma Shan Zheng", cursive',
+                        fontSize: 20,
+                        color: "#1a1a2e",
+                        letterSpacing: 4,
+                      }}
+                    >
+                      古籍焕新
+                    </span>
+                    <span
+                      style={{
+                        fontFamily:
+                          'var(--font-noto-serif-sc), "Noto Serif SC", serif',
+                        fontSize: 11,
+                        color: "#8a8070",
+                        marginTop: 4,
+                        letterSpacing: 2,
+                      }}
+                    >
+                      诗境漫游 · 古典诗词沉浸体验
+                    </span>
+                  </div>
+                </div>
               </div>
 
               {/* Border frame */}
