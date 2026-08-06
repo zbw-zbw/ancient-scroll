@@ -258,67 +258,53 @@ export default function QuizClient() {
         </div>
       </div>
 
+      {/* Rules & Titles */}
+      <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2">
+        <div className="rounded-xl border border-ink/8 bg-surface/50 p-5">
+          <div className="mb-3 flex items-center gap-2">
+            <span className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-cinnabar/10 text-cinnabar">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4">
+                <circle cx="12" cy="12" r="10" />
+                <path d="M12 16v-4" />
+                <path d="M12 8h.01" />
+              </svg>
+            </span>
+            <h4 className="font-calligraphy text-lg text-ink">答题规则</h4>
+          </div>
+          <ul className="space-y-2 font-serif text-xs leading-relaxed text-light-ink">
+            <li>每题有四个选项，点击即可作答</li>
+            <li>答题后显示正确答案与详细解析</li>
+            <li>答对一题得一分，答错不扣分</li>
+            <li>可跳过当前题目，计入未答</li>
+            <li>支持键盘快捷键：1-4 选答案，Enter 下一题</li>
+          </ul>
+        </div>
+        <div className="rounded-xl border border-ink/8 bg-surface/50 p-5">
+          <div className="mb-3 flex items-center gap-2">
+            <span className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-gold/10 text-gold">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4">
+                <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6" />
+                <path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18" />
+                <path d="M4 22h16" />
+                <path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22" />
+                <path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22" />
+                <path d="M18 2H6v7a6 6 0 0 0 12 0V2Z" />
+              </svg>
+            </span>
+            <h4 className="font-calligraphy text-lg text-ink">称号体系</h4>
+          </div>
+          <ul className="space-y-2 font-serif text-xs leading-relaxed text-light-ink">
+            <li>全部答对 — 国学大师</li>
+            <li>正确率 80% 以上 — 博学多才</li>
+            <li>正确率 60% 以上 — 学有所成</li>
+            <li>正确率 40% 以上 — 初窥门径</li>
+            <li>正确率不足 40% — 再接再厉</li>
+          </ul>
+        </div>
+      </div>
+
       {/* Quiz History */}
       <QuizHistory />
-
-      {/* Rules & Titles — Collapsible */}
-      <details className="animate-fade-in group mt-8 rounded-xl border border-ink/8 bg-surface/50">
-        <summary className="flex cursor-pointer items-center justify-between p-4">
-          <span className="flex items-center gap-2 font-calligraphy text-lg text-ink">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4 text-cinnabar">
-              <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" />
-              <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" />
-            </svg>
-            答题规则与称号体系
-          </span>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4 text-muted transition-transform group-open:rotate-180">
-            <polyline points="6 9 12 15 18 9" />
-          </svg>
-        </summary>
-        <div className="grid grid-cols-1 gap-4 px-4 pb-4 sm:grid-cols-2">
-          <div>
-            <div className="mb-3 flex items-center gap-2">
-              <span className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-cinnabar/10 text-cinnabar">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4">
-                  <circle cx="12" cy="12" r="10" />
-                  <path d="M12 16v-4" />
-                  <path d="M12 8h.01" />
-                </svg>
-              </span>
-              <h4 className="font-calligraphy text-lg text-ink">答题规则</h4>
-            </div>
-            <ul className="space-y-2 font-serif text-xs leading-relaxed text-light-ink">
-              <li>每题有四个选项，点击即可作答</li>
-              <li>答题后显示正确答案与详细解析</li>
-              <li>答对一题得一分，答错不扣分</li>
-              <li>可跳过当前题目，计入未答</li>
-              <li>支持键盘快捷键：1-4 选答案，Enter 下一题</li>
-            </ul>
-          </div>
-          <div>
-            <div className="mb-3 flex items-center gap-2">
-              <span className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-gold/10 text-gold">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4">
-                  <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6" />
-                  <path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18" />
-                  <path d="M4 22h16" />
-                  <path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22" />
-                  <path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22" />
-                  <path d="M18 2H6v7a6 6 0 0 0 12 0V2Z" />
-                </svg>
-              </span>
-              <h4 className="font-calligraphy text-lg text-ink">称号体系</h4>
-            </div>
-            <ul className="space-y-2 font-serif text-xs leading-relaxed text-light-ink">
-              <li>全部答对 — 国学大师</li>
-              <li>正确率 80% 以上 — 博学多才</li>
-              <li>正确率 60% 以上 — 学有所成</li>
-              <li>正确率 40% 以上 — 初窥门径</li>
-              <li>正确率不足 40% — 再接再厉</li>
-            </ul>
-          </div>
-        </div>
-      </details>
       </div>
     </main>
   );

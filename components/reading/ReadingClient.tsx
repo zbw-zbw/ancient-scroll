@@ -187,14 +187,8 @@ export default function ReadingClient() {
  }, [activeTooltip, chapter]);
 
  return (
- <div className="relative flex min-h-[calc(100dvh-4rem)] flex-col bg-xuan">
- <PageHeader
- title="双语阅读"
- subtitle="原文与译文对照，逐句品读山海经"
- compact
- />
- <div className="relative flex w-full flex-1 min-h-0 min-w-0 flex-col md:flex-row">
-        <ChapterSidebar
+ <div className="flex min-h-[calc(100dvh-4rem)] flex-col bg-xuan md:flex-row">
+ <ChapterSidebar
  chapters={sortedChapters}
  selectedId={selectedChapterId}
  onSelect={(id) => {
@@ -204,7 +198,13 @@ export default function ReadingClient() {
  }}
  />
 
- <div className="mx-auto w-full max-w-[1100px] flex-1 min-h-0 min-w-0">
+ <div className="flex min-w-0 flex-1 flex-col">
+ <PageHeader
+ title="双语阅读"
+ subtitle="原文与译文对照，逐句品读山海经"
+ compact
+ />
+ <div className="mx-auto w-full max-w-[1100px] flex-1 px-4 md:px-6 pb-8">
  <ReadingPanel
  chapter={chapter}
  fontSize={fontSize}
@@ -229,11 +229,11 @@ export default function ReadingClient() {
           key={activeTooltip.charData.char + activeTooltip.sentenceId}
           charData={activeTooltip.charData}
           context={tooltipContext}
- triggerRect={activeTooltip.rect}
- chapterId={chapter.id}
- sentenceId={activeTooltip.sentenceId}
- onClose={() => setActiveTooltip(null)}
- />
+          triggerRect={activeTooltip.rect}
+          chapterId={chapter.id}
+          sentenceId={activeTooltip.sentenceId}
+          onClose={() => setActiveTooltip(null)}
+        />
  )}
  </div>
  );
