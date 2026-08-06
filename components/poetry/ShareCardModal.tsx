@@ -202,23 +202,19 @@ export default function ShareCardModal({
               }}
             >
               {/* Top area: scene image with dark overlay */}
-              <div className="relative" style={{ height: 380 }}>
+              <div className="relative overflow-hidden" style={{ height: 380 }}>
                 {poem.coverImage && poemImageExists(poem.coverImage) && (
-                  <img
-                    src={poem.coverImage}
-                    alt=""
-                    crossOrigin="anonymous"
-                    onError={(e) => {
-                      e.currentTarget.style.display = "none";
-                    }}
+                  <div
                     style={{
                       position: "absolute",
                       top: 0,
                       left: 0,
                       width: "100%",
                       height: "100%",
-                      objectFit: "cover",
-                      objectPosition: "center",
+                      backgroundImage: `url(${poem.coverImage})`,
+                      backgroundSize: "cover",
+                      backgroundPosition: "center",
+                      backgroundRepeat: "no-repeat",
                     }}
                   />
                 )}
@@ -355,7 +351,7 @@ export default function ShareCardModal({
                 />
 
                 <div
-                  className="absolute bottom-16 left-0 right-0 flex items-center justify-between px-20"
+                  className="absolute inset-0 flex items-center justify-between px-20"
                 >
                   {/* Seal stamp */}
                   <div

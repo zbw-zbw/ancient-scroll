@@ -215,21 +215,19 @@ export default function BeastShareModal({
               }}
             >
               {/* Top area: beast image with dark overlay */}
-              <div className="relative" style={{ height: 230 }}>
+              <div className="relative overflow-hidden" style={{ height: 230 }}>
                 {!imgError && beastImageExists(beast.imagePath) ? (
-                  <img
-                    src={beast.imagePath}
-                    alt={beast.name}
-                    crossOrigin="anonymous"
-                    onError={() => setImgError(true)}
+                  <div
                     style={{
                       position: "absolute",
                       top: 0,
                       left: 0,
                       width: "100%",
                       height: "100%",
-                      objectFit: "cover",
-                      objectPosition: "center",
+                      backgroundImage: `url(${beast.imagePath})`,
+                      backgroundSize: "cover",
+                      backgroundPosition: "center",
+                      backgroundRepeat: "no-repeat",
                     }}
                   />
                 ) : (
@@ -399,7 +397,7 @@ export default function BeastShareModal({
                   }}
                 />
 
-                <div className="absolute bottom-16 left-0 right-0 flex items-center justify-between px-10">
+                <div className="absolute inset-0 flex items-center justify-between px-10">
                   {/* Seal stamp */}
                   <div
                     style={{

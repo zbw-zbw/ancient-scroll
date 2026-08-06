@@ -375,7 +375,7 @@ export default function QuizShareModal({
                   }}
                 />
 
-                <div className="absolute bottom-12 left-0 right-0 flex items-center justify-between px-16">
+                <div className="absolute inset-0 flex items-center justify-between px-16">
                   {/* Seal stamp */}
                   <div
                     style={{
