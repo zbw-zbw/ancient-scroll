@@ -921,31 +921,36 @@ footer {
 
 /* ===== Global button padding refinement =====
    将常见按钮内边距统一收紧约 20%–30%，缓解臃肿感；
-   仅作用于 button / a / [role="button"]，避免误伤普通徽章。 */
+   仅作用于 button / a / [role="button"]，避免误伤徽章、标签、卡片内边距。 */
 button[class~="px-6"],
 a[class~="px-6"],
 [role="button"][class~="px-6"] {
-  padding-inline: 1.25rem !important;
+  padding-inline: 1.125rem !important; /* 18px, 原 24px 缩减 25% */
 }
 button[class~="px-5"],
 a[class~="px-5"],
 [role="button"][class~="px-5"] {
-  padding-inline: 1rem !important;
+  padding-inline: 0.9375rem !important; /* 15px, 原 20px 缩减 25% */
 }
 button[class~="px-4"],
 a[class~="px-4"],
 [role="button"][class~="px-4"] {
-  padding-inline: 0.75rem !important;
+  padding-inline: 0.75rem !important; /* 12px, 原 16px 缩减 25% */
 }
 button[class~="py-3"],
 a[class~="py-3"],
 [role="button"][class~="py-3"] {
-  padding-block: 0.625rem !important;
+  padding-block: 0.5625rem !important; /* 9px, 原 12px 缩减 25% */
 }
 button[class~="py-2.5"],
 a[class~="py-2.5"],
 [role="button"][class~="py-2.5"] {
-  padding-block: 0.5rem !important;
+  padding-block: 0.4375rem !important; /* 7px, 原 10px 缩减 30% */
+}
+button[class~="py-2"],
+a[class~="py-2"],
+[role="button"][class~="py-2"] {
+  padding-block: 0.375rem !important; /* 6px, 原 8px 缩减 25% */
 }
 
 /* ===== Mobile touch target enforcement (36x36px minimum) ===== */

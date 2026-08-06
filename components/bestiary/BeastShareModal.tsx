@@ -217,18 +217,11 @@ export default function BeastShareModal({
               {/* Top area: beast image with dark overlay */}
               <div className="relative overflow-hidden" style={{ height: 230 }}>
                 {!imgError && beastImageExists(beast.imagePath) ? (
-                  <div
-                    style={{
-                      position: "absolute",
-                      top: 0,
-                      left: 0,
-                      width: "100%",
-                      height: "100%",
-                      backgroundImage: `url(${beast.imagePath})`,
-                      backgroundSize: "cover",
-                      backgroundPosition: "center",
-                      backgroundRepeat: "no-repeat",
-                    }}
+                  <img
+                    src={beast.imagePath}
+                    alt={beast.name}
+                    className="absolute inset-0 h-full w-full object-cover"
+                    onError={() => setImgError(true)}
                   />
                 ) : (
                   <div
@@ -312,7 +305,7 @@ export default function BeastShareModal({
               <div className="mx-10" style={{ height: 1, background: colorA + "30" }} />
 
               {/* Center: original text + translation */}
-              <div className="px-8 pt-6">
+              <div className="px-8 pb-20 pt-6">
                 {/* Original text */}
                 <p
                   style={{
@@ -369,16 +362,16 @@ export default function BeastShareModal({
 
               {/* Bottom section: attribution + branding */}
               <div
-                className="absolute bottom-0 left-0 right-0"
+                className="absolute bottom-0 left-0 right-0 flex items-center justify-between px-10"
                 style={{
-                  height: 140,
+                  height: 100,
                   background:
-                    "linear-gradient(180deg, transparent 0%, rgba(250,247,240,0.9) 40%)",
+                    "linear-gradient(180deg, transparent 0%, rgba(250,247,240,0.95) 30%)",
                 }}
               >
                 {/* Corner ornaments - bottom left */}
                 <div
-                  className="absolute bottom-5 left-5"
+                  className="absolute bottom-4 left-5"
                   style={{
                     width: 32,
                     height: 32,
@@ -388,7 +381,7 @@ export default function BeastShareModal({
                 />
                 {/* Corner ornaments - bottom right */}
                 <div
-                  className="absolute bottom-5 right-5"
+                  className="absolute bottom-4 right-5"
                   style={{
                     width: 32,
                     height: 32,
@@ -397,66 +390,64 @@ export default function BeastShareModal({
                   }}
                 />
 
-                <div className="absolute inset-0 flex items-center justify-between px-10">
-                  {/* Seal stamp */}
-                  <div
+                {/* Seal stamp */}
+                <div
+                  style={{
+                    width: 48,
+                    height: 48,
+                    borderRadius: 4,
+                    border: "2px solid rgba(138,31,42,0.6)",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    transform: "rotate(-3deg)",
+                    backgroundColor: "rgba(138,31,42,0.08)",
+                  }}
+                >
+                  <span
                     style={{
-                      width: 48,
-                      height: 48,
-                      borderRadius: 4,
-                      border: "2px solid rgba(138,31,42,0.6)",
+                      fontFamily:
+                        'var(--font-ma-shan-zheng), "Ma Shan Zheng", cursive',
+                      fontSize: 13,
+                      color: "#8a1f2a",
+                      textAlign: "center",
+                      lineHeight: 1,
                       display: "flex",
+                      flexDirection: "column",
                       alignItems: "center",
                       justifyContent: "center",
-                      transform: "rotate(-3deg)",
-                      backgroundColor: "rgba(138,31,42,0.08)",
                     }}
                   >
-                    <span
-                      style={{
-                        fontFamily:
-                          'var(--font-ma-shan-zheng), "Ma Shan Zheng", cursive',
-                        fontSize: 13,
-                        color: "#8a1f2a",
-                        textAlign: "center",
-                        lineHeight: 1,
-                        display: "flex",
-                        flexDirection: "column",
-                        alignItems: "center",
-                        justifyContent: "center",
-                      }}
-                    >
-                      <span>古籍</span>
-                      <span>焕新</span>
-                    </span>
-                  </div>
+                    <span>古籍</span>
+                    <span>焕新</span>
+                  </span>
+                </div>
 
-                  {/* Watermark + source */}
-                  <div className="flex flex-col items-end">
-                    <span
-                      style={{
-                        fontFamily:
-                          'var(--font-noto-serif-sc), "Noto Serif SC", serif',
-                        fontSize: 11,
-                        color: "#8a8070",
-                        letterSpacing: 3,
-                      }}
-                    >
-                      古籍焕新 · 山海经异兽图鉴
-                    </span>
-                    <span
-                      style={{
-                        fontFamily:
-                          'var(--font-noto-serif-sc), "Noto Serif SC", serif',
-                        fontSize: 10,
-                        color: "#a8a090",
-                        marginTop: 4,
-                        letterSpacing: 2,
-                      }}
-                    >
-                      —— {beast.chapter}
-                    </span>
-                  </div>
+                {/* Watermark + source */}
+                <div className="flex flex-col items-end">
+                  <span
+                    style={{
+                      fontFamily:
+                        'var(--font-noto-serif-sc), "Noto Serif SC", serif',
+                      fontSize: 11,
+                      color: "#8a8070",
+                      letterSpacing: 3,
+                    }}
+                  >
+                    古籍焕新 · 山海经异兽图鉴
+                  </span>
+                  <span
+                    style={{
+                      fontFamily:
+                        'var(--font-noto-serif-sc), "Noto Serif SC", serif',
+                      fontSize: 10,
+                      color: "#a8a090",
+                      marginTop: 4,
+                      letterSpacing: 2,
+                    }}
+                  >
+                    —— {beast.chapter}
+                  </span>
                 </div>
               </div>
 

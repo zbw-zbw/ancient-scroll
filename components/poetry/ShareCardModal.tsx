@@ -204,18 +204,10 @@ export default function ShareCardModal({
               {/* Top area: scene image with dark overlay */}
               <div className="relative overflow-hidden" style={{ height: 380 }}>
                 {poem.coverImage && poemImageExists(poem.coverImage) && (
-                  <div
-                    style={{
-                      position: "absolute",
-                      top: 0,
-                      left: 0,
-                      width: "100%",
-                      height: "100%",
-                      backgroundImage: `url(${poem.coverImage})`,
-                      backgroundSize: "cover",
-                      backgroundPosition: "center",
-                      backgroundRepeat: "no-repeat",
-                    }}
+                  <img
+                    src={poem.coverImage}
+                    alt={poem.title}
+                    className="absolute inset-0 h-full w-full object-cover"
                   />
                 )}
                 {/* Dark overlay on top image */}
@@ -323,15 +315,15 @@ export default function ShareCardModal({
 
               {/* Bottom section: attribution + branding */}
               <div
-                className="absolute bottom-0 left-0 right-0"
+                className="absolute bottom-0 left-0 right-0 flex items-center justify-between px-20"
                 style={{
-                  height: 160,
-                  background: "linear-gradient(180deg, transparent 0%, rgba(250,247,240,0.9) 40%)",
+                  height: 120,
+                  background: "linear-gradient(180deg, transparent 0%, rgba(250,247,240,0.95) 30%)",
                 }}
               >
                 {/* Corner ornaments - bottom left */}
                 <div
-                  className="absolute bottom-6 left-6"
+                  className="absolute bottom-5 left-6"
                   style={{
                     width: 40,
                     height: 40,
@@ -341,7 +333,7 @@ export default function ShareCardModal({
                 />
                 {/* Corner ornaments - bottom right */}
                 <div
-                  className="absolute bottom-6 right-6"
+                  className="absolute bottom-5 right-6"
                   style={{
                     width: 40,
                     height: 40,
@@ -350,56 +342,52 @@ export default function ShareCardModal({
                   }}
                 />
 
+                {/* Seal stamp */}
                 <div
-                  className="absolute inset-0 flex items-center justify-between px-20"
+                  style={{
+                    width: 64,
+                    height: 64,
+                    borderRadius: 4,
+                    border: "2px solid rgba(138,31,42,0.6)",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    transform: "rotate(-3deg)",
+                    backgroundColor: "rgba(138,31,42,0.08)",
+                  }}
                 >
-                  {/* Seal stamp */}
-                  <div
-                    style={{
-                      width: 64,
-                      height: 64,
-                      borderRadius: 4,
-                      border: "2px solid rgba(138,31,42,0.6)",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      transform: "rotate(-3deg)",
-                      backgroundColor: "rgba(138,31,42,0.08)",
-                    }}
-                  >
-                    <span
-                      style={{
-                        fontFamily:
-                          'var(--font-ma-shan-zheng), "Ma Shan Zheng", cursive',
-                        fontSize: 14,
-                        color: "#8a1f2a",
-                        textAlign: "center",
-                        lineHeight: 1,
-                        letterSpacing: 2,
-                        display: "flex",
-                        flexDirection: "column",
-                        alignItems: "center",
-                        justifyContent: "center",
-                      }}
-                    >
-                      <span>古籍</span>
-                      <span>焕新</span>
-                    </span>
-                  </div>
-
-                  {/* Watermark */}
                   <span
                     style={{
                       fontFamily:
-                        'var(--font-noto-serif-sc), "Noto Serif SC", serif',
-                      fontSize: 13,
-                      color: "#8a8070",
-                      letterSpacing: 6,
+                        'var(--font-ma-shan-zheng), "Ma Shan Zheng", cursive',
+                      fontSize: 14,
+                      color: "#8a1f2a",
+                      textAlign: "center",
+                      lineHeight: 1,
+                      letterSpacing: 2,
+                      display: "flex",
+                      flexDirection: "column",
+                      alignItems: "center",
+                      justifyContent: "center",
                     }}
                   >
-                    古籍焕新
+                    <span>古籍</span>
+                    <span>焕新</span>
                   </span>
                 </div>
+
+                {/* Watermark */}
+                <span
+                  style={{
+                    fontFamily:
+                      'var(--font-noto-serif-sc), "Noto Serif SC", serif',
+                    fontSize: 13,
+                    color: "#8a8070",
+                    letterSpacing: 6,
+                  }}
+                >
+                  古籍焕新
+                </span>
               </div>
 
               {/* Border frame */}

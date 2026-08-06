@@ -98,9 +98,9 @@ export default function Hero() {
         </button>
       </div>
 
-      {/* Seal badge */}
-      <div className="absolute bottom-8 right-8 z-10 flex h-16 w-16 rotate-[-3deg] items-center justify-center rounded-sm bg-seal-bg shadow-sm md:bottom-12 md:right-12 md:h-20 md:w-20 ring-1 ring-seal-red/20">
-        <span className="text-center font-calligraphy text-xs leading-tight text-seal-red md:text-sm dark:text-[#e05545]">
+      {/* Seal badge - 移动端缩小并降低透明度，避免遮挡副标题和 CTA */}
+      <div className="absolute bottom-6 right-4 z-10 flex h-10 w-10 rotate-[-3deg] items-center justify-center rounded-sm bg-seal-bg/70 shadow-sm opacity-60 md:bottom-12 md:right-12 md:h-20 md:w-20 md:opacity-100 ring-1 ring-seal-red/20">
+        <span className="text-center font-calligraphy text-[8px] leading-tight text-seal-red md:text-sm dark:text-[#e05545]">
           古籍
           <br />
           焕新
