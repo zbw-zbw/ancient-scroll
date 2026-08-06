@@ -45,6 +45,9 @@ export default function ChatMessages({
   const stableMessages = useStableMessages(messages);
   const [showScrollTop, setShowScrollTop] = useState(false);
   const [scrollProgress, setScrollProgress] = useState(0);
+  // Track whether the user has manually scrolled up away from the bottom.
+  // When true, streaming auto-scroll is paused so the user can read history.
+  const pinnedToBottomRef = useRef(true);
 
   useEffect(() => {
     const container = scrollRef.current;
@@ -53,23 +56,35 @@ export default function ChatMessages({
     const isNewMessage = messages.length > prevMessageCountRef.current;
     prevMessageCountRef.current = messages.length;
 
-    container.scrollTo({
-      top: container.scrollHeight,
-      behavior: isStreaming ? "auto" : isNewMessage ? "smooth" : "auto",
-    });
+    // New user message: always re-pin to bottom
+    if (isNewMessage) {
+      pinnedToBottomRef.current = true;
+    }
+
+    // Only auto-scroll if the user hasn't scrolled away from the bottom
+    if (pinnedToBottomRef.current) {
+      container.scrollTo({
+        top: container.scrollHeight,
+        behavior: isStreaming ? "auto" : isNewMessage ? "smooth" : "auto",
+      });
+    }
   }, [messages, streamingContent, isStreaming]);
 
-  // Show back-to-top button when scrolled down in the local container + track scroll progress
+  // Show back-to-top button when scrolled down + track scroll progress + detect user scroll direction
   useEffect(() => {
     const container = scrollRef.current;
     if (!container) return;
     const handleScroll = () => {
-      setShowScrollTop(container.scrollTop > 300);
       const max = container.scrollHeight - container.clientHeight;
+      const isNearBottom = max > 0 ? container.scrollTop >= max - 80 : true;
+      // Update pinned state: if user scrolls near bottom, re-pin; if away, unpin
+      pinnedToBottomRef.current = isNearBottom;
+
+      setShowScrollTop(container.scrollTop > 300);
       const progress = max > 0 ? container.scrollTop / max : 0;
       setScrollProgress(Math.min(1, Math.max(0, progress)));
     };
-    container.addEventListener("scroll", handleScroll);
+    container.addEventListener("scroll", handleScroll, { passive: true });
     handleScroll();
     return () => container.removeEventListener("scroll", handleScroll);
   }, []);

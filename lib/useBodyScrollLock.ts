@@ -12,6 +12,7 @@ import { useEffect } from "react";
  */
 let lockCount = 0;
 let previousOverflow = "";
+let savedScrollY = 0;
 
 export function useBodyScrollLock(locked: boolean) {
   useEffect(() => {
@@ -19,6 +20,7 @@ export function useBodyScrollLock(locked: boolean) {
 
     if (lockCount === 0) {
       previousOverflow = document.body.style.overflow;
+      savedScrollY = window.scrollY;
       document.body.style.overflow = "hidden";
     }
     lockCount += 1;
@@ -27,6 +29,8 @@ export function useBodyScrollLock(locked: boolean) {
       lockCount = Math.max(0, lockCount - 1);
       if (lockCount === 0) {
         document.body.style.overflow = previousOverflow;
+        // iOS Safari 在 overflow 切换时可能重置滚动位置，显式恢复
+        window.scrollTo(0, savedScrollY);
       }
     };
   }, [locked]);

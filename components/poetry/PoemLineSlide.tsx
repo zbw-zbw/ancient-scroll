@@ -62,7 +62,7 @@ export default function PoemLineSlide({ line, active, coverImage, reciting }: Po
       {/* Only render particles for the active slide (perf: avoid 30-60 simultaneous CSS animations) */}
       {active && <Particles type={line.particleType} />}
 
-      <div className="relative z-10 mx-auto w-full max-w-5xl px-4 text-center md:max-w-6xl md:px-6">
+      <div className="relative z-10 mx-auto w-full max-w-5xl px-4 text-center break-words md:max-w-6xl md:px-6">
         {/* 2. 意境图标（如果有）从中心弹出：.animate-emoji-pop，delay 0.2s */}
         {MoodIcon && (
           <div
@@ -92,7 +92,7 @@ export default function PoemLineSlide({ line, active, coverImage, reciting }: Po
 
         {/* 4. 白话注释淡入：delay 0.8s（复用 .animate-poem-rise 保持一致的上移淡入效果）*/}
         <p
-          className={`mx-auto mt-6 max-w-xl font-serif text-base leading-relaxed md:text-lg ${
+          className={`mx-auto mt-6 max-w-xl break-words font-serif text-base leading-relaxed md:text-lg ${
             active ? "animate-poem-rise" : "opacity-0"
           } ${textLight ? "text-white/90" : "text-ink/80"}`}
           style={{

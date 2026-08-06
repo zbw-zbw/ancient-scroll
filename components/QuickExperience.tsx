@@ -49,15 +49,15 @@ export default function QuickExperience() {
           <div className="h-px flex-1 bg-gradient-to-r from-cinnabar/30 to-transparent" />
         </div>
 
-        {/* 卡片网格 */}
-        <div className="grid grid-cols-1 gap-3 sm:grid-cols-3 md:gap-4">
+        {/* 卡片：移动端横向滚动，PC 端三列网格 */}
+        <div className="flex gap-3 overflow-x-auto pb-1 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden sm:grid sm:grid-cols-3 sm:overflow-visible md:gap-4">
           {items.map((item) => {
             const Icon = item.icon;
             return (
               <Link
                 key={item.title}
                 href={item.href}
-                className={`group relative flex items-center gap-3 overflow-hidden rounded-2xl border border-ink/8 bg-gradient-to-br ${item.gradient} px-4 py-3 ring-1 ${item.ring} transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg active:scale-[0.98] md:px-5 md:py-4`}
+                className={`group relative flex min-w-[200px] flex-shrink-0 items-center gap-3 overflow-hidden rounded-2xl border border-ink/8 bg-gradient-to-br ${item.gradient} px-4 py-3 ring-1 ${item.ring} transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg active:scale-[0.98] sm:min-w-0 md:px-5 md:py-4`}
               >
                 {/* 图标 */}
                 <div

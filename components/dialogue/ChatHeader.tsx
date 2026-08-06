@@ -20,7 +20,7 @@ export default function ChatHeader({ character, onBack, onClear }: ChatHeaderPro
       <div className="flex items-center gap-2 md:gap-3">
         <button
           onClick={onBack}
-          className="flex h-8 w-8 items-center justify-center rounded-full transition-colors hover:bg-rule/30"
+          className="flex h-10 w-10 items-center justify-center rounded-full transition-colors hover:bg-rule/30 active:scale-90"
           aria-label="返回选择"
         >
           <svg
@@ -74,7 +74,7 @@ export default function ChatHeader({ character, onBack, onClear }: ChatHeaderPro
 
       <button
         onClick={onClear}
-        className="shrink-0 cursor-pointer whitespace-nowrap rounded-md px-1.5 py-1 font-serif text-xs text-muted transition-colors hover:bg-surface/60 hover:text-cinnabar md:px-2 md:text-sm"
+        className="shrink-0 cursor-pointer whitespace-nowrap rounded-md px-3 py-2 min-h-[36px] font-serif text-xs text-muted transition-colors hover:bg-surface/60 hover:text-cinnabar active:scale-95 md:text-sm"
       >
         清空对话
       </button>

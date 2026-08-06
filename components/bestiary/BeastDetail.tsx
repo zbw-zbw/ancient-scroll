@@ -34,7 +34,7 @@ interface BeastDetailProps {
 }
 
 export default function BeastDetail({
-  beast,
+  beast: beastProp,
   collected,
   collectedCount,
   currentDescription,
@@ -44,46 +44,56 @@ export default function BeastDetail({
   onShare,
 }: BeastDetailProps) {
   const [mounted, setMounted] = useState(false);
+  const [displayBeast, setDisplayBeast] = useState<Beast | null>(null);
   const [imgError, setImgError] = useState(false);
-  const imgAvailable = beast ? beastImageExists(beast.imagePath) : false;
+  const imgAvailable = displayBeast ? beastImageExists(displayBeast.imagePath) : false;
   const modalRef = useRef<HTMLDivElement>(null);
   const previousFocusRef = useRef<HTMLElement | null>(null);
+  const closingTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   // 切换异兽时重置图片错误状态
   useEffect(() => {
     setImgError(false);
-  }, [beast?.id]);
+  }, [beastProp?.id]);
 
-  // 引用计数滚动锁：与嵌套的分享弹窗共存时不会互相解除
-  useBodyScrollLock(!!beast);
+  // 引用计数滚动锁：使用 displayBeast 确保退出动画期间仍保持锁定
+  useBodyScrollLock(!!displayBeast);
 
+  // 入场/退场动画控制：beast 变化时更新 displayBeast，退出时延迟卸载以播放动画
   useEffect(() => {
-    if (beast) {
+    if (beastProp) {
+      // 打开或切换：立即更新显示数据，下一帧触发入场动画
+      if (closingTimerRef.current) {
+        clearTimeout(closingTimerRef.current);
+        closingTimerRef.current = null;
+      }
+      setDisplayBeast(beastProp);
       previousFocusRef.current = document.activeElement as HTMLElement;
       requestAnimationFrame(() => setMounted(true));
-    } else {
+    } else if (displayBeast) {
+      // 关闭：触发退场动画，延迟 300ms 后卸载
       setMounted(false);
-    }
-  }, [beast]);
-
-  // 关闭时还原焦点到打开弹窗的元素（键盘/读屏用户不迷失位置）
-  const prevBeastRef = useRef<Beast | null>(null);
-  useEffect(() => {
-    if (beast) {
-      prevBeastRef.current = beast;
-    } else if (prevBeastRef.current) {
-      prevBeastRef.current = null;
-      // 等卸载动画与嵌套弹窗关闭完成后再还原焦点
-      requestAnimationFrame(() => {
+      closingTimerRef.current = setTimeout(() => {
+        setDisplayBeast(null);
+        closingTimerRef.current = null;
+        // 退场动画完成后还原焦点
         previousFocusRef.current?.focus?.();
         previousFocusRef.current = null;
-      });
+      }, 300);
     }
-  }, [beast]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [beastProp]);
+
+  // 清理定时器
+  useEffect(() => {
+    return () => {
+      if (closingTimerRef.current) clearTimeout(closingTimerRef.current);
+    };
+  }, []);
 
   // ESC to close
   useEffect(() => {
-    if (!beast) return;
+    if (!beastProp) return;
     const handleEsc = (e: KeyboardEvent) => {
       if (e.key !== "Escape") return;
       // 嵌套弹窗（分享卡片）打开时，由上层弹窗消费 ESC，详情弹窗不响应
@@ -92,11 +102,11 @@ export default function BeastDetail({
     };
     window.addEventListener("keydown", handleEsc);
     return () => window.removeEventListener("keydown", handleEsc);
-  }, [beast, onClose]);
+  }, [beastProp, onClose]);
 
   // Focus trap
   useEffect(() => {
-    if (!beast || !mounted || !modalRef.current) return;
+    if (!beastProp || !mounted || !modalRef.current) return;
 
     const modal = modalRef.current;
 
@@ -135,9 +145,10 @@ export default function BeastDetail({
 
     document.addEventListener("keydown", handleTab);
     return () => document.removeEventListener("keydown", handleTab);
-  }, [beast, mounted]);
+  }, [beastProp, mounted]);
 
-  if (!beast) return null;
+  if (!displayBeast) return null;
+  const beast = displayBeast;
 
   const content = (
     <div
@@ -165,7 +176,8 @@ export default function BeastDetail({
               alt={beast.name}
               fill
               sizes="(max-width: 768px) 100vw, 640px"
-              className="object-cover"
+              className="object-cover img-placeholder"
+              loading="eager"
               onError={() => setImgError(true)}
             />
           ) : (

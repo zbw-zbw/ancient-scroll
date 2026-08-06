@@ -168,11 +168,11 @@ function ChatBubbleImpl({
 
           {/* 底部小操作按钮：始终可见，贴近气泡 */}
           {showActions && (
-            <div className="mt-1.5 flex items-center gap-1.5 pl-1">
+            <div className="mt-1.5 flex items-center gap-1 pl-1">
               {/* 复制按钮 */}
               <button
                 onClick={handleCopy}
-                className="rounded-md p-1.5 text-muted transition-colors hover:text-cinnabar"
+                className="flex h-9 w-9 items-center justify-center rounded-md text-muted transition-colors hover:text-cinnabar active:scale-90"
                 aria-label="复制消息"
                 title="复制"
               >
@@ -181,7 +181,7 @@ function ChatBubbleImpl({
               {/* 朗读按钮：正在朗读时显示脉冲动画 */}
               <button
                 onClick={handleSpeak}
-                className={`rounded-md p-1.5 transition-colors ${
+                className={`flex h-9 w-9 items-center justify-center rounded-md transition-colors active:scale-90 ${
                   speaking
                     ? "text-cinnabar"
                     : "text-muted hover:text-cinnabar"
@@ -228,7 +228,7 @@ function ChatBubbleImpl({
               {showRegenerate && onRegenerate && (
                 <button
                   onClick={onRegenerate}
-                  className="rounded-md p-1.5 text-muted transition-colors hover:text-cinnabar"
+                  className="flex h-9 w-9 items-center justify-center rounded-md text-muted transition-colors hover:text-cinnabar active:scale-90"
                   aria-label="重新生成回复"
                   title="重新生成"
                 >

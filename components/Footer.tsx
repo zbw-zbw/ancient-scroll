@@ -49,7 +49,7 @@ export default function Footer() {
                   <li key={item.href}>
                     <Link
                       href={item.href}
-                      className="font-serif text-sm text-light-ink hover:text-cinnabar transition-colors"
+                      className="font-serif text-sm text-light-ink hover:text-cinnabar active:scale-95 transition-all"
                     >
                       {item.label}
                     </Link>
@@ -62,7 +62,7 @@ export default function Footer() {
                   <li key={item.href}>
                     <Link
                       href={item.href}
-                      className="font-serif text-sm text-muted hover:text-cinnabar transition-colors"
+                      className="font-serif text-sm text-muted hover:text-cinnabar active:scale-95 transition-all"
                     >
                       {item.label}
                     </Link>
@@ -90,7 +90,7 @@ export default function Footer() {
             target="_blank"
             rel="noopener noreferrer"
             aria-label="GitHub"
-            className="inline-flex items-center gap-1.5 font-serif text-xs text-muted hover:text-cinnabar transition-colors"
+            className="inline-flex items-center gap-1.5 font-serif text-xs text-muted hover:text-cinnabar active:scale-95 transition-all"
           >
             <svg
               viewBox="0 0 24 24"

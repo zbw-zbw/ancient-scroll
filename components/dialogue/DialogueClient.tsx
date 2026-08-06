@@ -56,7 +56,7 @@ export default function DialogueClient() {
       </div>
 
       {selectedCharacter && (
-        <div className="mx-auto max-w-[1100px]">
+        <div className="mx-auto max-w-[1100px] animate-page-enter">
           <ChatInterface
             character={selectedCharacter}
             onBack={() => setSelectedCharacter(null)}

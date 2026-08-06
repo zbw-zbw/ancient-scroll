@@ -50,6 +50,7 @@ export default function ChatInput({
           onKeyDown={handleKeyDown}
           rows={rows}
           maxLength={500}
+          enterKeyHint="send"
           placeholder="请输入你的问题……"
           disabled={disabled}
           aria-label="输入消息"
