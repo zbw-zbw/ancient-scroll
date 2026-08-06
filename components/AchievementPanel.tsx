@@ -4,6 +4,8 @@ import { useEffect, useRef, useState, type ComponentType } from "react";
 import { useSearchParams } from "next/navigation";
 import { getAchievements, type Achievement } from "@/lib/achievements";
 import PageHeader from "@/components/PageHeader";
+import SectionProgress from "@/components/SectionProgress";
+import { useHorizontalOverflow } from "@/lib/useHorizontalOverflow";
 import {
   IconBook,
   IconScroll,
@@ -81,9 +83,9 @@ export default function AchievementPanel() {
   const searchParams = useSearchParams();
   const highlightId = searchParams?.get("highlight") ?? null;
   const highlightRef = useRef<HTMLDivElement>(null);
-  const tabsRef = useRef<HTMLDivElement>(null);
+  const { ref: tabsRef, isScrollable } = useHorizontalOverflow<HTMLDivElement>();
 
-  // Auto-scroll clicked tab into view, revealing the next tab too
+  // Auto-scroll clicked tab into view
   const handleFilterChange = (cat: Achievement["category"] | "all") => {
     setFilter(cat);
     requestAnimationFrame(() => {
@@ -108,7 +110,7 @@ export default function AchievementPanel() {
     setAchievements(getAchievements());
   }, []);
 
-  // 滚动并高亮刚刚解锁的成就
+  // Scroll to highlighted achievement
   useEffect(() => {
     if (!mounted || !highlightId) return;
     const timer = setTimeout(() => {
@@ -124,18 +126,15 @@ export default function AchievementPanel() {
           <div className="text-center">
             <div className="mx-auto h-9 w-32 animate-pulse rounded-lg bg-ink/10" />
             <div className="mx-auto mt-3 h-5 w-56 animate-pulse rounded bg-ink/5" />
-            <div className="mx-auto mt-4 inline-flex items-center gap-3 rounded-full bg-surface/60 px-5 py-2">
-              <div className="h-6 w-16 animate-pulse rounded bg-ink/10" />
-            </div>
           </div>
-          <div className="mt-8 flex justify-center gap-2">
+          <div className="mt-8 flex gap-2">
             {[1, 2, 3, 4].map((i) => (
-              <div key={i} className="h-8 w-16 animate-pulse rounded-full bg-ink/5" />
+              <div key={i} className="h-9 w-16 animate-pulse rounded-full bg-ink/5" />
             ))}
           </div>
           <div className="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {[1, 2, 3, 4, 5, 6].map((i) => (
-              <div key={i} className="h-28 animate-pulse rounded-lg bg-ink/5" />
+              <div key={i} className="h-28 animate-pulse rounded-xl bg-ink/5" />
             ))}
           </div>
         </div>
@@ -154,24 +153,20 @@ export default function AchievementPanel() {
   return (
     <main className="min-h-dvh bg-xuan pb-16 md:pb-24">
       <PageHeader title="成就之路" subtitle="每一步探索，都是一段旅程" compact />
-      <div className="mx-auto max-w-[1100px] px-4 md:px-6">
-        <div className="mt-6 flex justify-center">
-          <div className="inline-flex items-center gap-3 rounded-full bg-surface/60 px-5 py-2">
-            <span className="font-calligraphy text-2xl text-cinnabar">
-              {unlockedCount}
-              <span className="text-base text-muted"> / {totalCount}</span>
-            </span>
-            <div className="h-2 w-32 overflow-hidden rounded-full bg-ink/10">
-              <div
-                className="h-full bg-gradient-to-r from-cinnabar to-gold transition-all duration-700"
-                style={{ width: `${totalCount > 0 ? (unlockedCount / totalCount) * 100 : 0}%` }}
-              />
-            </div>
-          </div>
-        </div>
+      <div className="mx-auto max-w-[1100px] px-4 pt-8 md:px-6 md:pt-12">
+        {/* 成就进度条 - 与异兽图鉴样式统一 */}
+        <SectionProgress
+          label="成就解锁进度"
+          current={unlockedCount}
+          total={totalCount}
+          color="from-cinnabar to-gold"
+        />
 
-        {/* Category filter — horizontal scroll on overflow */}
-        <div ref={tabsRef} className="scroll-fade-edges mt-8 flex justify-start gap-2 overflow-x-auto pb-2 scrollbar-hide md:justify-center md:flex-wrap md:overflow-visible">
+        {/* Category filter — 左对齐横滚，不换行，与其他页面一致 */}
+        <div
+          ref={tabsRef}
+          className={`scroll-fade-edges mt-6 flex flex-nowrap justify-start gap-2 overflow-x-auto pb-2 scrollbar-hide ${isScrollable ? "is-scrollable" : ""}`}
+        >
           <button
             onClick={() => handleFilterChange("all")}
             data-tab-key="all"
@@ -181,26 +176,29 @@ export default function AchievementPanel() {
                 : "border-ink/15 bg-transparent text-ink hover:bg-ink/5"
             }`}
           >
-            全部
+            全部 ({totalCount})
           </button>
-          {categories.map((cat) => (
-            <button
-              key={cat}
-              onClick={() => handleFilterChange(cat)}
-              data-tab-key={cat}
-              className={`capsule-btn flex-shrink-0 rounded-full border px-3.5 py-1.5 min-h-[36px] font-serif text-sm transition-all ${
-                filter === cat
-                  ? "border-cinnabar bg-cinnabar/10 text-cinnabar"
-                  : "border-ink/15 bg-transparent text-ink hover:bg-ink/5"
-              }`}
-            >
-              {categoryLabels[cat]}
-            </button>
-          ))}
+          {categories.map((cat) => {
+            const catCount = achievements.filter((a) => a.category === cat).length;
+            return (
+              <button
+                key={cat}
+                onClick={() => handleFilterChange(cat)}
+                data-tab-key={cat}
+                className={`capsule-btn flex-shrink-0 rounded-full border px-3.5 py-1.5 min-h-[36px] font-serif text-sm transition-all ${
+                  filter === cat
+                    ? "border-cinnabar bg-cinnabar/10 text-cinnabar"
+                    : "border-ink/15 bg-transparent text-ink hover:bg-ink/5"
+                }`}
+              >
+                {categoryLabels[cat]} ({catCount})
+              </button>
+            );
+          })}
         </div>
 
         {/* Achievement grid */}
-        <div className="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {filtered.map((ach) => {
             const color = categoryColors[ach.category];
             const isHighlighted = ach.id === highlightId;
@@ -208,10 +206,10 @@ export default function AchievementPanel() {
               <div
                 key={ach.id}
                 ref={isHighlighted ? highlightRef : undefined}
-                className={`group relative overflow-hidden rounded-xl border-2 p-5 transition-all duration-300 ${
+                className={`group relative overflow-hidden rounded-xl border p-5 transition-all duration-300 ${
                   ach.unlocked
                     ? "cursor-pointer border-ink/10 bg-surface/60 hover:border-ink/25 hover:shadow-lg hover:-translate-y-1"
-                    : "cursor-pointer border-dashed border-ink/15 bg-surface/20 hover:border-ink/30 hover:bg-surface/40"
+                    : "cursor-pointer border-ink/10 bg-surface/30 opacity-70 hover:opacity-85 hover:border-ink/20 hover:bg-surface/50"
                 } ${isHighlighted ? "ring-2 ring-cinnabar ring-offset-2 ring-offset-xuan animate-pulse" : ""}`}
                 style={
                   ach.unlocked
@@ -219,13 +217,13 @@ export default function AchievementPanel() {
                     : undefined
                 }
               >
-                {/* Accent bar — animates on hover */}
+                {/* Accent bar */}
                 <div
                   className="absolute left-0 top-0 h-full w-1.5 transition-all duration-300 group-hover:w-2"
                   style={{ background: ach.unlocked ? color : "rgba(0,0,0,0.06)" }}
                 />
 
-                {/* Decorative glow on hover for unlocked cards */}
+                {/* Decorative glow for unlocked cards */}
                 {ach.unlocked && (
                   <div
                     className="pointer-events-none absolute -right-8 -top-8 h-24 w-24 rounded-full opacity-0 blur-2xl transition-opacity duration-300 group-hover:opacity-20"
@@ -233,17 +231,10 @@ export default function AchievementPanel() {
                   />
                 )}
 
-                {/* Lock pattern overlay for locked cards */}
-                {!ach.unlocked && (
-                  <div className="pointer-events-none absolute inset-0 opacity-[0.03]" style={{
-                    backgroundImage: `repeating-linear-gradient(45deg, ${color} 0, ${color} 1px, transparent 1px, transparent 12px)`,
-                  }} />
-                )}
-
                 <div className="relative flex items-start gap-3">
                   <div
                     className={`flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-xl transition-transform duration-300 group-hover:scale-110 group-active:scale-110 ${
-                      ach.unlocked ? "" : "grayscale"
+                      ach.unlocked ? "" : "grayscale opacity-50"
                     }`}
                     style={{ background: ach.unlocked ? `${color}15` : "rgba(0,0,0,0.04)" }}
                   >

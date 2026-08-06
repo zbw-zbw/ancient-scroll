@@ -1,9 +1,11 @@
 "use client";
 
-import { useEffect, useMemo, useState, useRef, useCallback } from "react";
+import { useEffect, useMemo, useState, useCallback } from "react";
 import { poems, type Poem } from "@/data/poems";
 import { getProgress } from "@/lib/progress";
 import PageHeader from "@/components/PageHeader";
+import SectionProgress from "@/components/SectionProgress";
+import { useHorizontalOverflow } from "@/lib/useHorizontalOverflow";
 import PoemCard from "./PoemCard";
 import ShareCardModal from "./ShareCardModal";
 import Footer from "@/components/Footer";
@@ -32,7 +34,7 @@ export default function PoemSelector({ onSelect }: PoemSelectorProps) {
   const [activeCategory, setActiveCategory] =
     useState<CategoryFilter>("全部");
   const [searchQuery, setSearchQuery] = useState("");
-  const tabsRef = useRef<HTMLDivElement>(null);
+  const { ref: tabsRef, isScrollable } = useHorizontalOverflow<HTMLDivElement>();
 
   const handleCategoryChange = useCallback((category: string) => {
     setActiveCategory(category);
@@ -56,7 +58,12 @@ export default function PoemSelector({ onSelect }: PoemSelectorProps) {
 
   // 客户端加载已读诗词进度
   useEffect(() => {
-    setCompletedPoems(getProgress().completedPoems);
+    const updateProgress = () => {
+      setCompletedPoems(getProgress().completedPoems);
+    };
+    updateProgress();
+    window.addEventListener("ancient-scroll:progress-changed", updateProgress);
+    return () => window.removeEventListener("ancient-scroll:progress-changed", updateProgress);
   }, []);
 
   // 按选中分类和搜索关键词筛选诗词
@@ -95,11 +102,20 @@ export default function PoemSelector({ onSelect }: PoemSelectorProps) {
         compact
       />
       <div className="mx-auto max-w-[1100px] px-4 pt-8 md:px-6 md:pt-12">
+        {/* 诗词阅读进度 */}
+        <SectionProgress
+          label="已读诗词"
+          current={completedPoems.length}
+          total={poems.length}
+          color="from-gold to-amber-500"
+          className="mb-8 md:mb-10"
+        />
+
         {/* 分类筛选 + 搜索（样式与异兽图鉴一致） */}
         <div className="mb-8 md:mb-10 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
           <div
             ref={tabsRef}
-            className="scroll-fade-edges flex flex-1 min-w-0 flex-nowrap gap-2 overflow-x-auto scrollbar-hide"
+            className={`scroll-fade-edges flex flex-1 min-w-0 flex-nowrap gap-2 overflow-x-auto scrollbar-hide ${isScrollable ? "is-scrollable" : ""}`}
             role="group"
             aria-label="诗词分类筛选"
           >

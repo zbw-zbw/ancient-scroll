@@ -7,12 +7,13 @@ import type { DifficultChar } from "@/data/shanhaijing";
 import { beasts } from "@/data/beasts";
 import { getReadingPrefs, saveReadingPrefs } from "@/lib/progress";
 import PageHeader from "@/components/PageHeader";
+import SectionProgress from "@/components/SectionProgress";
 import ChapterSidebar from "@/components/reading/ChapterSidebar";
 import ReadingPanel from "@/components/reading/ReadingPanel";
 import CharacterTooltip from "@/components/reading/CharacterTooltip";
 import Footer from "@/components/Footer";
 import type { FontSize } from "@/components/reading/ReadingControls";
-import { markChapterRead, setLastReadChapter, getLastReadChapter } from "@/lib/progress";
+import { markChapterRead, setLastReadChapter, getLastReadChapter, getProgress } from "@/lib/progress";
 
 // Define the canonical chapter order for the sidebar (18 chapters — full 山海经)
 const chapterOrder = [
@@ -61,6 +62,7 @@ export default function ReadingClient() {
  rect: DOMRect;
  } | null>(null);
  const [mounted, setMounted] = useState(false);
+ const [readCount, setReadCount] = useState(0);
 
  // Beast highlight from bestiary "在原文中阅读" link
  const beastParam = searchParams.get("beast");
@@ -156,7 +158,17 @@ export default function ReadingClient() {
  // Track last read chapter on initial load and chapter change
  useEffect(() => {
    setLastReadChapter(selectedChapterId);
+   setReadCount(new Set(getProgress().readChapters).size);
  }, [selectedChapterId]);
+
+ // Listen for progress changes from other components
+ useEffect(() => {
+   const updateProgress = () => {
+     setReadCount(new Set(getProgress().readChapters).size);
+   };
+   window.addEventListener("ancient-scroll:progress-changed", updateProgress);
+   return () => window.removeEventListener("ancient-scroll:progress-changed", updateProgress);
+ }, []);
 
  const handleCharClick = (
    sentenceId: string,
@@ -206,6 +218,13 @@ export default function ReadingClient() {
  compact
  />
  <div className="mx-auto w-full max-w-[1100px] flex-1 px-4 md:px-6 pb-8">
+ <SectionProgress
+ label="阅读进度"
+ current={readCount}
+ total={sortedChapters.length}
+ color="from-violet-500 to-indigo"
+ className="pt-2 mb-6"
+ />
  <ReadingPanel
  chapter={chapter}
  fontSize={fontSize}

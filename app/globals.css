@@ -899,10 +899,12 @@ footer {
   animation: tag-slide-in 0.6s ease-out forwards;
 }
 
-/* ===== Scroll edge mask for horizontal tab strips ===== */
-.scroll-fade-edges {
-  mask-image: linear-gradient(to right, transparent 0%, black 4%, black 96%, transparent 100%);
-  -webkit-mask-image: linear-gradient(to right, transparent 0%, black 4%, black 96%, transparent 100%);
+/* ===== Scroll edge mask for horizontal tab strips =====
+   Only applies when the container actually overflows (paired with .is-scrollable class).
+   Uses a narrower fade (2%) to avoid obscuring text. */
+.scroll-fade-edges.is-scrollable {
+  mask-image: linear-gradient(to right, transparent 0%, black 2%, black 98%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, black 2%, black 98%, transparent 100%);
 }
 
 /* ===== Capsule filter button transition ===== */

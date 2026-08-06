@@ -169,7 +169,7 @@ export default function QuizShareModal({
     <div
       ref={overlayRef}
       onClick={handleOverlayClick}
-      className={`fixed inset-0 z-[60] flex items-center justify-center bg-ink/60 backdrop-blur-sm transition-all duration-200 ${
+      className={`fixed inset-0 z-[100] flex items-center justify-center bg-ink/60 backdrop-blur-sm transition-all duration-200 ${
         open ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
       }`}
       role="dialog"
@@ -183,7 +183,7 @@ export default function QuizShareModal({
       >
         {/* Card preview wrapper */}
         <div className="relative overflow-hidden rounded-lg" style={{ width: 600 * scale, height: 800 * scale }}>
-          <ModalCloseButton onClick={onClose} variant="light" className="absolute right-2 top-2 z-20" />
+          <ModalCloseButton onClick={onClose} variant="light" className="absolute right-3 top-3 z-20" />
           <div style={{ transform: `scale(${scale})`, transformOrigin: "top left" }}>
             {/* Share card - the element to capture */}
             <div

@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useRef, useEffect, useState } from "react";
 import { IconArrowLeft } from "@/components/icons";
 import { getProgress } from "@/lib/progress";
+import { useHorizontalOverflow } from "@/lib/useHorizontalOverflow";
 import type { Chapter } from "@/data/shanhaijing";
 
 interface ChapterSidebarProps {
@@ -18,8 +19,8 @@ export default function ChapterSidebar({
   onSelect,
 }: ChapterSidebarProps) {
   const mobileTabsRef = useRef<HTMLDivElement>(null);
-  const mobileTabsContainerRef = useRef<HTMLDivElement>(null);
   const selectedTabRef = useRef<HTMLButtonElement>(null);
+  const { ref: mobileTabsContainerRef, isScrollable } = useHorizontalOverflow<HTMLDivElement>();
   const [readChapters, setReadChapters] = useState<string[]>([]);
   const [mobileTabsStuck, setMobileTabsStuck] = useState(false);
 
@@ -131,8 +132,7 @@ export default function ChapterSidebar({
         <div className="mx-auto max-w-[1100px] relative">
           <div
             ref={mobileTabsContainerRef}
-            // 使用 .scroll-fade-edges 类实现两侧渐隐遮罩（mask-image 方案）
-            className="scroll-fade-edges flex items-center gap-2.5 overflow-x-auto py-4 px-4 scrollbar-hide"
+            className={`scroll-fade-edges flex items-center gap-2.5 overflow-x-auto py-4 px-4 scrollbar-hide ${isScrollable ? "is-scrollable" : ""}`}
           >
             {chapters.map((chapter) => {
               const isSelected = selectedId === chapter.id;

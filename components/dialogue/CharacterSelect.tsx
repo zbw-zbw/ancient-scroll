@@ -1,8 +1,11 @@
 "use client";
 
-import { useMemo, useState, useRef, useCallback } from "react";
+import { useEffect, useMemo, useState, useCallback } from "react";
 import { characters, HistoricalCharacter } from "../../data/characters";
+import { getProgress } from "@/lib/progress";
 import PageHeader from "@/components/PageHeader";
+import SectionProgress from "@/components/SectionProgress";
+import { useHorizontalOverflow } from "@/lib/useHorizontalOverflow";
 import CharacterCard from "./CharacterCard";
 import Footer from "@/components/Footer";
 
@@ -39,7 +42,8 @@ const dynastyOrder: string[] = [
 export default function CharacterSelect({ onSelect }: CharacterSelectProps) {
   const [activeDynasty, setActiveDynasty] = useState<string>("全部");
   const [searchQuery, setSearchQuery] = useState("");
-  const tabsRef = useRef<HTMLDivElement>(null);
+  const [dialogueCount, setDialogueCount] = useState(0);
+  const { ref: tabsRef, isScrollable } = useHorizontalOverflow<HTMLDivElement>();
 
   const handleDynastyChange = useCallback((dynasty: string) => {
     setActiveDynasty(dynasty);
@@ -58,6 +62,16 @@ export default function CharacterSelect({ onSelect }: CharacterSelectProps) {
         container.scrollTo({ left: tabRight - container.clientWidth + 16, behavior: "smooth" });
       }
     });
+  }, []);
+
+  // Load dialogue progress
+  useEffect(() => {
+    const updateProgress = () => {
+      setDialogueCount(getProgress().dialogueCharacters.length);
+    };
+    updateProgress();
+    window.addEventListener("ancient-scroll:progress-changed", updateProgress);
+    return () => window.removeEventListener("ancient-scroll:progress-changed", updateProgress);
   }, []);
 
   // Precompute dynasty for each character
@@ -101,8 +115,16 @@ export default function CharacterSelect({ onSelect }: CharacterSelectProps) {
         subtitle="与古人促膝长谈，问你所想"
         compact
       />
-      <div className="relative z-10 mx-auto max-w-[1100px] px-4 pb-16 md:px-6 md:pb-24">
-        <div className="mb-8 text-center md:mb-10">
+      <div className="relative z-10 mx-auto max-w-[1100px] px-4 pb-16 md:px-6 md:pb-24 md:pt-4">
+        {/* 对话进度 */}
+        <SectionProgress
+          label="已对话人物"
+          current={dialogueCount}
+          total={characters.length}
+          color="from-blue-500 to-indigo"
+        />
+
+        <div className="mb-8 mt-8 text-center md:mb-10">
           <p className="font-serif text-base text-muted md:text-lg">
             选择一位古人，开启穿越时空的对话
           </p>
@@ -112,7 +134,7 @@ export default function CharacterSelect({ onSelect }: CharacterSelectProps) {
         <div className="mb-8 flex flex-col gap-3 md:mb-10 md:flex-row md:items-center md:justify-between">
           <div
             ref={tabsRef}
-            className="scroll-fade-edges flex flex-1 min-w-0 flex-nowrap gap-2 overflow-x-auto scrollbar-hide"
+            className={`scroll-fade-edges flex flex-1 min-w-0 flex-nowrap gap-2 overflow-x-auto scrollbar-hide ${isScrollable ? "is-scrollable" : ""}`}
             role="group"
             aria-label="朝代分类筛选"
           >

@@ -168,7 +168,7 @@ export default function ShareCardModal({
     <div
       ref={overlayRef}
       onClick={handleOverlayClick}
-      className={`fixed inset-0 z-[60] flex items-center justify-center bg-ink/60 backdrop-blur-sm transition-all duration-200 ${
+      className={`fixed inset-0 z-[100] flex items-center justify-center bg-ink/60 backdrop-blur-sm transition-all duration-200 ${
         open
           ? "opacity-100 pointer-events-auto"
           : "opacity-0 pointer-events-none"
@@ -187,7 +187,7 @@ export default function ShareCardModal({
         {/* Card preview wrapper — 使用缩放后的精确尺寸，关闭按钮贴右上角 */}
         <div className="relative overflow-hidden rounded-lg" style={{ width: 750 * scale, height: 1000 * scale }}>
           {/* Close button — 贴在卡片可视区域右上角 */}
-          <ModalCloseButton onClick={onClose} variant="light" className="absolute right-2 top-2 z-20" />
+          <ModalCloseButton onClick={onClose} variant="light" className="absolute right-3 top-3 z-20" />
           <div style={{ transform: `scale(${scale})`, transformOrigin: 'top left' }}>
             {/* Share card - the element to capture */}
             <div
@@ -402,19 +402,19 @@ export default function ShareCardModal({
           </div>
         </div>
 
-        {/* Action buttons - high contrast on dark overlay */}
+        {/* Action buttons */}
         <div className="mt-6 flex items-center gap-3">
           <button
             onClick={handleSaveImage}
             disabled={saving}
-            className="inline-flex items-center gap-2 rounded-full bg-white/90 px-6 py-2.5 min-h-[44px] font-serif text-sm text-ink shadow-lg transition-colors hover:bg-white active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed disabled:active:scale-100"
+            className="inline-flex items-center gap-2 rounded-full bg-cinnabar px-6 py-2.5 min-h-[44px] font-serif text-sm text-surface transition-colors hover:bg-cinnabar/90 active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed"
           >
             <IconDownload className="h-4 w-4" />
-            {saving ? "正在保存..." : "保存图片"}
+            {saving ? "保存中..." : "保存图片"}
           </button>
           <button
             onClick={handleCopyText}
-            className="inline-flex items-center gap-2 rounded-full bg-white/90 px-6 py-2.5 min-h-[44px] font-serif text-sm text-ink shadow-lg transition-colors hover:bg-white active:scale-95"
+            className="inline-flex items-center gap-2 rounded-full border border-ink/15 bg-surface px-6 py-2.5 min-h-[44px] font-serif text-sm text-ink transition-colors hover:bg-xuan-dark/50 active:scale-[0.98]"
           >
             <IconCopy className="h-4 w-4" />
             {copied ? "已复制" : "复制文字"}

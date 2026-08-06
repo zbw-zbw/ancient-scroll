@@ -5,6 +5,7 @@ import Link from "next/link";
 import PageHeader from "@/components/PageHeader";
 import EmptyState from "@/components/EmptyState";
 import CopyButton from "@/components/CopyButton";
+import { useHorizontalOverflow } from "@/lib/useHorizontalOverflow";
 import {
   getAllNotes,
   deleteNote,
@@ -41,7 +42,7 @@ export default function NotesClient() {
   const { toast } = useToast();
 
   // Refs for auto-scrolling tabs into view
-  const tabsContainerRef = useRef<HTMLDivElement>(null);
+  const { ref: tabsContainerRef, isScrollable } = useHorizontalOverflow<HTMLDivElement>();
 
   const handleFilterChange = useCallback((id: string) => {
     setFilter(id);
@@ -162,7 +163,7 @@ export default function NotesClient() {
           <div className="mb-8 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
             <div
               ref={tabsContainerRef}
-              className="scroll-fade-edges flex min-w-0 flex-1 items-center gap-2 overflow-x-auto pb-1 scrollbar-hide md:flex-none"
+              className={`scroll-fade-edges flex min-w-0 flex-1 items-center gap-2 overflow-x-auto pb-1 scrollbar-hide md:flex-none ${isScrollable ? "is-scrollable" : ""}`}
               role="group"
               aria-label="章节筛选"
             >

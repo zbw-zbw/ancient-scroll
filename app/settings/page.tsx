@@ -259,10 +259,11 @@ export default function SettingsPage() {
                   return (
                     <div
                       key={voice.id}
-                      className={`relative rounded-xl p-3 transition-all border ${
+                      onClick={() => handleAIVoiceChange(voice.id)}
+                      className={`relative cursor-pointer rounded-xl p-3 transition-all border ${
                         isSelected
                           ? "border-cinnabar/40 bg-cinnabar/5 shadow-sm"
-                          : "border-ink/8 bg-xuan/20 hover:border-ink/15 hover:bg-xuan/40"
+                          : "border-ink/8 bg-xuan/20 hover:border-cinnabar/20 hover:bg-cinnabar/[0.03]"
                       }`}
                     >
                       {/* 选中标记 */}
