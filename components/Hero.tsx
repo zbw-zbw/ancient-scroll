@@ -26,7 +26,7 @@ export default function Hero() {
   const bgY = -progress * 15;
 
   return (
-    <section className="relative h-[82svh] w-full overflow-hidden md:h-svh">
+    <section className="relative h-svh w-full overflow-hidden">
       {/* Background image with parallax */}
       <div
         className="absolute inset-0 -z-20 will-change-transform"

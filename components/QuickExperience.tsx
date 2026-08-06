@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { IconChat, IconPaw, IconFlower } from "@/components/icons";
+import { useHorizontalOverflow } from "@/lib/useHorizontalOverflow";
 
 /**
  * 首页"精选体验"区域 —— 3 个直达入口
@@ -38,6 +39,8 @@ const items = [
 ];
 
 export default function QuickExperience() {
+  const { ref, isScrollable } = useHorizontalOverflow<HTMLDivElement>();
+
   return (
     <section className="relative w-full py-6 md:py-8">
       <div className="mx-auto max-w-[1100px] px-4 md:px-6">
@@ -50,7 +53,10 @@ export default function QuickExperience() {
         </div>
 
         {/* 卡片：移动端横向滚动，PC 端三列网格 */}
-        <div className="flex gap-3 overflow-x-auto pb-1 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden sm:grid sm:grid-cols-3 sm:overflow-visible md:gap-4">
+        <div
+          ref={ref}
+          className={`scroll-fade-edges flex gap-3 overflow-x-auto pb-1 scrollbar-hide sm:grid sm:grid-cols-3 sm:overflow-visible md:gap-4 ${isScrollable ? "is-scrollable" : ""}`}
+        >
           {items.map((item) => {
             const Icon = item.icon;
             return (
