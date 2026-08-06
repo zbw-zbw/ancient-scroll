@@ -107,7 +107,6 @@ export default function PoemSelector({ onSelect }: PoemSelectorProps) {
           label="已读诗词"
           current={completedPoems.length}
           total={poems.length}
-          color="from-gold to-amber-500"
           className="mb-8 md:mb-10"
         />
 

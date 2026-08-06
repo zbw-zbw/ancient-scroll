@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Ma_Shan_Zheng, Noto_Serif_SC, Long_Cang } from "next/font/google";
+import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import KeyboardShortcuts from "@/components/KeyboardShortcuts";
@@ -96,6 +97,7 @@ export default function RootLayout({
         </ToastProvider>
         </NavbarVisibilityProvider>
         <ServiceWorkerRegister />
+        <Analytics />
       </body>
     </html>
   );

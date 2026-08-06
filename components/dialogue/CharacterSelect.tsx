@@ -121,7 +121,6 @@ export default function CharacterSelect({ onSelect }: CharacterSelectProps) {
           label="已对话人物"
           current={dialogueCount}
           total={characters.length}
-          color="from-blue-500 to-indigo"
         />
 
         <div className="mb-8 mt-8 text-center md:mb-10">

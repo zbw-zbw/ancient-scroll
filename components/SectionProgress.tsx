@@ -1,5 +1,7 @@
 "use client";
 
+import { useEffect, useRef, useState } from "react";
+
 interface SectionProgressProps {
   /** 左侧标签文字，如"阅读进度"、"已读诗词" */
   label: string;
@@ -7,8 +9,6 @@ interface SectionProgressProps {
   current: number;
   /** 总数 */
   total: number;
-  /** 进度条颜色，默认朱砂红渐变 */
-  color?: string;
   /** 右侧是否显示 count/total，默认 true */
   showCount?: boolean;
   /** 额外的 className */
@@ -16,18 +16,28 @@ interface SectionProgressProps {
 }
 
 /**
- * 统一的栏目进度条组件，样式与异兽图鉴 CollectionProgress 一致。
- * 用于双语阅读、诗境漫游、古今对话等栏目的顶部进度展示。
+ * 统一的栏目进度条组件，样式与异兽图鉴 CollectionProgress 完全一致。
+ * 所有页面使用同一颜色（朱砂→朱印红渐变），同一动画效果。
  */
 export default function SectionProgress({
   label,
   current,
   total,
-  color = "from-cinnabar to-seal-red",
   showCount = true,
   className = "",
 }: SectionProgressProps) {
   const percent = total > 0 ? Math.min(100, Math.round((current / total) * 100)) : 0;
+  const [displayPercent, setDisplayPercent] = useState(0);
+  const initialized = useRef(false);
+
+  // 动画：首次挂载时从 0 过渡到目标值，后续更新直接过渡
+  useEffect(() => {
+    const timer = requestAnimationFrame(() => {
+      setDisplayPercent(percent);
+      initialized.current = true;
+    });
+    return () => cancelAnimationFrame(timer);
+  }, [percent]);
 
   return (
     <div className={`w-full ${className}`}>
@@ -41,8 +51,8 @@ export default function SectionProgress({
       </div>
       <div className="h-2 w-full overflow-hidden rounded-full bg-ink/10">
         <div
-          className={`h-full rounded-full bg-gradient-to-r ${color} transition-all duration-700 ease-out`}
-          style={{ width: `${percent}%` }}
+          className="h-full rounded-full bg-gradient-to-r from-cinnabar to-seal-red transition-all duration-700 ease-out"
+          style={{ width: `${displayPercent}%` }}
         />
       </div>
     </div>

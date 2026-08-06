@@ -159,7 +159,6 @@ export default function AchievementPanel() {
           label="成就解锁进度"
           current={unlockedCount}
           total={totalCount}
-          color="from-cinnabar to-gold"
         />
 
         {/* Category filter — 左对齐横滚，不换行，与其他页面一致 */}

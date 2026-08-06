@@ -163,7 +163,7 @@ export default function NotesClient() {
           <div className="mb-8 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
             <div
               ref={tabsContainerRef}
-              className={`scroll-fade-edges flex min-w-0 flex-1 items-center gap-2 overflow-x-auto pb-1 scrollbar-hide md:flex-none ${isScrollable ? "is-scrollable" : ""}`}
+              className={`scroll-fade-edges flex min-w-0 flex-1 items-center gap-2 overflow-x-auto pb-1 scrollbar-hide ${isScrollable ? "is-scrollable" : ""}`}
               role="group"
               aria-label="章节筛选"
             >
