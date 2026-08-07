@@ -135,7 +135,7 @@ const features = [
   {
     number: "肆",
     title: "山海经双语阅读",
-    desc: "逐句翻译山海经原文，点击任意字词获得深度解读",
+    desc: "《山海经》是记录上古山川异兽的奇书。逐句翻译原文，点击任意字词获得深度解读",
     href: "/reading",
     highlight: "18篇 267句",
     mockup: <ReadingMockup />,

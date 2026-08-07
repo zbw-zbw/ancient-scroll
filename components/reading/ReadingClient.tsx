@@ -63,6 +63,7 @@ export default function ReadingClient() {
  } | null>(null);
  const [mounted, setMounted] = useState(false);
  const [readCount, setReadCount] = useState(0);
+ const [introCollapsed, setIntroCollapsed] = useState(false);
 
  // Beast highlight from bestiary "在原文中阅读" link
  const beastParam = searchParams.get("beast");
@@ -76,6 +77,17 @@ export default function ReadingClient() {
     setFontSize(prefs.fontSize as FontSize);
     setShowTranslation(prefs.showTranslation);
   }, []);
+
+  // Load intro collapsed state from localStorage
+  useEffect(() => {
+    setIntroCollapsed(localStorage.getItem("gj_shj_intro_collapsed") === "true");
+  }, []);
+
+  const toggleIntro = () => {
+    const next = !introCollapsed;
+    setIntroCollapsed(next);
+    localStorage.setItem("gj_shj_intro_collapsed", String(next));
+  };
 
   // Persist prefs when they change
   useEffect(() => {
@@ -225,12 +237,61 @@ export default function ReadingClient() {
      右边缘对齐 Navbar 内容区右边缘。 */}
  <div className="md:ml-[200px] lg:ml-[240px] lg:pl-[calc(max((100vw-1100px)/2-240px,0px)+1.5rem)] lg:pr-[calc(max((100vw-1100px)/2,0px)+1.5rem)]">
  <div className="w-full px-4 pb-8 md:px-6">
+          {/* 山海经简介卡片 */}
+          <div className="pt-8 md:pt-12">
+            {introCollapsed ? (
+              <button
+                onClick={toggleIntro}
+                className="flex items-center gap-1.5 font-serif text-sm text-cinnabar transition-colors hover:text-seal-red"
+              >
+                <svg
+                  className="h-4 w-4"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <path d="m9 18 6-6-6-6" />
+                </svg>
+                关于山海经
+              </button>
+            ) : (
+              <div className="rounded-xl border border-ink/8 bg-seal-bg/40 p-4 md:p-5">
+                <div className="mb-2 flex items-center justify-between">
+                  <span className="font-calligraphy text-base text-ink md:text-lg">关于山海经</span>
+                  <button
+                    onClick={toggleIntro}
+                    className="flex items-center gap-1 font-serif text-xs text-muted transition-colors hover:text-cinnabar"
+                  >
+                    收起
+                    <svg
+                      className="h-3.5 w-3.5"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    >
+                      <path d="m18 15-6-6-6 6" />
+                    </svg>
+                  </button>
+                </div>
+                <p className="font-serif text-sm leading-relaxed text-light-ink">
+                  《山海经》是中国先秦时期的奇书，全书共十八篇，记载了上古时期的山川地理、奇珍异兽与神话传说。它是中国神话的重要源头，鲁迅称之为&ldquo;古之巫书&rdquo;。本平台收录全部十八篇共267句原文，配有白话译文，帮助你轻松读懂这部两千多年前的瑰宝。
+                </p>
+              </div>
+            )}
+          </div>
+
           <SectionProgress
- label="阅读进度"
- current={readCount}
- total={sortedChapters.length}
- className="pt-8 mb-8 md:pt-12 md:mb-10"
- />
+            label="阅读进度"
+            current={readCount}
+            total={sortedChapters.length}
+            className="mt-6 mb-8 md:mt-8 md:mb-10"
+          />
  <ReadingPanel
  chapter={chapter}
  fontSize={fontSize}

@@ -16,6 +16,7 @@ import {
   IconFish,
   IconSnake,
   IconGod,
+  IconArrowRight,
 } from "@/components/icons";
 import { chapters } from "@/data/shanhaijing";
 import ModalCloseButton from "@/components/ModalCloseButton";
@@ -231,13 +232,15 @@ export default function BeastDetail({
               {beast.originalText}
             </p>
           </blockquote>
-          <div className="mb-5">
+          <div className="mb-6 mt-4">
             <Link
               href={`/reading?chapter=${chapters.find((c) => c.name === beast.chapter)?.id || "nanshan"}&beast=${encodeURIComponent(beast.name)}`}
               onClick={onClose}
-              className="inline-flex items-center gap-1 font-serif text-xs text-cinnabar hover:underline"
+              className="inline-flex items-center gap-2 rounded-lg border border-cinnabar/30 bg-cinnabar/5 px-4 py-2.5 font-serif text-sm text-cinnabar transition-all duration-200 hover:border-cinnabar/50 hover:bg-cinnabar/10 active:scale-[0.98]"
             >
-              <IconBookOpen className="h-3.5 w-3.5" /> 在原文中阅读
+              <IconBookOpen className="h-4 w-4" />
+              去读这段原文
+              <IconArrowRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-0.5" />
             </Link>
           </div>
 
