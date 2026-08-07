@@ -77,7 +77,6 @@ export default function ReadingPanel({
     // Double rAF: first frame renders new content, second frame ensures layout is settled
     requestAnimationFrame(() => {
       requestAnimationFrame(() => {
-        scrollRef.current?.scrollTo({ top: 0, behavior: "auto" });
         window.scrollTo({ top: 0, behavior: "auto" });
       });
     });
@@ -102,9 +101,8 @@ export default function ReadingPanel({
     }
 
     // 自动滚动到当前朗读句
-    const container = scrollRef.current;
-    if (container) {
-      const target = container.querySelector(`[data-sentence-id="${sentence.id}"]`);
+    if (scrollRef.current) {
+      const target = scrollRef.current.querySelector(`[data-sentence-id="${sentence.id}"]`);
       if (target) {
         target.scrollIntoView({ behavior: "smooth", block: "center" });
       }
@@ -153,8 +151,7 @@ export default function ReadingPanel({
   // Scroll to highlighted sentence when coming from bestiary
   useEffect(() => {
     if (!highlightSentenceId || !scrollRef.current) return;
-    const container = scrollRef.current;
-    const target = container.querySelector(`[data-sentence-id="${highlightSentenceId}"]`);
+    const target = scrollRef.current.querySelector(`[data-sentence-id="${highlightSentenceId}"]`);
     if (target) {
       // Small delay to ensure layout is settled
       const timer = setTimeout(() => {
@@ -186,24 +183,20 @@ export default function ReadingPanel({
           if (id) setActiveSentenceId(id);
         }
       },
-      { root: container, threshold: [0.3, 0.5, 0.75, 1] }
+      { root: null, threshold: [0.3, 0.5, 0.75, 1] }
     );
     sentenceEls.forEach((el) => observer.observe(el));
     return () => observer.disconnect();
   }, [chapter.id, chapter.sentences.length]);
 
-  // 局部滚动追踪：控制返回顶部按钮显隐
+  // 滚动追踪：控制返回顶部按钮显隐（页面级滚动）
   useEffect(() => {
-    const container = scrollRef.current;
-    if (!container) return;
     const handleScroll = () => {
-      setShowScrollTop(container.scrollTop > 200 || window.scrollY > 200);
+      setShowScrollTop(window.scrollY > 200);
     };
-    container.addEventListener("scroll", handleScroll, { passive: true });
     window.addEventListener("scroll", handleScroll, { passive: true });
     handleScroll();
     return () => {
-      container.removeEventListener("scroll", handleScroll);
       window.removeEventListener("scroll", handleScroll);
     };
   }, [chapter.id]);
@@ -212,12 +205,12 @@ export default function ReadingPanel({
   const readingTime = Math.max(1, Math.ceil(chapter.sentences.length * 2));
 
   return (
-    <main className="flex flex-1 flex-col min-h-0 min-w-0">
+    <div className="flex flex-col min-w-0">
       <div
         ref={scrollRef}
-        className="flex-1 overflow-y-auto px-4 py-6 md:px-8 md:py-8"
+        className="px-4 py-6 md:px-8 md:py-8"
       >
-        <div className="mx-auto w-full max-w-[780px] xl:max-w-[820px]">
+        <div className="w-full">
           {/* Header */}
           <header className="mb-6 flex flex-col gap-2 pb-5 md:mb-8 md:flex-row md:items-end md:justify-between">
             <div className="min-w-0">
@@ -362,7 +355,6 @@ export default function ReadingPanel({
       {showScrollTop && (
         <button
           onClick={() => {
-            scrollRef.current?.scrollTo({ top: 0, behavior: "smooth" });
             window.scrollTo({ top: 0, behavior: "smooth" });
           }}
           className="fixed bottom-[max(1.5rem,env(safe-area-inset-bottom))] right-[max(1.5rem,env(safe-area-inset-right))] z-40 flex h-11 w-11 items-center justify-center rounded-full bg-surface/80 backdrop-blur-sm shadow-md border border-ink/10 text-light-ink hover:text-cinnabar hover:border-cinnabar/30 transition-opacity duration-300 active:scale-95"
@@ -374,6 +366,6 @@ export default function ReadingPanel({
           </svg>
         </button>
       )}
-    </main>
+    </div>
   );
 }

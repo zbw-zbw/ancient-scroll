@@ -46,6 +46,7 @@ export default function SentenceCard({
   active = false,
 }: SentenceCardProps) {
   const ref = useRef<HTMLDivElement>(null);
+  const verticalScrollRef = useRef<HTMLDivElement>(null);
   const [isVertical, setIsVertical] = useState(false);
   const [localShowTranslation, setLocalShowTranslation] = useState(showTranslation);
 
@@ -53,6 +54,16 @@ export default function SentenceCard({
   useEffect(() => {
     setLocalShowTranslation(showTranslation);
   }, [showTranslation]);
+
+  // 竖排模式：默认定位到最右侧（vertical-rl 阅读起点）
+  useEffect(() => {
+    if (isVertical && verticalScrollRef.current) {
+      const el = verticalScrollRef.current;
+      requestAnimationFrame(() => {
+        el.scrollLeft = el.scrollWidth;
+      });
+    }
+  }, [isVertical]);
 
   const handleCharClick = (charData: DifficultChar, rect: DOMRect) => {
     onCharClick(sentence.id, charData, rect);
@@ -95,7 +106,7 @@ export default function SentenceCard({
 
       {/* 原文区域 */}
       {isVertical ? (
-        <div className="flex justify-center overflow-x-auto py-2">
+        <div ref={verticalScrollRef} className="flex justify-center overflow-x-auto py-2">
           <div
             className="text-vertical mx-auto"
             style={{
