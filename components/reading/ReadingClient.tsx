@@ -211,21 +211,25 @@ export default function ReadingClient() {
  }}
  />
 
- {/* 所有可见内容在 sidebar 右侧：用 margin-left 避让 fixed sidebar。
-     lg 以上加动态左右内边距，使内容左边缘对齐 Navbar logo 左边缘、
-     右边缘对齐 Navbar 内容区右边缘。 */}
- <div className="md:ml-[200px] lg:ml-[240px] lg:pl-[calc(max((100vw-1100px)/2-240px,0px)+1.5rem)] lg:pr-[calc(max((100vw-1100px)/2,0px)+1.5rem)]">
+ {/* PageHeader 全宽渲染（在 sidebar 偏移容器之外），
+     使印章 logo 定位在视口最右侧，与其他页面一致。
+     固定侧边栏会叠加在 PageHeader 左侧上方，不影响居中标题。 */}
  <PageHeader
  title="双语阅读"
  subtitle="原文与译文对照，逐句品读山海经"
  compact
  />
+
+ {/* 内容区在 sidebar 右侧：用 margin-left 避让 fixed sidebar。
+     lg 以上加动态左右内边距，使内容左边缘对齐 Navbar logo 左边缘、
+     右边缘对齐 Navbar 内容区右边缘。 */}
+ <div className="md:ml-[200px] lg:ml-[240px] lg:pl-[calc(max((100vw-1100px)/2-240px,0px)+1.5rem)] lg:pr-[calc(max((100vw-1100px)/2,0px)+1.5rem)]">
  <div className="w-full px-4 pb-8 md:px-6">
           <SectionProgress
  label="阅读进度"
  current={readCount}
  total={sortedChapters.length}
- className="pt-2 mb-6"
+ className="pt-8 mb-8 md:pt-12 md:mb-10"
  />
  <ReadingPanel
  chapter={chapter}

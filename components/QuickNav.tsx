@@ -3,6 +3,7 @@
 import { useEffect, useState, useCallback } from "react";
 
 const sections = [
+  { id: "featured", label: "精选" },
   { id: "features", label: "功能" },
   { id: "daily", label: "每日推荐" },
   { id: "continue", label: "继续阅读" },
@@ -55,7 +56,7 @@ export default function QuickNav() {
   return (
     <div className="fixed top-16 left-0 right-0 z-40 border-b border-ink/5 bg-xuan/90 backdrop-blur-md transition-all duration-300">
       <div className="mx-auto max-w-[1100px] px-4 md:px-6">
-        <div className="flex items-center justify-center gap-1 py-2 overflow-x-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
+        <div className="flex items-center justify-start gap-1 py-2 overflow-x-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
           {sections.map((section) => (
             <button
               key={section.id}

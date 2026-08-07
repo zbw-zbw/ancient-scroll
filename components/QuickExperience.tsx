@@ -42,7 +42,7 @@ export default function QuickExperience() {
   const { ref, isScrollable } = useHorizontalOverflow<HTMLDivElement>();
 
   return (
-    <section className="relative w-full py-6 md:py-8">
+    <section id="featured" className="relative w-full py-6 md:py-8">
       <div className="mx-auto max-w-[1100px] px-4 md:px-6">
         {/* 区域标题 */}
         <div className="mb-4 flex items-center gap-3">
