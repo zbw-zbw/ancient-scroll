@@ -41,8 +41,8 @@ export default function BeastShareModal({
     const updateScale = () => {
       const maxW = window.innerWidth - 32; // 16px padding each side
       const maxH = window.innerHeight * 0.75;
-      const scaleW = Math.min(1, maxW / 400);
-      const scaleH = Math.min(1, maxH / 640);
+      const scaleW = Math.min(1, maxW / 750);
+      const scaleH = Math.min(1, maxH / 1000);
       setScale(Math.min(scaleW, scaleH));
     };
     updateScale();
@@ -139,7 +139,7 @@ export default function BeastShareModal({
       const scaleWrapper = card.parentElement;      // transform: scale() 的那层
       const clipWrapper = scaleWrapper?.parentElement; // overflow: hidden 的那层
 
-      // 临时移除缩放和裁剪，让 html2canvas 捕获完整 400x640
+      // 临时移除缩放和裁剪，让 html2canvas 捕获完整 750x1000
       const origTransform = scaleWrapper?.style.transform || "";
       const origClipW = clipWrapper?.style.width || "";
       const origClipH = clipWrapper?.style.height || "";
@@ -148,8 +148,8 @@ export default function BeastShareModal({
 
       if (scaleWrapper) scaleWrapper.style.transform = "none";
       if (clipWrapper) {
-        clipWrapper.style.width = "400px";
-        clipWrapper.style.height = "640px";
+        clipWrapper.style.width = "750px";
+        clipWrapper.style.height = "1000px";
         clipWrapper.style.maxHeight = "none";
         clipWrapper.style.overflow = "visible";
       }
@@ -160,8 +160,8 @@ export default function BeastShareModal({
         useCORS: true,
         backgroundColor: null,
         logging: false,
-        width: 400,
-        height: 640,
+        width: 750,
+        height: 1000,
       });
 
       // 恢复缩放和裁剪
@@ -221,30 +221,30 @@ export default function BeastShareModal({
       aria-label="分享异兽卡片"
     >
       <div
-        className={`relative mx-4 flex flex-col items-center gap-6 transition-all duration-200 ${
+        className={`relative mx-4 flex flex-col items-center transition-all duration-200 ${
           open
             ? "translate-y-0 opacity-100 scale-100"
             : "-translate-y-4 opacity-0 scale-95"
         }`}
       >
-        {/* Card preview wrapper with responsive scaling */}
-        <div className="relative overflow-hidden rounded-lg" style={{ maxHeight: "75vh" }}>
+        {/* Card preview wrapper — 使用缩放后的精确尺寸 */}
+        <div className="relative overflow-hidden rounded-lg" style={{ width: 750 * scale, height: 1000 * scale }}>
           <ModalCloseButton onClick={onClose} variant="light" className="absolute right-3 top-3 z-20" />
-          <div style={{ transform: `scale(${scale})`, transformOrigin: "center center" }}>
+          <div style={{ transform: `scale(${scale})`, transformOrigin: "top left" }}>
             {/* Share card - the element to capture */}
             <div
               ref={cardRef}
               className="relative overflow-hidden rounded-lg"
               style={{
-                width: 400,
-                height: 640,
+                width: 750,
+                height: 1000,
                 background: `linear-gradient(180deg, ${colorATint} 0%, ${colorBTint} 45%, #faf7f0 100%)`,
                 fontFamily:
                   'var(--font-noto-serif-sc), "Noto Serif SC", "Songti SC", "SimSun", serif',
               }}
             >
               {/* Top area: beast image with dark overlay */}
-              <div className="relative overflow-hidden" style={{ height: 230 }}>
+              <div className="relative overflow-hidden" style={{ height: 380 }}>
                 {!imgError && beastImageExists(beast.imagePath) ? (
                   <img
                     src={beast.imagePath}
@@ -282,20 +282,20 @@ export default function BeastShareModal({
 
                 {/* Corner ornaments - top left */}
                 <div
-                  className="absolute left-5 top-5"
+                  className="absolute left-6 top-6"
                   style={{
-                    width: 32,
-                    height: 32,
+                    width: 40,
+                    height: 40,
                     borderTop: `2px solid ${accentColor}`,
                     borderLeft: `2px solid ${accentColor}`,
                   }}
                 />
                 {/* Corner ornaments - top right */}
                 <div
-                  className="absolute right-5 top-5"
+                  className="absolute right-6 top-6"
                   style={{
-                    width: 32,
-                    height: 32,
+                    width: 40,
+                    height: 40,
                     borderTop: `2px solid ${accentColor}`,
                     borderRight: `2px solid ${accentColor}`,
                   }}
@@ -307,10 +307,10 @@ export default function BeastShareModal({
                     style={{
                       fontFamily:
                         'var(--font-ma-shan-zheng), "Ma Shan Zheng", cursive',
-                      fontSize: 40,
+                      fontSize: 48,
                       color: "#faf7f0",
                       textShadow: "0 2px 8px rgba(0,0,0,0.4)",
-                      letterSpacing: 6,
+                      letterSpacing: 8,
                     }}
                   >
                     {beast.name}
@@ -319,10 +319,10 @@ export default function BeastShareModal({
                     style={{
                       fontFamily:
                         'var(--font-noto-serif-sc), "Noto Serif SC", serif',
-                      fontSize: 14,
+                      fontSize: 18,
                       color: "rgba(250,247,240,0.85)",
-                      marginTop: 8,
-                      letterSpacing: 3,
+                      marginTop: 12,
+                      letterSpacing: 4,
                     }}
                   >
                     山海经 · {beast.chapter}
@@ -331,19 +331,19 @@ export default function BeastShareModal({
               </div>
 
               {/* Thin divider line */}
-              <div className="mx-10" style={{ height: 1, background: colorA + "30" }} />
+              <div className="mx-12" style={{ height: 1, background: colorA + "30" }} />
 
               {/* Center: original text + translation */}
-              <div className="px-8 pb-20 pt-6">
+              <div className="px-16 pb-20 pt-6">
                 {/* Original text */}
                 <p
                   style={{
                     fontFamily:
                       'var(--font-noto-serif-sc), "Noto Serif SC", serif',
-                    fontSize: 12,
+                    fontSize: 14,
                     color: "#8a8070",
                     letterSpacing: 2,
-                    marginBottom: 8,
+                    marginBottom: 10,
                   }}
                 >
                   原文
@@ -352,11 +352,11 @@ export default function BeastShareModal({
                   style={{
                     fontFamily:
                       'var(--font-noto-serif-sc), "Noto Serif SC", serif',
-                    fontSize: 15,
-                    lineHeight: 1.8,
+                    fontSize: 18,
+                    lineHeight: 1.9,
                     color: "#1a1a2e",
                     letterSpacing: 1,
-                    marginBottom: 18,
+                    marginBottom: 22,
                   }}
                 >
                   {beast.originalText}
@@ -367,10 +367,10 @@ export default function BeastShareModal({
                   style={{
                     fontFamily:
                       'var(--font-noto-serif-sc), "Noto Serif SC", serif',
-                    fontSize: 12,
+                    fontSize: 14,
                     color: "#8a8070",
                     letterSpacing: 2,
-                    marginBottom: 8,
+                    marginBottom: 10,
                   }}
                 >
                   译文
@@ -379,8 +379,8 @@ export default function BeastShareModal({
                   style={{
                     fontFamily:
                       'var(--font-noto-serif-sc), "Noto Serif SC", serif',
-                    fontSize: 13,
-                    lineHeight: 1.8,
+                    fontSize: 15,
+                    lineHeight: 1.9,
                     color: "#4a4a5a",
                     letterSpacing: 0.5,
                   }}
@@ -393,28 +393,28 @@ export default function BeastShareModal({
               <div
                 className="absolute bottom-0 left-0 right-0 flex items-center justify-center px-8"
                 style={{
-                  height: 100,
-                  paddingTop: 16,
+                  height: 120,
+                  paddingTop: 20,
                   background:
                     "linear-gradient(180deg, transparent 0%, rgba(250,247,240,0.95) 30%)",
                 }}
               >
                 {/* Corner ornaments - bottom left */}
                 <div
-                  className="absolute bottom-4 left-5"
+                  className="absolute bottom-5 left-6"
                   style={{
-                    width: 32,
-                    height: 32,
+                    width: 40,
+                    height: 40,
                     borderBottom: `2px solid ${accentColor}`,
                     borderLeft: `2px solid ${accentColor}`,
                   }}
                 />
                 {/* Corner ornaments - bottom right */}
                 <div
-                  className="absolute bottom-4 right-5"
+                  className="absolute bottom-5 right-6"
                   style={{
-                    width: 32,
-                    height: 32,
+                    width: 40,
+                    height: 40,
                     borderBottom: `2px solid ${accentColor}`,
                     borderRight: `2px solid ${accentColor}`,
                   }}
@@ -461,25 +461,25 @@ export default function BeastShareModal({
                     <span
                       style={{
                         fontFamily:
-                          'var(--font-noto-serif-sc), "Noto Serif SC", serif',
-                        fontSize: 12,
-                        color: "#8a8070",
-                        letterSpacing: 3,
+                          'var(--font-ma-shan-zheng), "Ma Shan Zheng", cursive',
+                        fontSize: 20,
+                        color: "#1a1a2e",
+                        letterSpacing: 4,
                       }}
                     >
-                      古籍焕新 · 山海经异兽图鉴
+                      古籍焕新
                     </span>
                     <span
                       style={{
                         fontFamily:
                           'var(--font-noto-serif-sc), "Noto Serif SC", serif',
-                        fontSize: 10,
-                        color: "#a8a090",
+                        fontSize: 11,
+                        color: "#8a8070",
                         marginTop: 4,
                         letterSpacing: 2,
                       }}
                     >
-                      —— {beast.chapter}
+                      山海经异兽图鉴 · 国风水墨插画
                     </span>
                   </div>
                 </div>
