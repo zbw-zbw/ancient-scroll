@@ -211,14 +211,14 @@ export default function ReadingClient() {
  }}
  />
 
- <div className="md:pl-[216px] lg:pl-[256px] min-[1580px]:pl-0">
+ <div className="md:pl-[200px] lg:pl-[240px]">
  <PageHeader
  title="双语阅读"
  subtitle="原文与译文对照，逐句品读山海经"
  compact
  />
  </div>
- <div className="w-full px-4 pb-8 md:px-6 md:pl-[216px] lg:pl-[256px] min-[1580px]:mx-auto min-[1580px]:max-w-[1100px] min-[1580px]:px-6">
+ <div className="w-full px-4 pb-8 md:px-6 md:pl-[200px] lg:pl-[240px]">
           <SectionProgress
  label="阅读进度"
  current={readCount}
