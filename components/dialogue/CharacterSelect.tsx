@@ -130,8 +130,10 @@ export default function CharacterSelect({ onSelect }: CharacterSelectProps) {
           </p>
         </div>
 
-        {/* 朝代分类 Tab + 搜索（样式与异兽图鉴/诗境漫游一致） */}
-        <div className="mb-8 flex flex-col gap-3 md:mb-10 md:flex-row md:items-center md:justify-between">
+        {/* 朝代分类 Tab + 搜索 — 吸顶定位 */}
+        <div className="mb-8 md:mb-10">
+        <div className="sticky top-16 z-30 -mx-4 bg-xuan/95 backdrop-blur-sm border-b border-ink/5 px-4 py-3 md:-mx-6 md:px-6">
+        <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
           <div
             ref={tabsRef}
             className="flex flex-1 min-w-0 flex-nowrap gap-2 overflow-x-auto scrollbar-hide"
@@ -198,6 +200,8 @@ export default function CharacterSelect({ onSelect }: CharacterSelectProps) {
               </button>
             )}
           </div>
+        </div>
+        </div>
         </div>
 
         {/* Character grid */}

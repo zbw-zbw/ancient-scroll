@@ -110,8 +110,10 @@ export default function PoemSelector({ onSelect }: PoemSelectorProps) {
           className="mb-8 md:mb-10"
         />
 
-        {/* 分类筛选 + 搜索（样式与异兽图鉴一致） */}
-        <div className="mb-8 md:mb-10 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+        {/* 分类筛选 + 搜索 — 吸顶定位 */}
+        <div className="mb-8 md:mb-10">
+        <div className="sticky top-16 z-30 -mx-4 bg-xuan/95 backdrop-blur-sm border-b border-ink/5 px-4 py-3 md:-mx-6 md:px-6">
+        <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
           <div
             ref={tabsRef}
             className="flex flex-1 min-w-0 flex-nowrap gap-2 overflow-x-auto scrollbar-hide"
@@ -178,6 +180,8 @@ export default function PoemSelector({ onSelect }: PoemSelectorProps) {
               </button>
             )}
           </div>
+        </div>
+        </div>
         </div>
 
         {filteredPoems.length === 0 ? (

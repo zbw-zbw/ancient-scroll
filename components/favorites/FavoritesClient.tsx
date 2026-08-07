@@ -66,8 +66,10 @@ export default function FavoritesClient() {
     <main className="min-h-dvh bg-xuan pb-16">
       <PageHeader title="我的收藏" subtitle="珍藏的诗词与异兽，随时回味" compact />
       <div className="mx-auto max-w-[1100px] px-4 pt-8 md:px-6 md:pt-12">
-        {/* Tabs */}
-        <div className="mb-8 flex items-center gap-2" role="tablist" aria-label="收藏分类">
+        {/* Tabs — 吸顶定位 */}
+        <div className="mb-8 md:mb-10">
+        <div className="sticky top-16 z-30 -mx-4 bg-xuan/95 backdrop-blur-sm border-b border-ink/5 px-4 py-3 md:-mx-6 md:px-6">
+        <div className="flex items-center gap-2" role="tablist" aria-label="收藏分类">
           <button
             onClick={() => setTab("poems")}
             role="tab"
@@ -105,6 +107,8 @@ export default function FavoritesClient() {
             </svg>
             异兽 ({favoriteBeasts.length})
           </button>
+        </div>
+        </div>
         </div>
 
         {/* Poems tab */}

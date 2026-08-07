@@ -379,7 +379,7 @@ export default function Navbar() {
         {/* Scroll progress bar — 对话详情页使用局部进度条，隐藏全局的 */}
         {pathname !== "/dialogue" && (
         <div
-          className="global-scroll-progress absolute bottom-0 h-[2px] overflow-hidden left-6 right-6 lg:left-12 lg:right-12"
+          className="global-scroll-progress absolute bottom-0 left-0 right-0 h-[2px] overflow-hidden"
           aria-hidden="true"
         >
           <div

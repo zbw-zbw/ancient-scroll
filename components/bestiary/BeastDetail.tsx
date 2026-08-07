@@ -163,7 +163,7 @@ export default function BeastDetail({
     >
       <div
         ref={modalRef}
-        className={`relative flex h-full max-h-full w-full flex-col overflow-hidden bg-xuan shadow-2xl transition-all duration-300 rounded-none md:h-auto md:max-h-[90vh] md:max-w-[640px] md:rounded-2xl ${
+        className={`relative flex h-full max-h-full w-full flex-col overflow-hidden bg-xuan shadow-2xl transition-all duration-300 rounded-none md:h-auto md:max-h-[90vh] md:max-w-[720px] md:mx-4 md:rounded-2xl ${
           mounted ? "scale-100 opacity-100" : "scale-95 opacity-0"
         }`}
         role="dialog"
@@ -171,13 +171,13 @@ export default function BeastDetail({
         aria-label={`${beast.name}详情`}
       >
         {/* Top image banner - full-bleed cover */}
-        <div className="relative h-[300px] flex-shrink-0 overflow-hidden md:h-[340px]">
+        <div className="relative h-[300px] flex-shrink-0 overflow-hidden md:h-[380px]">
           {imgAvailable && !imgError ? (
             <Image
               src={beast.imagePath}
               alt={beast.name}
               fill
-              sizes="(max-width: 768px) 100vw, 640px"
+              sizes="(max-width: 768px) 100vw, 720px"
               className="object-cover img-placeholder"
               loading="eager"
               onError={() => setImgError(true)}
