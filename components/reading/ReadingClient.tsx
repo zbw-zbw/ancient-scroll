@@ -211,14 +211,14 @@ export default function ReadingClient() {
  }}
  />
 
- {/* sidebar 避让层：中等屏幕用 padding-left 推开 sidebar 宽度，宽屏 sidebar 落入 1100 居中后左侧空白中无需避让 */}
- <div className="w-full md:pl-[200px] lg:pl-[240px] min-[1540px]:pl-0">
+ {/* 所有可见内容在 sidebar 右侧：用 margin-left 避让 fixed sidebar */}
+ <div className="md:ml-[200px] lg:ml-[240px]">
  <PageHeader
  title="双语阅读"
  subtitle="原文与译文对照，逐句品读山海经"
  compact
  />
- <div className="mx-auto w-full max-w-[1100px] px-4 pb-8 md:px-6">
+ <div className="mx-auto w-full max-w-[900px] px-4 pb-8 md:px-6 lg:px-8">
           <SectionProgress
  label="阅读进度"
  current={readCount}
