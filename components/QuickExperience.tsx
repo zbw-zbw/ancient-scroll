@@ -55,7 +55,7 @@ export default function QuickExperience() {
         {/* 卡片：移动端横向滚动，PC 端三列网格 */}
         <div
           ref={ref}
-          className={`scroll-fade-edges flex gap-3 overflow-x-auto pb-1 scrollbar-hide sm:grid sm:grid-cols-3 sm:overflow-visible md:gap-4 ${isScrollable ? "is-scrollable" : ""}`}
+          className="flex gap-3 overflow-x-auto pb-1 scrollbar-hide sm:grid sm:grid-cols-3 sm:overflow-visible md:gap-4"
         >
           {items.map((item) => {
             const Icon = item.icon;

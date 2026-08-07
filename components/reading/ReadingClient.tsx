@@ -217,8 +217,8 @@ export default function ReadingClient() {
  subtitle="原文与译文对照，逐句品读山海经"
  compact
  />
- <div className="w-full max-w-[1100px] flex-1 px-4 md:px-6 pb-8">
- <SectionProgress
+ <div className="flex flex-col w-full max-w-[1100px] flex-1 px-4 md:px-6 pb-8">
+          <SectionProgress
  label="阅读进度"
  current={readCount}
  total={sortedChapters.length}

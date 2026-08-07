@@ -114,7 +114,7 @@ export default function PoemSelector({ onSelect }: PoemSelectorProps) {
         <div className="mb-8 md:mb-10 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
           <div
             ref={tabsRef}
-            className={`scroll-fade-edges flex flex-1 min-w-0 flex-nowrap gap-2 overflow-x-auto scrollbar-hide ${isScrollable ? "is-scrollable" : ""}`}
+            className="flex flex-1 min-w-0 flex-nowrap gap-2 overflow-x-auto scrollbar-hide"
             role="group"
             aria-label="诗词分类筛选"
           >

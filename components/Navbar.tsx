@@ -10,6 +10,7 @@ import { useBodyScrollLock } from "@/lib/useBodyScrollLock";
 const SearchModal = dynamic(() => import("./SearchModal"), { ssr: false });
 
 const navItems = [
+  { label: "首页", href: "/" },
   { label: "双语阅读", href: "/reading" },
   { label: "异兽图鉴", href: "/bestiary" },
   { label: "诗境漫游", href: "/poetry" },

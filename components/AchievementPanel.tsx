@@ -166,7 +166,7 @@ export default function AchievementPanel() {
         {/* Category filter — 左对齐横滚，不换行，与其他页面一致 */}
         <div
           ref={tabsRef}
-          className={`scroll-fade-edges mt-6 flex flex-nowrap justify-start gap-2 overflow-x-auto pb-2 scrollbar-hide ${isScrollable ? "is-scrollable" : ""}`}
+          className="mt-6 flex flex-nowrap justify-start gap-2 overflow-x-auto pb-2 scrollbar-hide"
         >
           <button
             onClick={() => handleFilterChange("all")}
