@@ -200,13 +200,7 @@ export default function ReadingClient() {
  }, [activeTooltip, chapter]);
 
  return (
- <div className="flex min-h-[calc(100dvh-4rem)] w-full flex-col bg-xuan">
- <PageHeader
- title="双语阅读"
- subtitle="原文与译文对照，逐句品读山海经"
- compact
- />
- <div className="mx-auto flex w-full max-w-[1100px] flex-1 md:flex-row">
+ <div className="flex min-h-[calc(100dvh-4rem)] w-full flex-col bg-xuan md:flex-row">
  <ChapterSidebar
  chapters={sortedChapters}
  selectedId={selectedChapterId}
@@ -218,7 +212,12 @@ export default function ReadingClient() {
  />
 
  <div className="flex min-w-0 flex-1 flex-col">
- <div className="w-full flex-1 px-4 md:px-6 pb-8">
+ <PageHeader
+ title="双语阅读"
+ subtitle="原文与译文对照，逐句品读山海经"
+ compact
+ />
+ <div className="w-full max-w-[1100px] flex-1 px-4 md:px-6 pb-8">
  <SectionProgress
  label="阅读进度"
  current={readCount}
@@ -243,7 +242,6 @@ export default function ReadingClient() {
  />
  </div>
  <Footer />
- </div>
  </div>
 
  {activeTooltip && (
