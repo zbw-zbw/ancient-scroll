@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
 import AchievementPanel from "@/components/AchievementPanel";
+import PageSkeleton from "@/components/PageSkeleton";
 import Footer from "@/components/Footer";
 
 export const metadata: Metadata = {
@@ -15,7 +16,7 @@ export const metadata: Metadata = {
 export default function AchievementsPage() {
   return (
     <>
-      <Suspense fallback={null}>
+      <Suspense fallback={<PageSkeleton title="成就之路" compact />}>
         <AchievementPanel />
       </Suspense>
       <Footer />

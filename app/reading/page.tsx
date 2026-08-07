@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
 import ReadingClient from "@/components/reading/ReadingClient";
+import PageSkeleton from "@/components/PageSkeleton";
 
 export const metadata: Metadata = {
   title: "山海经阅读",
@@ -13,10 +14,8 @@ export const metadata: Metadata = {
 
 export default function ReadingPage() {
   return (
-    <main className="min-h-dvh bg-xuan">
-      <Suspense fallback={null}>
-        <ReadingClient />
-      </Suspense>
-    </main>
+    <Suspense fallback={<PageSkeleton title="双语阅读" variant="reading" compact />}>
+      <ReadingClient />
+    </Suspense>
   );
 }

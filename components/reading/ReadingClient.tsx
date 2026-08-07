@@ -211,14 +211,15 @@ export default function ReadingClient() {
  }}
  />
 
- {/* 所有可见内容在 sidebar 右侧：用 margin-left 避让 fixed sidebar */}
- <div className="md:ml-[200px] lg:ml-[240px]">
+ {/* 所有可见内容在 sidebar 右侧：用 margin-left 避让 fixed sidebar。
+     lg 以上加右内边距，使内容右边缘对齐 Navbar 内容区右边缘，避免溢出。 */}
+ <div className="md:ml-[200px] lg:ml-[240px] lg:pr-[calc(max((100vw-1100px)/2,0px)+1.5rem)]">
  <PageHeader
  title="双语阅读"
  subtitle="原文与译文对照，逐句品读山海经"
  compact
  />
- <div className="mx-auto w-full max-w-[1100px] px-4 pb-8 md:px-6">
+ <div className="w-full px-4 pb-8 md:px-6">
           <SectionProgress
  label="阅读进度"
  current={readCount}

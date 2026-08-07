@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
 import QuizClient from "@/components/quiz/QuizClient";
+import PageSkeleton from "@/components/PageSkeleton";
 import Footer from "@/components/Footer";
 
 export const metadata: Metadata = {
@@ -15,7 +16,7 @@ export const metadata: Metadata = {
 export default function QuizPage() {
   return (
     <>
-      <Suspense fallback={null}>
+      <Suspense fallback={<PageSkeleton title="知识问答" variant="quiz" compact />}>
         <QuizClient />
       </Suspense>
       <Footer />

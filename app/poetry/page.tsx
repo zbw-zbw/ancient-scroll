@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
 import PoetryClient from "@/components/poetry/PoetryClient";
+import PageSkeleton from "@/components/PageSkeleton";
 
 export const metadata: Metadata = {
   title: "诗境漫游",
@@ -13,7 +14,7 @@ export const metadata: Metadata = {
 
 export default function PoetryPage() {
   return (
-    <Suspense fallback={null}>
+    <Suspense fallback={<PageSkeleton title="诗境漫游" compact />}>
       <PoetryClient />
     </Suspense>
   );
