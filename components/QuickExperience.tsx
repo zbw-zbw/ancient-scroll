@@ -2,15 +2,15 @@
 
 import Link from "next/link";
 import { IconChat, IconPaw, IconFlower } from "@/components/icons";
-import { useHorizontalOverflow } from "@/lib/useHorizontalOverflow";
 
 /**
  * 首页"精选体验"区域 —— 3 个直达入口
- * PC 端横向排列，移动端横向可滚动
+ * 移动端和 PC 端均使用三列网格，确保完整展示
  */
 const items = [
   {
     title: "和李白聊诗",
+    subtitle: "穿越千年的对话",
     desc: "穿越时空，与诗仙畅饮对谈",
     href: "/dialogue?character=libai",
     icon: IconChat,
@@ -20,6 +20,7 @@ const items = [
   },
   {
     title: "探索上古异兽",
+    subtitle: "97只神话生物",
     desc: "AI 水墨插画，97 只神兽图鉴",
     href: "/bestiary",
     icon: IconPaw,
@@ -29,6 +30,7 @@ const items = [
   },
   {
     title: "沉浸读古诗",
+    subtitle: "24首经典古诗词",
     desc: "24 首经典诗词，沉浸式朗诵",
     href: "/poetry",
     icon: IconFlower,
@@ -39,8 +41,6 @@ const items = [
 ];
 
 export default function QuickExperience() {
-  const { ref, isScrollable } = useHorizontalOverflow<HTMLDivElement>();
-
   return (
     <section id="featured" className="relative w-full py-6 md:py-8">
       <div className="mx-auto max-w-[1100px] px-4 md:px-6">
@@ -52,39 +52,36 @@ export default function QuickExperience() {
           <div className="h-px flex-1 bg-gradient-to-r from-cinnabar/30 to-transparent" />
         </div>
 
-        {/* 卡片：移动端横向滚动，PC 端三列网格 */}
-        <div
-          ref={ref}
-          className="flex gap-3 overflow-x-auto pb-1 scrollbar-hide sm:grid sm:grid-cols-3 sm:overflow-visible md:gap-4"
-        >
+        {/* 卡片：移动端和 PC 端均三列网格，完整展示无需滑动 */}
+        <div className="grid grid-cols-3 gap-2 sm:gap-3 md:gap-4">
           {items.map((item) => {
             const Icon = item.icon;
             return (
               <Link
                 key={item.title}
                 href={item.href}
-                className={`group relative flex min-w-[200px] flex-shrink-0 items-center gap-3 overflow-hidden rounded-2xl border border-ink/8 bg-gradient-to-br ${item.gradient} px-4 py-3 ring-1 ${item.ring} transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg active:scale-[0.98] sm:min-w-0 md:px-5 md:py-4`}
+                className={`group relative flex flex-col items-center gap-2 overflow-hidden rounded-2xl border border-ink/8 bg-gradient-to-br ${item.gradient} px-3 py-4 ring-1 ${item.ring} transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg active:scale-[0.98] sm:px-4 sm:py-5 md:px-5 md:py-6`}
               >
                 {/* 图标 */}
                 <div
-                  className={`flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl bg-surface/80 ${item.accent} transition-transform duration-300 group-hover:scale-110 md:h-12 md:w-12`}
+                  className={`flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-xl bg-surface/80 ${item.accent} transition-transform duration-300 group-hover:scale-110 md:h-14 md:w-14`}
                 >
-                  <Icon className="h-5 w-5 md:h-6 md:w-6" />
+                  <Icon className="h-6 w-6 md:h-7 md:w-7" />
                 </div>
 
                 {/* 文案 */}
-                <div className="min-w-0 flex-1">
-                  <h3 className="font-calligraphy text-base text-ink md:text-lg">
+                <div className="min-w-0 flex-1 text-center">
+                  <h3 className="font-calligraphy text-sm text-ink sm:text-base md:text-lg">
                     {item.title}
                   </h3>
-                  <p className="truncate font-serif text-xs text-muted md:text-sm">
-                    {item.desc}
+                  <p className="mt-0.5 font-serif text-[10px] text-muted line-clamp-1 sm:text-xs md:text-sm">
+                    {item.subtitle}
                   </p>
                 </div>
 
-                {/* 箭头 */}
+                {/* 箭头 — 仅 hover 时显示 */}
                 <svg
-                  className={`h-4 w-4 flex-shrink-0 ${item.accent} opacity-0 transition-all duration-300 group-hover:translate-x-0.5 group-hover:opacity-100`}
+                  className={`h-3.5 w-3.5 flex-shrink-0 ${item.accent} opacity-0 transition-all duration-300 group-hover:translate-x-0.5 group-hover:opacity-100 sm:h-4 sm:w-4`}
                   viewBox="0 0 24 24"
                   fill="none"
                   stroke="currentColor"

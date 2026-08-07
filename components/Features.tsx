@@ -110,22 +110,6 @@ function DialogueMockup() {
 const features = [
   {
     number: "壹",
-    title: "智能双语阅读",
-    desc: "逐句翻译古文，点击任意字词获得深度解读",
-    href: "/reading",
-    highlight: "18篇 267句",
-    mockup: <ReadingMockup />,
-  },
-  {
-    number: "贰",
-    title: "异兽图鉴",
-    desc: "国风水墨神兽插画，收集你的专属图鉴",
-    href: "/bestiary",
-    highlight: "97只 AI水墨画",
-    mockup: <BestiaryMockupClient />,
-  },
-  {
-    number: "叁",
     title: "诗境漫游",
     desc: "一首诗，一段沉浸式视觉旅程",
     href: "/poetry",
@@ -133,12 +117,28 @@ const features = [
     mockup: <PoetryMockup />,
   },
   {
-    number: "肆",
+    number: "贰",
     title: "古今对话",
     desc: "穿越时空，与孔子李白畅聊古今",
     href: "/dialogue",
     highlight: "15位 历史人物",
     mockup: <DialogueMockup />,
+  },
+  {
+    number: "叁",
+    title: "异兽图鉴",
+    desc: "国风水墨神兽插画，收集你的专属图鉴",
+    href: "/bestiary",
+    highlight: "97只 AI水墨画",
+    mockup: <BestiaryMockupClient />,
+  },
+  {
+    number: "肆",
+    title: "山海经双语阅读",
+    desc: "逐句翻译山海经原文，点击任意字词获得深度解读",
+    href: "/reading",
+    highlight: "18篇 267句",
+    mockup: <ReadingMockup />,
   },
 ];
 
