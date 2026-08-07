@@ -40,7 +40,7 @@ export default function PageSkeleton({
         {/* 桌面侧边栏占位 */}
         <aside className="hidden md:flex md:w-[200px] lg:w-[240px] md:flex-col md:fixed md:left-0 md:top-16 md:bottom-0 md:bg-xuan-dark md:border-r md:border-ink/5" />
 
-        <div className="md:ml-[200px] lg:ml-[240px] lg:pr-[calc(max((100vw-1100px)/2,0px)+1.5rem)]">
+        <div className="md:ml-[200px] lg:ml-[240px] lg:pl-[calc(max((100vw-1100px)/2-240px,0px)+1.5rem)] lg:pr-[calc(max((100vw-1100px)/2,0px)+1.5rem)]">
           <PageHeader title={title} subtitle={subtitle} compact />
           <div className="w-full px-4 pb-8 md:px-6">
             {/* 进度条骨架 */}

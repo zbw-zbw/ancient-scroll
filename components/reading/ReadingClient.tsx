@@ -212,8 +212,9 @@ export default function ReadingClient() {
  />
 
  {/* 所有可见内容在 sidebar 右侧：用 margin-left 避让 fixed sidebar。
-     lg 以上加右内边距，使内容右边缘对齐 Navbar 内容区右边缘，避免溢出。 */}
- <div className="md:ml-[200px] lg:ml-[240px] lg:pr-[calc(max((100vw-1100px)/2,0px)+1.5rem)]">
+     lg 以上加动态左右内边距，使内容左边缘对齐 Navbar logo 左边缘、
+     右边缘对齐 Navbar 内容区右边缘。 */}
+ <div className="md:ml-[200px] lg:ml-[240px] lg:pl-[calc(max((100vw-1100px)/2-240px,0px)+1.5rem)] lg:pr-[calc(max((100vw-1100px)/2,0px)+1.5rem)]">
  <PageHeader
  title="双语阅读"
  subtitle="原文与译文对照，逐句品读山海经"
