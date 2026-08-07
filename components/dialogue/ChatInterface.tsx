@@ -155,7 +155,9 @@ export default function ChatInterface({
     // Store previous messages for potential undo
     const prevMessages = messages;
     setMessages([{ role: "assistant", content: character.greeting }]);
-    localStorage.removeItem(`${STORAGE_KEY}-${character.id}`);
+    try {
+      localStorage.removeItem(`${STORAGE_KEY}-${character.id}`);
+    } catch {}
     streamingRef.current = "";
     setStreamingContent("");
     setShowSuggestions(true);

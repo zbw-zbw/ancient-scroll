@@ -20,7 +20,9 @@ export default function CharacterCard({
   const imgAvailable = characterImageExists(character.avatarPath);
 
   useEffect(() => {
-    setHasHistory(!!localStorage.getItem(`ancient-scroll-chat-history-${character.id}`));
+    try {
+      setHasHistory(!!localStorage.getItem(`ancient-scroll-chat-history-${character.id}`));
+    } catch {}
     setImgError(false);
   }, [character.id]);
 

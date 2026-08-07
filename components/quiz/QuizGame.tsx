@@ -136,8 +136,11 @@ export default function QuizGame({ questions, onComplete, onQuit }: QuizGameProp
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key >= "1" && e.key <= "4" && !showFeedback) {
-        e.preventDefault();
-        handleSelect(parseInt(e.key) - 1);
+        const idx = parseInt(e.key) - 1;
+        if (idx < currentQuestion.options.length) {
+          e.preventDefault();
+          handleSelect(idx);
+        }
       } else if (e.key === "Enter" && showFeedback) {
         e.preventDefault();
         handleNext();

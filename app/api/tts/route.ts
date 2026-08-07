@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { synthesize } from "@/lib/volcengine-tts";
+import { guardApiRequest } from "@/lib/api-guard";
 
 export const runtime = "nodejs";
 export const maxDuration = 30;
@@ -19,6 +20,14 @@ const VOICE_MAP: Record<string, string> = {
 type VoiceKey = keyof typeof VOICE_MAP;
 
 export async function POST(request: NextRequest) {
+  // 安全基线：限流（TTS 直连付费 API，配额需控制）+ 请求体大小限制
+  const blocked = guardApiRequest(request, {
+    scope: "tts",
+    limit: 20,
+    windowMs: 60_000,
+  });
+  if (blocked) return blocked;
+
   try {
     const { text, voice = "xiaoxiao", rate = 0 } = await request.json();
 

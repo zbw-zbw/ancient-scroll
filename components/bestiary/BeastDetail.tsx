@@ -120,6 +120,7 @@ export default function BeastDetail({
     }
 
     const handleTab = (e: KeyboardEvent) => {
+      if (e.key !== "Tab") return;
       const modal = modalRef.current;
       if (!modal) return;
       // Real-time query each time Tab is pressed

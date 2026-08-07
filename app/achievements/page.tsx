@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
 import AchievementPanel from "@/components/AchievementPanel";
 import Footer from "@/components/Footer";
 
@@ -14,7 +15,9 @@ export const metadata: Metadata = {
 export default function AchievementsPage() {
   return (
     <>
-      <AchievementPanel />
+      <Suspense fallback={null}>
+        <AchievementPanel />
+      </Suspense>
       <Footer />
     </>
   );
