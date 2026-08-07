@@ -125,13 +125,41 @@ export default function QuizShareModal({
     if (!cardRef.current) return;
     setSaving(true);
     try {
+      const card = cardRef.current;
+      const scaleWrapper = card.parentElement;      // transform: scale() 的那层
+      const clipWrapper = scaleWrapper?.parentElement; // overflow: hidden 的那层
+
+      // 临时移除缩放和裁剪，让 html2canvas 捕获完整 600x800
+      const origTransform = scaleWrapper?.style.transform || "";
+      const origClipW = clipWrapper?.style.width || "";
+      const origClipH = clipWrapper?.style.height || "";
+      const origOverflow = clipWrapper?.style.overflow || "";
+
+      if (scaleWrapper) scaleWrapper.style.transform = "none";
+      if (clipWrapper) {
+        clipWrapper.style.width = "600px";
+        clipWrapper.style.height = "800px";
+        clipWrapper.style.overflow = "visible";
+      }
+
       const { default: html2canvas } = await import("html2canvas");
-      const canvas = await html2canvas(cardRef.current, {
+      const canvas = await html2canvas(card, {
         scale: 2,
         useCORS: true,
         backgroundColor: null,
         logging: false,
+        width: 600,
+        height: 800,
       });
+
+      // 恢复缩放和裁剪
+      if (scaleWrapper) scaleWrapper.style.transform = origTransform;
+      if (clipWrapper) {
+        clipWrapper.style.width = origClipW;
+        clipWrapper.style.height = origClipH;
+        clipWrapper.style.overflow = origOverflow;
+      }
+
       const link = document.createElement("a");
       link.download = `国学问答-${score}分-古籍焕新.png`;
       link.href = canvas.toDataURL("image/png");
@@ -351,6 +379,7 @@ export default function QuizShareModal({
                 className="absolute bottom-0 left-0 right-0 flex items-center justify-center px-8"
                 style={{
                   height: 120,
+                  paddingTop: 20,
                   background: "linear-gradient(180deg, transparent 0%, rgba(245,240,232,0.95) 30%)",
                 }}
               >

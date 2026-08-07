@@ -135,13 +135,44 @@ export default function BeastShareModal({
     if (!cardRef.current || !beast) return;
     setSaving(true);
     try {
+      const card = cardRef.current;
+      const scaleWrapper = card.parentElement;      // transform: scale() 的那层
+      const clipWrapper = scaleWrapper?.parentElement; // overflow: hidden 的那层
+
+      // 临时移除缩放和裁剪，让 html2canvas 捕获完整 400x640
+      const origTransform = scaleWrapper?.style.transform || "";
+      const origClipW = clipWrapper?.style.width || "";
+      const origClipH = clipWrapper?.style.height || "";
+      const origClipMaxH = clipWrapper?.style.maxHeight || "";
+      const origOverflow = clipWrapper?.style.overflow || "";
+
+      if (scaleWrapper) scaleWrapper.style.transform = "none";
+      if (clipWrapper) {
+        clipWrapper.style.width = "400px";
+        clipWrapper.style.height = "640px";
+        clipWrapper.style.maxHeight = "none";
+        clipWrapper.style.overflow = "visible";
+      }
+
       const { default: html2canvas } = await import("html2canvas");
-      const canvas = await html2canvas(cardRef.current, {
+      const canvas = await html2canvas(card, {
         scale: 2,
         useCORS: true,
         backgroundColor: null,
         logging: false,
+        width: 400,
+        height: 640,
       });
+
+      // 恢复缩放和裁剪
+      if (scaleWrapper) scaleWrapper.style.transform = origTransform;
+      if (clipWrapper) {
+        clipWrapper.style.width = origClipW;
+        clipWrapper.style.height = origClipH;
+        clipWrapper.style.maxHeight = origClipMaxH;
+        clipWrapper.style.overflow = origOverflow;
+      }
+
       const link = document.createElement("a");
       link.download = `${beast.name}-山海经异兽.png`;
       link.href = canvas.toDataURL("image/png");
@@ -363,6 +394,7 @@ export default function BeastShareModal({
                 className="absolute bottom-0 left-0 right-0 flex items-center justify-center px-8"
                 style={{
                   height: 100,
+                  paddingTop: 16,
                   background:
                     "linear-gradient(180deg, transparent 0%, rgba(250,247,240,0.95) 30%)",
                 }}
