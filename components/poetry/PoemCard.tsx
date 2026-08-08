@@ -139,7 +139,7 @@ export default function PoemCard({ poem, onSelect, onShare, isRead }: PoemCardPr
                   e.stopPropagation();
                   onShare(e);
                 }}
-                className="inline-flex items-center justify-center rounded-full bg-ink/5 px-2.5 py-1.5 text-light-ink transition-all hover:bg-ink/10 hover:text-cinnabar active:scale-95"
+                className="inline-flex items-center gap-1 rounded-full bg-ink/5 px-3 py-1.5 font-serif text-xs text-light-ink transition-all hover:bg-ink/10 hover:text-cinnabar active:scale-95"
                 aria-label={`分享《${poem.title}》`}
               >
                 <svg
@@ -158,6 +158,7 @@ export default function PoemCard({ poem, onSelect, onShare, isRead }: PoemCardPr
                   <path d="m8.59 13.51 6.83 3.98" />
                   <path d="M15.41 6.51 8.59 10.49" />
                 </svg>
+                分享
               </button>
             )}
           </div>

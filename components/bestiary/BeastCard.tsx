@@ -139,10 +139,11 @@ function BeastCardImpl({
                   e.stopPropagation();
                   onShare(beast);
                 }}
-                className="inline-flex items-center justify-center rounded-full bg-ink/5 px-2.5 py-1.5 text-light-ink transition-all hover:bg-ink/10 hover:text-cinnabar active:scale-95"
+                className="inline-flex items-center gap-1 rounded-full bg-ink/5 px-3 py-1.5 font-serif text-xs text-light-ink transition-all hover:bg-ink/10 hover:text-cinnabar active:scale-95"
                 aria-label={`分享${beast.name}`}
               >
                 <IconShare className="h-3.5 w-3.5" />
+                分享
               </button>
             )}
           </div>

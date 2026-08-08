@@ -56,10 +56,16 @@ export default function CharacterCard({
         }}
       />
 
-      {/* Decorative color block */}
+      {/* Decorative color bar — static, no expand animation */}
       <div
-        className="absolute left-0 top-0 h-16 w-2 transition-all duration-300 group-hover:h-full group-hover:w-3"
+        className="absolute left-0 top-0 h-full w-1.5"
         style={{ backgroundColor: character.color }}
+      />
+
+      {/* Hover left border accent */}
+      <div
+        className="absolute left-0 top-0 h-full w-0 transition-all duration-300 group-hover:w-2"
+        style={{ backgroundColor: character.color, opacity: 0.3 }}
       />
 
       <div className="relative pl-4">
