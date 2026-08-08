@@ -51,7 +51,7 @@ export default function EndingSlide({
 
   return (
     <section
-      className="slide relative flex min-h-dvh items-center justify-center overflow-hidden"
+      className="slide relative flex min-h-dvh items-center justify-center overflow-y-auto overflow-x-hidden"
       style={{
         background: "linear-gradient(180deg, var(--xuan-dark) 0%, var(--xuan) 100%)",
       }}
@@ -72,7 +72,7 @@ export default function EndingSlide({
       </div>
 
       <div
-        className={`relative z-10 mx-auto flex max-w-2xl flex-1 flex-col justify-center px-4 py-3 text-center transition-all duration-1000 md:px-6 md:pb-12 ${
+        className={`relative z-10 mx-auto flex w-full max-w-2xl flex-col items-center px-4 py-8 text-center transition-all duration-1000 md:px-6 md:py-12 ${
           active ? "translate-y-0 opacity-100" : "translate-y-12 opacity-0"
         }`}
       >
@@ -85,7 +85,7 @@ export default function EndingSlide({
         </p>
 
         {/* 完整诗文 - 竖排卷轴样式：从右到左展开，模拟卷轴 */}
-        <div className="mb-4 flex flex-1 items-center justify-center md:mb-10">
+        <div className="mb-4 flex items-center justify-center md:mb-8">
           <div
             className="rounded-lg border-2 border-xuan-dark/30 bg-surface/30 p-3 shadow-sm md:border-4 md:p-6"
             style={{

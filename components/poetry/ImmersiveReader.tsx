@@ -466,8 +466,8 @@ export default function ImmersiveReader({ poem, onBack }: ImmersiveReaderProps) 
           title={
             autoRecite
               ? paused
-                ? "继续朗诵"
-                : "暂停朗诵"
+                ? "继续自动朗诵"
+                : "暂停自动朗诵"
               : "开启自动朗诵"
           }
         >
@@ -510,7 +510,7 @@ export default function ImmersiveReader({ poem, onBack }: ImmersiveReaderProps) 
             </svg>
           )}
           <span>
-            {autoRecite ? (paused ? "继续" : "暂停") : "朗诵"}
+            {autoRecite ? (paused ? "继续" : "暂停") : "自动朗诵"}
           </span>
           {autoRecite && !paused && (
             <span className="ml-0.5 hidden items-center gap-0.5 md:flex">
