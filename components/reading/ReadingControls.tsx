@@ -20,6 +20,14 @@ const fontSizeOptions: { value: FontSize; label: string }[] = [
   { value: "lg", label: "大" },
 ];
 
+// 统一按钮样式：所有按钮使用相同的 padding / min-height / font-size
+const btnBase =
+  "capsule-btn inline-flex flex-shrink-0 items-center justify-center gap-1 rounded-full border font-serif transition-all md:gap-1.5";
+
+// 移动端 & 桌面端统一尺寸
+const btnSize =
+  "px-2.5 py-1 min-h-[30px] text-xs md:px-3.5 md:py-1.5 md:min-h-[36px] md:text-sm";
+
 export default function ReadingControls({
   fontSize,
   showTranslation,
@@ -35,7 +43,7 @@ export default function ReadingControls({
         {/* 翻译开关 */}
         <button
           onClick={() => onShowTranslationChange(!showTranslation)}
-          className={`capsule-btn inline-flex flex-shrink-0 items-center gap-1 rounded-full border px-2 py-1 min-h-[28px] font-serif text-xs transition-all md:gap-1.5 md:px-3.5 md:py-1.5 md:min-h-[36px] md:text-sm ${
+          className={`${btnBase} ${btnSize} ${
             showTranslation
               ? "border-cinnabar bg-cinnabar/10 text-cinnabar"
               : "border-ink/15 bg-transparent text-ink hover:bg-ink/5"
@@ -52,7 +60,7 @@ export default function ReadingControls({
         {onToggleListen && (
           <button
             onClick={onToggleListen}
-            className={`capsule-btn inline-flex flex-shrink-0 items-center justify-center gap-1 rounded-full border px-2 py-1 min-h-[28px] font-serif text-xs transition-all md:gap-1.5 md:px-3.5 md:py-1.5 md:min-h-[36px] md:text-sm ${
+            className={`${btnBase} ${btnSize} ${
               listenMode === "playing"
                 ? "border-cinnabar bg-cinnabar text-white"
                 : listenMode === "paused"
@@ -99,7 +107,7 @@ export default function ReadingControls({
           <button
             key={option.value}
             onClick={() => onFontSizeChange(option.value)}
-            className={`capsule-btn inline-flex flex-shrink-0 items-center justify-center rounded-full border px-2 py-1 min-h-[28px] font-serif text-xs transition-all md:px-3 md:py-1.5 md:min-h-[36px] md:text-sm ${
+            className={`${btnBase} ${btnSize} ${
               fontSize === option.value
                 ? "border-cinnabar bg-cinnabar/10 text-cinnabar"
                 : "border-ink/15 bg-transparent text-ink hover:bg-ink/5"
@@ -121,7 +129,7 @@ export default function ReadingControls({
             downloadMarkdown(md);
           }
         }}
-        className="capsule-btn inline-flex flex-shrink-0 items-center gap-1 rounded-full border border-ink/15 bg-transparent px-2 py-1 min-h-[28px] font-serif text-xs text-ink transition-all hover:bg-ink/5 md:gap-1.5 md:px-3.5 md:py-1.5 md:min-h-[36px] md:text-sm"
+        className={`${btnBase} ${btnSize} border-ink/15 bg-transparent text-ink hover:bg-ink/5`}
         title="导出阅读笔记为 Markdown"
       >
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-3 w-3 md:h-4 md:w-4">

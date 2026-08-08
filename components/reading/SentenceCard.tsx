@@ -106,9 +106,9 @@ export default function SentenceCard({
 
       {/* 原文区域 */}
       {isVertical ? (
-        <div ref={verticalScrollRef} className="flex overflow-x-auto py-2">
+        <div ref={verticalScrollRef} className="flex justify-center overflow-x-auto py-2">
           <div
-            className="text-vertical mx-auto"
+            className="text-vertical"
             style={{
               lineHeight: "2.4",
               paddingLeft: "1rem",
