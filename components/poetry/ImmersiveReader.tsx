@@ -57,13 +57,17 @@ export default function ImmersiveReader({ poem, onBack }: ImmersiveReaderProps) 
     if (!container) return;
 
     const slides = container.querySelectorAll(".slide");
+    let debounceTimer: ReturnType<typeof setTimeout> | null = null;
+    let pendingIndex: number | null = null;
+
     const observer = new IntersectionObserver(
       (entries) => {
         if (programScrollRef.current) return;
 
+        // 只考虑可见比例超过 55% 的 slide，避免过渡中误判
         let bestEntry: IntersectionObserverEntry | null = null;
         for (const entry of entries) {
-          if (entry.isIntersecting) {
+          if (entry.isIntersecting && entry.intersectionRatio > 0.55) {
             if (!bestEntry || entry.intersectionRatio > bestEntry.intersectionRatio) {
               bestEntry = entry;
             }
@@ -71,14 +75,27 @@ export default function ImmersiveReader({ poem, onBack }: ImmersiveReaderProps) 
         }
         if (bestEntry) {
           const index = Array.from(slides).indexOf(bestEntry.target);
-          if (index !== -1) setCurrentSlide(index);
+          if (index !== -1) {
+            pendingIndex = index;
+            // 防抖：150ms 内不再触发则确认更新，避免 scroll-snap 过渡中来回跳动
+            if (debounceTimer) clearTimeout(debounceTimer);
+            debounceTimer = setTimeout(() => {
+              if (pendingIndex !== null) {
+                setCurrentSlide(pendingIndex);
+                pendingIndex = null;
+              }
+            }, 150);
+          }
         }
       },
-      { threshold: [0, 0.1, 0.25, 0.5, 0.75, 1] }
+      { threshold: [0.3, 0.55, 0.75, 1] }
     );
 
     slides.forEach((slide) => observer.observe(slide));
-    return () => observer.disconnect();
+    return () => {
+      observer.disconnect();
+      if (debounceTimer) clearTimeout(debounceTimer);
+    };
   }, [poem.id]);
 
   // Fallback: when scrolled to the very bottom, force last slide active.
