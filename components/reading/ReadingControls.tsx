@@ -29,17 +29,17 @@ export default function ReadingControls({
   onToggleListen,
 }: ReadingControlsProps) {
   return (
-    <div className="flex flex-wrap items-center justify-end gap-3">
+    <div className="flex flex-wrap items-center gap-2">
       {/* 听书模式按钮 */}
       {onToggleListen && (
         <button
           onClick={onToggleListen}
-          className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 min-h-[32px] font-serif text-xs transition-all ${
+          className={`capsule-btn inline-flex flex-shrink-0 items-center gap-1.5 rounded-full border px-3.5 py-1.5 min-h-[36px] font-serif text-sm transition-all ${
             listenMode === "playing"
-              ? "bg-cinnabar text-white shadow-sm"
+              ? "border-cinnabar bg-cinnabar text-white"
               : listenMode === "paused"
-                ? "bg-cinnabar/10 text-cinnabar"
-                : "bg-surface/60 text-light-ink hover:bg-cinnabar/5 hover:text-cinnabar"
+                ? "border-cinnabar bg-cinnabar/10 text-cinnabar"
+                : "border-ink/15 bg-transparent text-ink hover:bg-ink/5"
           }`}
           title={
             listenMode === "playing"
@@ -50,7 +50,7 @@ export default function ReadingControls({
           }
         >
           {listenMode === "playing" ? (
-            <svg viewBox="0 0 24 24" fill="currentColor" className="h-3.5 w-3.5">
+            <svg viewBox="0 0 24 24" fill="currentColor" className="h-4 w-4">
               <rect x="6" y="5" width="4" height="14" rx="1" />
               <rect x="14" y="5" width="4" height="14" rx="1" />
             </svg>
@@ -62,7 +62,7 @@ export default function ReadingControls({
               strokeWidth="2"
               strokeLinecap="round"
               strokeLinejoin="round"
-              className="h-3.5 w-3.5"
+              className="h-4 w-4"
             >
               <path d="M11 5 6 9H2v6h4l5 4V5z" />
               <path d="M15.54 8.46a5 5 0 0 1 0 7.07" />
@@ -73,6 +73,48 @@ export default function ReadingControls({
         </button>
       )}
 
+      {/* Display mode: 逐句对照 / 仅原文 */}
+      <div className="flex flex-shrink-0 items-center gap-2">
+        <button
+          onClick={() => onShowTranslationChange(true)}
+          className={`capsule-btn inline-flex items-center rounded-full border px-3.5 py-1.5 min-h-[36px] font-serif text-sm transition-all ${
+            showTranslation
+              ? "border-cinnabar bg-cinnabar/10 text-cinnabar"
+              : "border-ink/15 bg-transparent text-ink hover:bg-ink/5"
+          }`}
+        >
+          逐句对照
+        </button>
+        <button
+          onClick={() => onShowTranslationChange(false)}
+          className={`capsule-btn inline-flex items-center rounded-full border px-3.5 py-1.5 min-h-[36px] font-serif text-sm transition-all ${
+            !showTranslation
+              ? "border-cinnabar bg-cinnabar/10 text-cinnabar"
+              : "border-ink/15 bg-transparent text-ink hover:bg-ink/5"
+          }`}
+        >
+          仅原文
+        </button>
+      </div>
+
+      {/* Font size */}
+      <div className="flex flex-shrink-0 items-center gap-2">
+        <span className="hidden font-serif text-sm text-muted sm:inline">字号</span>
+        {fontSizeOptions.map((option) => (
+          <button
+            key={option.value}
+            onClick={() => onFontSizeChange(option.value)}
+            className={`capsule-btn inline-flex items-center justify-center rounded-full border px-3 py-1.5 min-h-[36px] font-serif text-sm transition-all ${
+              fontSize === option.value
+                ? "border-cinnabar bg-cinnabar/10 text-cinnabar"
+                : "border-ink/15 bg-transparent text-ink hover:bg-ink/5"
+            }`}
+          >
+            {option.label}
+          </button>
+        ))}
+      </div>
+
       {/* Export notes */}
       <button
         onClick={() => {
@@ -81,10 +123,10 @@ export default function ReadingControls({
             downloadMarkdown(md);
           }
         }}
-        className="inline-flex items-center gap-1.5 rounded-full bg-surface/60 px-3 py-1.5 font-serif text-xs text-light-ink transition-colors hover:bg-cinnabar/5 hover:text-cinnabar"
+        className="capsule-btn ml-auto inline-flex flex-shrink-0 items-center gap-1.5 rounded-full border border-ink/15 bg-transparent px-3.5 py-1.5 min-h-[36px] font-serif text-sm text-ink transition-all hover:bg-ink/5"
         title="导出阅读笔记为 Markdown"
       >
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-3.5 w-3.5">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4">
           <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
           <polyline points="7 10 12 15 17 10" />
           <line x1="12" y1="15" x2="12" y2="3" />
@@ -92,48 +134,6 @@ export default function ReadingControls({
         导出笔记
         <span className="text-muted">({getAllNotes().length})</span>
       </button>
-
-      {/* Font size */}
-      <div className="flex items-center gap-1 rounded-full bg-surface/60 p-1">
-        <span className="hidden px-2 font-serif text-xs text-muted sm:inline">字号</span>
-        {fontSizeOptions.map((option) => (
-          <button
-            key={option.value}
-            onClick={() => onFontSizeChange(option.value)}
-            className={`rounded-full px-3 py-1.5 min-h-[32px] font-serif text-xs transition-colors ${
-              fontSize === option.value
-                ? "bg-cinnabar/10 text-cinnabar"
-                : "text-light-ink hover:bg-cinnabar/5"
-            }`}
-          >
-            {option.label}
-          </button>
-        ))}
-      </div>
-
-      {/* Display mode */}
-      <div className="flex items-center gap-1 rounded-full bg-surface/60 p-1">
-        <button
-          onClick={() => onShowTranslationChange(true)}
-          className={`rounded-full px-3 py-1.5 min-h-[32px] font-serif text-xs transition-colors ${
-            showTranslation
-              ? "bg-cinnabar/10 text-cinnabar"
-              : "text-light-ink hover:bg-cinnabar/5"
-          }`}
-        >
-          逐句对照
-        </button>
-        <button
-          onClick={() => onShowTranslationChange(false)}
-          className={`rounded-full px-3 py-1.5 min-h-[32px] font-serif text-xs transition-colors ${
-            !showTranslation
-              ? "bg-cinnabar/10 text-cinnabar"
-              : "text-light-ink hover:bg-cinnabar/5"
-          }`}
-        >
-          仅原文
-        </button>
-      </div>
     </div>
   );
 }
