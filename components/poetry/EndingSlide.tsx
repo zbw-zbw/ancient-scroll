@@ -72,9 +72,7 @@ export default function EndingSlide({
       </div>
 
       <div
-        className={`relative z-10 flex h-full w-full max-w-2xl flex-col items-center justify-center px-4 py-3 text-center transition-all duration-1000 md:px-6 md:py-4 ${
-          active ? "translate-y-0 opacity-100" : "translate-y-12 opacity-0"
-        }`}
+        className="relative z-10 flex h-full w-full max-w-2xl flex-col items-center justify-center px-4 py-3 text-center md:px-6 md:py-4"
       >
         {/* 诗名 + 作者 */}
         <h2 className="font-calligraphy text-2xl text-ink md:text-4xl lg:text-5xl">

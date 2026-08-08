@@ -549,11 +549,13 @@ export default function ImmersiveReader({ poem, onBack }: ImmersiveReaderProps) 
         onBack={handleBack}
       />
 
-      <ProgressDots
-        total={totalSlides}
-        current={currentSlide}
-        onDotClick={handleDotClick}
-      />
+      {currentSlide < totalSlides - 1 && (
+        <ProgressDots
+          total={totalSlides}
+          current={currentSlide}
+          onDotClick={handleDotClick}
+        />
+      )}
     </div>
   );
 }
