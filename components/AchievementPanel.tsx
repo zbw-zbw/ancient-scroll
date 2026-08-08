@@ -164,8 +164,7 @@ export default function AchievementPanel() {
         />
 
         {/* Category filter — 吸顶定位，左对齐横滚，不换行 */}
-        <div className="mb-8 md:mb-10">
-        <div className="sticky top-16 z-30 -mx-4 bg-xuan/95 backdrop-blur-sm border-b border-ink/5 px-4 py-3 md:-mx-6 md:px-6">
+        <div className="sticky top-16 z-30 -mx-4 mb-8 bg-xuan/95 backdrop-blur-sm border-b border-ink/5 px-4 py-3 md:-mx-6 md:mb-10 md:px-6">
         <div
           ref={tabsRef}
           className="mt-0 flex flex-nowrap justify-start gap-2 overflow-x-auto pb-2 scrollbar-hide"
@@ -198,7 +197,6 @@ export default function AchievementPanel() {
               </button>
             );
           })}
-        </div>
         </div>
         </div>
 

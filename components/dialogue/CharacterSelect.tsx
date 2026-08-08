@@ -131,8 +131,7 @@ export default function CharacterSelect({ onSelect }: CharacterSelectProps) {
         </div>
 
         {/* 朝代分类 Tab + 搜索 — 吸顶定位 */}
-        <div className="mb-8 md:mb-10">
-        <div className="sticky top-16 z-30 -mx-4 bg-xuan/95 backdrop-blur-sm border-b border-ink/5 px-4 py-3 md:-mx-6 md:px-6">
+        <div className="sticky top-16 z-30 -mx-4 mb-8 bg-xuan/95 backdrop-blur-sm border-b border-ink/5 px-4 py-3 md:-mx-6 md:mb-10 md:px-6">
         <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
           <div
             ref={tabsRef}
@@ -200,7 +199,6 @@ export default function CharacterSelect({ onSelect }: CharacterSelectProps) {
               </button>
             )}
           </div>
-        </div>
         </div>
         </div>
 

@@ -162,14 +162,13 @@ export default function BestiaryClient() {
           <CollectionProgress collectedIds={collectedIds} />
         </div>
 
-        <div className="mb-8 md:mb-10">
-          <BeastFilter
-            active={activeCategory}
-            onChange={handleCategoryChange}
-            search={search}
-            onSearch={handleSearch}
-          />
-        </div>
+        <BeastFilter
+          active={activeCategory}
+          onChange={handleCategoryChange}
+          search={search}
+          onSearch={handleSearch}
+          className="mb-8 md:mb-10"
+        />
 
         <div
           className={`transition-opacity duration-200 ${

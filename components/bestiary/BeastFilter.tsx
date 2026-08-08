@@ -26,10 +26,11 @@ const categoryIcons: Record<string, React.ReactNode> = {
 };
 
 interface BeastFilterProps {
- active: BeastCategory | "all";
- onChange: (category: BeastCategory | "all") => void;
- search: string;
- onSearch: (value: string) => void;
+  active: BeastCategory | "all";
+  onChange: (category: BeastCategory | "all") => void;
+  search: string;
+  onSearch: (value: string) => void;
+  className?: string;
 }
 
 const options: (BeastCategory | "all")[] = ["all", "beast", "bird", "fish", "serpent", "god"];
@@ -39,6 +40,7 @@ export default function BeastFilter({
   onChange,
   search,
   onSearch,
+  className = "",
 }: BeastFilterProps) {
   const tabsRef = useRef<HTMLDivElement>(null);
 
@@ -63,7 +65,7 @@ export default function BeastFilter({
   }, [onChange]);
 
  return (
- <div className="sticky top-16 z-30 -mx-4 bg-xuan px-4 py-3 md:-mx-6 md:px-6">
+ <div className={`sticky top-16 z-30 -mx-4 bg-xuan/95 backdrop-blur-sm border-b border-ink/5 px-4 py-3 md:-mx-6 md:px-6 ${className}`}>
  <div className="mx-auto flex max-w-[1100px] flex-col gap-3 md:flex-row md:items-center md:justify-between">
  <div ref={tabsRef} className="flex flex-nowrap gap-2 overflow-x-auto scrollbar-hide" role="group" aria-label="异兽分类筛选">
  {options.map((key) => {

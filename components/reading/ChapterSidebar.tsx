@@ -59,8 +59,12 @@ export default function ChapterSidebar({
     <>
       {/* Desktop sidebar - fixed at left viewport edge */}
       <aside className="hidden md:flex md:w-[200px] lg:w-[240px] md:flex-col md:fixed md:left-0 md:top-16 md:bottom-0 md:overflow-hidden md:bg-xuan-dark md:border-r md:border-ink/5 md:z-20">
-        <div className="flex flex-1 flex-col overflow-y-auto px-4 py-6">
-          <h2 className="mb-5 font-calligraphy text-2xl text-ink">篇章目录</h2>
+        {/* 标题固定，不随目录滚动 */}
+        <div className="flex-shrink-0 px-4 pt-6 pb-5">
+          <h2 className="font-calligraphy text-2xl text-ink">篇章目录</h2>
+        </div>
+        {/* 目录单独滚动 */}
+        <div className="flex flex-1 flex-col overflow-y-auto px-4 pb-6">
           <nav className="flex flex-col gap-1">
             {chapters.map((chapter) => {
               const isRead = readChapters.includes(chapter.id);
