@@ -26,8 +26,17 @@ export default function ShareCardModal({
   const [scale, setScale] = useState(1);
   const overlayRef = useRef<HTMLDivElement>(null);
   const cardRef = useRef<HTMLDivElement>(null);
+  const savingRef = useRef(false);
   const previousFocusRef = useRef<HTMLElement | null>(null);
   const { toast } = useToast();
+
+  // 关闭弹窗时强制重置 saving 状态，避免卡在"保存中"
+  useEffect(() => {
+    if (!open) {
+      savingRef.current = false;
+      setSaving(false);
+    }
+  }, [open]);
 
   // Responsive card scaling
   useEffect(() => {
@@ -121,52 +130,55 @@ export default function ShareCardModal({
   );
 
   const handleSaveImage = useCallback(async () => {
-    if (!cardRef.current || !poem) return;
+    if (!cardRef.current || !poem || savingRef.current) return;
+    savingRef.current = true;
     setSaving(true);
     try {
       const card = cardRef.current;
-      const scaleWrapper = card.parentElement;      // transform: scale() 的那层
-      const clipWrapper = scaleWrapper?.parentElement; // overflow: hidden 的那层
 
-      // 临时移除缩放和裁剪，让 html2canvas 捕获完整 750x1000
-      const origTransform = scaleWrapper?.style.transform || "";
-      const origClipW = clipWrapper?.style.width || "";
-      const origClipH = clipWrapper?.style.height || "";
-      const origOverflow = clipWrapper?.style.overflow || "";
+      // 克隆节点到离屏容器，避免修改可见 DOM 导致闪烁/弹窗放大
+      const clone = card.cloneNode(true) as HTMLElement;
+      const offscreen = document.createElement("div");
+      offscreen.style.cssText =
+        "position:fixed;left:-99999px;top:0;width:750px;height:1000px;overflow:hidden;opacity:0;pointer-events:none;";
+      offscreen.appendChild(clone);
+      document.body.appendChild(offscreen);
 
-      if (scaleWrapper) scaleWrapper.style.transform = "none";
-      if (clipWrapper) {
-        clipWrapper.style.width = "750px";
-        clipWrapper.style.height = "1000px";
-        clipWrapper.style.overflow = "visible";
+      try {
+        const { default: html2canvas } = await import("html2canvas");
+
+        // 超时兜底：10 秒后强制放弃
+        const canvas = await Promise.race([
+          html2canvas(clone, {
+            scale: 2,
+            useCORS: true,
+            backgroundColor: "#faf7f0",
+            logging: false,
+            width: 750,
+            height: 1000,
+          }),
+          new Promise<never>((_, reject) =>
+            setTimeout(() => reject(new Error("timeout")), 10000)
+          ),
+        ]);
+
+        const link = document.createElement("a");
+        link.download = `${poem.title}-古籍焕新.png`;
+        link.href = canvas.toDataURL("image/png");
+        link.click();
+      } finally {
+        document.body.removeChild(offscreen);
       }
-
-      const { default: html2canvas } = await import("html2canvas");
-      const canvas = await html2canvas(card, {
-        scale: 2,
-        useCORS: true,
-        backgroundColor: null,
-        logging: false,
-        width: 750,
-        height: 1000,
-      });
-
-      // 恢复缩放和裁剪
-      if (scaleWrapper) scaleWrapper.style.transform = origTransform;
-      if (clipWrapper) {
-        clipWrapper.style.width = origClipW;
-        clipWrapper.style.height = origClipH;
-        clipWrapper.style.overflow = origOverflow;
-      }
-
-      const link = document.createElement("a");
-      link.download = `${poem.title}-古籍焕新.png`;
-      link.href = canvas.toDataURL("image/png");
-      link.click();
     } catch (err) {
       console.error("Save image failed:", err);
-      toast("图片保存失败，请截图分享", "error");
+      toast(
+        err instanceof Error && err.message === "timeout"
+          ? "保存超时，请截图分享"
+          : "图片保存失败，请截图分享",
+        "error"
+      );
     } finally {
+      savingRef.current = false;
       setSaving(false);
     }
   }, [poem, toast]);

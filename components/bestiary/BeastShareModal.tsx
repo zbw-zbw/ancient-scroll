@@ -27,6 +27,7 @@ export default function BeastShareModal({
   const [imgError, setImgError] = useState(false);
   const overlayRef = useRef<HTMLDivElement>(null);
   const cardRef = useRef<HTMLDivElement>(null);
+  const savingRef = useRef(false);
   const previousFocusRef = useRef<HTMLElement | null>(null);
   const { toast } = useToast();
 
@@ -34,6 +35,14 @@ export default function BeastShareModal({
   useEffect(() => {
     setImgError(false);
   }, [beast]);
+
+  // 关闭弹窗时强制重置 saving 状态，避免卡在"保存中"
+  useEffect(() => {
+    if (!open) {
+      savingRef.current = false;
+      setSaving(false);
+    }
+  }, [open]);
 
   // Responsive card scaling
   useEffect(() => {
@@ -63,7 +72,7 @@ export default function BeastShareModal({
   // 引用计数滚动锁：作为嵌套弹窗叠在详情弹窗上时，关闭不会误解除外层的锁
   useBodyScrollLock(open);
 
-  // 打开时保存焦点，关闭时还原（通常还原到详情弹窗的“分享异兽”按钮）
+  // 打开时保存焦点，关闭时还原（通常还原到详情弹窗的"分享异兽"按钮）
   useEffect(() => {
     if (open) {
       previousFocusRef.current = document.activeElement as HTMLElement;
@@ -132,55 +141,55 @@ export default function BeastShareModal({
   );
 
   const handleSaveImage = useCallback(async () => {
-    if (!cardRef.current || !beast) return;
+    if (!cardRef.current || !beast || savingRef.current) return;
+    savingRef.current = true;
     setSaving(true);
     try {
       const card = cardRef.current;
-      const scaleWrapper = card.parentElement;      // transform: scale() 的那层
-      const clipWrapper = scaleWrapper?.parentElement; // overflow: hidden 的那层
 
-      // 临时移除缩放和裁剪，让 html2canvas 捕获完整 750x1000
-      const origTransform = scaleWrapper?.style.transform || "";
-      const origClipW = clipWrapper?.style.width || "";
-      const origClipH = clipWrapper?.style.height || "";
-      const origClipMaxH = clipWrapper?.style.maxHeight || "";
-      const origOverflow = clipWrapper?.style.overflow || "";
+      // 克隆节点到离屏容器，避免修改可见 DOM 导致闪烁
+      const clone = card.cloneNode(true) as HTMLElement;
+      const offscreen = document.createElement("div");
+      offscreen.style.cssText =
+        "position:fixed;left:-99999px;top:0;width:750px;height:1000px;overflow:hidden;opacity:0;pointer-events:none;";
+      offscreen.appendChild(clone);
+      document.body.appendChild(offscreen);
 
-      if (scaleWrapper) scaleWrapper.style.transform = "none";
-      if (clipWrapper) {
-        clipWrapper.style.width = "750px";
-        clipWrapper.style.height = "1000px";
-        clipWrapper.style.maxHeight = "none";
-        clipWrapper.style.overflow = "visible";
+      try {
+        const { default: html2canvas } = await import("html2canvas");
+
+        // 超时兜底：10 秒后强制放弃
+        const canvas = await Promise.race([
+          html2canvas(clone, {
+            scale: 2,
+            useCORS: true,
+            backgroundColor: "#faf7f0",
+            logging: false,
+            width: 750,
+            height: 1000,
+          }),
+          new Promise<never>((_, reject) =>
+            setTimeout(() => reject(new Error("timeout")), 10000)
+          ),
+        ]);
+
+        const link = document.createElement("a");
+        link.download = `${beast.name}-山海经异兽.png`;
+        link.href = canvas.toDataURL("image/png");
+        link.click();
+      } finally {
+        document.body.removeChild(offscreen);
       }
-
-      const { default: html2canvas } = await import("html2canvas");
-      const canvas = await html2canvas(card, {
-        scale: 2,
-        useCORS: true,
-        backgroundColor: null,
-        logging: false,
-        width: 750,
-        height: 1000,
-      });
-
-      // 恢复缩放和裁剪
-      if (scaleWrapper) scaleWrapper.style.transform = origTransform;
-      if (clipWrapper) {
-        clipWrapper.style.width = origClipW;
-        clipWrapper.style.height = origClipH;
-        clipWrapper.style.maxHeight = origClipMaxH;
-        clipWrapper.style.overflow = origOverflow;
-      }
-
-      const link = document.createElement("a");
-      link.download = `${beast.name}-山海经异兽.png`;
-      link.href = canvas.toDataURL("image/png");
-      link.click();
     } catch (err) {
       console.error("Save image failed:", err);
-      toast("图片保存失败，请截图分享", "error");
+      toast(
+        err instanceof Error && err.message === "timeout"
+          ? "保存超时，请截图分享"
+          : "图片保存失败，请截图分享",
+        "error"
+      );
     } finally {
+      savingRef.current = false;
       setSaving(false);
     }
   }, [beast, toast]);
@@ -245,7 +254,7 @@ export default function BeastShareModal({
               }}
             >
               {/* Top area: beast image with dark overlay */}
-              <div className="relative overflow-hidden" style={{ height: 380 }}>
+              <div className="relative overflow-hidden" style={{ height: 340 }}>
                 {!imgError && beastImageExists(beast.imagePath) ? (
                   <img
                     src={beast.imagePath}
@@ -334,17 +343,17 @@ export default function BeastShareModal({
               {/* Thin divider line */}
               <div className="mx-12" style={{ height: 1, background: colorA + "30" }} />
 
-              {/* Center: original text + translation */}
-              <div className="px-16 pb-20 pt-6">
+              {/* Center: original text + translation + interpretation */}
+              <div className="px-14 pb-24 pt-6">
                 {/* Original text */}
                 <p
                   style={{
                     fontFamily:
                       'var(--font-noto-serif-sc), "Noto Serif SC", serif',
-                    fontSize: 16,
+                    fontSize: 15,
                     color: "#8a8070",
                     letterSpacing: 2,
-                    marginBottom: 10,
+                    marginBottom: 8,
                   }}
                 >
                   原文
@@ -353,11 +362,11 @@ export default function BeastShareModal({
                   style={{
                     fontFamily:
                       'var(--font-noto-serif-sc), "Noto Serif SC", serif',
-                    fontSize: 22,
-                    lineHeight: 1.9,
+                    fontSize: 20,
+                    lineHeight: 1.8,
                     color: "#1a1a2e",
                     letterSpacing: 1,
-                    marginBottom: 22,
+                    marginBottom: 20,
                   }}
                 >
                   {beast.originalText}
@@ -368,10 +377,10 @@ export default function BeastShareModal({
                   style={{
                     fontFamily:
                       'var(--font-noto-serif-sc), "Noto Serif SC", serif',
-                    fontSize: 16,
+                    fontSize: 15,
                     color: "#8a8070",
                     letterSpacing: 2,
-                    marginBottom: 10,
+                    marginBottom: 8,
                   }}
                 >
                   译文
@@ -380,13 +389,67 @@ export default function BeastShareModal({
                   style={{
                     fontFamily:
                       'var(--font-noto-serif-sc), "Noto Serif SC", serif',
-                    fontSize: 18,
-                    lineHeight: 1.9,
+                    fontSize: 17,
+                    lineHeight: 1.8,
                     color: "#4a4a5a",
                     letterSpacing: 0.5,
+                    marginBottom: 20,
                   }}
                 >
                   {beast.translation}
+                </p>
+
+                {/* Traits badges */}
+                {beast.traits.length > 0 && (
+                  <div style={{ display: "flex", gap: 8, marginBottom: 20, flexWrap: "wrap" }}>
+                    {beast.traits.map((trait) => (
+                      <span
+                        key={trait}
+                        style={{
+                          display: "inline-flex",
+                          alignItems: "center",
+                          gap: 4,
+                          padding: "4px 12px",
+                          borderRadius: 999,
+                          border: `1px solid ${colorA}40`,
+                          backgroundColor: `${colorA}08`,
+                          fontSize: 13,
+                          color: "#6a5a4a",
+                          fontFamily:
+                            'var(--font-noto-serif-sc), "Noto Serif SC", serif',
+                        }}
+                      >
+                        <IconPaw className="h-3 w-3 opacity-50" />
+                        {trait}
+                      </span>
+                    ))}
+                  </div>
+                )}
+
+                {/* Interpretation / 解读 */}
+                <p
+                  style={{
+                    fontFamily:
+                      'var(--font-noto-serif-sc), "Noto Serif SC", serif',
+                    fontSize: 15,
+                    color: "#8a8070",
+                    letterSpacing: 2,
+                    marginBottom: 8,
+                  }}
+                >
+                  解读
+                </p>
+                <p
+                  style={{
+                    fontFamily:
+                      'var(--font-noto-serif-sc), "Noto Serif SC", serif',
+                    fontSize: 16,
+                    lineHeight: 1.85,
+                    color: "#4a4a5a",
+                    letterSpacing: 0.3,
+                  }}
+                >
+                  {beast.description}
                 </p>
               </div>
 
