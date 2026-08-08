@@ -224,7 +224,8 @@ export default function ShareCardModal({
               style={{
                 width: 750,
                 height: 1000,
-                background: `linear-gradient(180deg, ${themeColor}15 0%, ${themeMid} 40%, #faf7f0 100%)`,
+                backgroundColor: "#faf7f0",
+                backgroundImage: `linear-gradient(180deg, ${themeColor}15 0%, ${themeMid} 40%, #faf7f0 100%)`,
                 fontFamily:
                   'var(--font-noto-serif-sc), "Noto Serif SC", "Songti SC", "SimSun", serif',
               }}

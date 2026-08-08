@@ -238,7 +238,8 @@ export default function BeastShareModal({
               style={{
                 width: 750,
                 height: 1000,
-                background: `linear-gradient(180deg, ${colorATint} 0%, ${colorBTint} 45%, #faf7f0 100%)`,
+                backgroundColor: "#faf7f0",
+                backgroundImage: `linear-gradient(180deg, ${colorATint} 0%, ${colorBTint} 45%, #faf7f0 100%)`,
                 fontFamily:
                   'var(--font-noto-serif-sc), "Noto Serif SC", "Songti SC", "SimSun", serif',
               }}

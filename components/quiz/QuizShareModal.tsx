@@ -220,7 +220,8 @@ export default function QuizShareModal({
               style={{
                 width: 600,
                 height: 800,
-                background: "linear-gradient(180deg, #f5f0e8 0%, #ede6d8 40%, #f5f0e8 100%)",
+                backgroundColor: "#f5f0e8",
+                backgroundImage: "linear-gradient(180deg, #f5f0e8 0%, #ede6d8 40%, #f5f0e8 100%)",
                 fontFamily: 'var(--font-noto-serif-sc), "Noto Serif SC", "Songti SC", "SimSun", serif',
               }}
             >
