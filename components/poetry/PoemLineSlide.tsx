@@ -31,7 +31,7 @@ export default function PoemLineSlide({ line, active, coverImage, reciting, onRe
 
   return (
     <section
-      className="slide relative flex min-h-dvh items-center justify-center overflow-hidden"
+      className="slide relative flex h-dvh items-center justify-center overflow-hidden"
       style={{
         background: `linear-gradient(135deg, ${line.gradientFrom}, ${line.gradientTo})`,
       }}
