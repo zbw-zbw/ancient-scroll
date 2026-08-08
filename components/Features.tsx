@@ -14,31 +14,46 @@ function FeatureTag({ number }: { number: string }) {
 function ReadingMockup() {
   return (
     <div className="rounded-2xl bg-surface p-4 shadow-lg">
-      <div className="mb-4 flex items-center gap-2 pb-3">
+      <div className="mb-3 flex items-center gap-2 border-b border-ink/5 pb-3">
         <span className="h-2.5 w-2.5 rounded-full bg-cinnabar/60" />
         <span className="h-2.5 w-2.5 rounded-full bg-gold/60" />
         <span className="h-2.5 w-2.5 rounded-full bg-indigo/60" />
-        <span className="ml-auto font-calligraphy text-sm text-ink">山海经·南山经</span>
+        <span className="ml-auto font-calligraphy text-sm text-ink">南山经</span>
       </div>
 
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-        <div>
-          <span className="mb-2 block font-serif text-xs text-cinnabar">原文</span>
-          <p className="font-serif text-sm leading-7 text-ink/90">
-            南山之首曰<span className="rounded bg-cinnabar/10 px-1 text-cinnabar">䧿</span>山。其首曰招摇之山，临于西海之上，多桂，多金玉。
-          </p>
+      <div className="flex gap-3">
+        {/* 侧边章节指示器 */}
+        <div className="flex flex-col gap-1.5 pt-1">
+          <span className="h-6 w-1.5 rounded-full bg-cinnabar" />
+          <span className="h-6 w-1.5 rounded-full bg-ink/10" />
+          <span className="h-6 w-1.5 rounded-full bg-ink/10" />
+          <span className="h-6 w-1.5 rounded-full bg-ink/10" />
         </div>
-        <div>
-          <span className="mb-2 block font-serif text-xs text-muted">译文</span>
-          <p className="font-serif text-sm leading-7 text-light-ink">
-            南方群山的第一座叫鹊山。鹊山最高处叫招摇山，矗立在西海边上，山上桂树成林，遍布金石美玉。
-          </p>
+
+        {/* 原文 + 译文 */}
+        <div className="flex-1 space-y-3">
+          <div>
+            <div className="mb-1.5 flex items-center gap-2">
+              <span className="flex h-5 w-5 items-center justify-center rounded-full bg-cinnabar/10 font-serif text-[10px] text-cinnabar">1</span>
+              <span className="font-serif text-[10px] text-muted">原文</span>
+            </div>
+            <p className="font-serif text-sm leading-7 text-ink/90">
+              南山之首曰<span className="rounded bg-cinnabar/10 px-0.5 text-cinnabar">䧿</span>山。其首曰招摇之山，临于西海之上，多桂，多金玉。
+            </p>
+          </div>
+
+          <div className="border-t border-ink/5 pt-2">
+            <span className="mb-1.5 block font-serif text-[10px] text-muted">译文</span>
+            <p className="font-serif text-xs leading-6 text-light-ink">
+              南方群山的第一座叫鹊山。鹊山最高处叫招摇山，矗立在西海边上，山上桂树成林，遍布金石美玉。
+            </p>
+          </div>
         </div>
       </div>
 
-      <div className="mt-4 rounded-lg bg-seal-bg p-3">
-        <p className="font-serif text-xs text-cinnabar mb-1">深度解读 · 䧿（què）</p>
-        <p className="font-serif text-xs text-light-ink">古"鹊"字。古人以鹊名山，取其灵秀吉祥之意。</p>
+      <div className="mt-3 rounded-lg bg-seal-bg p-2.5">
+        <p className="mb-0.5 font-serif text-[10px] text-cinnabar">深度解读 · 䧿（què）</p>
+        <p className="font-serif text-[10px] text-light-ink">古&ldquo;鹊&rdquo;字。古人以鹊名山，取其灵秀吉祥之意。</p>
       </div>
     </div>
   );
@@ -77,24 +92,41 @@ function PoetryMockup() {
 function DialogueMockup() {
   return (
     <div className="rounded-2xl bg-surface p-4 shadow-lg">
-      <div className="mb-4 pb-3 text-center">
+      <div className="mb-4 border-b border-ink/5 pb-3 text-center">
         <h4 className="font-calligraphy text-lg text-ink">对话 · 孔子</h4>
         <p className="font-serif text-xs text-muted">至圣先师 · 春秋时期</p>
       </div>
 
       <div className="space-y-4">
-        <div className="flex justify-end">
-          <div className="max-w-[85%] rounded-2xl rounded-tr-sm bg-indigo/90 px-4 py-3">
+        {/* 用户消息（右侧） */}
+        <div className="flex items-start justify-end gap-2">
+          <div className="max-w-[80%] rounded-2xl rounded-tr-sm bg-indigo/90 px-4 py-3">
             <p className="font-serif text-xs leading-relaxed text-surface">
               子曰学而时习之，不亦说乎。这句话到底是什么意思？
             </p>
           </div>
+          <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-ink/10">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4 text-muted">
+              <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" />
+              <circle cx="12" cy="7" r="4" />
+            </svg>
+          </div>
         </div>
 
-        <div className="flex justify-start">
-          <div className="max-w-[90%] rounded-2xl rounded-tl-sm bg-xuan-dark px-4 py-3">
+        {/* 诗人消息（左侧） */}
+        <div className="flex items-start justify-start gap-2">
+          <div className="flex h-8 w-8 flex-shrink-0 overflow-hidden rounded-full ring-2 ring-cinnabar/20">
+            <Image
+              src="/images/characters/kongzi.webp"
+              alt="孔子"
+              width={32}
+              height={32}
+              className="h-full w-full object-cover"
+            />
+          </div>
+          <div className="max-w-[80%] rounded-2xl rounded-tl-sm bg-xuan-dark px-4 py-3">
             <p className="font-serif text-xs leading-relaxed text-ink">
-              此言甚好。吾之本意，并非今人所解的"学了要按时复习"。"习"者，实践也……
+              此言甚好。吾之本意，并非今人所解的&ldquo;学了要按时复习&rdquo;。&ldquo;习&rdquo;者，实践也……
             </p>
           </div>
         </div>
@@ -114,6 +146,7 @@ const features = [
     desc: "一首诗，一段沉浸式视觉旅程",
     href: "/poetry",
     highlight: "24首 沉浸朗诵",
+    cta: "开始漫游",
     mockup: <PoetryMockup />,
   },
   {
@@ -122,6 +155,7 @@ const features = [
     desc: "穿越时空，与孔子李白畅聊古今",
     href: "/dialogue",
     highlight: "15位 历史人物",
+    cta: "开始对话",
     mockup: <DialogueMockup />,
   },
   {
@@ -130,6 +164,8 @@ const features = [
     desc: "国风水墨神兽插画，收集你的专属图鉴",
     href: "/bestiary",
     highlight: "97只 AI水墨画",
+    cta: "进入图鉴",
+    flatMockup: true,
     mockup: <BestiaryMockupClient />,
   },
   {
@@ -138,6 +174,7 @@ const features = [
     desc: "《山海经》是记录上古山川异兽的奇书。逐句翻译原文，点击任意字词获得深度解读",
     href: "/reading",
     highlight: "18篇 267句",
+    cta: "开始阅读",
     mockup: <ReadingMockup />,
   },
 ];
@@ -170,13 +207,13 @@ export default function Features() {
                 </p>
                 <Link
                   href={feature.href}
-                  className="inline-flex items-center gap-2 font-serif text-sm text-cinnabar hover:underline"
+                  className="inline-flex items-center gap-2 rounded-full bg-cinnabar/10 px-5 py-2.5 font-serif text-sm text-cinnabar transition-all hover:bg-cinnabar/20 hover:gap-3 active:scale-95"
                 >
-                  探索功能 <IconArrowRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-1 group-active:translate-x-1" />
+                  {feature.cta} <IconArrowRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-1 group-active:translate-x-1" />
                 </Link>
               </div>
 
-              <div className={`card-hover ${isOdd ? "md:order-2" : "md:order-1"}`}>
+              <div className={`${feature.flatMockup ? "" : "card-hover"} ${isOdd ? "md:order-2" : "md:order-1"}`}>
                 {feature.mockup}
               </div>
             </div>

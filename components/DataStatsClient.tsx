@@ -123,14 +123,16 @@ export default function DataStatsClient({ counts }: { counts: DataStatsCounts })
       <div className="relative mx-auto max-w-[1100px] px-6">
         {/* 探索进度条 */}
         <div className="mb-6 text-center">
-          <p className="font-serif text-sm text-ink/70">你的探索进度</p>
+          <div className="flex items-center justify-center gap-2">
+            <p className="font-serif text-sm text-ink/70">你的探索进度</p>
+            <span className="font-serif text-sm font-medium text-cinnabar">{rate}%</span>
+          </div>
           <div className="mx-auto mt-2 h-2 w-48 rounded-full bg-ink/10">
             <div
               className="h-full rounded-full bg-cinnabar transition-all duration-500"
               style={{ width: `${rate}%` }}
             />
           </div>
-          <p className="mt-1 font-serif text-xs text-ink/60">{rate}%</p>
         </div>
 
         {/* 个人学习数据 */}

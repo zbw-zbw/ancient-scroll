@@ -106,13 +106,13 @@ export default function SentenceCard({
 
       {/* 原文区域 */}
       {isVertical ? (
-        <div ref={verticalScrollRef} className="flex overflow-x-auto py-2 pl-4">
+        <div ref={verticalScrollRef} className="flex overflow-x-auto py-2">
           <div
             className="text-vertical mx-auto"
             style={{
               lineHeight: "2.4",
-              paddingLeft: "0.5rem",
-              paddingRight: "0.5rem",
+              paddingLeft: "1rem",
+              paddingRight: "1rem",
             }}
           >
             <HighlightedText
