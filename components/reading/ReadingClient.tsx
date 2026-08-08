@@ -9,6 +9,7 @@ import { getReadingPrefs, saveReadingPrefs } from "@/lib/progress";
 import PageHeader from "@/components/PageHeader";
 import SectionProgress from "@/components/SectionProgress";
 import ChapterSidebar from "@/components/reading/ChapterSidebar";
+import MobileChapterTabs from "@/components/reading/MobileChapterTabs";
 import ReadingPanel from "@/components/reading/ReadingPanel";
 import CharacterTooltip from "@/components/reading/CharacterTooltip";
 import Footer from "@/components/Footer";
@@ -292,6 +293,18 @@ export default function ReadingClient() {
             total={sortedChapters.length}
             className="mt-6 mb-8 md:mt-8 md:mb-10"
           />
+
+          {/* 移动端章节目录 tab — 放在进度条下方，参考古今对话 tab 位置和样式 */}
+          <MobileChapterTabs
+            chapters={sortedChapters}
+            selectedId={selectedChapterId}
+            onSelect={(id) => {
+              setSelectedChapterId(id);
+              markChapterRead(id);
+              setLastReadChapter(id);
+            }}
+          />
+
  <ReadingPanel
  chapter={chapter}
  fontSize={fontSize}

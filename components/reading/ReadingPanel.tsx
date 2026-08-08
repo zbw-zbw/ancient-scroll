@@ -206,9 +206,8 @@ export default function ReadingPanel({
 
   return (
     <div className="flex flex-col min-w-0">
-      {/* 阅读控制栏 — 吸顶定位，参考其他页面 tab 样式 */}
-      {/* 移动端：navbar(4rem) + 章节目录tab(约3.81rem)，控制栏在其下方吸顶 */}
-      <div className="sticky top-[7.8rem] md:top-16 z-20 -mx-4 mb-6 bg-xuan/95 backdrop-blur-sm border-b border-ink/5 px-4 py-3 md:-mx-8 md:px-8">
+      {/* 阅读控制栏 — 吸顶定位 */}
+      <div className="sticky top-16 z-20 -mx-4 mb-6 bg-xuan/95 backdrop-blur-sm border-b border-ink/5 px-4 py-3 md:-mx-8 md:px-8">
         <ReadingControls
           fontSize={fontSize}
           showTranslation={showTranslation}

@@ -1,8 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useRef, useEffect, useState } from "react";
-import { IconArrowLeft } from "@/components/icons";
+import { useEffect, useState } from "react";
 import { getProgress } from "@/lib/progress";
 import type { Chapter } from "@/data/shanhaijing";
 
@@ -17,136 +16,76 @@ export default function ChapterSidebar({
   selectedId,
   onSelect,
 }: ChapterSidebarProps) {
-  const mobileTabsRef = useRef<HTMLDivElement>(null);
-  const mobileTabsContainerRef = useRef<HTMLDivElement>(null);
-  const selectedTabRef = useRef<HTMLButtonElement>(null);
   const [readChapters, setReadChapters] = useState<string[]>([]);
 
   useEffect(() => {
     setReadChapters(getProgress().readChapters);
   }, [selectedId]);
 
-  // Auto-scroll mobile tabs to selected chapter
-  useEffect(() => {
-    if (selectedTabRef.current && mobileTabsContainerRef.current) {
-      const container = mobileTabsContainerRef.current;
-      const tab = selectedTabRef.current;
-      const scrollLeft = tab.offsetLeft - container.clientWidth / 2 + tab.clientWidth / 2;
-      container.scrollTo({ left: scrollLeft, behavior: "smooth" });
-    }
-  }, [selectedId]);
-
   return (
-    <>
-      {/* Desktop sidebar - fixed at left viewport edge */}
-      <aside className="hidden md:flex md:w-[200px] lg:w-[240px] md:flex-col md:fixed md:left-0 md:top-16 md:bottom-0 md:overflow-hidden md:bg-xuan-dark md:border-r md:border-ink/5 md:z-20">
-        {/* 标题固定，不随目录滚动 */}
-        <div className="flex-shrink-0 px-4 pt-6 pb-5">
-          <h2 className="font-calligraphy text-2xl text-ink">篇章目录</h2>
-        </div>
-        {/* 目录单独滚动 */}
-        <div className="flex flex-1 flex-col overflow-y-auto px-4 pb-6">
-          <nav className="flex flex-col gap-1">
-            {chapters.map((chapter) => {
-              const isRead = readChapters.includes(chapter.id);
-              return (
-                <button
-                  key={chapter.id}
-                  onClick={() => onSelect(chapter.id)}
-                  className={`group relative flex flex-col items-start rounded-md px-3 py-3 min-h-[44px] text-left transition-colors ${
-                    selectedId === chapter.id
-                      ? "bg-surface text-ink"
-                      : "bg-transparent text-light-ink hover:bg-surface/50"
+    <aside className="hidden md:flex md:w-[200px] lg:w-[240px] md:flex-col md:fixed md:left-0 md:top-16 md:bottom-0 md:overflow-hidden md:bg-xuan-dark md:border-r md:border-ink/5 md:z-20">
+      {/* 标题固定，不随目录滚动 */}
+      <div className="flex-shrink-0 px-4 pt-6 pb-5">
+        <h2 className="font-calligraphy text-2xl text-ink">篇章目录</h2>
+      </div>
+      {/* 目录单独滚动 */}
+      <div className="flex flex-1 flex-col overflow-y-auto px-4 pb-6">
+        <nav className="flex flex-col gap-1">
+          {chapters.map((chapter) => {
+            const isRead = readChapters.includes(chapter.id);
+            return (
+              <button
+                key={chapter.id}
+                onClick={() => onSelect(chapter.id)}
+                className={`group relative flex flex-col items-start rounded-md px-3 py-3 min-h-[44px] text-left transition-colors ${
+                  selectedId === chapter.id
+                    ? "bg-surface text-ink"
+                    : "bg-transparent text-light-ink hover:bg-surface/50"
+                }`}
+                aria-current={selectedId === chapter.id ? "true" : undefined}
+                aria-label={`${chapter.name}${isRead ? "（已读）" : ""}`}
+              >
+                {/* Indicator bar with animation */}
+                <span
+                  className={`absolute left-0 top-1/2 h-6 w-[3px] -translate-y-1/2 rounded-r bg-cinnabar transition-all duration-200 ${
+                    selectedId === chapter.id ? "opacity-100" : "opacity-0 w-0 group-hover:opacity-40 group-hover:w-[2px]"
                   }`}
-                  aria-current={selectedId === chapter.id ? "true" : undefined}
-                  aria-label={`${chapter.name}${isRead ? "（已读）" : ""}`}
-                >
-                  {/* Indicator bar with animation */}
-                  <span
-                    className={`absolute left-0 top-1/2 h-6 w-[3px] -translate-y-1/2 rounded-r bg-cinnabar transition-all duration-200 ${
-                      selectedId === chapter.id ? "opacity-100" : "opacity-0 w-0 group-hover:opacity-40 group-hover:w-[2px]"
-                    }`}
-                  />
-                  {/* 篇章名称（font-calligraphy 字体）+ 句数 badge */}
-                  <div className="flex items-center gap-2">
-                    <span className="font-calligraphy text-lg">{chapter.name}</span>
-                    {/* 句数 badge：小圆圈数字 */}
-                    <span className="rounded-full bg-ink/5 px-1.5 text-[10px] text-muted">
-                      {chapter.sentences.length}
-                    </span>
-                  </div>
-                  <span className="mt-0.5 font-serif text-xs text-muted">
-                    {chapter.subtitle}
+                />
+                {/* 篇章名称（font-calligraphy 字体）+ 句数 badge */}
+                <div className="flex items-center gap-2">
+                  <span className="font-calligraphy text-lg">{chapter.name}</span>
+                  {/* 句数 badge：小圆圈数字 */}
+                  <span className="rounded-full bg-ink/5 px-1.5 text-[10px] text-muted">
+                    {chapter.sentences.length}
                   </span>
-                  {isRead && (
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="absolute right-2 top-2 h-3 w-3 text-cinnabar/60">
-                      <path d="M20 6 9 17l-5-5" />
-                    </svg>
-                  )}
-                </button>
-              );
-            })}
-          </nav>
-        </div>
+                </div>
+                <span className="mt-0.5 font-serif text-xs text-muted">
+                  {chapter.subtitle}
+                </span>
+                {isRead && (
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="absolute right-2 top-2 h-3 w-3 text-cinnabar/60">
+                    <path d="M20 6 9 17l-5-5" />
+                  </svg>
+                )}
+              </button>
+            );
+          })}
+        </nav>
+      </div>
 
-        <div className="p-4 border-t border-ink/5">
-          {/* Reading progress */}
-          <div className="mb-3 flex items-center justify-between">
-            <span className="font-serif text-xs text-muted">阅读进度</span>
-            <span className="font-serif text-xs text-cinnabar">{readChapters.length}/{chapters.length}</span>
-          </div>
-          <div className="h-1.5 w-full overflow-hidden rounded-full bg-ink/10">
-            <div
-              className="h-full rounded-full bg-cinnabar transition-all duration-500"
-              style={{ width: `${chapters.length > 0 ? (readChapters.length / chapters.length) * 100 : 0}%` }}
-            />
-          </div>
+      <div className="p-4 border-t border-ink/5">
+        {/* Reading progress */}
+        <div className="mb-3 flex items-center justify-between">
+          <span className="font-serif text-xs text-muted">阅读进度</span>
+          <span className="font-serif text-xs text-cinnabar">{readChapters.length}/{chapters.length}</span>
         </div>
-      </aside>
-
-      {/* Mobile horizontal scroll tabs — 样式参考古今对话 tab */}
-      <div
-        ref={mobileTabsRef}
-        className="md:hidden w-full sticky top-16 z-30 flex-shrink-0 bg-xuan/95 backdrop-blur-sm border-b border-ink/5 px-4 py-3"
-      >
-        <div className="relative">
+        <div className="h-1.5 w-full overflow-hidden rounded-full bg-ink/10">
           <div
-            ref={mobileTabsContainerRef}
-            className="flex items-center gap-2 overflow-x-auto scrollbar-hide"
-          >
-            {chapters.map((chapter) => {
-              const isSelected = selectedId === chapter.id;
-              const isRead = readChapters.includes(chapter.id);
-              return (
-                <button
-                  key={chapter.id}
-                  ref={isSelected ? selectedTabRef : null}
-                  onClick={() => onSelect(chapter.id)}
-                  data-tab-key={chapter.id}
-                  className={`capsule-btn inline-flex flex-shrink-0 items-center gap-1.5 rounded-full border px-3.5 py-1.5 min-h-[36px] font-serif text-sm transition-all active:scale-95 ${
-                    isSelected
-                      ? "border-cinnabar bg-cinnabar/10 text-cinnabar"
-                      : "border-ink/15 bg-transparent text-ink hover:bg-ink/5"
-                  }`}
-                >
-                  <span className="font-calligraphy text-base whitespace-nowrap">
-                    {chapter.name}
-                  </span>
-                  {/* 句数 badge：小圆圈数字，仅在非选中态显示避免拥挤 */}
-                  {!isSelected && (
-                    <span className="ml-0.5 rounded-full bg-ink/5 px-1.5 py-0 text-[10px] text-muted">
-                      {chapter.sentences.length}
-                    </span>
-                  )}
-                  {isRead && !isSelected && (
-                    <span className="h-1.5 w-1.5 rounded-full bg-cinnabar/60" />
-                  )}
-                </button>
-              );
-            })}
-          </div>
+            className="h-full rounded-full bg-cinnabar transition-all duration-500"
+            style={{ width: `${chapters.length > 0 ? (readChapters.length / chapters.length) * 100 : 0}%` }}
+          />
         </div>
       </div>
-    </>
+    </aside>
   );
 }
