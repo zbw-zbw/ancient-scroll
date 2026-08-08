@@ -148,10 +148,11 @@ export default function QuizShareModal({
       try {
         const { default: html2canvas } = await import("html2canvas");
 
-        // 超时兜底：10 秒后强制放弃
+        // 超时兜底：30 秒后强制放弃（PC 端 html2canvas 较慢，给足时间）
+        const renderScale = window.devicePixelRatio > 1.5 ? 1.5 : 2;
         const canvas = await Promise.race([
           html2canvas(clone, {
-            scale: 2,
+            scale: renderScale,
             useCORS: true,
             backgroundColor: "#f5f0e8",
             logging: false,
@@ -159,7 +160,7 @@ export default function QuizShareModal({
             height: 800,
           }),
           new Promise<never>((_, reject) =>
-            setTimeout(() => reject(new Error("timeout")), 10000)
+            setTimeout(() => reject(new Error("timeout")), 30000)
           ),
         ]);
 

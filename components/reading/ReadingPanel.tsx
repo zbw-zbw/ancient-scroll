@@ -46,6 +46,8 @@ export default function ReadingPanel({
   const [activeSentenceId, setActiveSentenceId] = useState<string | null>(null);
   // 局部返回顶部按钮可见性
   const [showScrollTop, setShowScrollTop] = useState(false);
+  // 记录切换章节前的滚动位置，用于判断是否应保持 tab 吸顶
+  const prevScrollRef = useRef(0);
 
   // ===== 听书模式状态 =====
   const [listenMode, setListenMode] = useState<"idle" | "playing" | "paused">("idle");
@@ -67,17 +69,55 @@ export default function ReadingPanel({
     };
   }, []);
 
-  // Scroll to top when chapter changes (instant, not smooth, for clear context switch)
+  // 持续追踪滚动位置
+  useEffect(() => {
+    const onScroll = () => {
+      prevScrollRef.current = window.scrollY;
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  // 切换章节时：如果用户已滚过 tab 吸顶阈值，则滚到阈值位置（tab 保持吸顶），
+  // 否则滚到顶部。避免 tab 取消吸顶导致的视觉跳动。
   useEffect(() => {
     stopAI();
     stop();
     setListenMode("idle");
     setListenIndex(-1);
     setActiveSentenceId(null);
+
+    const prevScroll = prevScrollRef.current;
+
     // Double rAF: first frame renders new content, second frame ensures layout is settled
     requestAnimationFrame(() => {
       requestAnimationFrame(() => {
-        window.scrollTo({ top: 0, behavior: "auto" });
+        // 查找最上方的吸顶元素（MobileChapterTabs 或 ReadingControls）
+        const anchors = document.querySelectorAll<HTMLElement>("[data-sticky-anchor]");
+        let stickyThreshold = 0;
+
+        for (const anchor of anchors) {
+          // 跳过 display:none 的元素（如桌面端隐藏的 MobileChapterTabs）
+          if (anchor.offsetWidth === 0 && anchor.offsetHeight === 0) continue;
+          const rect = anchor.getBoundingClientRect();
+          const offsetTop = rect.top + window.scrollY;
+          // 从 CSS 中读取 sticky top 值
+          const style = window.getComputedStyle(anchor);
+          const stickyTop = parseFloat(style.top) || 0;
+          const threshold = offsetTop - stickyTop;
+          // 取最上方的吸顶阈值
+          if (stickyThreshold === 0 || threshold < stickyThreshold) {
+            stickyThreshold = threshold;
+          }
+        }
+
+        if (prevScroll > stickyThreshold && stickyThreshold > 0) {
+          // 用户已滚过吸顶位置 → 滚到阈值，保持 tab 吸顶
+          window.scrollTo({ top: stickyThreshold, behavior: "auto" });
+        } else {
+          // 用户在顶部附近 → 滚到顶部
+          window.scrollTo({ top: 0, behavior: "auto" });
+        }
       });
     });
   }, [chapter.id]);
@@ -209,7 +249,7 @@ export default function ReadingPanel({
       {/* 阅读控制栏 — 吸顶定位
           移动端：top-[7.8rem] 避让 MobileChapterTabs（navbar 4rem + tabs ~3.8rem）
           桌面端：MobileChapterTabs 隐藏，仅需避让 navbar → top-16 */}
-      <div className="sticky top-[7.8rem] z-20 -mx-4 mb-6 bg-xuan/95 backdrop-blur-sm border-b border-ink/5 px-4 py-2 md:top-16 md:-mx-8 md:px-8 md:py-3">
+      <div data-sticky-anchor className="sticky top-[7.8rem] z-20 -mx-4 mb-6 bg-xuan/95 backdrop-blur-sm border-b border-ink/5 px-4 py-2 md:top-16 md:-mx-8 md:px-8 md:py-3">
         <ReadingControls
           fontSize={fontSize}
           showTranslation={showTranslation}

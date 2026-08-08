@@ -15,9 +15,9 @@ interface ReadingControlsProps {
 }
 
 const fontSizeOptions: { value: FontSize; label: string }[] = [
-  { value: "sm", label: "小" },
-  { value: "md", label: "中" },
-  { value: "lg", label: "大" },
+  { value: "sm", label: "小字" },
+  { value: "md", label: "中字" },
+  { value: "lg", label: "大字" },
 ];
 
 // 统一按钮样式：所有按钮使用相同的 padding / min-height / font-size
@@ -26,7 +26,7 @@ const btnBase =
 
 // 移动端 & 桌面端统一尺寸
 const btnSize =
-  "px-2.5 py-1 min-h-[30px] text-xs md:px-3.5 md:py-1.5 md:min-h-[36px] md:text-sm";
+  "px-2 py-1 min-h-[30px] text-xs md:px-3.5 md:py-1.5 md:min-h-[36px] md:text-sm";
 
 export default function ReadingControls({
   fontSize,
@@ -37,10 +37,9 @@ export default function ReadingControls({
   onToggleListen,
 }: ReadingControlsProps) {
   return (
-    <div className="flex flex-nowrap items-center justify-end gap-1.5 md:gap-3">
-      {/* ===== 组1：阅读模式 ===== */}
+    <div className="flex flex-nowrap items-center justify-between gap-1 md:justify-end md:gap-3">
+      {/* ===== 组1：翻译（移动端左）===== */}
       <div className="flex items-center gap-1 md:gap-1.5">
-        {/* 翻译开关 */}
         <button
           onClick={() => onShowTranslationChange(!showTranslation)}
           className={`${btnBase} ${btnSize} ${
@@ -55,8 +54,13 @@ export default function ReadingControls({
           </svg>
           {showTranslation ? "翻译" : "原文"}
         </button>
+      </div>
 
-        {/* 听书按钮 */}
+      {/* 分隔线 — 仅桌面端 */}
+      <div className="hidden md:block h-5 w-px flex-shrink-0 bg-ink/10" />
+
+      {/* ===== 组2：听书（移动端中）===== */}
+      <div className="flex items-center gap-1 md:gap-1.5">
         {onToggleListen && (
           <button
             onClick={onToggleListen}
@@ -97,10 +101,10 @@ export default function ReadingControls({
         )}
       </div>
 
-      {/* 分隔线 */}
-      <div className="h-5 w-px flex-shrink-0 bg-ink/10" />
+      {/* 分隔线 — 仅桌面端 */}
+      <div className="hidden md:block h-5 w-px flex-shrink-0 bg-ink/10" />
 
-      {/* ===== 组2：显示设置 ===== */}
+      {/* ===== 组3：字号 + 导出笔记（移动端右）===== */}
       <div className="flex items-center gap-1 md:gap-1.5">
         {/* 字号 */}
         {fontSizeOptions.map((option) => (
@@ -116,30 +120,30 @@ export default function ReadingControls({
             {option.label}
           </button>
         ))}
+
+        {/* 分隔线 — 仅桌面端 */}
+        <div className="hidden md:block h-5 w-px flex-shrink-0 bg-ink/10" />
+
+        {/* 导出笔记 */}
+        <button
+          onClick={() => {
+            const md = exportNotesAsMarkdown();
+            if (md) {
+              downloadMarkdown(md);
+            }
+          }}
+          className={`${btnBase} ${btnSize} border-ink/15 bg-transparent text-ink hover:bg-ink/5`}
+          title="导出阅读笔记为 Markdown"
+        >
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-3 w-3 md:h-4 md:w-4">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+            <polyline points="7 10 12 15 17 10" />
+            <line x1="12" y1="15" x2="12" y2="3" />
+          </svg>
+          <span className="hidden md:inline">导出笔记</span>
+          <span className="text-muted text-[10px] md:text-xs">({getAllNotes().length})</span>
+        </button>
       </div>
-
-      {/* 分隔线 */}
-      <div className="h-5 w-px flex-shrink-0 bg-ink/10" />
-
-      {/* ===== 组3：导出笔记 ===== */}
-      <button
-        onClick={() => {
-          const md = exportNotesAsMarkdown();
-          if (md) {
-            downloadMarkdown(md);
-          }
-        }}
-        className={`${btnBase} ${btnSize} border-ink/15 bg-transparent text-ink hover:bg-ink/5`}
-        title="导出阅读笔记为 Markdown"
-      >
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-3 w-3 md:h-4 md:w-4">
-          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
-          <polyline points="7 10 12 15 17 10" />
-          <line x1="12" y1="15" x2="12" y2="3" />
-        </svg>
-        <span className="hidden md:inline">导出笔记</span>
-        <span className="text-muted text-[10px] md:text-xs">({getAllNotes().length})</span>
-      </button>
     </div>
   );
 }

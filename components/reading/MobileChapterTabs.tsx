@@ -34,7 +34,7 @@ export default function MobileChapterTabs({
   }, [selectedId]);
 
   return (
-    <div className="sticky top-16 z-30 -mx-4 mb-6 bg-xuan/95 backdrop-blur-sm border-b border-ink/5 px-4 py-3 md:hidden">
+    <div data-sticky-anchor className="sticky top-16 z-30 -mx-4 mb-6 bg-xuan/95 backdrop-blur-sm border-b border-ink/5 px-4 py-3 md:hidden">
       <div
         ref={tabsRef}
         className="flex items-center gap-2 overflow-x-auto scrollbar-hide"

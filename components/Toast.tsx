@@ -69,7 +69,7 @@ export default function ToastProvider({ children }: { children: React.ReactNode 
     <ToastContext.Provider value={{ toast: addToast }}>
       {children}
       {/* Toast container - fixed top center */}
-      <div className="fixed top-20 left-1/2 z-[100] flex -translate-x-1/2 flex-col items-center gap-2 pointer-events-none px-4 w-full max-w-sm" aria-live="polite">
+      <div className="fixed top-20 left-1/2 z-[200] flex -translate-x-1/2 flex-col items-center gap-2 pointer-events-none px-4 w-full max-w-sm" aria-live="polite">
         {toasts.map((t) => (
           <div
             key={t.id}
