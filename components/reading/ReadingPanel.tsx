@@ -206,8 +206,10 @@ export default function ReadingPanel({
 
   return (
     <div className="flex flex-col min-w-0">
-      {/* 阅读控制栏 — 吸顶定位 */}
-      <div className="sticky top-16 z-20 -mx-4 mb-6 bg-xuan/95 backdrop-blur-sm border-b border-ink/5 px-4 py-3 md:-mx-8 md:px-8">
+      {/* 阅读控制栏 — 吸顶定位
+          移动端：top-[7.8rem] 避让 MobileChapterTabs（navbar 4rem + tabs ~3.8rem）
+          桌面端：MobileChapterTabs 隐藏，仅需避让 navbar → top-16 */}
+      <div className="sticky top-[7.8rem] z-20 -mx-4 mb-6 bg-xuan/95 backdrop-blur-sm border-b border-ink/5 px-4 py-2 md:top-16 md:-mx-8 md:px-8 md:py-3">
         <ReadingControls
           fontSize={fontSize}
           showTranslation={showTranslation}
