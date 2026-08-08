@@ -28,6 +28,11 @@ const btnBase =
 const btnSize =
   "px-2 py-1 min-h-[30px] text-xs md:px-3.5 md:py-1.5 md:min-h-[36px] md:text-sm";
 
+// 选中态
+const activeCls = "border-cinnabar bg-cinnabar/10 text-cinnabar";
+// 默认态
+const idleCls = "border-ink/15 bg-transparent text-ink hover:bg-ink/5";
+
 export default function ReadingControls({
   fontSize,
   showTranslation,
@@ -37,29 +42,8 @@ export default function ReadingControls({
   onToggleListen,
 }: ReadingControlsProps) {
   return (
-    <div className="flex flex-nowrap items-center justify-between gap-1 md:justify-end md:gap-3">
-      {/* ===== 组1：翻译（移动端左）===== */}
-      <div className="flex items-center gap-1 md:gap-1.5">
-        <button
-          onClick={() => onShowTranslationChange(!showTranslation)}
-          className={`${btnBase} ${btnSize} ${
-            showTranslation
-              ? "border-cinnabar bg-cinnabar/10 text-cinnabar"
-              : "border-ink/15 bg-transparent text-ink hover:bg-ink/5"
-          }`}
-          title={showTranslation ? "当前：显示翻译，点击切换为仅原文" : "当前：仅原文，点击切换为显示翻译"}
-        >
-          <svg viewBox="0 0 24 24" fill="none" className="h-3 w-3 md:h-4 md:w-4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <path d="m5 12 5 5 9-9" />
-          </svg>
-          {showTranslation ? "翻译" : "原文"}
-        </button>
-      </div>
-
-      {/* 分隔线 — 仅桌面端 */}
-      <div className="hidden md:block h-5 w-px flex-shrink-0 bg-ink/10" />
-
-      {/* ===== 组2：听书（移动端中）===== */}
+    <div className="flex flex-nowrap items-center justify-between gap-1 md:gap-3">
+      {/* ===== 左：听书 ===== */}
       <div className="flex items-center gap-1 md:gap-1.5">
         {onToggleListen && (
           <button
@@ -68,8 +52,8 @@ export default function ReadingControls({
               listenMode === "playing"
                 ? "border-cinnabar bg-cinnabar text-white"
                 : listenMode === "paused"
-                  ? "border-cinnabar bg-cinnabar/10 text-cinnabar"
-                  : "border-ink/15 bg-transparent text-ink hover:bg-ink/5"
+                  ? activeCls
+                  : idleCls
             }`}
             title={
               listenMode === "playing"
@@ -101,30 +85,37 @@ export default function ReadingControls({
         )}
       </div>
 
-      {/* 分隔线 — 仅桌面端 */}
-      <div className="hidden md:block h-5 w-px flex-shrink-0 bg-ink/10" />
-
-      {/* ===== 组3：字号 + 导出笔记（移动端右）===== */}
+      {/* ===== 中：翻译 + 字号 ===== */}
       <div className="flex items-center gap-1 md:gap-1.5">
+        {/* 翻译开关 */}
+        <button
+          onClick={() => onShowTranslationChange(!showTranslation)}
+          className={`${btnBase} ${btnSize} ${showTranslation ? activeCls : idleCls}`}
+          title={showTranslation ? "当前：显示翻译，点击切换为仅原文" : "当前：仅原文，点击切换为显示翻译"}
+        >
+          <svg viewBox="0 0 24 24" fill="none" className="h-3 w-3 md:h-4 md:w-4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <path d="m5 12 5 5 9-9" />
+          </svg>
+          {showTranslation ? "翻译" : "原文"}
+        </button>
+
+        {/* 分隔线 — 仅桌面端 */}
+        <div className="hidden md:block h-5 w-px flex-shrink-0 bg-ink/10" />
+
         {/* 字号 */}
         {fontSizeOptions.map((option) => (
           <button
             key={option.value}
             onClick={() => onFontSizeChange(option.value)}
-            className={`${btnBase} ${btnSize} ${
-              fontSize === option.value
-                ? "border-cinnabar bg-cinnabar/10 text-cinnabar"
-                : "border-ink/15 bg-transparent text-ink hover:bg-ink/5"
-            }`}
+            className={`${btnBase} ${btnSize} ${fontSize === option.value ? activeCls : idleCls}`}
           >
             {option.label}
           </button>
         ))}
+      </div>
 
-        {/* 分隔线 — 仅桌面端 */}
-        <div className="hidden md:block h-5 w-px flex-shrink-0 bg-ink/10" />
-
-        {/* 导出笔记 */}
+      {/* ===== 右：导出笔记 ===== */}
+      <div className="flex items-center gap-1 md:gap-1.5">
         <button
           onClick={() => {
             const md = exportNotesAsMarkdown();
@@ -132,7 +123,7 @@ export default function ReadingControls({
               downloadMarkdown(md);
             }
           }}
-          className={`${btnBase} ${btnSize} border-ink/15 bg-transparent text-ink hover:bg-ink/5`}
+          className={`${btnBase} ${btnSize} ${idleCls}`}
           title="导出阅读笔记为 Markdown"
         >
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-3 w-3 md:h-4 md:w-4">
