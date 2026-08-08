@@ -32,6 +32,10 @@ export default function ImmersiveReader({ poem, onBack }: ImmersiveReaderProps) 
   const autoReciteRef = useRef(false);
   const pausedRef = useRef(false);
 
+  // 手动单句朗诵状态（用户点击某句的"朗诵这句"按钮时）
+  const [manualReciting, setManualReciting] = useState(false);
+  const manualRecitingRef = useRef(false);
+
   const clearProgramScrollTimer = useCallback(() => {
     if (programScrollTimerRef.current) {
       window.clearTimeout(programScrollTimerRef.current);
@@ -78,23 +82,32 @@ export default function ImmersiveReader({ poem, onBack }: ImmersiveReaderProps) 
   }, [poem.id]);
 
   // Fallback: when scrolled to the very bottom, force last slide active.
+  // 用 requestAnimationFrame 防抖，避免 scroll-snap 边界状态反复触发
   useEffect(() => {
     const container = containerRef.current;
     if (!container) return;
+    let rafId: number | null = null;
 
     const handleScroll = () => {
-      const nearBottom =
-        container.scrollHeight - container.scrollTop - container.clientHeight < 24;
-      if (nearBottom) {
-        setCurrentSlide((prev) => {
-          const last = totalSlides - 1;
-          return prev === last ? prev : last;
-        });
-      }
+      if (rafId) return;
+      rafId = window.requestAnimationFrame(() => {
+        rafId = null;
+        const nearBottom =
+          container.scrollHeight - container.scrollTop - container.clientHeight < 4;
+        if (nearBottom) {
+          setCurrentSlide((prev) => {
+            const last = totalSlides - 1;
+            return prev === last ? prev : last;
+          });
+        }
+      });
     };
 
     container.addEventListener("scroll", handleScroll, { passive: true });
-    return () => container.removeEventListener("scroll", handleScroll);
+    return () => {
+      container.removeEventListener("scroll", handleScroll);
+      if (rafId) window.cancelAnimationFrame(rafId);
+    };
   }, [totalSlides]);
 
   // Hide global navbar while in immersive mode
@@ -245,7 +258,47 @@ export default function ImmersiveReader({ poem, onBack }: ImmersiveReaderProps) 
     }
   }, [autoRecite, paused, currentSlide]);
 
-  // 手动导航时关闭自动朗诵
+  // 手动朗诵单句（用户点击某句的"朗诵这句"按钮）
+  const handleReciteLine = useCallback(() => {
+    const text = getSlideText(currentSlide);
+    if (!text) return;
+
+    // 如果正在自动朗诵，先停止
+    if (autoReciteRef.current) {
+      stopAI();
+      stopTTS();
+      setAutoRecite(false);
+      autoReciteRef.current = false;
+      setPaused(false);
+      pausedRef.current = false;
+    }
+
+    if (manualRecitingRef.current) {
+      // 正在朗诵中：停止
+      stopAI();
+      stopTTS();
+      setManualReciting(false);
+      manualRecitingRef.current = false;
+    } else {
+      // 开始朗诵当前句
+      setManualReciting(true);
+      manualRecitingRef.current = true;
+      speakAI(text, {
+        voice: "xiaoxiao",
+        rate: -15,
+        onEnd: () => {
+          setManualReciting(false);
+          manualRecitingRef.current = false;
+        },
+        onError: () => {
+          setManualReciting(false);
+          manualRecitingRef.current = false;
+        },
+      });
+    }
+  }, [currentSlide, getSlideText]);
+
+  // 手动导航时关闭自动朗诵和手动朗诵
   const handleDotClick = useCallback((index: number) => {
     if (autoReciteRef.current) {
       stopAI();
@@ -254,6 +307,12 @@ export default function ImmersiveReader({ poem, onBack }: ImmersiveReaderProps) 
       autoReciteRef.current = false;
       setPaused(false);
       pausedRef.current = false;
+    }
+    if (manualRecitingRef.current) {
+      stopAI();
+      stopTTS();
+      setManualReciting(false);
+      manualRecitingRef.current = false;
     }
     goToSlide(index);
   }, [goToSlide]);
@@ -297,6 +356,8 @@ export default function ImmersiveReader({ poem, onBack }: ImmersiveReaderProps) 
   const handleBack = useCallback(() => {
     stopAI();
     stopTTS();
+    setManualReciting(false);
+    manualRecitingRef.current = false;
     setNavbarVisible(true);
     onBack();
   }, [setNavbarVisible, onBack]);
@@ -360,11 +421,16 @@ export default function ImmersiveReader({ poem, onBack }: ImmersiveReaderProps) 
       setPaused(false);
       pausedRef.current = false;
     }
+    if (manualRecitingRef.current) {
+      setManualReciting(false);
+      manualRecitingRef.current = false;
+    }
   };
 
   // 当前是否正在朗读某句诗（用于高亮提示）
   const isRecitingLine =
-    autoRecite && !paused && currentSlide > 0 && currentSlide < totalSlides - 1;
+    (autoRecite && !paused && currentSlide > 0 && currentSlide < totalSlides - 1) ||
+    (manualReciting && currentSlide > 0 && currentSlide < totalSlides - 1);
 
   return (
     <div
@@ -383,17 +449,20 @@ export default function ImmersiveReader({ poem, onBack }: ImmersiveReaderProps) 
         <span>返回</span>
       </button>
 
-      {/* 自动朗诵控制按钮 — 结尾页不显示（没有诗句可朗诵） */}
-      {currentSlide < totalSlides - 1 && (
-        <button
-          onClick={handleToggleAutoRecite}
-          className={`fixed right-[max(0.75rem,env(safe-area-inset-right))] top-[max(0.75rem,env(safe-area-inset-top))] z-50 flex cursor-pointer items-center justify-center gap-1 rounded-full px-3 py-1.5 font-serif text-[11px] backdrop-blur-sm transition-all active:scale-95 md:gap-1.5 md:px-4 md:py-2 md:text-sm ${
-            autoRecite
-              ? paused
-                ? "bg-cinnabar/80 text-white"
-                : "bg-cinnabar text-white shadow-lg"
-              : "bg-black/30 text-white hover:bg-black/50"
-          }`}
+      {/* 自动朗诵控制按钮 — 结尾页淡出（避免 DOM 移除造成 scroll-snap 闪烁） */}
+      <button
+        onClick={handleToggleAutoRecite}
+        className={`fixed right-[max(0.75rem,env(safe-area-inset-right))] top-[max(0.75rem,env(safe-area-inset-top))] z-50 flex cursor-pointer items-center justify-center gap-1 rounded-full px-3 py-1.5 font-serif text-[11px] backdrop-blur-sm transition-all duration-300 active:scale-95 md:gap-1.5 md:px-4 md:py-2 md:text-sm ${
+          currentSlide < totalSlides - 1
+            ? "opacity-100 pointer-events-auto"
+            : "opacity-0 pointer-events-none"
+        } ${
+          autoRecite
+            ? paused
+              ? "bg-cinnabar/80 text-white"
+              : "bg-cinnabar text-white shadow-lg"
+            : "bg-black/30 text-white hover:bg-black/50"
+        }`}
           title={
             autoRecite
               ? paused
@@ -460,7 +529,6 @@ export default function ImmersiveReader({ poem, onBack }: ImmersiveReaderProps) 
             </span>
           )}
         </button>
-      )}
 
       {/* Slides */}
       <CoverSlide poem={poem} active={currentSlide === 0} />
@@ -471,6 +539,7 @@ export default function ImmersiveReader({ poem, onBack }: ImmersiveReaderProps) 
           active={currentSlide === index + 1}
           coverImage={poem.coverImage}
           reciting={isRecitingLine && currentSlide === index + 1}
+          onRecite={handleReciteLine}
         />
       ))}
       <EndingSlide
