@@ -106,7 +106,7 @@ export default function SentenceCard({
 
       {/* 原文区域 */}
       {isVertical ? (
-        <div ref={verticalScrollRef} className="flex justify-center overflow-x-auto py-2">
+        <div ref={verticalScrollRef} className="flex overflow-x-auto py-2 pl-4">
           <div
             className="text-vertical mx-auto"
             style={{

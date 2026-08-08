@@ -105,7 +105,9 @@ export default function HighlightedText({
         role="button"
         tabIndex={0}
         aria-label={`查看${seg.content}的注释`}
-        className="inline cursor-pointer rounded-sm bg-cinnabar/10 px-0.5 text-cinnabar underline decoration-cinnabar/40 decoration-dashed underline-offset-4 transition-colors hover:bg-cinnabar/20"
+        className={`inline cursor-pointer rounded-sm bg-cinnabar/10 text-cinnabar border-b border-dashed border-cinnabar/40 pb-0.5 transition-colors hover:bg-cinnabar/20 ${
+          vertical ? "" : "px-0.5"
+        }`}
         onClick={(e) => onCharClick(seg.charData!, e.currentTarget.getBoundingClientRect())}
         onKeyDown={(e) => {
           if (e.key === "Enter" || e.key === " ") {
