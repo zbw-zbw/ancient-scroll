@@ -21,29 +21,10 @@ export default function ChapterSidebar({
   const mobileTabsContainerRef = useRef<HTMLDivElement>(null);
   const selectedTabRef = useRef<HTMLButtonElement>(null);
   const [readChapters, setReadChapters] = useState<string[]>([]);
-  const [mobileTabsStuck, setMobileTabsStuck] = useState(false);
 
   useEffect(() => {
     setReadChapters(getProgress().readChapters);
   }, [selectedId]);
-
-  // Detect when mobile tab bar becomes sticky, so we can add a background only then
-  useEffect(() => {
-    const el = mobileTabsRef.current;
-    if (!el) return;
-    const handleScroll = () => {
-      const rect = el.getBoundingClientRect();
-      // sticky top offset = 4rem = 64px; allow small rounding tolerance
-      setMobileTabsStuck(rect.top <= 65);
-    };
-    handleScroll();
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    window.addEventListener("resize", handleScroll);
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-      window.removeEventListener("resize", handleScroll);
-    };
-  }, []);
 
   // Auto-scroll mobile tabs to selected chapter
   useEffect(() => {
@@ -123,19 +104,15 @@ export default function ChapterSidebar({
         </div>
       </aside>
 
-      {/* Mobile horizontal scroll tabs */}
+      {/* Mobile horizontal scroll tabs — 样式参考古今对话 tab */}
       <div
         ref={mobileTabsRef}
-        className={`md:hidden w-full sticky top-16 z-30 flex-shrink-0 transition-colors duration-300 ${
-          mobileTabsStuck
-            ? "bg-xuan-dark/95 backdrop-blur-sm border-b border-ink/5"
-            : "bg-transparent"
-        }`}
+        className="md:hidden w-full sticky top-16 z-30 flex-shrink-0 bg-xuan/95 backdrop-blur-sm border-b border-ink/5 px-4 py-3"
       >
         <div className="relative">
           <div
             ref={mobileTabsContainerRef}
-            className="flex items-center gap-2.5 overflow-x-auto py-4 px-4 scrollbar-hide"
+            className="flex items-center gap-2 overflow-x-auto scrollbar-hide"
           >
             {chapters.map((chapter) => {
               const isSelected = selectedId === chapter.id;
@@ -145,10 +122,11 @@ export default function ChapterSidebar({
                   key={chapter.id}
                   ref={isSelected ? selectedTabRef : null}
                   onClick={() => onSelect(chapter.id)}
-                  className={`flex flex-shrink-0 items-center justify-center gap-1.5 rounded-full px-4 py-2 min-h-[36px] leading-none transition-all active:scale-95 ${
+                  data-tab-key={chapter.id}
+                  className={`capsule-btn inline-flex flex-shrink-0 items-center gap-1.5 rounded-full border px-3.5 py-1.5 min-h-[36px] font-serif text-sm transition-all active:scale-95 ${
                     isSelected
-                      ? "bg-cinnabar text-white"
-                      : "bg-surface/50 text-light-ink hover:bg-surface"
+                      ? "border-cinnabar bg-cinnabar/10 text-cinnabar"
+                      : "border-ink/15 bg-transparent text-ink hover:bg-ink/5"
                   }`}
                 >
                   <span className="font-calligraphy text-base whitespace-nowrap">
@@ -156,7 +134,7 @@ export default function ChapterSidebar({
                   </span>
                   {/* 句数 badge：小圆圈数字，仅在非选中态显示避免拥挤 */}
                   {!isSelected && (
-                    <span className="rounded-full bg-ink/5 px-1.5 text-[10px] text-muted">
+                    <span className="ml-0.5 rounded-full bg-ink/5 px-1.5 py-0 text-[10px] text-muted">
                       {chapter.sentences.length}
                     </span>
                   )}
