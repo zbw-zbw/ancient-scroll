@@ -38,7 +38,7 @@ export default function QuizShareModal({
     if (!open) return;
     const updateScale = () => {
       const maxW = window.innerWidth - 32;
-      const maxH = window.innerHeight * 0.75;
+      const maxH = window.innerHeight * 0.85;
       const scaleW = Math.min(1, maxW / 600);
       const scaleH = Math.min(1, maxH / 800);
       setScale(Math.min(scaleW, scaleH));
@@ -380,7 +380,7 @@ export default function QuizShareModal({
                 style={{
                   height: 120,
                   paddingTop: 20,
-                  background: "linear-gradient(180deg, transparent 0%, rgba(245,240,232,0.95) 30%)",
+                  background: "linear-gradient(180deg, rgba(245,240,232,0.98) 0%, rgba(245,240,232,1) 30%)",
                 }}
               >
                 {/* Corner ornaments - bottom left */}
@@ -470,29 +470,29 @@ export default function QuizShareModal({
         </div>
 
         {/* Action buttons */}
-        <div className="mt-6 flex items-center gap-3">
+        <div className="mt-6 flex items-center gap-4">
           <button
             onClick={handleSaveImage}
             disabled={saving}
-            className="inline-flex items-center gap-2 rounded-full bg-cinnabar px-6 py-3 font-serif text-sm text-surface transition-colors hover:bg-cinnabar/90 active:scale-[0.98] disabled:opacity-50"
+            className="inline-flex items-center gap-2 rounded-full bg-cinnabar px-7 py-3 min-h-[48px] font-serif text-base text-surface transition-colors hover:bg-cinnabar/90 active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            <IconDownload className="h-4 w-4" />
+            <IconDownload className="h-5 w-5" />
             {saving ? "保存中..." : "保存图片"}
           </button>
           <button
             onClick={handleCopyText}
-            className="inline-flex items-center gap-2 rounded-full border border-ink/15 bg-surface px-6 py-3 font-serif text-sm text-ink transition-colors hover:bg-xuan-dark/50 active:scale-[0.98]"
+            className="inline-flex items-center gap-2 rounded-full border border-ink/15 bg-surface px-7 py-3 min-h-[48px] font-serif text-base text-ink transition-colors hover:bg-xuan-dark/50 active:scale-[0.98]"
           >
             {copied ? (
               <>
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4 text-green-600">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5 text-green-600">
                   <polyline points="20 6 9 17 4 12" />
                 </svg>
                 已复制
               </>
             ) : (
               <>
-                <IconCopy className="h-4 w-4" />
+                <IconCopy className="h-5 w-5" />
                 复制文案
               </>
             )}

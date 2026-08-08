@@ -40,7 +40,7 @@ export default function BeastShareModal({
     if (!open) return;
     const updateScale = () => {
       const maxW = window.innerWidth - 32; // 16px padding each side
-      const maxH = window.innerHeight * 0.75;
+      const maxH = window.innerHeight * 0.85;
       const scaleW = Math.min(1, maxW / 750);
       const scaleH = Math.min(1, maxH / 1000);
       setScale(Math.min(scaleW, scaleH));
@@ -340,7 +340,7 @@ export default function BeastShareModal({
                   style={{
                     fontFamily:
                       'var(--font-noto-serif-sc), "Noto Serif SC", serif',
-                    fontSize: 14,
+                    fontSize: 16,
                     color: "#8a8070",
                     letterSpacing: 2,
                     marginBottom: 10,
@@ -352,7 +352,7 @@ export default function BeastShareModal({
                   style={{
                     fontFamily:
                       'var(--font-noto-serif-sc), "Noto Serif SC", serif',
-                    fontSize: 18,
+                    fontSize: 22,
                     lineHeight: 1.9,
                     color: "#1a1a2e",
                     letterSpacing: 1,
@@ -367,7 +367,7 @@ export default function BeastShareModal({
                   style={{
                     fontFamily:
                       'var(--font-noto-serif-sc), "Noto Serif SC", serif',
-                    fontSize: 14,
+                    fontSize: 16,
                     color: "#8a8070",
                     letterSpacing: 2,
                     marginBottom: 10,
@@ -379,7 +379,7 @@ export default function BeastShareModal({
                   style={{
                     fontFamily:
                       'var(--font-noto-serif-sc), "Noto Serif SC", serif',
-                    fontSize: 15,
+                    fontSize: 18,
                     lineHeight: 1.9,
                     color: "#4a4a5a",
                     letterSpacing: 0.5,
@@ -396,7 +396,7 @@ export default function BeastShareModal({
                   height: 120,
                   paddingTop: 20,
                   background:
-                    "linear-gradient(180deg, transparent 0%, rgba(250,247,240,0.95) 30%)",
+                    "linear-gradient(180deg, rgba(250,247,240,0.98) 0%, rgba(250,247,240,1) 30%)",
                 }}
               >
                 {/* Corner ornaments - bottom left */}
@@ -498,20 +498,20 @@ export default function BeastShareModal({
         </div>
 
         {/* Action buttons */}
-        <div className="mt-6 flex items-center gap-3">
+        <div className="mt-6 flex items-center gap-4">
           <button
             onClick={handleSaveImage}
             disabled={saving}
-            className="inline-flex items-center gap-2 rounded-full bg-cinnabar px-6 py-2.5 min-h-[44px] font-serif text-sm text-surface transition-colors hover:bg-cinnabar/90 active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed"
+            className="inline-flex items-center gap-2 rounded-full bg-cinnabar px-7 py-3 min-h-[48px] font-serif text-base text-surface transition-colors hover:bg-cinnabar/90 active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            <IconDownload className="h-4 w-4" />
+            <IconDownload className="h-5 w-5" />
             {saving ? "保存中..." : "保存图片"}
           </button>
           <button
             onClick={handleCopyText}
-            className="inline-flex items-center gap-2 rounded-full border border-ink/15 bg-surface px-6 py-2.5 min-h-[44px] font-serif text-sm text-ink transition-colors hover:bg-xuan-dark/50 active:scale-[0.98]"
+            className="inline-flex items-center gap-2 rounded-full border border-ink/15 bg-surface px-7 py-3 min-h-[48px] font-serif text-base text-ink transition-colors hover:bg-xuan-dark/50 active:scale-[0.98]"
           >
-            <IconCopy className="h-4 w-4" />
+            <IconCopy className="h-5 w-5" />
             {copied ? "已复制" : "复制文字"}
           </button>
         </div>
